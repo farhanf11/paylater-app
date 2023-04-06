@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:paylater/profile_page/biodata.dart';
+import 'package:paylater/profile_page/edit_profile.dart';
+import 'package:paylater/user/HomePage.dart';
+
+import 'HistoryPage.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -7,249 +12,352 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff00ab9c),
-        title: Text('Profile Page'),
+        backgroundColor: Color(0xff1288B5),
+        title: Text('Profil', style: TextStyle(fontSize: 14),),
       ),
       body: Container(
         color: Color(0xffF6F6F6),
         child: ListView(
             physics: ClampingScrollPhysics(),
           children: [
-            Column(
-              children: [
-                //bagian atas
-                Container(
-                  height: 90,
-                  color: Colors.white,
-                ),
-                SizedBox(height: 10,),
+            Container(
+              child: Column(
+                children: [
+                  SizedBox(height: 20,),
 
-                //limit
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  color: Color(0xff00ab9c),
-                  height: 60,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('left',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.orange,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600
-                        ),
-                      ),
-                      Text('right',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.orange,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700
-                        ),
-                      ),
-                    ],
+                  //foto profile
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 4,
+                            color: Theme.of(context).scaffoldBackgroundColor),
+                        boxShadow: [
+                          BoxShadow(
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              color: Colors.black.withOpacity(0.1),
+                              offset: const Offset(0, 10))
+                        ],
+                        shape: BoxShape.circle,
+                        image: const DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                            ))),
                   ),
-                ),
-                SizedBox(height: 40,),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  height: 160,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          style: BorderStyle.solid,
-                          color: Color(0xff9d9d9d)
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 13),
-                        decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffbdbdbd))),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.perm_identity_outlined),
-                                SizedBox(width: 10,),
-                                Text('Profil',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Icon(Icons.navigate_next),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 13),
-                        decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffbdbdbd))),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.paste_outlined),
-                                SizedBox(width: 10,),
-                                Text('Data Diri',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Icon(Icons.navigate_next),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 13),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.password),
-                                SizedBox(width: 10,),
-                                Text('Ubah Password',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Icon(Icons.navigate_next),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 40,),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  height: 160,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          style: BorderStyle.solid,
-                          color: Color(0xff9d9d9d)
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 13),
-                        decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffbdbdbd))),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.perm_identity_outlined),
-                                SizedBox(width: 10,),
-                                Text('Profil',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Icon(Icons.navigate_next),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 13),
-                        decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffbdbdbd))),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.paste_outlined),
-                                SizedBox(width: 10,),
-                                Text('Data Diri',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Icon(Icons.navigate_next),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10,),
 
-                //logout
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  height: 40,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          style: BorderStyle.solid,
-                          color: Color(0xff00ab9c)
-                      ),
+                  //username
+                  Text('Customer123', style: TextStyle(
+                    fontSize: 14, fontWeight: FontWeight.w500,
+                  ),),
+
+                  //email
+                  Text('Customer@mail.com', style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),),
+                  SizedBox(height: 20,),
+
+                  //button cek tagihan
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    width: 240,
+                    decoration: BoxDecoration(
+                      color: Color(0xff1288B5),
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.white
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(width: 10,),
-                      Text('Logout',
+                    ),
+                    child: ElevatedButton(
+                      child: const Text('Cek Tagihan',
                         style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 18,
+                            color: Colors.white,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500
                         ),
                       ),
-                      Icon(Icons.logout),
-                    ],
+                      onPressed: () => Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) => HistoryPage())),
+                    ),
                   ),
-                ),
-              ],
+
+                  //widget edit profile
+                  SizedBox(height: 20,),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            style: BorderStyle.solid,
+                            color: Color(0xff9d9d9d)
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+
+                        //edit profil
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffbdbdbd))),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text('Edit Profil',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.navigate_next,
+                                ),
+                                // the method which is called
+                                // when button is pressed
+                                  onPressed: () => Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) => EditProfil(),
+                                  )
+                              )),
+                            ],
+                          ),
+                        ),
+                        //alamat
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffbdbdbd))),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text('Alamat Pengiriman',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                  icon: const Icon(
+                                    Icons.navigate_next,
+                                  ),
+                                  // the method which is called
+                                  // when button is pressed
+                                  onPressed: () => Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) => EditProfil(),
+                                  )
+                                  )),
+                            ],
+                          ),
+                        ),
+
+                        //biodata
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text('Biodata',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                  icon: const Icon(
+                                    Icons.navigate_next,
+                                  ),
+                                  // the method which is called
+                                  // when button is pressed
+                                  onPressed: () => Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) => Biodata(),
+                                  )
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 40,),
+
+                  //widget bantuan
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            style: BorderStyle.solid,
+                            color: Color(0xff9d9d9d)
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+
+                        //Pesan Email
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffbdbdbd))),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text('Pesan Email',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                  icon: const Icon(
+                                    Icons.navigate_next,
+                                  ),
+                                  // the method which is called
+                                  // when button is pressed
+                                  onPressed: () => Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) => EditProfil(),
+                                  )
+                                  )),
+                            ],
+                          ),
+                        ),
+                        //end Pesan Email
+
+                        //bantuan
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffbdbdbd))),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text('Bantuan',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                  icon: const Icon(
+                                    Icons.navigate_next,
+                                  ),
+                                  // the method which is called
+                                  // when button is pressed
+                                  onPressed: () => Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) => EditProfil(),
+                                  )
+                                  )),
+                            ],
+                          ),
+                        ),
+                        //end Bantuan
+
+                        //FAQ
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text('FAQ',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                  icon: const Icon(
+                                    Icons.navigate_next,
+                                  ),
+                                  // the method which is called
+                                  // when button is pressed
+                                  onPressed: () => Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) => Biodata(),
+                                  )
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //end FAQ
+                  SizedBox(height: 40,),
+
+                  //logout
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    height: 40,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            style: BorderStyle.solid,
+                            color: Color(0xff1288B5),
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 10,),
+                        Text('Logout',
+                          style: TextStyle(
+                              color: Color(0xff1288B5),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10,)
+                ],
+              ),
             ),
           ]
         ),

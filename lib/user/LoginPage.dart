@@ -20,84 +20,62 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
         backgroundColor: Colors.teal[900],
         body: Container(
-          decoration:  BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.teal.shade800, Colors.orange]
-            ),
-          ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image(image: AssetImage('assets/images/logo-depan.png'), width: 60,),
-              Text('Login',
-                style: TextStyle(
-                  fontSize: 32,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "SIGN IN",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            TextFormField(
+              // controller: _emailController,
+              // validator: validateEmail,
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(),
+                prefixIcon: Icon(
+                  Icons.person_outline,
                 ),
+                hintText: "Username",
               ),
-              SizedBox(height: 60,),
-              //phone number
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: TextField(
-                  controller: phoneController,
-                  autofocus: true,
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          borderSide: BorderSide(color: Colors.white)),
-                      prefixIcon: Icon(Icons.phone),
-                      hintText: 'Enter your phone number',
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 15)),
-                ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Don't have an account ?",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  Text(
+                    "Register Here",
+                    style: TextStyle(
+                        color: Colors.purple[600],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                ],
               ),
-              SizedBox(height: 30,),
-              //password
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: TextField(
-                  controller: passwordController,
-                  autofocus: true,
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                      hoverColor: Colors.orangeAccent,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(color: Colors.white)),
-                      prefixIcon: Icon(Icons.key),
-                      suffixIcon: Icon(Icons.visibility_off),
-                      hintText: 'Enter your password',
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 15)),
-                ),
-              ),
-
-              SizedBox(height: 40,),
-
-              TextButton(
-                child: const Text('Forgot Password', style: TextStyle(
-                    color: Color(0xff7bbeff)),
-                ),
-
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              height: 50,
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+              child: ElevatedButton(
+                child: const Text('Login'),
                 onPressed: () => Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => NavbarBot())),
               ),
-              Container(
-                  height: 50,
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                  child: ElevatedButton(
-                    child: const Text('Login'),
-                    onPressed: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => NavbarBot())),
-                  ),
-              ),
-            ],
-          ),
+            ),
+          ],
+        ),
         ),
       ),
     );

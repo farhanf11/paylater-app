@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:paylater/user/LoginPage.dart' as user;
-import 'user/LandingPage.dart' as user;
-import 'navbar/NavbarBot.dart' as user;
+import 'package:paylater/user/LandingPage.dart' as user;
 import 'dart:async';
 
 class LauncherPage extends StatefulWidget {  
@@ -11,7 +9,6 @@ class LauncherPage extends StatefulWidget {
 }
 
 class _LauncherPageState extends State<LauncherPage>{
-
   @override
   void initState(){
     super.initState();
@@ -28,7 +25,7 @@ class _LauncherPageState extends State<LauncherPage>{
     return new Timer(duration, () {
       Navigator.of(context)
           .pushReplacement(new MaterialPageRoute(builder: (_) {
-        return new user.NavbarBot();
+        return new user.LandingPage();
       }));
     });
   }

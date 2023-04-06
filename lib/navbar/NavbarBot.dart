@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/user/HistoryPage.dart';
-import 'package:paylater/user/LandingPage.dart';
+import 'package:paylater/user/HomePage.dart';
 import 'package:paylater/user/ProfilePage.dart';
 
 class NavbarBot extends StatefulWidget {
@@ -14,7 +14,7 @@ class _NavbarBotState extends State<NavbarBot> {
   int pageIndex = 0;
 
   final pages = [
-    LandingPage(),
+    HomePage(),
     HistoryPage(),
     ProfilePage(),
   ];

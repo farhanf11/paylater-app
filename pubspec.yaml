@@ -40,6 +40,8 @@ dependencies:
   flutter_svg: ^0.17.4
   slide_to_confirm: ^0.0.6
   carousel_slider: ^4.0.0
+  flutter_pin_code_fields: ^1.1.0
+  textfield_datepicker: ^0.1.0
 
 dev_dependencies:
   flutter_test:
