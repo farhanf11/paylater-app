@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paylater/history_page/detail_tagihan.dart';
 import 'package:paylater/launcherPage.dart';
 import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:paylater/user/HistoryPage.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HistoryPage(),
+      home: LoginPage(),
     );
   }
 }

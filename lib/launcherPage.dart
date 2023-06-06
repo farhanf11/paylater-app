@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:paylater/user/LandingPage.dart' as user;
-import 'dart:async';
 
 class LauncherPage extends StatefulWidget {  
   @override
@@ -56,7 +55,7 @@ class _LauncherPageState extends State<LauncherPage>{
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             new Center(
-              child: new Image.asset('assets/images/logo-depan.png', height: 100, width: 100,),
+              child: new Image.asset('assets/images/logo-depan.png', height: 180, width: 180,),
             )
           ],
         ),

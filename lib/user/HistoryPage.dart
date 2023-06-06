@@ -3,6 +3,7 @@ import 'package:paylater/components/card_tagihan.dart';
 import 'package:paylater/history_page/history_order.dart';
 import 'package:paylater/history_page/history_transaksi.dart';
 import 'package:paylater/models/tagihan.dart';
+import 'package:paylater/user/ProfilePage.dart';
 
 import '../components/card_riwayat_tagihan.dart';
 
@@ -28,7 +29,12 @@ class _HistoryPageState extends State<HistoryPage> {
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xff1288B5),
-            title: Text("History"),
+            title: Text("History", style: TextStyle(fontSize: 16),),
+            leading: GestureDetector(
+              child: Icon( Icons.arrow_back, color: Colors.white,),
+              onTap: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => ProfilePage())),
+            ) ,
             bottom: TabBar(
               tabs: [
                 Tab(text: 'Tagihan',),
