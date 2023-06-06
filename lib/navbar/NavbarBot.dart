@@ -15,7 +15,6 @@ class _NavbarBotState extends State<NavbarBot> {
 
   final pages = [
     HomePage(),
-    HistoryPage(),
     ProfilePage(),
   ];
 
@@ -47,13 +46,13 @@ class _NavbarBotState extends State<NavbarBot> {
             icon: pageIndex == 0
                 ? const Icon(
               Icons.home_filled,
-              color: Color(0xFF005E54),
+              color: Color(0xFF000000),
               size: 35,
             )
                 : const Icon(
               Icons.home_outlined,
               size: 35,
-              color: Color(0xFF005E54),
+              color: Color(0xFF000000),
             ),
           ),
           IconButton(
@@ -65,32 +64,13 @@ class _NavbarBotState extends State<NavbarBot> {
             },
             icon: pageIndex == 1
                 ? const Icon(
-              Icons.fact_check,
-              color: Color(0xFF005E54),
-              size: 35,
-            )
-                : const Icon(
-              Icons.fact_check_outlined,
-              color: Color(0xFF005E54),
-              size: 35,
-            ),
-          ),
-          IconButton(
-            enableFeedback: false,
-            onPressed: () {
-              setState(() {
-                pageIndex = 2;
-              });
-            },
-            icon: pageIndex == 2
-                ? const Icon(
               Icons.person,
-              color: Color(0xFF005E54),
+              color: Color(0xFF000000),
               size: 35,
             )
                 : const Icon(
               Icons.person_outline,
-              color: Color(0xFF005E54),
+              color: Color(0xFF000000),
               size: 35,
             ),
           ),

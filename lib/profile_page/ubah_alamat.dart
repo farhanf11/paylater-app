@@ -18,6 +18,7 @@ class _UbahAlamatState extends State<UbahAlamat> {
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: Text('Edit Profil', style: TextStyle(fontSize: 14,)),
         ),
+        centerTitle: true,
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();

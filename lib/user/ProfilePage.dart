@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/profile_page/biodata.dart';
 import 'package:paylater/profile_page/edit_profile.dart';
-import 'package:paylater/user/HomePage.dart';
+import 'package:paylater/profile_page/send_email.dart';
+import 'package:paylater/profile_page/ubah_alamat.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'HistoryPage.dart';
 
+_sendingMails() async {
+  var url = Uri.parse("mailto:fpfusion.77@gmail.com");
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff1288B5),
-        title: Text('Profil', style: TextStyle(fontSize: 14),),
+        title: Text("Profile", style: TextStyle(fontSize: 16),),
+        centerTitle: true,
       ),
       body: Container(
         color: Color(0xffF6F6F6),
@@ -62,13 +75,14 @@ class ProfilePage extends StatelessWidget {
 
                   //button cek tagihan
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    margin: EdgeInsets.symmetric(horizontal: 10,),
+                    padding: EdgeInsets.symmetric(vertical: 6),
                     width: 240,
                     decoration: BoxDecoration(
                       color: Color(0xff1288B5),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    child: ElevatedButton(
+                    child: TextButton(
                       child: const Text('Cek Tagihan',
                         style: TextStyle(
                             color: Colors.white,
@@ -107,17 +121,16 @@ class ProfilePage extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Text('Edit Profil',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500
-                                    ),
+                              TextButton(
+                                child: const Text('Edit Profile',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500
                                   ),
-                                ],
+                                ),
+                                onPressed: () => Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) => EditProfil())),
                               ),
                               IconButton(
                                 icon: const Icon(
@@ -132,6 +145,7 @@ class ProfilePage extends StatelessWidget {
                             ],
                           ),
                         ),
+
                         //alamat
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -160,7 +174,7 @@ class ProfilePage extends StatelessWidget {
                                   // the method which is called
                                   // when button is pressed
                                   onPressed: () => Navigator.of(context)
-                                      .push(MaterialPageRoute(builder: (context) => EditProfil(),
+                                      .push(MaterialPageRoute(builder: (context) => UbahAlamat(),
                                   )
                                   )),
                             ],
@@ -230,13 +244,16 @@ class ProfilePage extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Text('Pesan Email',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500
+                                  TextButton(
+                                    onPressed: _sendingMails,
+                                    style: ButtonStyle(
+                                      padding:
+                                      MaterialStateProperty.all(const EdgeInsets.all(5.0)),
+                                      textStyle: MaterialStateProperty.all(
+                                        const TextStyle(color: Colors.black),
+                                      ),
                                     ),
+                                    child: const Text('Send Email', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),),
                                   ),
                                 ],
                               ),
@@ -246,10 +263,8 @@ class ProfilePage extends StatelessWidget {
                                   ),
                                   // the method which is called
                                   // when button is pressed
-                                  onPressed: () => Navigator.of(context)
-                                      .push(MaterialPageRoute(builder: (context) => EditProfil(),
-                                  )
-                                  )),
+                                onPressed: _sendingMails,
+                              ),
                             ],
                           ),
                         ),

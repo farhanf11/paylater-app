@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/navbar/NavbarBot.dart';
+import 'package:paylater/user/VerifyPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,74 +10,100 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController phoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  bool isChecked = false;
 
   @override
-
   Widget build(BuildContext context) {
-
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.teal[900],
-        body: Container(
+    return Scaffold(
+      body: Container(
+          height: double.maxFinite,
+          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
           child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "SIGN IN",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            TextFormField(
-              // controller: _emailController,
-              // validator: validateEmail,
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-                prefixIcon: Icon(
-                  Icons.person_outline,
-                ),
-                hintText: "Username",
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Don't have an account ?",
-                    style: TextStyle(fontSize: 16),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                children: [
+                  Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(10),
+                      child: const Text(
+                        'Login / Daftar',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 24),
+                      )
                   ),
-                  Text(
-                    "Register Here",
-                    style: TextStyle(
-                        color: Colors.purple[600],
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
+                  SizedBox(height: 20,),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      controller: phoneController,
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Input Phone Number',
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 10,),
+                  Row(
+                    children: <Widget>[
+                      Checkbox(
+                          value: isChecked,
+                          onChanged: (bool? value) { // This is where we update the state when the checkbox is tapped
+                            setState(() {
+                              isChecked = value!;
+                            });
+                          }),
+                      SizedBox(width: 10),
+                      Text(
+                        'Saya menyetujui Persyaratan Layanan dan \n Kebijakan Privasi',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: ElevatedButton(
-                child: const Text('Login'),
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => NavbarBot())),
-              ),
-            ),
-          ],
-        ),
-        ),
-      ),
+
+              Container(
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text('Selanjutnya'),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Color(0xFF006A8B))
+                      ),
+                      onPressed: () => Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) => VerifyPage())),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                            child: const Text('Does not have account?')
+                        ),
+                        TextButton(
+                          child: const Text(
+                            'Sign in',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          onPressed: () => Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) => VerifyPage())),
+                        )
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )),
     );
   }
 }

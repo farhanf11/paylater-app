@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
+import 'package:paylater/user/HomePage.dart';
 
 import '../navbar/NavbarBot.dart';
 
@@ -21,10 +22,17 @@ class _VerifyPageState extends State<VerifyPage> {
     super.dispose();
   }
 
+  pushToScreen(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => NavbarBot()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        padding: EdgeInsets.symmetric(vertical: 60, horizontal: 16),
         color: Colors.white,
         child: Column(
           children: [
@@ -37,19 +45,28 @@ class _VerifyPageState extends State<VerifyPage> {
                 color: Colors.black,
               ),
             ),
-            Text('Masukan kode OTP'),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Masukan kode OTP Yang Telah Kami Kirimkan Ke Nomor '),
+                  Text(' 08123456789', style: TextStyle(fontWeight: FontWeight.w700),)
+                ],
+              ),
+            ),
             PinCodeFields(
               length: 4,
               fieldBorderStyle: FieldBorderStyle.square,
               responsive: false,
-              fieldHeight:40.0,
-              fieldWidth: 30.0,
-              borderWidth:1.0,
-              activeBorderColor: Colors.pink,
-              activeBackgroundColor: Colors.pink.shade100,
+              fieldHeight:50.0,
+              fieldWidth: 40.0,
+              borderWidth:2.0,
+              activeBorderColor: Colors.cyan,
+              activeBackgroundColor: Colors.cyan.shade100,
               borderRadius: BorderRadius.circular(7.0),
               keyboardType: TextInputType.number,
-              autoHideKeyboard: false,
+              autoHideKeyboard: true,
               fieldBackgroundColor: Colors.black12,
               borderColor: Colors.black38,
               textStyle: TextStyle( color: Colors.black,
@@ -66,9 +83,17 @@ class _VerifyPageState extends State<VerifyPage> {
               height: 50,
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: ElevatedButton(
-                child: const Text('Verifikasi'),
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => NavbarBot())),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Text('Submit'),
+                ),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Color(0xFF006A8B))
+                ),
+                onPressed: () => pushToScreen(context),
               ),
             ),
           ],

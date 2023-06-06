@@ -23,7 +23,8 @@ class _BiodataState extends State<Biodata> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff1288B5),
-        title: Text('Melengkapi Biodata', style: TextStyle(fontSize: 14),),
+        title: Text('Biodata Diri', style: TextStyle(fontSize: 14),),
+        centerTitle: true,
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();

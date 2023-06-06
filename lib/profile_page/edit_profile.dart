@@ -18,6 +18,7 @@ class _EditProfilState extends State<EditProfil> {
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: Text('Edit Profil', style: TextStyle(fontSize: 14,)),
         ),
+        centerTitle: true,
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -78,6 +79,13 @@ class _EditProfilState extends State<EditProfil> {
                         hintText: 'Nomor Telepon',
                       ),
                     ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
                     SizedBox(height: 30,),
                     //logout
                     Container(
@@ -106,10 +114,10 @@ class _EditProfilState extends State<EditProfil> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10,)
+                    SizedBox(height: 30,)
                   ],
                 ),
-              ),
+              )
             ]
         ),
       ),
