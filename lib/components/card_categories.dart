@@ -15,7 +15,7 @@ class CardCategories extends StatelessWidget{
         width: 90,
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage(categories.imageUrl)),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: Colors.black38,

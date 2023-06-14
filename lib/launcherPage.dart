@@ -2,32 +2,32 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:paylater/user/LandingPage.dart' as user;
 
-class LauncherPage extends StatefulWidget {  
+class LauncherPage extends StatefulWidget {
   @override
   _LauncherPageState createState() => _LauncherPageState();
 }
 
-class _LauncherPageState extends State<LauncherPage>{
+class _LauncherPageState extends State<LauncherPage> {
   @override
-  void initState(){
+  void initState() {
     super.initState();
     startLaunching();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
   }
 
   startLaunching() async {
     var duration = const Duration(seconds: 4);
     return new Timer(duration, () {
-      Navigator.of(context)
-          .pushReplacement(new MaterialPageRoute(builder: (_) {
+      Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (_) {
         return new user.LandingPage();
       }));
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,22 +45,24 @@ class _LauncherPageState extends State<LauncherPage>{
             ),
           ],
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.teal.shade800, Colors.tealAccent.shade700]
-          ),
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.teal.shade800, Colors.tealAccent.shade700]),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             new Center(
-              child: new Image.asset('assets/images/logo-depan.png', height: 180, width: 180,),
+              child: new Image.asset(
+                'assets/images/logo-depan.png',
+                height: 180,
+                width: 180,
+              ),
             )
           ],
         ),
       ),
     );
   }
-  
 }

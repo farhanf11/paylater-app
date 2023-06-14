@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/profile_page/biodata.dart';
 import 'package:paylater/profile_page/edit_profile.dart';
-import 'package:paylater/profile_page/send_email.dart';
 import 'package:paylater/profile_page/ubah_alamat.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,7 +23,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff1288B5),
+        backgroundColor: Color(0xff025464),
         title: Text("Profile", style: TextStyle(fontSize: 16),),
         centerTitle: true,
       ),
@@ -79,7 +78,7 @@ class ProfilePage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 6),
                     width: 240,
                     decoration: BoxDecoration(
-                      color: Color(0xff1288B5),
+                      color: Color(0xff025464),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: TextButton(
@@ -235,7 +234,7 @@ class ProfilePage extends StatelessWidget {
 
                         //Pesan Email
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          padding: EdgeInsets.symmetric(horizontal: 12),
                           decoration: BoxDecoration(
                             border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffbdbdbd))),
                           ),
@@ -351,7 +350,7 @@ class ProfilePage extends StatelessWidget {
                     decoration: BoxDecoration(
                         border: Border.all(
                             style: BorderStyle.solid,
-                            color: Color(0xff1288B5),
+                            color: Color(0xff025464),
                         ),
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.white
@@ -362,7 +361,7 @@ class ProfilePage extends StatelessWidget {
                         SizedBox(width: 10,),
                         Text('Logout',
                           style: TextStyle(
-                              color: Color(0xff1288B5),
+                              color: Color(0xff025464),
                               fontSize: 16,
                               fontWeight: FontWeight.w600
                           ),

@@ -32,26 +32,32 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
                             fontSize: 24),
-                      )
+                      )),
+                  SizedBox(
+                    height: 20,
                   ),
-                  SizedBox(height: 20,),
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: TextField(
+                      keyboardType: TextInputType.number,
                       controller: phoneController,
                       decoration: const InputDecoration(
+                        errorBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red)),
                         border: UnderlineInputBorder(),
                         labelText: 'Input Phone Number',
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: <Widget>[
                       Checkbox(
                           value: isChecked,
-                          onChanged: (bool? value) { // This is where we update the state when the checkbox is tapped
+                          onChanged: (bool? value) {
+                            // This is where we update the state when the checkbox is tapped
                             setState(() {
                               isChecked = value!;
                             });
@@ -65,40 +71,40 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-
               Container(
                 child: Column(
                   children: [
                     ElevatedButton(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 60),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text('Selanjutnya'),
                       ),
                       style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Color(0xFF006A8B))
-                      ),
-                      onPressed: () => Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) => VerifyPage())),
+                          backgroundColor:
+                              MaterialStatePropertyAll(Color(0xff025464))),
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => VerifyPage())),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                            child: const Text('Does not have account?')
-                        ),
-                        TextButton(
-                          child: const Text(
-                            'Sign in',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          onPressed: () => Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) => VerifyPage())),
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Container(child: const Text('Does not have account?')),
+                    //     TextButton(
+                    //       child: const Text(
+                    //         'Sign in',
+                    //         style: TextStyle(fontSize: 16),
+                    //       ),
+                    //       onPressed: () => Navigator.of(context).push(
+                    //           MaterialPageRoute(
+                    //               builder: (context) => VerifyPage())),
+                    //     )
+                    //   ],
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    // ),
                   ],
                 ),
               )
