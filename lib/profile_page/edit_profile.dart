@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/navbar/NavbarBot.dart';
-import 'package:paylater/user/ProfilePage.dart';
+import 'package:email_validator/email_validator.dart';
 
 class EditProfil extends StatefulWidget {
   const EditProfil({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class _EditProfilState extends State<EditProfil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff1288B5),
+        backgroundColor: Color(0xff025464),
         title:  Padding(
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: Text('Edit Profil', style: TextStyle(fontSize: 14,)),

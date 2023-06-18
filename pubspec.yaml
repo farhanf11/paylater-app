@@ -46,6 +46,8 @@ dependencies:
   url_launcher:
   firebase_auth:
   loading_animation_widget:
+  email_validator: '^2.1.16'
+
 
 dev_dependencies:
   flutter_test:

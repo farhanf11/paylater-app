@@ -32,7 +32,7 @@ class CardTagihan extends StatelessWidget{
                   Row(
                     children: [
                       Text(tagihan.productName,
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey, ),
+                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.black, ),
                       ),
                     ],
                   ),
@@ -40,13 +40,13 @@ class CardTagihan extends StatelessWidget{
                   //cicilan
                   Row(
                     children: [
-                      Text('Cicilan :'+ ' ' +tagihan.tenorCicilan.toString() + ' ' +'bulan', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,),), SizedBox(width: 5,),
+                      Text('Cicilan :'+ ' ' +tagihan.tenorCicilan.toString() + ' ' +'bulan', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400, color:Colors.black,),), SizedBox(width: 5,),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('Status :', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,)), SizedBox(width: 5,),
+                      Text('Status :', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.black,)), SizedBox(width: 5,),
                       Text(tagihan.statusTagihan,
                         style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Color(0xff1288B5),),
                       ),
@@ -56,14 +56,14 @@ class CardTagihan extends StatelessWidget{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Total Pembayaran :'+ ' ' +'Rp' + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,),),
+                      Text('Total Pembayaran :'+ ' ' +'Rp' + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.black,),),
                       Text(tagihan.hargaBarang.toString(), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.deepOrangeAccent,),),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Jatuh tempo :' + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,),),
+                      Text('Jatuh tempo :' + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400, color:Colors.black,),),
                       Text(tagihan.tanggalJatuhTempo.toString() + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,),),
                     ],
                   ),

@@ -31,7 +31,10 @@ class _VerifyPageState extends State<VerifyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Color(0xff025464),
+        leading: BackButton(),
+      ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 90, horizontal: 16),
         color: Colors.white,
@@ -85,9 +88,9 @@ class _VerifyPageState extends State<VerifyPage> {
                 PinCodeFields(
                   length: 6,
                   fieldBorderStyle: FieldBorderStyle.square,
-                  responsive: false,
+                  responsive: true,
                   fieldHeight: 50.0,
-                  fieldWidth: 40.0,
+                  fieldWidth: 30.0,
                   borderWidth: 2.0,
                   activeBorderColor: Colors.cyan,
                   activeBackgroundColor: Colors.cyan.shade100,

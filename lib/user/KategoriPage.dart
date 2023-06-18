@@ -22,7 +22,7 @@ class KategoriPage extends StatelessWidget {
         ) ,
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 10),
-        color: const Color(0xffffffff),
+        color: const Color(0xffCFEEF4),
         child: ListView(
           physics: ClampingScrollPhysics(),
           children:[

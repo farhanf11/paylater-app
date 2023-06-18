@@ -24,7 +24,7 @@ class CardCategories extends StatelessWidget{
             ),
           ],
         ),
-        child: Padding(padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+        child: Padding(padding: EdgeInsets.symmetric(vertical: 1, horizontal: 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

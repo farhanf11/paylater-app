@@ -10,6 +10,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController phoneController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isChecked = false;
 
   @override
@@ -36,16 +37,29 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: phoneController,
-                      decoration: const InputDecoration(
-                        errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red)),
-                        border: UnderlineInputBorder(),
-                        labelText: 'Input Phone Number',
+                  Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: phoneController,
+                        decoration: const InputDecoration(
+                          errorBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red)),
+                          border: UnderlineInputBorder(),
+                          hintText: 'Input Phone Number',
+                        ),
+                        onChanged: (value){
+                          _formKey.currentState?.validate();
+                        },
+                        // validator: (value){
+                        //   if(value!.isEmpty){
+                        //     return "Please Enter a Phone Number";
+                        //   }else if(!RegExp(r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$').hasMatch(value)){
+                        //     return "Please Enter a Valid Phone Number";
+                        //   }
+                        // },
                       ),
                     ),
                   ),
@@ -90,21 +104,6 @@ class _LoginPageState extends State<LoginPage> {
                           MaterialPageRoute(
                               builder: (context) => VerifyPage())),
                     ),
-                    // Row(
-                    //   children: <Widget>[
-                    //     Container(child: const Text('Does not have account?')),
-                    //     TextButton(
-                    //       child: const Text(
-                    //         'Sign in',
-                    //         style: TextStyle(fontSize: 16),
-                    //       ),
-                    //       onPressed: () => Navigator.of(context).push(
-                    //           MaterialPageRoute(
-                    //               builder: (context) => VerifyPage())),
-                    //     )
-                    //   ],
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    // ),
                   ],
                 ),
               )
