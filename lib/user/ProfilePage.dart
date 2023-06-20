@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
       ),
       body: Container(
         height: double.maxFinite,
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 40,),
         color: Color(0xffF6F6F6),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                   ),
 
                   //widget edit profile
-                  SizedBox(height: 20,),
+                  SizedBox(height: 30,),
 
                   MenuProfile(),
                 ],

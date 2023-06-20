@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
-import 'package:paylater/user/HomePage.dart';
-
-import '../navbar/NavbarBot.dart';
+import 'package:paylater/navbar/NavbarBot.dart';
 
 class VerifyPage extends StatefulWidget {
   const VerifyPage({Key? key}) : super(key: key);
@@ -20,12 +18,6 @@ class _VerifyPageState extends State<VerifyPage> {
     newTextEditingController.dispose();
     focusNode.dispose();
     super.dispose();
-  }
-
-  pushToScreen(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => NavbarBot()),
-    );
   }
 
   @override
@@ -141,17 +133,19 @@ class _VerifyPageState extends State<VerifyPage> {
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: ElevatedButton(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 60),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Text('Submit'),
+                  child: Text('Selanjutnya'),
                 ),
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStatePropertyAll(Color(0xff025464))),
-                onPressed: () => NavbarBot(),
+                    MaterialStatePropertyAll(Color(0xff025464))),
+                onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => NavbarBot())),
               ),
             ),
           ],
