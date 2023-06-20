@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/navbar/NavbarBot.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:paylater/user/HomePage.dart';
 
 class EditProfil extends StatefulWidget {
   const EditProfil({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class _EditProfilState extends State<EditProfil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff025464),
+        backgroundColor: Color(0xff1288B5),
         title:  Padding(
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: Text('Edit Profil', style: TextStyle(fontSize: 14,)),
@@ -30,75 +29,95 @@ class _EditProfilState extends State<EditProfil> {
             )),
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 40),
         color: Color(0xffF6F6F6),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: ListView(
+            physics: ClampingScrollPhysics(),
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 20,),
-                  //Username
-                  Text('Username', style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w700, color: Colors.grey
-                  ),),
-                  SizedBox(height: 5,),
-                  TextField(
-
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Username',
+              Container(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 20,),
+                    //Username
+                    Text('Username', style: TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
+                    ),),
+                    SizedBox(height: 5,),
+                    TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Username',
+                      ),
                     ),
-                  ),
-                  //End Username
-                  SizedBox(height: 24),
+                    //End Username
+                    SizedBox(height: 10,),
 
-                  //Email
-                  Text('Email', style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
-                  ),),
-                  SizedBox(height: 5,),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Email',
-
+                    //Email
+                    Text('Email', style: TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
+                    ),),
+                    SizedBox(height: 5,),
+                    TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Email',
+                      ),
                     ),
-                  ),
-                  //End Email
+                    //End Email
 
-                  SizedBox(height: 24,),
+                    SizedBox(height: 10,),
 
-                  //Nomor Telepon
-                  Text('Nomor Telepon', style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
-                  ),),
-                  SizedBox(height: 5,),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Nomor Telepon',
+                    //Nomor Telepon
+                    Text('Nomor Telepon', style: TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
+                    ),),
+                    SizedBox(height: 5,),
+                    TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Nomor Telepon',
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              //simpan
-              ElevatedButton(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10,),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Text('Simpan'),
+                  ],
                 ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Color(0xff025464))
-                ),
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => NavbarBot())),
               ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+                    SizedBox(height: 30,),
+                    //logout
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      height: 40,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            style: BorderStyle.solid,
+                            color: Color(0xff1288B5),
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(width: 10,),
+                          Text('Simpan',
+                            style: TextStyle(
+                                color: Color(0xff1288B5),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30,)
+                  ],
+                ),
+              )
             ]
         ),
       ),
