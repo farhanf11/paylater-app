@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/profile_page/edit_profile.dart';
+import 'package:paylater/history_page/detail_tagihan.dart';
+import 'package:paylater/launcherPage.dart';
+import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:paylater/user/HistoryPage.dart';
-import 'package:paylater/user/KategoriPage.dart';
+import 'package:paylater/user/LandingPage.dart';
 import 'package:paylater/user/LoginPage.dart';
 import 'package:paylater/user/ProfilePage.dart';
+import 'navbar/SearchBar.dart';
 
 void main() {
   runApp(MyApp());

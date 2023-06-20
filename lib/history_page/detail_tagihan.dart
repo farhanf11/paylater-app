@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/history_page/history_order.dart';
 import 'package:paylater/history_page/history_transaksi.dart';
-import 'package:paylater/history_page/rincianPembayaran.dart';
-import 'package:paylater/user/tagihanComponent/detailTagihan/rincianProduct.dart';
 
 class DetailTagihan extends StatefulWidget {
   const DetailTagihan({Key? key}) : super(key: key);
@@ -26,7 +24,7 @@ class _DetailTagihanState extends State<DetailTagihan> {
       length: 4 ,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff025464),
+          backgroundColor: Color(0xff1288B5),
           leading: BackButton(color: Colors.white,),
           title: Text("Detail tagihan", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
           centerTitle: true,
@@ -49,17 +47,292 @@ class _DetailTagihanState extends State<DetailTagihan> {
                     padding: EdgeInsets.symmetric(horizontal: 90, vertical: 12),
                     child: Text('Cicilan Berlangsung', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
                   ),
-
                   SizedBox(height: 30,),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Colors.white,
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 6),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 2,
+                                  color: Theme.of(context).scaffoldBackgroundColor),
+                              boxShadow: [
+                                BoxShadow(
+                                    spreadRadius: 2,
+                                    blurRadius: 8,
+                                    color: Colors.black.withOpacity(0.1),
+                                    offset: const Offset(0, 2))
+                              ],
+                              shape: BoxShape.rectangle,
+                              image: const DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    "https://img.freepik.com/free-photo/elegant-smartphone-composition_23-2149437084.jpg?size=626&ext=jpg&ga=GA1.2.208731134.1681022893&semt=ais",
+                                  ))),
+                        ),
+                        SizedBox(height: 16,),
+                        Text('Nama Produk', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),),
+                        Text('12 - 12 - 2022', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.grey),),
+                      ],
+                    ),
+                  ),
 
-                  //produk
-                  RincianProduct(),
+                  //Rincian pesanan
+                  SizedBox(height: 30,),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+
+                        //ID Pesanan
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffEBEBEB))),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('ID Pesanan',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Text('12345678',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        //Tenor
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffEBEBEB))),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Tenor Cicilan',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Text('3 Bulan',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        //Total Tagihan
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffEBEBEB))),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Total Tagihan',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Text('1.500.000',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        //Tagihan Tersisa
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Tagihan Tersisa',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Text('500.000',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
                   //Rincian Cicilan Pembayaran
                   SizedBox(height: 30,),
-                  RincianPembayaran(),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
 
-                  //button bayar cicilan
+                        //Head
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffE3E9EB))),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Rincian Cicilan Pembayaran',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        //Tenor
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Cicilan 1',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                              Text('25-12-2022',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              Text('500.000',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        //Total Tagihan
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Cicilan 2',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                              Text('25-01-2023',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              Text('500.000',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        //Tagihan Tersisa
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Cicilan 3',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                              Text('25-02-2023',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              Text('500.000',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 40,),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 5),
@@ -69,7 +342,7 @@ class _DetailTagihanState extends State<DetailTagihan> {
                         border: Border.all(
                           width: 2,
                           style: BorderStyle.solid,
-                          color: Color(0xff025464),
+                          color: Color(0xff1288B5),
                         ),
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.white
@@ -80,7 +353,7 @@ class _DetailTagihanState extends State<DetailTagihan> {
                         SizedBox(width: 10,),
                         Text('Bayar Cicilan',
                           style: TextStyle(
-                              color: Color(0xff025464),
+                              color: Color(0xff1288B5),
                               fontSize: 14,
                               fontWeight: FontWeight.w600
                           ),

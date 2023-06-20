@@ -15,7 +15,7 @@ class CardCategories extends StatelessWidget{
         width: 90,
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage(categories.imageUrl)),
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: Colors.black38,
@@ -24,7 +24,7 @@ class CardCategories extends StatelessWidget{
             ),
           ],
         ),
-        child: Padding(padding: EdgeInsets.symmetric(vertical: 1, horizontal: 8),
+        child: Padding(padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

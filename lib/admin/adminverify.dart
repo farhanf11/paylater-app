@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
-import 'package:paylater/user/HomePage.dart';
+import 'package:paylater/admin/admin_HomePage.dart';
 
-import '../navbar/NavbarBot.dart';
+import 'AdminNavbarBot.dart';
 
-class VerifyPage extends StatefulWidget {
-  const VerifyPage({Key? key}) : super(key: key);
+class AdminVerifyPage extends StatefulWidget {
+  const AdminVerifyPage({Key? key}) : super(key: key);
 
   @override
-  State<VerifyPage> createState() => _VerifyPageState();
+  State<AdminVerifyPage> createState() => _AdminVerifyPageState();
 }
 
-class _VerifyPageState extends State<VerifyPage> {
+class _AdminVerifyPageState extends State<AdminVerifyPage> {
   TextEditingController newTextEditingController = TextEditingController();
   FocusNode focusNode = FocusNode();
 
@@ -24,7 +24,7 @@ class _VerifyPageState extends State<VerifyPage> {
 
   pushToScreen(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => NavbarBot()),
+      MaterialPageRoute(builder: (_) => AdminNavbarBot()),
     );
   }
 
@@ -36,9 +36,16 @@ class _VerifyPageState extends State<VerifyPage> {
         color: Colors.white,
         child: Column(
           children: [
-            Image(image: AssetImage('assets/images/verify.jpg'), width: 250, height: 100,),
-            SizedBox(height: 60,),
-            Text('SMS Verifikasi telah terkirim',
+            Image(
+              image: AssetImage('assets/images/verify.jpg'),
+              width: 250,
+              height: 100,
+            ),
+            SizedBox(
+              height: 60,
+            ),
+            Text(
+              'SMS Verifikasi telah terkirim',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
@@ -51,7 +58,10 @@ class _VerifyPageState extends State<VerifyPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Masukan kode OTP Yang Telah Kami Kirimkan Ke Nomor '),
-                  Text(' 08123456789', style: TextStyle(fontWeight: FontWeight.w700),)
+                  Text(
+                    ' 08123456789',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  )
                 ],
               ),
             ),
@@ -59,9 +69,9 @@ class _VerifyPageState extends State<VerifyPage> {
               length: 4,
               fieldBorderStyle: FieldBorderStyle.square,
               responsive: false,
-              fieldHeight:50.0,
+              fieldHeight: 50.0,
               fieldWidth: 40.0,
-              borderWidth:2.0,
+              borderWidth: 2.0,
               activeBorderColor: Colors.cyan,
               activeBackgroundColor: Colors.cyan.shade100,
               borderRadius: BorderRadius.circular(7.0),
@@ -69,7 +79,8 @@ class _VerifyPageState extends State<VerifyPage> {
               autoHideKeyboard: true,
               fieldBackgroundColor: Colors.black12,
               borderColor: Colors.black38,
-              textStyle: TextStyle( color: Colors.black,
+              textStyle: TextStyle(
+                color: Colors.black,
                 fontSize: 30.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -78,21 +89,24 @@ class _VerifyPageState extends State<VerifyPage> {
                 print(output);
               },
             ),
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             Container(
               height: 50,
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: ElevatedButton(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text('Submit'),
                 ),
                 style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Color(0xFF006A8B))
-                ),
+                    backgroundColor:
+                        MaterialStatePropertyAll(Color(0xFF006A8B))),
                 onPressed: () => pushToScreen(context),
               ),
             ),
