@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:paylater/admin/admin_HomePage.dart';
 
-import 'AdminNavbarBot.dart';
+import 'package:paylater/admin/component/AdminNavbarBot.dart';
 
 class AdminVerifyPage extends StatefulWidget {
   const AdminVerifyPage({Key? key}) : super(key: key);
