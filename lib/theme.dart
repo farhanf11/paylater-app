@@ -9,6 +9,7 @@ class PaylaterTheme {
   static const Color orange = Color(0xFFE6A84B);
   static const Color decline = Color.fromRGBO(186, 8, 8, 1);
   static const Color accept = Color.fromRGBO(0, 137, 237, 1);
+  static const Color maincolor = Color.fromRGBO(2, 84, 100, 1);
 
   static const Color blueSky = Color(0xFF1FB4E1);
   static const Color nearlyGreen = Color(0xFF71E1AE);
