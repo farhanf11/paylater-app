@@ -246,6 +246,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             elevation: 5,
+                            margin: EdgeInsets.all(10),
                           ),
                         ),
                       ],
