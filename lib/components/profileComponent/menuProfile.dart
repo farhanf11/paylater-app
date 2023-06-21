@@ -22,111 +22,121 @@ class MenuProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        MaterialButton(
-          child: ButtonProfile(DataButton(
-            id: 1,
-            icon1: Icons.person_pin,
-            text1: 'Edit Profile',
-            text2: 'Edit your profile here',
-            icon2: Icons.arrow_right_outlined,
-          )),
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => EditProfil())),
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          MaterialButton(
+            color: Colors.white,
+            child: ButtonProfile(DataButton(
+              id: 1,
+              icon1: Icons.person_pin,
+              text1: 'Edit Profile',
+              text2: 'Edit your profile here',
+              icon2: Icons.arrow_right_outlined,
+            )),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => EditProfil())),
+          ),
 
-        SizedBox(
-          height: 4,
-        ),
+          SizedBox(
+            height: 4,
+          ),
 
-        //alamat
-        MaterialButton(
-          child: ButtonProfile(DataButton(
-            id: 2,
-            icon1: Icons.add_home,
-            text1: 'Edit Address',
-            text2: 'Edit your address here',
-            icon2: Icons.arrow_right_outlined,
-          )),
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => UbahAlamat())),
-        ),
+          //alamat
+          MaterialButton(
+            color: Colors.white,
+            child: ButtonProfile(DataButton(
+              id: 2,
+              icon1: Icons.add_home,
+              text1: 'Edit Address',
+              text2: 'Edit your address here',
+              icon2: Icons.arrow_right_outlined,
+            )),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => UbahAlamat())),
+          ),
 
-        SizedBox(
-          height: 4,
-        ),
-        //biodata
-        MaterialButton(
-          child: ButtonProfile(DataButton(
-            id: 3,
-            icon1: Icons.playlist_add_circle_sharp,
-            text1: 'Biodata',
-            text2: 'Complete your biodata',
-            icon2: Icons.arrow_right_outlined,
-          )),
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Biodata())),
-        ),
-        //end biodata
+          SizedBox(
+            height: 4,
+          ),
+          //biodata
+          MaterialButton(
+            color: Colors.white,
+            child: ButtonProfile(DataButton(
+              id: 3,
+              icon1: Icons.playlist_add_circle_sharp,
+              text1: 'Biodata',
+              text2: 'Complete your biodata',
+              icon2: Icons.arrow_right_outlined,
+            )),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Biodata())),
+          ),
+          //end biodata
 
-        SizedBox(height: 4,),
+          SizedBox(height: 4,),
 
-        //widget bantuan
-        MaterialButton(
-          child: ButtonProfile(DataButton(
-            id: 4,
-            icon1: Icons.attach_email,
-            text1: 'Send Email',
-            text2: 'Send email to CS for more information',
-            icon2: Icons.arrow_right_outlined,
-          )),
-          onPressed: _sendingMails,
-        ),
-        //end Pesan Email
-        SizedBox(height: 4,),
-        //bantuan
-        MaterialButton(
-          child: ButtonProfile(DataButton(
-            id: 5,
-            icon1: Icons.help,
-            text1: 'Help Center',
-            text2: 'Get the best answer of your question',
-            icon2: Icons.arrow_right_outlined,
-          )),
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => ProfilePage())),
-        ),
-        //end Bantuan
-        SizedBox(height: 4,),
-        //terms condition
-        MaterialButton(
-          child: ButtonProfile(DataButton(
-            id: 6,
-            icon1: Icons.perm_device_info_outlined,
-            text1: 'Terms and Condition',
-            text2: 'Info for privacy policy ILKOMPAY',
-            icon2: Icons.arrow_right_outlined,
-          )),
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Biodata())),
-        ),
-        //end terms condition
-        SizedBox(height: 4,),
-        //privacy policy
-        MaterialButton(
-          child: ButtonProfile(DataButton(
-            id: 7,
-            icon1: Icons.privacy_tip,
-            text1: 'Privacy Policy',
-            text2: 'Info for privacy policy ILKOMPAY',
-            icon2: Icons.arrow_right_outlined,
-          )),
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Biodata())),
-        ),
-        //end bantuan
-      ],
+          //widget bantuan
+          MaterialButton(
+            color: Colors.white,
+            child: ButtonProfile(DataButton(
+              id: 4,
+              icon1: Icons.attach_email,
+              text1: 'Send Email',
+              text2: 'Send email to CS for more information',
+              icon2: Icons.arrow_right_outlined,
+            )),
+            onPressed: _sendingMails,
+          ),
+          //end Pesan Email
+          SizedBox(height: 4,),
+          //bantuan
+          MaterialButton(
+            color: Colors.white,
+            child: ButtonProfile(DataButton(
+              id: 5,
+              icon1: Icons.help,
+              text1: 'Help Center',
+              text2: 'Get the best answer of your question',
+              icon2: Icons.arrow_right_outlined,
+            )),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => ProfilePage())),
+          ),
+          //end Bantuan
+          SizedBox(height: 4,),
+          //terms condition
+          MaterialButton(
+            color: Colors.white,
+            child: ButtonProfile(DataButton(
+              id: 6,
+              icon1: Icons.perm_device_info_outlined,
+              text1: 'Terms and Condition',
+              text2: 'Info for privacy policy ILKOMPAY',
+              icon2: Icons.arrow_right_outlined,
+            )),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Biodata())),
+          ),
+          //end terms condition
+          SizedBox(height: 4,),
+          //privacy policy
+          MaterialButton(
+            color: Colors.white,
+            child: ButtonProfile(DataButton(
+              id: 7,
+              icon1: Icons.privacy_tip,
+              text1: 'Privacy Policy',
+              text2: 'Info for privacy policy ILKOMPAY',
+              icon2: Icons.arrow_right_outlined,
+            )),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Biodata())),
+          ),
+          //end bantuan
+        ],
+      ),
     );
   }
 }

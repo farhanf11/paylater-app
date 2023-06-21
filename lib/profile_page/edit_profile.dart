@@ -13,7 +13,7 @@ class _EditProfilState extends State<EditProfil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff1288B5),
+        backgroundColor: Color(0xff025464),
         title:  Padding(
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: Text('Edit Profil', style: TextStyle(fontSize: 14,)),
@@ -95,7 +95,7 @@ class _EditProfilState extends State<EditProfil> {
                       decoration: BoxDecoration(
                           border: Border.all(
                             style: BorderStyle.solid,
-                            color: Color(0xff1288B5),
+                            color: Color(0xff025464),
                           ),
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.white
@@ -106,7 +106,7 @@ class _EditProfilState extends State<EditProfil> {
                           SizedBox(width: 10,),
                           Text('Simpan',
                             style: TextStyle(
-                                color: Color(0xff1288B5),
+                                color: Color(0xff025464),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600
                             ),

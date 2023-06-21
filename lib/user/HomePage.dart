@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text(
                         'tempel link url barang yang ingin anda ajukan pada kolom diatas*',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                         ),
                       ),
                     ),
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
 
             KategoriComp(),
 
-          TrendingComp(),
+            TrendingComp(),
           ],
         ),
       ),
