@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:paylater/components/profileComponent/buttonProfile.dart';
 import 'package:paylater/profile_page/biodata.dart';
 import 'package:paylater/profile_page/edit_profile.dart';
+import 'package:paylater/profile_page/helpCenter.dart';
+import 'package:paylater/profile_page/privacyPolicy.dart';
 import 'package:paylater/profile_page/ubah_alamat.dart';
 import 'package:paylater/user/ProfilePage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -80,6 +82,7 @@ class MenuProfile extends StatelessWidget {
           //widget bantuan
           MaterialButton(
             color: Colors.white,
+            onPressed: _sendingMails,
             child: ButtonProfile(DataButton(
               id: 4,
               icon1: Icons.attach_email,
@@ -87,7 +90,6 @@ class MenuProfile extends StatelessWidget {
               text2: 'Send email to CS for more information',
               icon2: Icons.arrow_right_outlined,
             )),
-            onPressed: _sendingMails,
           ),
           //end Pesan Email
           SizedBox(height: 4,),
@@ -102,10 +104,11 @@ class MenuProfile extends StatelessWidget {
               icon2: Icons.arrow_right_outlined,
             )),
             onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ProfilePage())),
+                .push(MaterialPageRoute(builder: (context) => HelpCenter())),
           ),
           //end Bantuan
           SizedBox(height: 4,),
+          
           //terms condition
           MaterialButton(
             color: Colors.white,
@@ -132,7 +135,7 @@ class MenuProfile extends StatelessWidget {
               icon2: Icons.arrow_right_outlined,
             )),
             onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Biodata())),
+                .push(MaterialPageRoute(builder: (context) => const PrivacyPolicy())),
           ),
           //end bantuan
         ],

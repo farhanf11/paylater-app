@@ -70,7 +70,7 @@ class ProfilePage extends StatelessWidget {
 
                       //widget menu profile
                       SizedBox(height: 30,),
-                      MenuProfile(),
+                      const MenuProfile(),
                     ],
                   ),
 

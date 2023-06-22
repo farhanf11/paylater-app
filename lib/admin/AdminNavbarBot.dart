@@ -55,26 +55,19 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
                     ? const Icon(
                         Icons.home,
                         color: Colors.teal,
-                        size: 40,
+                        size: 32,
                       )
                     : const Icon(
                         Icons.home_outlined,
-                        color: Colors.teal,
-                        size: 40,
+                        color: Colors.black54,
+                        size: 32,
                       ),
-              ),
-              const Center(
-                child: Text(
-                  "   Dashboard",
-                  style: TextStyle(
-                    fontSize: 10,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
               ),
             ],
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
                 enableFeedback: false,
@@ -87,26 +80,19 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
                     ? const Icon(
                         Icons.request_page,
                         color: Colors.teal,
-                        size: 40,
+                        size: 32,
                       )
                     : const Icon(
                         Icons.request_page_outlined,
-                        color: Colors.teal,
-                        size: 40,
+                        color: Colors.black54,
+                        size: 32,
                       ),
-              ),
-              const Center(
-                child: Text(
-                  "  Transaksi",
-                  style: TextStyle(
-                    fontSize: 10,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
               ),
             ],
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
                 enableFeedback: false,
@@ -119,26 +105,19 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
                     ? const Icon(
                         Icons.payments,
                         color: Colors.teal,
-                        size: 40,
+                        size: 32,
                       )
                     : const Icon(
                         Icons.payments_outlined,
-                        color: Colors.teal,
-                        size: 40,
+                        color: Colors.black54,
+                        size: 32,
                       ),
-              ),
-              const Center(
-                child: Text(
-                  "    Keuangan",
-                  style: TextStyle(
-                    fontSize: 10,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
               ),
             ],
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
                 enableFeedback: false,
@@ -151,22 +130,13 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
                     ? const Icon(
                         Icons.person,
                         color: Colors.teal,
-                        size: 40,
+                        size: 32,
                       )
                     : const Icon(
                         Icons.person_outline,
-                        color: Colors.teal,
-                        size: 40,
+                        color: Colors.black54,
+                        size: 32,
                       ),
-              ),
-              const Center(
-                child: Text(
-                  "   User",
-                  style: TextStyle(
-                    fontSize: 10,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
               ),
             ],
           ),

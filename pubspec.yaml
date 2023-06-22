@@ -46,6 +46,7 @@ dependencies:
   url_launcher:
   firebase_auth:
   loading_animation_widget:
+  accordion: ^2.5.1
 
 dev_dependencies:
   flutter_test:
