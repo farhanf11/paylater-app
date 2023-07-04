@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Color(0xFF006A8B))),
+                              MaterialStatePropertyAll(Color(0xff025464))),
                       onPressed: () => Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (context) => VerifyPage())),

@@ -12,6 +12,9 @@ class CardTagihan extends StatelessWidget{
     return MaterialButton(
       color: Colors.white,
       child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8)
+        ),
         height: 160,
         child: Padding(padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
           child: Row(
@@ -19,7 +22,7 @@ class CardTagihan extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Ink.image(image: NetworkImage(tagihan.imageUrl),
-                width: 130,
+                width: 100,
                 height: 130,
               ),
 
@@ -32,7 +35,7 @@ class CardTagihan extends StatelessWidget{
                   Row(
                     children: [
                       Text(tagihan.productName,
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey, ),
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color:Colors.black, ),
                       ),
                     ],
                   ),
@@ -46,7 +49,7 @@ class CardTagihan extends StatelessWidget{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('Status :', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,)), SizedBox(width: 5,),
+                      Text('Status :', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.black,)), SizedBox(width: 5,),
                       Text(tagihan.statusTagihan,
                         style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Color(0xff1288B5),),
                       ),
@@ -56,7 +59,7 @@ class CardTagihan extends StatelessWidget{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Total Pembayaran :'+ ' ' +'Rp' + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,),),
+                      Text('Total Pembayaran :'+ ' ' +'Rp' + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.black,),),
                       Text(tagihan.hargaBarang.toString(), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.deepOrangeAccent,),),
                     ],
                   ),

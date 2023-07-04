@@ -12,58 +12,55 @@ class CardRiwayatTagihan extends StatelessWidget{
     return MaterialButton(
       color: Colors.white,
       child: Container(
-        height: 160,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8)
+        ),
+        height: 120,
         child: Padding(padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Ink.image(image: NetworkImage(tagihan.imageUrl),
-                width: 130,
-                height: 130,
+                width: 56,
+                height: 56,
               ),
 
-              SizedBox(width: 10,),
+              SizedBox(width: 20,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //Nama
                   Row(
                     children: [
                       Text(tagihan.productName,
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey, ),
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color:Colors.black, ),
                       ),
                     ],
                   ),
-
+                  SizedBox(height: 5,),
                   //cicilan
+                  Text('Cicilan :'+ ' ' +tagihan.tenorCicilan.toString() + ' ' +'bulan', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.black,),),
+                  SizedBox(height: 5,),
                   Row(
                     children: [
-                      Text('Cicilan :'+ ' ' +tagihan.tenorCicilan.toString() + ' ' +'bulan', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,),), SizedBox(width: 5,),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text('Status :', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,)), SizedBox(width: 5,),
-                      Text(tagihan.statusTagihan,
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Color(0xff1288B5),),
+                      Text('Status :', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.black,)),
+                      Text(tagihan.statusTagihan, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Color(0xff1288B5),),
                       ),
-                      SizedBox(width: 5,),
                     ],
                   ),
+                  SizedBox(height: 5,),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Pembayaran :'+ ' ' +'Rp' + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,),),
-                      Text(tagihan.hargaCicilan.toString(), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.deepOrangeAccent,),),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Jatuh tempo :' + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,),),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('Total Harga :'+ ' ' +'Rp' + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.black,),),
+                          Text(tagihan.hargaCicilan.toString(), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color:Colors.deepOrangeAccent,),),
+                        ],
+                      ),
+                      SizedBox(width: 30,),
                       Text(tagihan.tanggalJatuhTempo.toString() + ' ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color:Colors.grey,),),
                     ],
                   ),

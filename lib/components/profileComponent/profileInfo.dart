@@ -13,8 +13,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
     return Column(
       children: [
         Container(
-          width: 60,
-          height: 60,
+          width: 72,
+          height: 72,
           decoration: BoxDecoration(
               border: Border.all(
                   width: 4, color: Theme.of(context).scaffoldBackgroundColor),
