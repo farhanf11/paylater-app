@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/theme.dart';
+import 'component/popup.dart';
 
 class DetailTransaksiProduct extends StatefulWidget {
   const DetailTransaksiProduct({Key? key}) : super(key: key);
@@ -419,7 +420,14 @@ class _DetailTransaksiProductState extends State<DetailTransaksiProduct> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               primary: PaylaterTheme.maincolor),
-                          onPressed: () {},
+                          onPressed: () {
+                            Popup.textInputDialog(context,
+                                title: "Masukan Kode Resi",
+                                dialogCallback: (value) async {
+                              if (value == 'Confirm') {}
+                              if (value == 'Cancel') {}
+                            });
+                          },
                           icon: const Icon(
                             Icons.receipt,
                             color: Color.fromARGB(255, 215, 194, 0),
