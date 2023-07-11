@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/components/card_tagihan.dart';
 import 'package:paylater/history_page/tagihanPage.dart';
 import 'package:paylater/history_page/RiwayatTagihan.dart';
-import 'package:paylater/models/tagihan.dart';
 import 'package:paylater/user/ProfilePage.dart';
 
-import '../components/card_riwayat_tagihan.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);

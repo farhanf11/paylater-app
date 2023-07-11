@@ -1,214 +1,129 @@
+import 'dart:async';
 import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-class VerifyFace extends StatefulWidget {
-  const VerifyFace({Key? key}) : super(key: key);
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  @override
-  State<VerifyFace> createState() => _VerifyFaceState();
+  final cameras = await availableCameras();
+  // Get a specific camera from the list of available cameras.
+  final firstCamera = cameras.first;
+
+  runApp(
+    MaterialApp(
+      theme: ThemeData.dark(),
+      home: TakePictureScreen(
+        // Pass the appropriate camera to the TakePictureScreen widget.
+        camera: firstCamera,
+      ),
+    ),
+  );
 }
 
-class _VerifyFaceState extends State<VerifyFace> {
+// A screen that allows users to take a picture using a given camera.
+class TakePictureScreen extends StatefulWidget {
+  const TakePictureScreen({
+    super.key,
+    required this.camera,
+  });
 
-  File? imageFile;
+  final CameraDescription camera;
+
+  @override
+  TakePictureScreenState createState() => TakePictureScreenState();
+}
+
+class TakePictureScreenState extends State<TakePictureScreen> {
+  late CameraController _controller;
+  late Future<void> _initializeControllerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    // To display the current output from the Camera,
+    // create a CameraController.
+    _controller = CameraController(
+      // Get a specific camera from the list of available cameras.
+      widget.camera,
+      // Define the resolution to use.
+      ResolutionPreset.medium,
+    );
+
+    // Next, initialize the controller. This returns a Future.
+    _initializeControllerFuture = _controller.initialize();
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the controller when the widget is disposed.
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Select & Crop Image'),
+      appBar: AppBar(title: const Text('Take a picture')),
+      // You must wait until the controller is initialized before displaying the
+      // camera preview. Use a FutureBuilder to display a loading spinner until the
+      // controller has finished initializing.
+      body: FutureBuilder<void>(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // If the Future is complete, display the preview.
+            return CameraPreview(_controller);
+          } else {
+            // Otherwise, display a loading indicator.
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0,),
-            imageFile == null
-                ? Image.network('https://cdn-icons-png.flaticon.com/512/309/309543.png?w=900&t=st=1688993074~exp=1688993674~hmac=f0fab2985d1d6cf39d1e5aa42a7d29ffaec17e1d29f51e75dad11eac96519802',
-              height: 120.0,
-              width: 120.0,
-            )
-                : ClipRRect(
-                borderRadius: BorderRadius.circular(150.0),
-                child: Image.file(imageFile!, height: 300.0, width: 300.0, fit: BoxFit.fill,)
-            ),
-            const SizedBox(height: 20.0,),
-            Card(
-          child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/5.2,
-              margin: const EdgeInsets.only(top: 8.0),
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: InkWell(
-                        child: Column(
-                          children: const [
-                            Icon(Icons.image, size: 60.0,),
-                            SizedBox(height: 12.0),
-                            Text(
-                              "Gallery",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 16, color: Colors.black),
-                            )
-                          ],
-                        ),
-                        onTap: () {
-                          _imgFromGallery();
-                          Navigator.pop(context);
-                        },
-                      )),
-                  Expanded(
-                      child: InkWell(
-                        child: SizedBox(
-                          child: Column(
-                            children: const [
-                              Icon(Icons.camera_alt, size: 60.0,),
-                              SizedBox(height: 12.0),
-                              Text(
-                                "Camera",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 16, color: Colors.black),
-                              )
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          _imgFromCamera();
-                          Navigator.pop(context);
-                        },
-                      ))
-                ],
-              )),
-        )
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        // Provide an onPressed callback.
+        onPressed: () async {
+          // Take the Picture in a try / catch block. If anything goes wrong,
+          // catch the error.
+          try {
+            // Ensure that the camera is initialized.
+            await _initializeControllerFuture;
+
+            final image = await _controller.takePicture();
+            if (!mounted) return;
+
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DisplayPictureScreen(
+                  imagePath: image.path,
+                ),
+              ),
+            );
+          } catch (e) {
+            // If an error occurs, log the error to the console.
+            print(e);
+          }
+        },
+        child: const Icon(Icons.camera_alt),
       ),
     );
   }
+}
 
-  final picker = ImagePicker();
+// A widget that displays the picture taken by the user.
+class DisplayPictureScreen extends StatelessWidget {
+  final String imagePath;
 
-  void showImagePicker(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (builder){
-          return Card(
-            child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height/5.2,
-                margin: const EdgeInsets.only(top: 8.0),
-                padding: const EdgeInsets.all(12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: InkWell(
-                          child: Column(
-                            children: const [
-                              Icon(Icons.image, size: 60.0,),
-                              SizedBox(height: 12.0),
-                              Text(
-                                "Gallery",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 16, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          onTap: () {
-                            _imgFromGallery();
-                            Navigator.pop(context);
-                          },
-                        )),
-                    Expanded(
-                        child: InkWell(
-                          child: SizedBox(
-                            child: Column(
-                              children: const [
-                                Icon(Icons.camera_alt, size: 60.0,),
-                                SizedBox(height: 12.0),
-                                Text(
-                                  "Camera",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 16, color: Colors.black),
-                                )
-                              ],
-                            ),
-                          ),
-                          onTap: () {
-                            _imgFromCamera();
-                            Navigator.pop(context);
-                          },
-                        ))
-                  ],
-                )),
-          );
-        }
+  const DisplayPictureScreen({super.key, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Display the Picture')),
+      // The image is stored as a file on the device. Use the `Image.file`
+      // constructor with the given path to display the image.
+      body: Image.file(File(imagePath)),
     );
   }
-
-  _imgFromGallery() async {
-    await  picker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50
-    ).then((value){
-      if(value != null){
-        _cropImage(File(value.path));
-      }
-    });
-  }
-
-  _imgFromCamera() async {
-    await picker.pickImage(
-        source: ImageSource.camera, imageQuality: 50
-    ).then((value){
-      if(value != null){
-        _cropImage(File(value.path));
-      }
-    });
-  }
-
-  _cropImage(File imgFile) async {
-    final croppedFile = await ImageCropper().cropImage(
-        sourcePath: imgFile.path,
-        aspectRatioPresets: Platform.isAndroid
-            ? [
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio16x9
-        ] : [
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio5x3,
-          CropAspectRatioPreset.ratio5x4,
-          CropAspectRatioPreset.ratio7x5,
-          CropAspectRatioPreset.ratio16x9
-        ],
-        uiSettings: [AndroidUiSettings(
-            toolbarTitle: "Image Cropper",
-            toolbarColor: Colors.deepOrange,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-          IOSUiSettings(
-            title: "Image Cropper",
-          )
-        ]);
-    if (croppedFile != null) {
-
-      imageCache.clear();
-      setState(() {
-        imageFile = File(croppedFile.path);
-      });
-      // reload();
-    }
-  }
-
 }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:paylater/user/DaftarPage.dart';
 import 'package:paylater/user/LoginPage.dart';
 
 
@@ -19,7 +20,7 @@ class _LandingPageState extends State<LandingPage> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Color(0xFF006A8B), Colors.tealAccent.shade700]
+                colors: [Color(0xff025464), Colors.tealAccent.shade700]
             ),
           ),
         child: Column(
@@ -51,33 +52,27 @@ class _LandingPageState extends State<LandingPage> {
                   Column(
                     children: [
                       const Text('Siap Memenuhi Kebutuhanmu', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
-                      Text('Tanpa Bunga', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
-                      Text('Dan', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+                      const Text('Tanpa Bunga', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+                      const Text('Dan', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
                       const Text('Bebas Riba', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
                       const SizedBox(height: 24,),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 60),
-                        margin: EdgeInsets.symmetric(horizontal: 65),
-                        height: 40,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 2,
-                              style: BorderStyle.solid,
-                              color: Color(0xff1288B5),
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white
+                      OutlinedButton(
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStatePropertyAll(Color(0xff025464)),
+                          padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20, horizontal: 100)),
+                          shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                         ),
-                        child: TextButton(
-                          onPressed: () => LoginPage(),
-                          child: const Text('Daftar',
-                          style: TextStyle(
-                              color: Color(0xff1288B5),
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),)
-                      ),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const DaftarPage()),
+                        ),
+                        child: const Text('Daftar',
+                        style: TextStyle(
+                            color: Color(0xff025464),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),),
                     ],
                   ),
                 ],

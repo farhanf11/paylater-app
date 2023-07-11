@@ -1,20 +1,13 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:paylater/admin/models/modelTransaksi.dart';
-import 'package:paylater/components/card_product.dart';
 import 'package:paylater/admin/component/cardtransaksi.dart';
-import 'package:paylater/models/categories.dart';
-import 'package:paylater/models/products.dart';
-import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:paylater/theme.dart';
-import '../components/card_categories.dart';
-import '../components/landing_page/banner_view.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:paylater/admin/models/modelTransaksi.dart';
 
 class AdminTransaksi extends StatefulWidget {
+  const AdminTransaksi({super.key});
+
   @override
   _AdminTransaksiState createState() => _AdminTransaksiState();
 }
@@ -40,8 +33,6 @@ class AppBarNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
-    final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
 
     const int tabsCount = 3;
 

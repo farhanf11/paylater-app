@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:paylater/user/LoginPage.dart';
 import 'package:paylater/user/VerifyFace.dart';
@@ -17,6 +18,8 @@ class _DaftarPageState extends State<DaftarPage> {
   TextEditingController inputemail = TextEditingController();
   String? dropdownValue = "Tenaga Pendidik";
 
+  get firstCamera => null;
+
   @override
   void dispose() {
     inputnama.dispose();
@@ -25,6 +28,7 @@ class _DaftarPageState extends State<DaftarPage> {
   }
 
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PaylaterTheme.white,
@@ -314,7 +318,9 @@ class _DaftarPageState extends State<DaftarPage> {
                               IconButton(
                                 padding: EdgeInsets.all(8),
                                 color: Color(0xffd8d8e0),
-                                onPressed: () => VerifyFace(),
+                                onPressed: () => TakePictureScreen(
+                                  camera: firstCamera,
+                                ),
                                 icon: Icon(Icons.camera_alt_rounded, color: Colors.black,),
                               ),
 
@@ -357,7 +363,10 @@ class _DaftarPageState extends State<DaftarPage> {
                               IconButton(
                                 padding: EdgeInsets.all(8),
                                 color: Color(0xffF7F7FC),
-                                onPressed: () => VerifyFace(),
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera,),),
+                                ),
                                 icon: Icon(Icons.camera_alt_rounded, color: Colors.black,),
                               ),
 
@@ -374,7 +383,7 @@ class _DaftarPageState extends State<DaftarPage> {
 
                 //button
                 SizedBox(
-                  height: 100,
+                  height: 80,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -407,7 +416,7 @@ class _DaftarPageState extends State<DaftarPage> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: PaylaterTheme.grey,
+                        backgroundColor: PaylaterTheme.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
                         ),
