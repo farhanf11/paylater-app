@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera Library Access Warning</string>
 	<key>CFBundleDisplayName</key>
 	<string>Paylater</string>
 	<key>CFBundleExecutable</key>

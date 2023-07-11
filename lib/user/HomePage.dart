@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:paylater/user/homeComponents/kategoriComp.dart';
 import 'package:paylater/user/homeComponents/trendingComp.dart';
 import '../components/card_categories.dart';
-import '../home_page/banner_view.dart';
+import '../components/home_page/banner_view.dart';
 
 class HomePage extends StatefulWidget {
   @override

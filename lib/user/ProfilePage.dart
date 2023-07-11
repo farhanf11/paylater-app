@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/components/profileComponent/menuProfile.dart';
 import 'package:paylater/components/profileComponent/profileInfo.dart';
-import 'package:paylater/profile_page/biodata.dart';
-import 'package:paylater/profile_page/edit_profile.dart';
-import 'package:paylater/profile_page/send_email.dart';
-import 'package:paylater/profile_page/ubah_alamat.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'HistoryPage.dart';
@@ -27,7 +23,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff025464),
-        title: Text("Profile", style: TextStyle(fontSize: 16),),
+        title: const Text("Profile", style: TextStyle(fontSize: 16),),
         centerTitle: true,
       ),
       body: Container(
@@ -48,8 +44,8 @@ class ProfilePage extends StatelessWidget {
 
                       //button cek tagihan
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10,),
-                        padding: EdgeInsets.symmetric(vertical: 6),
+                        margin: const EdgeInsets.symmetric(horizontal: 10,),
+                        padding: const EdgeInsets.symmetric(vertical: 6),
                         width: 240,
                         decoration: BoxDecoration(
                           color: Color(0xff025464),
@@ -63,23 +59,22 @@ class ProfilePage extends StatelessWidget {
                                 fontWeight: FontWeight.w500
                             ),
                           ),
-                          onPressed: () => Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) => HistoryPage())),
+                          onPressed: () => HistoryPage(),
                         ),
                       ),
+                      const SizedBox(height: 30,),
 
                       //widget menu profile
-                      SizedBox(height: 30,),
                       const MenuProfile(),
                     ],
                   ),
 
-                  SizedBox(height: 60,),
+                  const SizedBox(height: 60,),
 
                   //logout
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     height: 40,
                     decoration: BoxDecoration(
                         border: Border.all(
@@ -91,7 +86,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         SizedBox(width: 10,),
                         Text('Logout',
                           style: TextStyle(

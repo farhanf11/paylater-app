@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/theme.dart';
-import 'package:paylater/user/HomePage.dart';
 
 import 'component/popup.dart';
 
@@ -98,7 +97,7 @@ class _EditAkunState extends State<EditAkun> {
                 ),
                 //End Username
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
 
                 //Nomor Telepon
@@ -137,7 +136,7 @@ class _EditAkunState extends State<EditAkun> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Flexible(
@@ -224,7 +223,7 @@ class _EditAkunState extends State<EditAkun> {
                 ),
 
                 DropdownButtonFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -235,7 +234,7 @@ class _EditAkunState extends State<EditAkun> {
                     fillColor: PaylaterTheme.white,
                   ),
                   dropdownColor: PaylaterTheme.white,
-                  hint: Text(
+                  hint: const Text(
                     "Choose",
                     style: TextStyle(
                         color: PaylaterTheme.deactivatedText,
@@ -269,35 +268,40 @@ class _EditAkunState extends State<EditAkun> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      child: const Text("Simpan"),
                       style: ElevatedButton.styleFrom(
-                        primary: PaylaterTheme.maincolor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
+                            primary: PaylaterTheme.maincolor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          ),
                       onPressed: () {
                         Popup.confirmDialog(context,
                             message: "Simpan Perubahan?",
                             dialogCallback: (value) async {
-                          if (value == 'Confirm') {
+                          if (value == 'Ya') {
                             Navigator.of(context).pop();
                           }
-                          if (value == 'Cancel') {}
+                          if (value == 'Tidak') {}
                         });
                       },
+                      child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text("Simpan")),
                     ),
+                    SizedBox(height: 10,),
                     ElevatedButton(
-                      child: const Text("Cancel"),
                       style: ElevatedButton.styleFrom(
-                        primary: PaylaterTheme.grey,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
+                              primary: PaylaterTheme.grey,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text("Cancel")),
                     ),
                   ],
                 ),

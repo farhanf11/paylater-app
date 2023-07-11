@@ -5,7 +5,6 @@ import 'package:paylater/profile_page/edit_profile.dart';
 import 'package:paylater/profile_page/helpCenter.dart';
 import 'package:paylater/profile_page/privacyPolicy.dart';
 import 'package:paylater/profile_page/ubah_alamat.dart';
-import 'package:paylater/user/ProfilePage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'dataButton.dart';
@@ -33,15 +32,15 @@ class MenuProfile extends StatelessWidget {
             child: ButtonProfile(DataButton(
               id: 1,
               icon1: Icons.person_pin,
-              text1: 'Edit Profile',
-              text2: 'Edit your profile here',
+              text1: 'Edit Profil',
+              text2: 'Edit profil kamu agar lebih menarik',
               icon2: Icons.arrow_right_outlined,
             )),
             onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => EditProfil())),
+                .push(MaterialPageRoute(builder: (context) => const EditProfil())),
           ),
 
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
 
@@ -51,15 +50,15 @@ class MenuProfile extends StatelessWidget {
             child: ButtonProfile(DataButton(
               id: 2,
               icon1: Icons.add_home,
-              text1: 'Edit Address',
-              text2: 'Edit your address here',
+              text1: 'Edit Alamat Pengiriman',
+              text2: 'Edit alamat pengiriman kamu',
               icon2: Icons.arrow_right_outlined,
             )),
             onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => UbahAlamat())),
+                .push(MaterialPageRoute(builder: (context) => const UbahAlamat())),
           ),
 
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           //biodata
@@ -69,15 +68,15 @@ class MenuProfile extends StatelessWidget {
               id: 3,
               icon1: Icons.playlist_add_circle_sharp,
               text1: 'Biodata',
-              text2: 'Complete your biodata',
+              text2: 'Lengkapi biodata sebelum dapat melakukan pesanan',
               icon2: Icons.arrow_right_outlined,
             )),
             onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Biodata())),
+                .push(MaterialPageRoute(builder: (context) => const Biodata())),
           ),
           //end biodata
 
-          SizedBox(height: 4,),
+          const SizedBox(height: 4,),
 
           //widget bantuan
           MaterialButton(
@@ -86,8 +85,8 @@ class MenuProfile extends StatelessWidget {
             child: ButtonProfile(DataButton(
               id: 4,
               icon1: Icons.attach_email,
-              text1: 'Send Email',
-              text2: 'Send email to CS for more information',
+              text1: 'Kirim Email',
+              text2: 'Kirim email untuk info selebihnya',
               icon2: Icons.arrow_right_outlined,
             )),
           ),
@@ -99,8 +98,8 @@ class MenuProfile extends StatelessWidget {
             child: ButtonProfile(DataButton(
               id: 5,
               icon1: Icons.help,
-              text1: 'Help Center',
-              text2: 'Get the best answer of your question',
+              text1: 'Pusat Bantuan',
+              text2: 'Dapatkan jawaban terbaik dari pertanyaanmu',
               icon2: Icons.arrow_right_outlined,
             )),
             onPressed: () => Navigator.of(context)
@@ -115,8 +114,8 @@ class MenuProfile extends StatelessWidget {
             child: ButtonProfile(DataButton(
               id: 6,
               icon1: Icons.perm_device_info_outlined,
-              text1: 'Terms and Condition',
-              text2: 'Info for privacy policy ILKOMPAY',
+              text1: 'Syarat dan Ketentuan',
+              text2: 'Syarat dan ketentuan Ilkompay',
               icon2: Icons.arrow_right_outlined,
             )),
             onPressed: () => Navigator.of(context)
@@ -130,8 +129,8 @@ class MenuProfile extends StatelessWidget {
             child: ButtonProfile(DataButton(
               id: 7,
               icon1: Icons.privacy_tip,
-              text1: 'Privacy Policy',
-              text2: 'Info for privacy policy ILKOMPAY',
+              text1: 'Kebijakan Privasi',
+              text2: 'Kebijakan Privasi ILKOMPAY',
               icon2: Icons.arrow_right_outlined,
             )),
             onPressed: () => Navigator.of(context)

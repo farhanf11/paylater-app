@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/user/VerifyPage.dart';
-import 'package:paylater/admin/adminverify.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -34,20 +33,20 @@ class _LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.w600,
                             fontSize: 24),
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: TextField(
-                      controller: phoneController,
+                      controller: TextEditingController(text: AutofillHints.email),
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
-                        labelText: 'Input Phone Number',
+                        labelText: 'Masukkan Email Anda',
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -61,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           }),
                       SizedBox(width: 10),
-                      Text(
+                      const Text(
                         'Saya menyetujui Persyaratan Layanan dan \n Kebijakan Privasi',
                         style: TextStyle(fontSize: 12),
                       ),
@@ -73,6 +72,12 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Color(0xff025464))),
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => VerifyPage())),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 60),
@@ -81,41 +86,6 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         child: Text('Selanjutnya'),
                       ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Color(0xff025464))),
-                      onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => VerifyPage())),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(child: const Text('Does not have account?')),
-                        TextButton(
-                          child: const Text(
-                            'Sign in',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => VerifyPage())),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        TextButton(
-                          child: const Text(
-                            'Login As Admin',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => AdminVerifyPage())),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
                     ),
                   ],
                 ),

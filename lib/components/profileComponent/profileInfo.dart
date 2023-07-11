@@ -50,6 +50,14 @@ class _ProfileInfoState extends State<ProfileInfo> {
             color: Colors.grey,
           ),
         ),
+
+        Text(
+          '081234567888',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.black87,
+          ),
+        ),
       ],
     );
   }

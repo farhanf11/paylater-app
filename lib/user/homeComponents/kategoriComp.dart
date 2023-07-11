@@ -17,12 +17,12 @@ class KategoriComp extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Kategori',
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: Colors.teal[700]),
+                color: Color(0xff025464)),
           ),
           SizedBox(
             height: 16,

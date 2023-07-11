@@ -26,7 +26,7 @@ class _LandingPageState extends State<LandingPage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Center(
-              child: new Image.asset('../assets/images/logo-landing.png', height: 120, width: 120,),
+              child: Image.asset('../assets/images/logo-landing.png', height: 120, width: 120,),
             ),
             SizedBox(height: 60,),
             Container(
@@ -43,44 +43,42 @@ class _LandingPageState extends State<LandingPage> {
                   offset: const Offset(0, -2))
                 ],
               ),
-              padding: EdgeInsets.symmetric(vertical: 36, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset('../assets/images/ilkompay.png', width: 200, height: 80,),
-                  Container(
-                    child: Column(
-                      children: [
-                        Text('Siap Memenuhi Kebutuhanmu', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
-                        Text('Tanpa Bunga', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
-                        Text('Dan', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
-                        Text('Bebas Riba', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
-                        SizedBox(height: 24,),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 60),
-                          margin: EdgeInsets.symmetric(horizontal: 65),
-                          height: 40,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                style: BorderStyle.solid,
-                                color: Color(0xff1288B5),
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white
-                          ),
-                          child: TextButton(onPressed: () => Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) => LoginPage())),
-                            child: Text('Login',
-                            style: TextStyle(
-                                color: Color(0xff1288B5),
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold
+                  Column(
+                    children: [
+                      const Text('Siap Memenuhi Kebutuhanmu', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+                      Text('Tanpa Bunga', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+                      Text('Dan', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+                      const Text('Bebas Riba', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+                      const SizedBox(height: 24,),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 60),
+                        margin: EdgeInsets.symmetric(horizontal: 65),
+                        height: 40,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              style: BorderStyle.solid,
+                              color: Color(0xff1288B5),
                             ),
-                          ),)
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white
                         ),
-                      ],
-                    ),
+                        child: TextButton(
+                          onPressed: () => LoginPage(),
+                          child: const Text('Daftar',
+                          style: TextStyle(
+                              color: Color(0xff1288B5),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),)
+                      ),
+                    ],
                   ),
                 ],
               ),

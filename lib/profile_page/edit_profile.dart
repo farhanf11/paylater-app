@@ -1,125 +1,225 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/user/HomePage.dart';
 
+import '../admin/component/popup.dart';
+import '../theme.dart';
+import '../user/ProfilePage.dart';
+import '../user/VerifyPage.dart';
+
 class EditProfil extends StatefulWidget {
   const EditProfil({Key? key}) : super(key: key);
+
 
   @override
   State<EditProfil> createState() => _EditProfilState();
 }
 
 class _EditProfilState extends State<EditProfil> {
+  TextEditingController inputnama = TextEditingController();
+  TextEditingController inputtelp = TextEditingController();
+
   @override
+  void dispose() {
+    inputnama.dispose();
+    inputtelp.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff025464),
-        title:  Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 60),
-          child: Text('Edit Profil', style: TextStyle(fontSize: 14,)),
+        backgroundColor: PaylaterTheme.white,
+        title: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: Text('Mengedit Akun',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: PaylaterTheme.darkText,
+              )),
         ),
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
+              color: PaylaterTheme.darkText,
               size: 20,
             )),
       ),
       body: Container(
-        color: Color(0xffF6F6F6),
-        child: ListView(
-            physics: ClampingScrollPhysics(),
-            children: [
-              Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+        color: PaylaterTheme.spacer,
+        child: ListView(physics: const ClampingScrollPhysics(), children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+
+              children: [
+                //Username
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 20,),
-                    //Username
-                    Text('Username', style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
-                    ),),
-                    SizedBox(height: 5,),
+                    const Text(
+                      'Username',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: PaylaterTheme.grey),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Username',
+                      // selectionHeightStyle:
+                      //     BoxHeightStyle.includeLineSpacingMiddle,
+                      controller: inputnama,
+                      maxLines: 1,
+                      decoration: const InputDecoration(
+                          contentPadding:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                          hintText: 'Masukan Username',
+                          hintStyle:
+                          TextStyle(color: PaylaterTheme.deactivatedText),
+                          filled: true,
+                          fillColor: PaylaterTheme.white),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
                       ),
                     ),
                     //End Username
-                    SizedBox(height: 10,),
-
-                    //Email
-                    Text('Email', style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
-                    ),),
-                    SizedBox(height: 5,),
-                    TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Email',
-                      ),
+                    SizedBox(
+                      height: 20,
                     ),
-                    //End Email
-
-                    SizedBox(height: 10,),
 
                     //Nomor Telepon
-                    Text('Nomor Telepon', style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
-                    ),),
-                    SizedBox(height: 5,),
-                    TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Nomor Telepon',
-                      ),
+                    const Text(
+                      'Nomor Telepon',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: PaylaterTheme.grey),
                     ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
-                    SizedBox(height: 30,),
-                    //logout
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      height: 40,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            style: BorderStyle.solid,
-                            color: Color(0xff025464),
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.white
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(width: 10,),
-                          Text('Simpan',
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        const Flexible(
+                          flex: 2,
+                          child: TextField(
+                            enabled: false,
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                                labelStyle: TextStyle(),
+                                labelText: '+62',
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 15.0),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                                filled: true,
+                                fillColor: PaylaterTheme.white),
                             style: TextStyle(
-                                color: Color(0xff025464),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Flexible(
+                          flex: 8,
+                          fit: FlexFit.tight,
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: TextField(
+                              controller: inputtelp,
+                              maxLines: 1,
+                              decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 5.0, horizontal: 15.0),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                                  hintText: 'Masukan Nomor Telepon',
+                                  hintStyle: TextStyle(
+                                      color: PaylaterTheme.deactivatedText),
+                                  filled: true,
+                                  fillColor: PaylaterTheme.white),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 30,)
+                    //End Nomor Telepon
                   ],
                 ),
-              )
-            ]
-        ),
+                SizedBox(height: 200,),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: PaylaterTheme.maincolor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      onPressed: () {
+                        Popup.confirmDialog(context,
+                            message: "Simpan Perubahan?",
+                            dialogCallback: (value) async {
+                              if (value == 'Ya') {
+                                Navigator.of(context).pop();
+                              }
+                              if (value == 'Tidak') {}
+                            });
+                      },
+                      child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text("Simpan")),
+                    ),
+                    SizedBox(height: 10,),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: PaylaterTheme.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const ProfilePage()));
+                      },
+                      child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text("Batal")),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }

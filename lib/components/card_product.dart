@@ -9,50 +9,45 @@ class CardProduct extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      child: Container(
-        height: 160,
-        width: 130,
-        padding: EdgeInsets.only(top: 5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7),
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black,
-              offset: Offset(1, 1),
-              blurRadius: 2,
-            ),
-          ],
-        ),
-        child: Column(
+    return
+      InkWell(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white
+          ),
+          child: Column(
               children: [
                 Image.network(products.imageUrl,
                   width: 130,
                   height: 100,
                   fit: BoxFit.cover,
                 ),
-                SizedBox(height: 10,),
-                Text(products.name,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black54,
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Text(products.price,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.orange[700],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(products.name,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      Text(products.price,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.orange[700],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
+        ),
 
-      onPressed: () => Navigator.of(context)
+      onTap: () => Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => DetailProduct())),
     );
   }

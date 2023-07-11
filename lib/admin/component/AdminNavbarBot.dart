@@ -54,7 +54,7 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
                 icon: pageIndex == 0
                     ? const Icon(
                         Icons.home,
-                        color: Colors.teal,
+                        color: Color(0xff025464),
                         size: 32,
                       )
                     : const Icon(
@@ -79,7 +79,7 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
                 icon: pageIndex == 1
                     ? const Icon(
                         Icons.request_page,
-                        color: Colors.teal,
+                        color: Color(0xff025464),
                         size: 32,
                       )
                     : const Icon(
@@ -104,7 +104,7 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
                 icon: pageIndex == 2
                     ? const Icon(
                         Icons.payments,
-                        color: Colors.teal,
+                        color: Color(0xff025464),
                         size: 32,
                       )
                     : const Icon(
@@ -129,7 +129,7 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
                 icon: pageIndex == 3
                     ? const Icon(
                         Icons.person,
-                        color: Colors.teal,
+                        color: Color(0xff025464),
                         size: 32,
                       )
                     : const Icon(

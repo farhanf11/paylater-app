@@ -3,6 +3,11 @@ import 'package:paylater/components/detailTagihan/detailCicilan.dart';
 import 'package:paylater/components/detailTagihan/detailPesanan.dart';
 import 'package:paylater/history_page/tagihanPage.dart';
 import 'package:paylater/history_page/RiwayatTagihan.dart';
+import 'package:paylater/user/PaymentMethode.dart';
+import 'package:paylater/user/TransferBank.dart';
+
+import '../admin/component/popup.dart';
+import '../theme.dart';
 
 class DetailTagihan extends StatefulWidget {
   const DetailTagihan({Key? key}) : super(key: key);
@@ -94,64 +99,52 @@ class _DetailTagihanState extends State<DetailTagihan> {
                   SizedBox(height: 30,),
                   DetailCicilan(),
                   SizedBox(height: 40,),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    margin: EdgeInsets.symmetric(horizontal: 65),
-                    height: 40,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2,
-                          style: BorderStyle.solid,
-                          color: Color(0xff025464),
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(width: 10,),
-                        Text('Bayar Cicilan',
-                          style: TextStyle(
-                              color: Color(0xff025464),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: PaylaterTheme.maincolor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                           ),
+                          onPressed: () {
+                            Popup.confirmDialog(context,
+                                message: "Bayar Semua Cicilan?",
+                                dialogCallback: (value) async {
+                                  if (value == 'Ya') {
+                                    Navigator.of(context).pop();
+                                  }
+                                  if (value == 'Batal') {}
+                                });
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Text("Bayar Seluruh Tagihan")),
+                        ),
+                        SizedBox(height: 10,),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: PaylaterTheme.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) => TransferBank()));
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Text("Bayar Cicilan")),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10,),
-
-                  //button
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    margin: EdgeInsets.symmetric(horizontal: 65),
-                    height: 40,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2,
-                          style: BorderStyle.solid,
-                          color: Color(0xff025464),
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(width: 10,),
-                        Text('Bayar Seluruh Tagihan',
-                          style: TextStyle(
-                              color: Color(0xff025464),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10,),
                 ],
               ),
             ]

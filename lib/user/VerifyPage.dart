@@ -25,10 +25,10 @@ class _VerifyPageState extends State<VerifyPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff025464),
-        leading: BackButton(),
+        leading: const BackButton(),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 90, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 90, horizontal: 16),
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -38,7 +38,7 @@ class _VerifyPageState extends State<VerifyPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'OTP Telah Dikirim',
                   style: TextStyle(
                     fontSize: 24,
@@ -46,7 +46,7 @@ class _VerifyPageState extends State<VerifyPage> {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 //text 2
@@ -54,9 +54,9 @@ class _VerifyPageState extends State<VerifyPage> {
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
-                        'Masukan kode OTP Yang Telah Kami Kirimkan Ke Nomor ',
+                        'Masukan Kode OTP Yang Telah Dikirimkan Pesan Email',
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontFamily: 'Monsterat'),
@@ -64,15 +64,10 @@ class _VerifyPageState extends State<VerifyPage> {
                       SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        '08123xxxxxx',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
-                      )
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 72,
                 ),
 
@@ -91,7 +86,7 @@ class _VerifyPageState extends State<VerifyPage> {
                   autoHideKeyboard: true,
                   fieldBackgroundColor: Colors.black12,
                   borderColor: Colors.black38,
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     color: Colors.black,
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
@@ -103,23 +98,23 @@ class _VerifyPageState extends State<VerifyPage> {
                 ),
                 SizedBox(height: 12),
                 Row(
-                  children: [
+                  children: const [
                     Text('OTP Berlaku hingga '),
                     Text(
-                      '49',
+                      '5',
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text(' lagi'),
+                    Text(' menit lagi'),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
 
                 //kirim ulang button
                 TextButton(
                   onPressed: () => VerifyPage(),
-                  child: Text(
+                  child: const Text(
                     'Kirim Ulang',
                     style: TextStyle(fontSize: 16, color: Color(0xff025464)),
                   ),
@@ -132,6 +127,12 @@ class _VerifyPageState extends State<VerifyPage> {
               height: 50,
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor:
+                    MaterialStatePropertyAll(Color(0xff025464))),
+                onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => NavbarBot())),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                       vertical: 10, horizontal: 60),
@@ -140,12 +141,6 @@ class _VerifyPageState extends State<VerifyPage> {
                   ),
                   child: Text('Selanjutnya'),
                 ),
-                style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStatePropertyAll(Color(0xff025464))),
-                onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => NavbarBot())),
               ),
             ),
           ],

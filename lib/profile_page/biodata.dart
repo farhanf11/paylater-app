@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/user/HomePage.dart';
 import 'package:intl/intl.dart';
-import 'package:paylater/user/ProfilePage.dart';
+
+import '../admin/component/popup.dart';
+import '../theme.dart';
 
 class Biodata extends StatefulWidget {
   const Biodata({Key? key}) : super(key: key);
@@ -45,11 +46,11 @@ class _BiodataState extends State<Biodata> {
                 children: [
                   SizedBox(height: 10,),
                   //Nama Lengkap
-                  Text('Nama Lengkap', style: TextStyle(
+                  const Text('Nama Lengkap', style: TextStyle(
                     fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black
                   ),),
                   SizedBox(height: 5,),
-                  TextField(
+                  const TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Nama Lengkap',
@@ -62,7 +63,7 @@ class _BiodataState extends State<Biodata> {
                       fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black
                   ),),
                   SizedBox(height: 5,),
-                  TextField(
+                  const TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'NIK',
@@ -101,7 +102,7 @@ class _BiodataState extends State<Biodata> {
                       fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black
                   ),),
                   SizedBox(height: 5,),
-                  TextField(
+                  const TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Pekerjaan',
@@ -112,7 +113,7 @@ class _BiodataState extends State<Biodata> {
                       fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black
                   ),),
                   SizedBox(height: 5,),
-                  TextField(
+                  const TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Nama Ibu Kandung',
@@ -123,11 +124,11 @@ class _BiodataState extends State<Biodata> {
                   SizedBox(height: 10,),
 
                   //Provinsi
-                  Text('Profinsi', style: TextStyle(
+                  const Text('Provinsi', style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black
                   ),),
                   SizedBox(height: 5,),
-                  TextField(
+                  const TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Provinsi',
@@ -141,7 +142,7 @@ class _BiodataState extends State<Biodata> {
                       fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black
                   ),),
                   SizedBox(height: 5,),
-                  TextField(
+                  const TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Kota',
@@ -151,27 +152,12 @@ class _BiodataState extends State<Biodata> {
 
                   SizedBox(height: 10,),
 
-                  //End Kode Pos
-                  Text('Kode Pos', style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black
-                  ),),
-                  SizedBox(height: 5,),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Kode Pos',
-                    ),
-                  ),
-                //  End Kode Pos
-
-                  SizedBox(height: 10,),
-
                   //Alamat Lengkap
                   Text('Alamat Lengkap (untuk pengiriman)', style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black
                   ),),
                   SizedBox(height: 5,),
-                  TextField(
+                  const TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Alamat Lengkap',
@@ -179,15 +165,49 @@ class _BiodataState extends State<Biodata> {
                   ),
                   //End Alamat Lengkap
                 ],
-              ), SizedBox(height:20),
-              ElevatedButton(
-                style: ButtonStyle(
-                  padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
-                  backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
-                ),
-                child: Text('Submit', style: TextStyle(color: Colors.white),),
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => ProfilePage())),
+              ), SizedBox(height:60),
+              //submit
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: PaylaterTheme.maincolor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    onPressed: () {
+                      Popup.confirmDialog(context,
+                          message: "Simpan Perubahan?",
+                          dialogCallback: (value) async {
+                            if (value == 'Ya') {
+                              Navigator.of(context).pop();
+                            }
+                            if (value == 'Tidak') {}
+                          });
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text("Simpan")),
+                  ),
+                  SizedBox(height: 10,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: PaylaterTheme.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text("Cancel")),
+                  ),
+                ],
               ),
             ]
         ),

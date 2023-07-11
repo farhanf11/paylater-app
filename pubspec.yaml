@@ -47,6 +47,13 @@ dependencies:
   firebase_auth:
   loading_animation_widget:
   accordion: ^2.5.1
+  image_picker: ^1.0.0
+  camera: ^0.10.5+2
+  video_player: ^2.7.0
+  permission_handler: ^10.4.2
+  image_cropper: ^4.0.1
+  grecaptcha: ^0.0.6
+  webview_flutter_plus: ^0.3.0+2
 
 dev_dependencies:
   flutter_test:
