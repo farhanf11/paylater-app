@@ -59,7 +59,8 @@ class ProfilePage extends StatelessWidget {
                                 fontWeight: FontWeight.w500
                             ),
                           ),
-                          onPressed: () => HistoryPage(),
+                          onPressed: () => Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) => const HistoryPage())),
                         ),
                       ),
                       const SizedBox(height: 30,),
@@ -88,7 +89,7 @@ class ProfilePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         SizedBox(width: 10,),
-                        Text('Logout',
+                        Text('Keluar',
                           style: TextStyle(
                               color: Color(0xff025464),
                               fontSize: 16,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:paylater/theme.dart';
+import 'package:paylater/user/DetailPembayaran.dart';
 
 class DetailCicilan extends StatefulWidget {
   const DetailCicilan({Key? key}) : super(key: key);
@@ -20,116 +22,141 @@ class _DetailCicilanState extends State<DetailCicilan> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-
           //Head
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffE3E9EB))),
+            decoration: const BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      style: BorderStyle.solid, color: Color(0xffE3E9EB))),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Rincian Cicilan Pembayaran',
+                Text(
+                  'Rincian Cicilan Pembayaran',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w600
-                  ),
+                      fontWeight: FontWeight.w600),
                 ),
               ],
             ),
           ),
 
-          //Tenor
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Cicilan 1',
+                Text(
+                  'Cicilan 1',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
-                Text('25-12-2022',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500
-                  ),
-                ),
-                Text('500.000',
+                Text(
+                  '500.000',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
+                TextButton(
+                    onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DetailPembayaran()),
+                        ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: PaylaterTheme.maincolor),
+                      child: Text(
+                        'bayar',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
               ],
             ),
           ),
 
-          //Total Tagihan
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Cicilan 2',
+                Text(
+                  'Cicilan 2',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
-                Text('25-01-2023',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500
-                  ),
-                ),
-                Text('500.000',
+                Text(
+                  '500.000',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
+                TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DetailPembayaran()),
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: PaylaterTheme.maincolor),
+                      child: Text(
+                        'bayar',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
               ],
             ),
           ),
 
-          //Tagihan Tersisa
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Cicilan 3',
+                Text(
+                  'Cicilan 3',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
-                Text('25-02-2023',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500
-                  ),
-                ),
-                Text('500.000',
+                Text(
+                  '500.000',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
+                TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DetailPembayaran()),
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: PaylaterTheme.maincolor),
+                      child: Text(
+                        'bayar',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
               ],
             ),
           ),

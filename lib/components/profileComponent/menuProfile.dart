@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:paylater/components/profileComponent/buttonProfile.dart';
 import 'package:paylater/profile_page/biodata.dart';
 import 'package:paylater/profile_page/edit_profile.dart';
-import 'package:paylater/profile_page/helpCenter.dart';
 import 'package:paylater/profile_page/privacyPolicy.dart';
 import 'package:paylater/profile_page/ubah_alamat.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -99,11 +98,10 @@ class MenuProfile extends StatelessWidget {
               id: 5,
               icon1: Icons.help,
               text1: 'Pusat Bantuan',
-              text2: 'Dapatkan jawaban terbaik dari pertanyaanmu',
+              text2: 'Dapatkan jawaban terbaik dari hal yang ingin kamu tanyakan',
               icon2: Icons.arrow_right_outlined,
             )),
-            onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => HelpCenter())),
+            onPressed: () => {}
           ),
           //end Bantuan
           SizedBox(height: 4,),

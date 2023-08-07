@@ -108,6 +108,14 @@ class _HomePageState extends State<HomePage> {
                                 borderSide: BorderSide(color: Colors.white)),
                             prefixIcon: Icon(Icons.link),
                             suffix: ElevatedButton(
+                              style: ButtonStyle(
+                                padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18.0),
+                                        side: BorderSide(color: Colors.lightBlueAccent))),
+                              ),
                               child: Text('Submit'),
                               onPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(

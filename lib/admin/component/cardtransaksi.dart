@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:paylater/admin/admin_permintaanCicilan.dart';
 import 'package:paylater/admin/models/modelTransaksi.dart';
-import 'package:paylater/admin/admin_detailproduct.dart';
 import 'package:paylater/theme.dart';
 
 class CardPermintaan extends StatelessWidget {
@@ -201,7 +201,7 @@ class CardPermintaan extends StatelessWidget {
         ),
       ),
       onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => DetailTransaksiProduct())),
+          MaterialPageRoute(builder: (context) => PermintaanCicilan())),
     );
   }
 }
@@ -352,7 +352,7 @@ class CardBerlangsung extends StatelessWidget {
         ),
       ),
       onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => DetailTransaksiProduct())),
+          MaterialPageRoute(builder: (context) => PermintaanCicilan())),
     );
   }
 }
@@ -509,7 +509,7 @@ class CardSelesai extends StatelessWidget {
         ),
       ),
       onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => DetailTransaksiProduct())),
+          MaterialPageRoute(builder: (context) => PermintaanCicilan())),
     );
   }
 }

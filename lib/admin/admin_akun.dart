@@ -6,8 +6,6 @@ import 'package:paylater/admin/component/AkunUnverify.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 
-import '../user/ProfilePage.dart';
-
 class AdminAkun extends StatefulWidget {
   const AdminAkun({super.key});
 
@@ -27,34 +25,30 @@ class _AdminAkunState extends State<AdminAkun> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xff025464),
-            title: Text("History", style: TextStyle(fontSize: 16),),
-            leading: BackButton(),
+            backgroundColor: const Color(0xff025464),
+            title: Text("Kelola Akun", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
             bottom: const TabBar(
               tabs: [
                 Tab(text: 'Unverify',),
                 Tab(text: 'Customer',),
-                Tab(text: "Admin Pengawas",)
+                Tab(text: "Admin",)
               ],
             ),
           ),
           backgroundColor: PaylaterTheme.white,
-          body: Container(
-            color: Color(0xffE3E9EB),
-            child: const TabBarView(
-              children: [
-                //Tagihan
-                AkunUnverify(),
+          body: const TabBarView(
+            children: [
+              //Tagihan
+              AkunUnverify(),
 
-                //riwayat tagihan
-                AkunCustomer(),
+              //riwayat tagihan
+              AkunCustomer(),
 
-                AkunAdminPengawas(),
-              ],
-            ),
+              AkunAdminPengawas(),
+            ],
           ),
 
       ),

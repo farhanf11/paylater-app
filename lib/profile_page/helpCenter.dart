@@ -10,10 +10,7 @@ class HelpCenter extends StatelessWidget //__
   final _headerStyle = const TextStyle(color: Color(0xffffffff), fontSize: 15, fontWeight: FontWeight.bold);
   final _headerSubStyle = const TextStyle(color: Color(0xff025464), fontSize: 14, fontWeight: FontWeight.bold);
 
-  final _contentStyleHeader = const TextStyle(color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.w700);
   final _contentStyle = const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.normal);
-  final _loremIpsum =
-      '''Lorem ipsum is typically a corrupted version of 'De finibus bonorum et malorum', a 1st century BC text by the Roman statesman and philosopher Cicero, with words altered, added, and removed to make it nonsensical and improper Latin.''';
   final _apaItuIlkompay =
       '''IlkomPay merupakan Platform pembayaran belanja online yang menerapkan sistem PayLater. IlkomPay menghadirkan akad yang sesuai Syariat Islam, dan pastinya tanpa menerapkan bunga. Jadi dapat disimpulkan bahwa IlkomPay adalah Paylater Syariah.''';
   final _perbedaanIllkompay =
@@ -81,7 +78,7 @@ class HelpCenter extends StatelessWidget //__
                 headerPadding:
                     EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 isOpen: true,
-                header: Text('About IlkomPay', style: _headerStyle),
+                header: Text('Tentang Aplikasi', style: _headerStyle),
                 contentBorderColor: const Color(0xff568D98),
                 headerBackgroundColor: Color(0xff568D98),
                 headerBackgroundColorOpened: Color(0xff2E8A99),

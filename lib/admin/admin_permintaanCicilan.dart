@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:paylater/theme.dart';
 import 'component/popup.dart';
 
-class DetailTransaksiProduct extends StatefulWidget {
-  const DetailTransaksiProduct({Key? key}) : super(key: key);
+class PermintaanCicilan extends StatefulWidget {
+  const PermintaanCicilan({Key? key}) : super(key: key);
 
   @override
-  State<DetailTransaksiProduct> createState() => _DetailTransaksiProductState();
+  State<PermintaanCicilan> createState() => _PermintaanCicilanState();
 }
 
-class _DetailTransaksiProductState extends State<DetailTransaksiProduct> {
+class _PermintaanCicilanState extends State<PermintaanCicilan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,7 +202,7 @@ class _DetailTransaksiProductState extends State<DetailTransaksiProduct> {
             ),
           ),
 
-          //DetailTransaksi pesanan
+          //Detail Cicilan
           const SizedBox(
             height: 30,
           ),
@@ -216,7 +216,6 @@ class _DetailTransaksiProductState extends State<DetailTransaksiProduct> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                //ID Pesanan
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -381,9 +380,53 @@ class _DetailTransaksiProductState extends State<DetailTransaksiProduct> {
             ),
           ),
 
-          const SizedBox(
-            height: 30,
+          //alamat
+          SizedBox(height: 24,),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                //Head
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffE3E9EB))),
+                  ),
+                  child: Text('Alamat Pengiriman',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                ),
+
+                //Tenor
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Text('UNJ Kampus A lt.5, koperasi rumpun matematika',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
+
+          const SizedBox(
+            height: 24,
+          ),
+
+          //resi
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
@@ -394,7 +437,6 @@ class _DetailTransaksiProductState extends State<DetailTransaksiProduct> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                //ID Pesanan
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -464,11 +506,11 @@ class _DetailTransaksiProductState extends State<DetailTransaksiProduct> {
                     ],
                   ),
                 ),
-
-                //Total Tagihan
               ],
             ),
           ),
+
+
         ],
       ),
     );

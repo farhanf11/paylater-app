@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:paylater/admin/admin_keuangan.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -21,33 +22,40 @@ class _AdminHomePageState extends State<AdminHomePage> {
       ),
       backgroundColor: PaylaterTheme.nearlyGreen.withOpacity(0.3),
       body: Container(
+        padding: EdgeInsets.all(6),
         color: Colors.white,
         child: ListView(
           physics: const ClampingScrollPhysics(),
           children: [
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20),
               child: SizedBox(
                 height: 60,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(60),
+                      ), backgroundColor: const Color.fromRGBO(2, 84, 100, 1)),
+                  onPressed: () {Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AdminKeuangan()));},
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Padding(
                         padding:
-                            EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("Dana Tersedia",
+                          children: const [
+                            Text("Dana Tersedia",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 )),
-                            const Text("Lihat dana yang tersedia",
+                            Text("Lihat dana yang tersedia",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w300,
@@ -67,12 +75,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       )
                     ],
                   ),
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(60),
-                      ),
-                      primary: const Color.fromRGBO(2, 84, 100, 1)),
-                  onPressed: () {},
                 ),
               ),
             ),
@@ -88,18 +90,23 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.13,
-                          width: MediaQuery.of(context).size.width * 0.45,
+                          width: MediaQuery.of(context).size.width * 0.42,
                           child: Card(
                             semanticContainer: true,
                             clipBehavior: Clip.antiAliasWithSaveLayer,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            elevation: 5,
+                            margin: EdgeInsets.all(10),
                             child: Column(
-                              children: [
+                              children: const [
                                 Padding(
-                                  padding: const EdgeInsets.all(5.0),
+                                  padding: EdgeInsets.all(5.0),
                                   child: Text(
-                                    'Permintaan Pesanan',
+                                    'Permintaan',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
@@ -107,7 +114,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     '3',
                                     style: TextStyle(
@@ -118,25 +125,25 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 ),
                               ],
                             ),
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.13,
+                          width: MediaQuery.of(context).size.width * 0.42,
+                          child: Card(
+                            semanticContainer: true,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             elevation: 5,
                             margin: EdgeInsets.all(10),
-                          ),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.13,
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          child: Card(
-                            semanticContainer: true,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
                             child: Column(
-                              children: [
+                              children: const [
                                 Padding(
-                                  padding: const EdgeInsets.all(5.0),
+                                  padding: EdgeInsets.all(5.0),
                                   child: Text(
-                                    'Pesanan Berlangsung',
+                                    'Berlangsung',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
@@ -144,7 +151,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     '4',
                                     style: TextStyle(
@@ -155,11 +162,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 ),
                               ],
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            elevation: 5,
-                            margin: EdgeInsets.all(10),
                           ),
                         ),
                       ],
@@ -170,16 +172,21 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       children: [
                         Container(
                           height: MediaQuery.of(context).size.height * 0.13,
-                          width: MediaQuery.of(context).size.width * 0.45,
+                          width: MediaQuery.of(context).size.width * 0.42,
                           child: Card(
                             semanticContainer: true,
                             clipBehavior: Clip.antiAliasWithSaveLayer,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            elevation: 5,
+                            margin: EdgeInsets.all(10),
                             child: Column(
-                              children: [
+                              children: const [
                                 Padding(
-                                  padding: const EdgeInsets.all(5.0),
+                                  padding: EdgeInsets.all(5.0),
                                   child: Text(
-                                    'Pesanan Selesai',
+                                    'Selesai',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
@@ -187,7 +194,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     '0',
                                     style: TextStyle(
@@ -198,23 +205,23 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 ),
                               ],
                             ),
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.13,
+                          width: MediaQuery.of(context).size.width * 0.42,
+                          child: Card(
+                            semanticContainer: true,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             elevation: 5,
                             margin: EdgeInsets.all(10),
-                          ),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.13,
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          child: Card(
-                            semanticContainer: true,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
                             child: Column(
-                              children: [
+                              children: const [
                                 Padding(
-                                  padding: const EdgeInsets.all(5.0),
+                                  padding: EdgeInsets.all(5.0),
                                   child: Text(
                                     'Jatuh Tempo',
                                     style: TextStyle(
@@ -224,7 +231,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     '0',
                                     style: TextStyle(
@@ -235,11 +242,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 ),
                               ],
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            elevation: 5,
-                            margin: EdgeInsets.all(10),
                           ),
                         ),
                       ],
@@ -281,7 +283,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               color: const Color.fromRGBO(2, 84, 100, 1),
                               borderRadius: BorderRadius.circular(60),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 'Total Akun',
                                 style: TextStyle(
@@ -420,7 +422,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Row(
-                                  children: [
+                                  children: const [
                                     Image(
                                       image: AssetImage(
                                           "assets/icon/avatardefault.png"),
@@ -462,7 +464,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text("Iphone 13 Black Series New ibox, 128gb",
                                       style: TextStyle(
                                           fontSize: 12,
@@ -484,7 +486,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   Text("3.155.000",
                                       style: TextStyle(
                                           fontSize: 12,
-                                          color: const Color.fromRGBO(
+                                          color: Color.fromRGBO(
                                               237, 131, 33, 1),
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -504,7 +506,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Row(
-                                  children: [
+                                  children: const [
                                     Image(
                                       image: AssetImage(
                                           "assets/icon/avatardefault.png"),
@@ -546,7 +548,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text("Iphone 13 Black Series New ibox, 128gb",
                                       style: TextStyle(
                                           fontSize: 12,
@@ -568,7 +570,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   Text("3.155.000",
                                       style: TextStyle(
                                           fontSize: 12,
-                                          color: const Color.fromRGBO(
+                                          color: Color.fromRGBO(
                                               237, 131, 33, 1),
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -582,23 +584,23 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(2.0),
+                            padding: EdgeInsets.all(2.0),
                             child: CircleAvatar(
                               maxRadius: 3,
                               backgroundColor: Colors.grey,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(2.0),
+                            padding: EdgeInsets.all(2.0),
                             child: CircleAvatar(
                               maxRadius: 3,
                               backgroundColor: Colors.grey,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(2.0),
+                            padding: EdgeInsets.all(2.0),
                             child: CircleAvatar(
                               maxRadius: 3,
                               backgroundColor: Colors.grey,

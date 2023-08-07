@@ -1,26 +1,17 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:paylater/user/LoginPage.dart';
 import 'package:paylater/user/VerifyFace.dart';
 import '../admin/component/popup.dart';
 import '../theme.dart';
 
-class DaftarPage extends StatefulWidget {
-  const DaftarPage({Key? key}) : super(key: key);
+class DetailAkun extends StatefulWidget {
+  const DetailAkun({Key? key}) : super(key: key);
 
   @override
-  State<DaftarPage> createState() => _DaftarPageState();
+  State<DetailAkun> createState() => _DetailAkunState();
 }
 
-  extension EmailValidator on String {
-    bool isValidEmail() {
-      return RegExp(
-          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-          .hasMatch(this);
-    }
-  }
-
-class _DaftarPageState extends State<DaftarPage> {
+class _DetailAkunState extends State<DetailAkun> {
   TextEditingController inputnama = TextEditingController();
   TextEditingController inputtelp = TextEditingController();
   TextEditingController inputemail = TextEditingController();
@@ -36,13 +27,13 @@ class _DaftarPageState extends State<DaftarPage> {
   }
 
   Widget build(BuildContext context) {
-    
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PaylaterTheme.white,
         title: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Text('Daftar Akun',
+          child: Text('Detail Akun',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -86,12 +77,8 @@ class _DaftarPageState extends State<DaftarPage> {
                           height: 5,
                         ),
                         TextFormField(
-                          autocorrect: true,
-                          validator: (input) => input!.isValidEmail() ? null : "Nama lengkap harus di isi",
-                          // selectionHeightStyle:
-                          //     BoxHeightStyle.includeLineSpacingMiddle,
-
                           controller: inputnama,
+                          enabled: false,
                           maxLines: 1,
                           decoration: const InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
@@ -99,10 +86,10 @@ class _DaftarPageState extends State<DaftarPage> {
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              hintText: 'Masukan Username',
+                                  BorderRadius.all(Radius.circular(10))),
+                              hintText: 'User satu',
                               hintStyle:
-                                  TextStyle(color: PaylaterTheme.deactivatedText),
+                              TextStyle(color: PaylaterTheme.deactivatedText),
                               filled: true,
                               fillColor: PaylaterTheme.white),
                           style: const TextStyle(
@@ -133,8 +120,7 @@ class _DaftarPageState extends State<DaftarPage> {
                           height: 5,
                         ),
                         TextField(
-                          // selectionHeightStyle:
-                          //     BoxHeightStyle.includeLineSpacingMiddle,
+                          enabled: false,
                           controller: inputemail,
                           maxLines: 1,
                           decoration: const InputDecoration(
@@ -143,10 +129,10 @@ class _DaftarPageState extends State<DaftarPage> {
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              hintText: 'Masukan Email',
+                                  BorderRadius.all(Radius.circular(10))),
+                              hintText: 'user123@gmail.com',
                               hintStyle:
-                                  TextStyle(color: PaylaterTheme.deactivatedText),
+                              TextStyle(color: PaylaterTheme.deactivatedText),
                               filled: true,
                               fillColor: PaylaterTheme.white),
                           style: const TextStyle(
@@ -184,13 +170,13 @@ class _DaftarPageState extends State<DaftarPage> {
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                     labelStyle: TextStyle(),
-                                    labelText: '+62',
+                                    labelText: '62',
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 5.0, horizontal: 15.0),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide.none,
                                         borderRadius:
-                                            BorderRadius.all(Radius.circular(10))),
+                                        BorderRadius.all(Radius.circular(10))),
                                     filled: true,
                                     fillColor: PaylaterTheme.white),
                                 style: TextStyle(
@@ -209,6 +195,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               child: SizedBox(
                                 width: double.infinity,
                                 child: TextField(
+                                  enabled: false,
                                   controller: inputtelp,
                                   maxLines: 1,
                                   decoration: const InputDecoration(
@@ -218,7 +205,7 @@ class _DaftarPageState extends State<DaftarPage> {
                                           borderSide: BorderSide.none,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10))),
-                                      hintText: 'Masukan Nomor Telepon',
+                                      hintText: '812345678',
                                       hintStyle: TextStyle(
                                           color: PaylaterTheme.deactivatedText),
                                       filled: true,
@@ -255,43 +242,27 @@ class _DaftarPageState extends State<DaftarPage> {
                         const SizedBox(
                           height: 5,
                         ),
-                        DropdownButtonFormField(
+                        TextField(
+                          enabled: false,
+                          controller: inputtelp,
+                          maxLines: 1,
                           decoration: const InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.all(Radius.circular(10))),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.all(Radius.circular(10))),
-                            filled: true,
-                            fillColor: PaylaterTheme.white,
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 15.0),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(10))),
+                              hintText: 'Dosen',
+                              hintStyle: TextStyle(
+                                  color: PaylaterTheme.deactivatedText),
+                              filled: true,
+                              fillColor: PaylaterTheme.white),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
                           ),
-                          dropdownColor: PaylaterTheme.white,
-                          hint: const Text(
-                            "Choose",
-                            style: TextStyle(
-                                color: PaylaterTheme.deactivatedText,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          value: dropdownValue,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          },
-                          items: <String>['Dosen', 'Tenaga Pendidik']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: PaylaterTheme.grey),
-                              ),
-                            );
-                          }).toList(),
                         ),
                       ],
                     ),
@@ -310,37 +281,20 @@ class _DaftarPageState extends State<DaftarPage> {
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Container(
-                          height: 48,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5.0, horizontal: 15.0),
+                          height: 200,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text('no file'),
-                              IconButton(
-                                padding: EdgeInsets.all(8),
-                                color: Color(0xffd8d8e0),
-                                onPressed: () => TakePictureScreen(
-                                  camera: firstCamera,
-                                ),
-                                icon: Icon(Icons.camera_alt_rounded, color: Colors.black,),
-                              ),
-
-                            ],
+                            image: const DecorationImage(image: NetworkImage('https://img.freepik.com/free-vector/man-face-close-up_98292-4059.jpg?size=626&ext=jpg&ga=GA1.2.901965733.1670248694&semt=ais'))
                           ),
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
@@ -355,39 +309,18 @@ class _DaftarPageState extends State<DaftarPage> {
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Container(
-                          height: 48,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5.0, horizontal: 15.0),
+                          height: 200,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text('no file'),
-                              IconButton(
-                                padding: EdgeInsets.all(8),
-                                color: Color(0xffF7F7FC),
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera,),),
-                                ),
-                                icon: Icon(Icons.camera_alt_rounded, color: Colors.black,),
-                              ),
-
-                            ],
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                              image: const DecorationImage(image: NetworkImage('https://img.freepik.com/free-vector/organic-flat-about-me-landing-page_23-2148899204.jpg?w=1380&t=st=1689579056~exp=1689579656~hmac=8590acdddc0156c05c22df6dd7ca560b91ac49ab42baa68f0c2ac9bfe77582de'))
                           ),
                         )
                       ],
-                    ),
-                    SizedBox(
-                      height: 20,
                     ),
                   ],
                 ),
@@ -408,21 +341,21 @@ class _DaftarPageState extends State<DaftarPage> {
                       ),
                       onPressed: () {
                         Popup.confirmDialog(context,
-                            message: "Konfirmasi data anda?",
+                            message: "Yakin Verifikasi Akun?",
                             dialogCallback: (value) async {
-                          if (value == 'confirm') {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()));
-                          }
-                          if (value == 'cancel') {}
-                        });
+                              if (value == 'confirm') {
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()));
+                              }
+                              if (value == 'cancel') {}
+                            });
                       },
                       child: Container(
                           padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text("Konfirmasi")),
+                          child: Text("Verifikasi Akun")),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     ElevatedButton(
@@ -437,7 +370,7 @@ class _DaftarPageState extends State<DaftarPage> {
                       },
                       child: Container(
                           padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text("Batal")),
+                          child: Text("Tolak")),
                     ),
                   ],
                 ),

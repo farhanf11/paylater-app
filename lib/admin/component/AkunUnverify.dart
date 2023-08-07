@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paylater/admin/detail_AkunCustomer.dart';
 import '../../theme.dart';
 import '../admin_createakun.dart';
 import '../admin_editakun.dart';
@@ -16,9 +17,9 @@ class AkunUnverify extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              "Customer",
+              "Belum Terverifikasi Oleh Admin",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -33,8 +34,7 @@ class AkunUnverify extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
-                      ),
-                      primary: PaylaterTheme.maincolor),
+                      ), backgroundColor: PaylaterTheme.maincolor),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => CreateAkun()));
@@ -50,24 +50,29 @@ class AkunUnverify extends StatelessWidget {
                           fontWeight: FontWeight.w600))),
             ),
           ),
+          SizedBox(height: 10,),
           Flexible(
             fit: FlexFit.tight,
-            child: Container(
-              child: ListView.builder(
-                itemCount: customer.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
+            child: ListView.builder(
+              itemCount: customer.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MaterialButton(
+                        onPressed: () { Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailAkun())); },
+                        child: Expanded(
                           child: Container(
                             decoration: BoxDecoration(
                                 color: PaylaterTheme.spacer,
                                 borderRadius: BorderRadius.circular(10)),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 5.0, horizontal: 10),
                               child: Row(
                                 mainAxisAlignment:
@@ -85,15 +90,16 @@ class AkunUnverify extends StatelessWidget {
                                             fontWeight: FontWeight.bold,
                                           )),
                                       Text(customer[index].phonenumber,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             color: PaylaterTheme
                                                 .deactivatedText,
                                           )),
                                     ],
                                   ),
+                                  const SizedBox(width: 20,),
                                   Text(customer[index].email,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 12,
                                         color:
                                         PaylaterTheme.deactivatedText,
@@ -103,46 +109,40 @@ class AkunUnverify extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 30,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.manage_accounts,
-                                  color: PaylaterTheme.blueSky,
-                                  size: 25,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditAkun()));
-                                },
+                      ),
+
+                      //button
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 30,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.check_box_rounded,
+                                color: PaylaterTheme.nearlyDarkBlue,
+                                size: 25,
                               ),
+                              onPressed: () {},
                             ),
-                            SizedBox(
-                              width: 30,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.disabled_by_default,
-                                  color: PaylaterTheme.decline,
-                                  size: 25,
-                                ),
-                                onPressed: () {},
+                          ),
+                          SizedBox(
+                            width: 30,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.disabled_by_default,
+                                color: PaylaterTheme.decline,
+                                size: 25,
                               ),
+                              onPressed: () {},
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ],

@@ -205,7 +205,7 @@ class _BiodataState extends State<Biodata> {
                     },
                     child: Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Text("Cancel")),
+                        child: Text("Batal")),
                   ),
                 ],
               ),

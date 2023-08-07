@@ -1,5 +1,3 @@
-import 'package:accordion/accordion.dart';
-import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
 
 /// Main example page
@@ -7,31 +5,12 @@ class PrivacyPolicy extends StatelessWidget //__
     {
   const PrivacyPolicy({Key? key}) : super(key: key);
 
-  final _headerStyle = const TextStyle(color: Color(0xffffffff), fontSize: 15, fontWeight: FontWeight.bold);
-  final _headerSubStyle = const TextStyle(color: Color(0xff025464), fontSize: 14, fontWeight: FontWeight.bold);
-
-  final _contentStyle = const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.normal);
-  final _produkPengecualian = '''1.	Surat, Warkat Pos atau Kartu Pos
-  \n2. Barang berbahaya yang dapat atau mudah meledak, menyala atau terbakar sendiri(dapat dikirim dengan handling khusus via cargo)
-  \n3. Narkotika dan obat-obatan terlarang lainnya
-  \n4. Kosmetik dan makanan minuman yang membahayakan keselamatan penggunanya, ataupun yang tidak mempunyai izin edar dari Badan Pengawas Obat dan Makanan (BPOM).
-  \n5. Barang cetakan atau benda lainnya yang mengandung pornografi dan menyinggung kesusilaan.
-  \n6. Barang cetakan / rekaman yang isinya dapat mengganggu keamanan dan ketertiban serta stabilitas nasional.
-  \n7. Narkoba, Alkohol, minuman keras, zat NAPZA lainnya dan makanan basah.
-  \n8. Tanaman dan hewan (dapat dikirim dengan handling khusus via cargo)
-  \n9. Senjata api dan senjata tajam
-  \n10. Perhiasan, batu akik / batu batuan berharga, materai dan perangko (persyaratan khusus)
-  \n11. Uang tunai
-  \n12. Perlengkapan dan peralatan judi
-  \n13.	Barang yang diduga tidak jelas asal usul, spesifikasi dan harganya.''';
-
-
   @override
   build(context) => Scaffold(
     backgroundColor: Colors.white,
     appBar: AppBar(
       backgroundColor: Color(0xff025464),
-      title: const Text('Privacy Policy'),
+      title: const Text('Kebijakan Privasi'),
       leading: const BackButton(),
     ),
     body: ListView(

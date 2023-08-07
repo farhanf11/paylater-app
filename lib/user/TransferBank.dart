@@ -3,8 +3,7 @@ import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TransferBank extends StatelessWidget
-    {
+class TransferBank extends StatelessWidget{
   const TransferBank({Key? key}) : super(key: key);
 
   final _headerStyle = const TextStyle(color: Color(0xffffffff), fontSize: 15, fontWeight: FontWeight.bold);

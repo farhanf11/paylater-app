@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/models/products.dart';
-import 'package:paylater/user/DetailProduct.dart';
+import 'package:paylater/user/AkadCustomer.dart';
 
 class CardProduct extends StatelessWidget{
 
@@ -48,7 +48,7 @@ class CardProduct extends StatelessWidget{
         ),
 
       onTap: () => Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => DetailProduct())),
+          .push(MaterialPageRoute(builder: (context) => RincianAkad())),
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:paylater/components/detailTagihan/detailCicilan.dart';
 import 'package:paylater/components/detailTagihan/detailPesanan.dart';
 import 'package:paylater/history_page/tagihanPage.dart';
 import 'package:paylater/history_page/RiwayatTagihan.dart';
-import 'package:paylater/user/PaymentMethode.dart';
+import 'package:paylater/user/DetailPembayaran.dart';
 import 'package:paylater/user/TransferBank.dart';
 
 import '../admin/component/popup.dart';
@@ -92,15 +92,100 @@ class _DetailTagihanState extends State<DetailTagihan> {
                   ),
 
                   //Rincian pesanan
-                  SizedBox(height: 30,),
+                  SizedBox(height: 24,),
                   DetailPesanan(),
 
                   //Rincian Cicilan
-                  SizedBox(height: 30,),
+                  SizedBox(height: 24,),
                   DetailCicilan(),
-                  SizedBox(height: 40,),
+
+                  //alamat
+                  SizedBox(height: 24,),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        //Head
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffE3E9EB))),
+                          ),
+                          child: Text('Alamat Pengiriman',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                        ),
+
+                        //Tenor
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          child: Text('UNJ Kampus A lt.5, koperasi rumpun matematika',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 24,),
+                  //resi
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        //Head
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffE3E9EB))),
+                          ),
+                          child: Text('Resi Pengiriman',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                        ),
+
+                        //Tenor
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          child: Text('ABCD231313',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  //button
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
