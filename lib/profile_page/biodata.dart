@@ -96,18 +96,6 @@ class _BiodataState extends State<Biodata> {
                   },
                 ),
                 //end tanggal lahir
-
-                  SizedBox(height: 10,),
-                  Text('Pekerjaan', style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black
-                  ),),
-                  SizedBox(height: 5,),
-                  const TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Pekerjaan',
-                    ),
-                  ),
                   SizedBox(height: 10,),
                   Text('Nama Ibu Kandung', style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black

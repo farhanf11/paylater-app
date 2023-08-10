@@ -1,13 +1,9 @@
 import 'dart:ui';
-import 'package:paylater/components/card_product.dart';
-import 'package:paylater/models/categories.dart';
-import 'package:paylater/models/products.dart';
-import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:paylater/user/AkadCustomer.dart';
 import 'package:paylater/user/homeComponents/kategoriComp.dart';
 import 'package:paylater/user/homeComponents/trendingComp.dart';
-import '../components/card_categories.dart';
 import '../components/home_page/banner_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -119,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                               child: Text('Submit'),
                               onPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (context) => NavbarBot())),
+                                      builder: (context) => RincianAkad())),
                             ),
                             hintText: 'Paste link here',
                             hintStyle:

@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:paylater/user/LoginPage.dart';
 import 'package:paylater/user/VerifyFace.dart';
 import '../admin/component/popup.dart';
@@ -9,6 +12,7 @@ class DaftarPage extends StatefulWidget {
   const DaftarPage({Key? key}) : super(key: key);
 
   @override
+
   State<DaftarPage> createState() => _DaftarPageState();
 }
 
@@ -21,17 +25,43 @@ class DaftarPage extends StatefulWidget {
   }
 
 class _DaftarPageState extends State<DaftarPage> {
-  TextEditingController inputnama = TextEditingController();
-  TextEditingController inputtelp = TextEditingController();
-  TextEditingController inputemail = TextEditingController();
+  TextEditingController inputUsername = TextEditingController();
+  TextEditingController inputTelp = TextEditingController();
+  TextEditingController inputEmail = TextEditingController();
+  TextEditingController inputPekerjaan = TextEditingController();
+  TextEditingController verifikasiWajah = TextEditingController();
+  TextEditingController verifikasiKTP = TextEditingController();
+
+  void signUp(String username, email, telp, pekerjaan, wajah, ktp) async {
+    try{
+      Response response = await post(
+        Uri.parse('https://paylater.harysusilo.my.id/api/auth/register'),
+        body: {
+          'user_name' : inputUsername.text,
+          'email_address' : inputEmail.text,
+          'phone_number' : inputTelp.text,
+          'job' : inputPekerjaan.selection,
+          'image_face' : verifikasiWajah.value,
+          'image_ktp' : verifikasiKTP.value
+        }
+      );
+      if(response.statusCode == 200){
+        print('account created successfully');
+      }
+    } catch(e){
+      print(e.toString());
+    }
+
+  }
+
   String? dropdownValue = "Tenaga Pendidik";
 
   get firstCamera => null;
 
   @override
   void dispose() {
-    inputnama.dispose();
-    inputtelp.dispose();
+    inputUsername.dispose();
+    inputTelp.dispose();
     super.dispose();
   }
 
@@ -50,15 +80,7 @@ class _DaftarPageState extends State<DaftarPage> {
               )),
         ),
         centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: PaylaterTheme.darkText,
-              size: 20,
-            )),
+        leading: BackButton(),
       ),
       body: Container(
         color: PaylaterTheme.spacer,
@@ -87,11 +109,11 @@ class _DaftarPageState extends State<DaftarPage> {
                         ),
                         TextFormField(
                           autocorrect: true,
-                          validator: (input) => input!.isValidEmail() ? null : "Nama lengkap harus di isi",
+                          validator: (input) => input!.isValidEmail() ? null : "Username harus di isi",
                           // selectionHeightStyle:
                           //     BoxHeightStyle.includeLineSpacingMiddle,
 
-                          controller: inputnama,
+                          controller: inputUsername,
                           maxLines: 1,
                           decoration: const InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
@@ -135,7 +157,7 @@ class _DaftarPageState extends State<DaftarPage> {
                         TextField(
                           // selectionHeightStyle:
                           //     BoxHeightStyle.includeLineSpacingMiddle,
-                          controller: inputemail,
+                          controller: inputEmail,
                           maxLines: 1,
                           decoration: const InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
@@ -183,8 +205,8 @@ class _DaftarPageState extends State<DaftarPage> {
                                 enabled: false,
                                 maxLines: 1,
                                 decoration: InputDecoration(
-                                    labelStyle: TextStyle(),
-                                    labelText: '+62',
+                                    labelStyle: TextStyle(fontWeight: FontWeight.w600),
+                                    labelText: '62',
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 5.0, horizontal: 15.0),
                                     border: OutlineInputBorder(
@@ -209,7 +231,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               child: SizedBox(
                                 width: double.infinity,
                                 child: TextField(
-                                  controller: inputtelp,
+                                  controller: inputTelp,
                                   maxLines: 1,
                                   decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(

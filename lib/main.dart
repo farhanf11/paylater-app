@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/admin/admin_permintaanCicilan.dart';
-import 'package:paylater/admin/component/AdminNavbarBot.dart';
-import 'package:paylater/admin/detail_AkunCustomer.dart';
-import 'package:paylater/history_page/detail_tagihan.dart';
-import 'package:paylater/history_page/rincianPembayaran.dart';
-import 'package:paylater/launcherPage.dart';
-import 'package:paylater/navbar/NavbarBot.dart';
-import 'package:paylater/user/AkadCustomer.dart';
 import 'package:paylater/user/DaftarPage.dart';
-import 'package:paylater/user/DetailPembayaran.dart';
-
-import 'components/cityPicker.dart';
+import 'package:paylater/user/LoginPage.dart';
+import 'package:paylater/user/VerifyPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DetailPembayaran(),
+      home: VerifyPage(),
     );
   }
 }

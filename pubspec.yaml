@@ -55,6 +55,9 @@ dependencies:
   grecaptcha: ^0.0.6
   webview_flutter_plus: ^0.3.0+2
   csc_picker: ^0.2.7
+  shared_preferences: ^2.2.0
+  http: ^0.13.5
+  modal_progress_hud_nsn: ^0.3.0
 
 dev_dependencies:
   flutter_test:
