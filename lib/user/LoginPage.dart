@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
         showDialog(context: context, builder: (context) => alert);
       }if(response.statusCode == 422){
         AlertDialog alert = AlertDialog(
-          title: Text("Isi format email dengan benar"),
+          title: Text("Isi format email dengan benar!"),
           actions: [
             TextButton(
               child: Text('Ok'),
