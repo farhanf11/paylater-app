@@ -16,20 +16,24 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController inputEmail = TextEditingController();
 
   void login(String email) async {
-    try{
+    try {
       Response response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/auth/send-otp-code'),
           body: {
-            'email_address' : email,
-          }
-      );
-      if(response.statusCode == 200){
+            'email_address': email,
+          });
+      if (response.statusCode == 200) {
         print('Otp berhasil dikirim');
-        Navigator.push(context, new MaterialPageRoute( builder: (BuildContext context) => VerifyPage()));
-      }else {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => VerifyPage(
+                      email: inputEmail.text,
+                    )));
+      } else {
         print('failed');
       }
-    } catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
@@ -40,8 +44,11 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: BackButton(color: Colors.black),
-        title: const Text('Login', style: TextStyle(color: Colors.black,), textAlign: TextAlign.center),
-
+        title: const Text('Login',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center),
       ),
       body: Container(
           height: double.maxFinite,
@@ -106,8 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                 )
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }
