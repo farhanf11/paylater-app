@@ -37,12 +37,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   fluttericon: ^2.0.0
-  flutter_svg: ^0.17.4
-  slide_to_confirm: ^0.0.6
+  flutter_svg: ^2.0.7
+  slide_to_confirm: ^1.1.0
   carousel_slider: ^4.0.0
-  flutter_pin_code_fields: ^1.1.0
-  textfield_datepicker: ^0.1.0
-  flutter_email_sender: ^5.0.2
+  flutter_pin_code_fields: ^2.2.0
+  textfield_datepicker: ^0.2.0
+  flutter_email_sender: ^6.0.1
   url_launcher:
   firebase_auth:
   loading_animation_widget:
@@ -51,13 +51,13 @@ dependencies:
   camera: ^0.10.5+2
   video_player: ^2.7.0
   permission_handler: ^10.4.2
-  image_cropper: ^4.0.1
+  image_cropper: ^5.0.0
   grecaptcha: ^0.0.6
   webview_flutter_plus: ^0.3.0+2
   csc_picker: ^0.2.7
   shared_preferences: ^2.2.0
-  http: ^0.13.5
-  modal_progress_hud_nsn: ^0.3.0
+  http: ^1.1.0
+  modal_progress_hud_nsn: ^0.4.0
   get_storage: ^2.1.1
 
 dev_dependencies:

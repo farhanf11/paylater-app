@@ -13,27 +13,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   bool isChecked = false;
   final TextEditingController inputEmail = TextEditingController();
 
   void login(String email) async {
-    try{
+    try {
       Response response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/auth/send-otp-code'),
           body: {
-            'email_address' : email,
-          }
-      );
-      if(response.statusCode == 200){
-        Navigator.push(context, new MaterialPageRoute( builder: (BuildContext context) => VerifyPage(key: Key(email),)));
+            'email_address': email,
+          });
+      if (response.statusCode == 200) {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => VerifyPage(
+                      email: email,
+                    )));
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', email);
 
         AlertDialog alert = AlertDialog(
           title: Text("OTP Telah Dikirim"),
           content: Container(
-            child: Text("Berhasil mengirimkan kode OTP ke email"+" "+email),
+            child: Text("Berhasil mengirimkan kode OTP ke email" + " " + email),
           ),
           actions: [
             TextButton(
@@ -44,7 +47,8 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         showDialog(context: context, builder: (context) => alert);
-      }if(response.statusCode == 422){
+      }
+      if (response.statusCode == 422) {
         AlertDialog alert = AlertDialog(
           title: Text("Isi format email dengan benar!"),
           actions: [
@@ -55,7 +59,8 @@ class _LoginPageState extends State<LoginPage> {
           ],
         );
         showDialog(context: context, builder: (context) => alert);
-      } if(response.statusCode == 404) {
+      }
+      if (response.statusCode == 404) {
         AlertDialog alert = AlertDialog(
           title: Text("Email tidak terdaftar"),
           content: Container(
@@ -70,8 +75,7 @@ class _LoginPageState extends State<LoginPage> {
         );
         showDialog(context: context, builder: (context) => alert);
       }
-
-    } catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
@@ -82,8 +86,11 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: BackButton(color: Colors.black),
-        title: const Text('Login', style: TextStyle(color: Colors.black,), textAlign: TextAlign.center),
-
+        title: const Text('Login',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center),
       ),
       body: Container(
           height: double.maxFinite,
@@ -148,8 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                 )
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }

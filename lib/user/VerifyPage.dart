@@ -4,8 +4,8 @@ import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyPage extends StatefulWidget {
-  final email;
-  const VerifyPage({Key? key, this.email}) : super(key: key);
+  const VerifyPage({Key? key, required this.email}) : super(key: key);
+  final String email;
 
   @override
   State<VerifyPage> createState() => _VerifyPageState();
@@ -15,11 +15,11 @@ class _VerifyPageState extends State<VerifyPage> {
   _VerifyPageState();
   String email = "";
 
-  void initState(){
+  void initState() {
     getData();
   }
 
-  getData()async{
+  getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('username')!;
@@ -30,22 +30,20 @@ class _VerifyPageState extends State<VerifyPage> {
   FocusNode focusNode = FocusNode();
 
   final TextEditingController inputOTP = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
 
   void login(String email) async {
     print(email);
-    try{
+    try {
       Response response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/auth/login'),
           body: {
-            'otp_code' : inputOTP.text,
-            'email_address' : "Farhanfadlurahman35@gmail.com",
-          }
-      );
-      if(response.statusCode == 200){
+            'otp_code': inputOTP.text,
+            'email_address': widget.email,
+          });
+      if (response.statusCode == 200) {
         AlertDialog alert = AlertDialog(
           title: Text("Berhasil Login"),
-          content: Text("Berhasil login dengan akun :"+" "+email),
+          content: Text("Berhasil login dengan akun :" + " " + widget.email),
           actions: [
             TextButton(
               child: const Text('Ok'),
@@ -55,11 +53,14 @@ class _VerifyPageState extends State<VerifyPage> {
         );
 
         showDialog(context: context, builder: (context) => alert);
-        Navigator.push(context, new MaterialPageRoute( builder: (BuildContext context) => NavbarBot()));
-      }else {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => NavbarBot()));
+      } else {
         print('failed');
       }
-    } catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
@@ -98,7 +99,7 @@ class _VerifyPageState extends State<VerifyPage> {
                       ElevatedButton(
                         style: const ButtonStyle(
                             backgroundColor:
-                            MaterialStatePropertyAll(Color(0xff025464))),
+                                MaterialStatePropertyAll(Color(0xff025464))),
                         onPressed: () => {login(inputOTP.text.toString())},
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -114,8 +115,7 @@ class _VerifyPageState extends State<VerifyPage> {
                 )
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }
