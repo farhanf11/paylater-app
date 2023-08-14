@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:paylater/navbar/NavbarBot.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyPage extends StatefulWidget {
-  const VerifyPage({Key? key}) : super(key: key);
+  final email;
+  const VerifyPage({Key? key, this.email}) : super(key: key);
 
   @override
   State<VerifyPage> createState() => _VerifyPageState();
 }
 
 class _VerifyPageState extends State<VerifyPage> {
+  _VerifyPageState();
+  String email = "";
+
+  void initState(){
+    getData();
+  }
+
+  getData()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      email = prefs.getString('username')!;
+    });
+  }
+
   TextEditingController newTextEditingController = TextEditingController();
   FocusNode focusNode = FocusNode();
 
@@ -16,17 +33,29 @@ class _VerifyPageState extends State<VerifyPage> {
   final TextEditingController emailController = TextEditingController();
 
   void login(String email) async {
+    print(email);
     try{
       Response response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/auth/login'),
           body: {
             'otp_code' : inputOTP.text,
-            'email_address' : emailController.text,
+            'email_address' : "Farhanfadlurahman35@gmail.com",
           }
       );
       if(response.statusCode == 200){
-        print('Otp berhasil dikirim');
-        Navigator.push(context, new MaterialPageRoute( builder: (BuildContext context) => VerifyPage()));
+        AlertDialog alert = AlertDialog(
+          title: Text("Berhasil Login"),
+          content: Text("Berhasil login dengan akun :"+" "+email),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+
+        showDialog(context: context, builder: (context) => alert);
+        Navigator.push(context, new MaterialPageRoute( builder: (BuildContext context) => NavbarBot()));
       }else {
         print('failed');
       }

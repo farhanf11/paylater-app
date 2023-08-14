@@ -1,18 +1,10 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:paylater/components/profileComponent/menuProfile.dart';
 import 'package:paylater/components/profileComponent/profileInfo.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import 'HistoryPage.dart';
-
-_sendingMails() async {
-  var url = Uri.parse("mailto:fpfusion.77@gmail.com");
-  if (await canLaunchUrl(url)) {
-    await launchUrl(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -20,6 +12,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff025464),

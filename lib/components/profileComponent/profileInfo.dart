@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileInfo extends StatefulWidget {
   const ProfileInfo({Key? key}) : super(key: key);
@@ -8,6 +9,21 @@ class ProfileInfo extends StatefulWidget {
 }
 
 class _ProfileInfoState extends State<ProfileInfo> {
+  _ProfileInfoState();
+  String username = "";
+
+  void initState(){
+    getData();
+  }
+
+  getData()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('username')!;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -1,8 +1,7 @@
 import 'dart:math';
-
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:paylater/user/LoginPage.dart';
 import 'package:paylater/user/VerifyFace.dart';
 import '../admin/component/popup.dart';
@@ -28,7 +27,7 @@ class _DaftarPageState extends State<DaftarPage> {
   TextEditingController inputUsername = TextEditingController();
   TextEditingController inputTelp = TextEditingController();
   TextEditingController inputEmail = TextEditingController();
-  TextEditingController inputPekerjaan = TextEditingController();
+  TextEditingController inputJob = TextEditingController();
   TextEditingController verifikasiWajah = TextEditingController();
   TextEditingController verifikasiKTP = TextEditingController();
 
@@ -40,7 +39,7 @@ class _DaftarPageState extends State<DaftarPage> {
           'user_name' : inputUsername.text,
           'email_address' : inputEmail.text,
           'phone_number' : inputTelp.text,
-          'job' : inputPekerjaan.selection,
+          'job' : inputJob.selection,
           'image_face' : verifikasiWajah.value,
           'image_ktp' : verifikasiKTP.value
         }
@@ -154,7 +153,7 @@ class _DaftarPageState extends State<DaftarPage> {
                         SizedBox(
                           height: 5,
                         ),
-                        TextField(
+                        TextFormField(
                           // selectionHeightStyle:
                           //     BoxHeightStyle.includeLineSpacingMiddle,
                           controller: inputEmail,
@@ -202,6 +201,7 @@ class _DaftarPageState extends State<DaftarPage> {
                             const Flexible(
                               flex: 2,
                               child: TextField(
+
                                 enabled: false,
                                 maxLines: 1,
                                 decoration: InputDecoration(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:paylater/user/VerifyPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   bool isChecked = false;
   final TextEditingController inputEmail = TextEditingController();
 
@@ -24,11 +26,51 @@ class _LoginPageState extends State<LoginPage> {
           }
       );
       if(response.statusCode == 200){
-        print('Otp berhasil dikirim');
-        Navigator.push(context, new MaterialPageRoute( builder: (BuildContext context) => VerifyPage()));
-      }else {
-        print('failed');
+        Navigator.push(context, new MaterialPageRoute( builder: (BuildContext context) => VerifyPage(key: Key(email),)));
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('email', email);
+
+        AlertDialog alert = AlertDialog(
+          title: Text("OTP Telah Dikirim"),
+          content: Container(
+            child: Text("Berhasil mengirimkan kode OTP ke email"+" "+email),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+
+        showDialog(context: context, builder: (context) => alert);
+      }if(response.statusCode == 422){
+        AlertDialog alert = AlertDialog(
+          title: Text("Isi format email dengan benar"),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      } if(response.statusCode == 404) {
+        AlertDialog alert = AlertDialog(
+          title: Text("Email tidak terdaftar"),
+          content: Container(
+            child: Text("Email yang anda masukan salah"),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
       }
+
     } catch(e){
       print(e.toString());
     }

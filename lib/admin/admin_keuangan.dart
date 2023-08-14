@@ -1,14 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:paylater/components/card_product.dart';
-import 'package:paylater/models/categories.dart';
-import 'package:paylater/models/products.dart';
-import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
-import '../components/card_categories.dart';
-import '../components/landing_page/banner_view.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class AdminKeuangan extends StatefulWidget {
   @override
@@ -55,9 +48,9 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: PaylaterTheme.white)),
-                      Text("Dana tersedia",
+                      Text("Total Dana",
                           style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w400,
                               color: PaylaterTheme.white)),
                     ],
@@ -94,7 +87,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
             child: Container(
               height: double.infinity,
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: PaylaterTheme.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25.0),
@@ -102,7 +95,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                   bottomLeft: Radius.zero,
                   bottomRight: Radius.zero,
                 ),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     color: PaylaterTheme.grey,
                     blurRadius: 3,
@@ -115,99 +108,12 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      "Data Cicilan",
+                    const Text(
+                      "Rincian Dana",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
-                                  'Data Cicilan Aktif',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  'Dana Belum Kembali',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Icon(
-                                      Icons.paid,
-                                      size: 20,
-                                      color: Colors.amber,
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    Text("20",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: PaylaterTheme.blueSky)),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    Text("cicilan",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ))
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Icon(
-                                      Icons.money_off,
-                                      size: 20,
-                                      color: Colors.amber,
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    Text("28.335.559",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: PaylaterTheme.decline)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 3,
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 60,
                     ),
                     Card(
                       elevation: 5,
@@ -259,14 +165,15 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Icon(
-                              Icons.credit_card_off,
+                              Icons.data_exploration,
                               size: 30,
-                              color: Colors.amber,
+                              color: Colors.red,
                             ),
                           ),
                         ],
                       ),
                     ),
+                    SizedBox(height: 12,),
                     Card(
                       elevation: 5,
                       child: Row(
@@ -275,10 +182,10 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
+                              const Padding(
+                                padding: EdgeInsets.all(12.0),
                                 child: Text(
-                                  'Total Cicilan Masuk',
+                                  'Total Dana Saat Ini',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
@@ -302,7 +209,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.orange)),
+                                            color: Colors.green)),
                                     SizedBox(
                                       width: 3,
                                     ),
@@ -314,70 +221,12 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                               )
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Icon(
-                              Icons.credit_card,
+                              Icons.monetization_on,
                               size: 30,
-                              color: Colors.amber,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Text(
-                                  'Total Cicilan Masuk',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: const [
-                                    Text("Rp",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: PaylaterTheme.darkText)),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    Text("7.335.559",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.blue)),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 3,
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(
-                              Icons.trending_up,
-                              size: 30,
-                              color: Colors.amber,
+                              color: Colors.green,
                             ),
                           ),
                         ],

@@ -1,28 +1,27 @@
 class User {
-  final String name;
-  final String akses;
-  final String email;
-  final String phonenumber;
+  final int id;
+  final String user_name;
+  final String phone_number;
+  final String email_address;
+  final String job;
+  final String role;
 
   User(
-    this.name,
-    this.akses,
-    this.email,
-    this.phonenumber,
+      this.id,
+      this.user_name,
+      this.email_address,
+      this.phone_number,
+      this.job,
+      this.role,
   );
 }
 
 List admin = [
-  User("Pengawas 1", "Pengawas", "pengawas@gmail.com", "0812345678"),
-  User("Pengawas 2", "Pengawas", "pengawas@gmail.com", "0812345678"),
-  User("Pengawas 3", "Pengawas", "pengawas@gmail.com", "0812345678"),
-  User("Admin 1", "Admin", "pengawas@gmail.com", "0812345678"),
-  User("Admin 2", "Admin", "pengawas@gmail.com", "0812345678"),
+  User(1,"Pengawas 1", "pengawas@gmail.com", "0812345678", "Admin","Pengawas"),
+  User(1,"Admin 1", "admin@gmail.com", "0812345678", "Admin","Pengawas"),
 ];
 List customer = [
-  User("Customer 1", "Customer", "johnston123@gmail.com", "0812345678"),
-  User("Customer 2", "Customer", "johnston123@gmail.com", "0812345678"),
-  User("Customer 3", "Customer", "johnston123@gmail.com", "0812345678"),
-  User("Customer 4", "Customer", "johnston123@gmail.com", "0812345678"),
-  User("Customer 5", "Customer", "johnston123@gmail.com", "0812345678"),
+  User(1,"Customer 1", "customer@gmail.com", "08123456456", "Dosen", "Customer"),
+  User(2,"Customer 1", "customer@gmail.com", "08123456456", "Dosen", "Customer"),
+  User(3,"Customer 1", "customer@gmail.com", "08123456456", "Dosen", "Customer"),
 ];
