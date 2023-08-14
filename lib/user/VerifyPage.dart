@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class VerifyPage extends StatefulWidget {
-  const VerifyPage({Key? key}) : super(key: key);
-
+  const VerifyPage({Key? key, required this.email}) : super(key: key);
+  final String email;
   @override
   State<VerifyPage> createState() => _VerifyPageState();
 }
@@ -13,24 +13,24 @@ class _VerifyPageState extends State<VerifyPage> {
   FocusNode focusNode = FocusNode();
 
   final TextEditingController inputOTP = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
 
   void login(String email) async {
-    try{
+    try {
       Response response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/auth/login'),
-          body: {
-            'otp_code' : inputOTP.text,
-            'email_address' : emailController.text,
-          }
-      );
-      if(response.statusCode == 200){
+          body: {'otp_code': inputOTP.text, 'email_address': email});
+      if (response.statusCode == 200) {
         print('Otp berhasil dikirim');
-        Navigator.push(context, new MaterialPageRoute( builder: (BuildContext context) => VerifyPage()));
-      }else {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => VerifyPage(
+                      email: widget.email,
+                    )));
+      } else {
         print('failed');
       }
-    } catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
@@ -69,7 +69,7 @@ class _VerifyPageState extends State<VerifyPage> {
                       ElevatedButton(
                         style: const ButtonStyle(
                             backgroundColor:
-                            MaterialStatePropertyAll(Color(0xff025464))),
+                                MaterialStatePropertyAll(Color(0xff025464))),
                         onPressed: () => {login(inputOTP.text.toString())},
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -85,8 +85,7 @@ class _VerifyPageState extends State<VerifyPage> {
                 )
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }
