@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paylater/user/LoginPage.dart';
@@ -11,17 +14,16 @@ class DaftarPage extends StatefulWidget {
   const DaftarPage({Key? key}) : super(key: key);
 
   @override
-
   State<DaftarPage> createState() => _DaftarPageState();
 }
 
-  extension EmailValidator on String {
-    bool isValidEmail() {
-      return RegExp(
-          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-          .hasMatch(this);
-    }
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(this);
   }
+}
 
 class _DaftarPageState extends State<DaftarPage> {
   TextEditingController inputUsername = TextEditingController();
@@ -30,27 +32,130 @@ class _DaftarPageState extends State<DaftarPage> {
   TextEditingController inputJob = TextEditingController();
   TextEditingController verifikasiWajah = TextEditingController();
   TextEditingController verifikasiKTP = TextEditingController();
+  File? wajah;
+  File? ktp;
+
+  Future pickImage(String foto) async {
+    try {
+      if (Platform.isIOS) {
+        return showCupertinoModalPopup<ImageSource>(
+            context: context,
+            builder: (context) => CupertinoActionSheet(
+                  actions: [
+                    CupertinoActionSheetAction(
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          final image = await ImagePicker()
+                              .pickImage(source: ImageSource.camera);
+                          if (image == null) return;
+                          final imageTemporary = File(image.path);
+                          if (foto == "wajah") {
+                            setState(() {
+                              wajah = imageTemporary;
+                            });
+                          }
+                          if (foto == "ktp") {
+                            setState(() {
+                              ktp = imageTemporary;
+                            });
+                          }
+                        },
+                        child: Text('Camera')),
+                    CupertinoActionSheetAction(
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+
+                          Navigator.of(context).pop();
+                          final image = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (image == null) return;
+                          final imageTemporary = File(image.path);
+                          if (foto == "wajah") {
+                            setState(() {
+                              wajah = imageTemporary;
+                            });
+                          }
+                          if (foto == "ktp") {
+                            setState(() {
+                              ktp = imageTemporary;
+                            });
+                          }
+                        },
+                        child: Text('Gallery'))
+                  ],
+                ));
+      } else if (Platform.isAndroid) {
+        return showModalBottomSheet(
+            context: context,
+            builder: (context) => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                        leading: Icon(Icons.camera_alt),
+                        title: Text('Camera'),
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          final image = await ImagePicker()
+                              .pickImage(source: ImageSource.camera);
+                          if (image == null) return;
+                          final imageTemporary = File(image.path);
+                          if (foto == "wajah") {
+                            setState(() {
+                              wajah = imageTemporary;
+                            });
+                          }
+                          if (foto == "ktp") {
+                            setState(() {
+                              ktp = imageTemporary;
+                            });
+                          }
+                        }),
+                    ListTile(
+                        leading: Icon(Icons.image),
+                        title: Text('Gallery'),
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          final image = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (image == null) return;
+                          final imageTemporary = File(image.path);
+                          if (foto == "wajah") {
+                            setState(() {
+                              this.wajah = imageTemporary;
+                            });
+                          }
+                          if (foto == "ktp") {
+                            setState(() {
+                              this.ktp = imageTemporary;
+                            });
+                          }
+                        }),
+                  ],
+                ));
+      }
+    } on PlatformException catch (e) {
+      print("failed to pick image: $e");
+    }
+  }
 
   void signUp(String username, email, telp, pekerjaan, wajah, ktp) async {
-    try{
+    try {
       Response response = await post(
-        Uri.parse('https://paylater.harysusilo.my.id/api/auth/register'),
-        body: {
-          'user_name' : inputUsername.text,
-          'email_address' : inputEmail.text,
-          'phone_number' : inputTelp.text,
-          'job' : inputJob.selection,
-          'image_face' : verifikasiWajah.value,
-          'image_ktp' : verifikasiKTP.value
-        }
-      );
-      if(response.statusCode == 200){
+          Uri.parse('https://paylater.harysusilo.my.id/api/auth/register'),
+          body: {
+            'user_name': inputUsername.text,
+            'email_address': inputEmail.text,
+            'phone_number': inputTelp.text,
+            'job': inputJob.selection,
+            'image_face': wajah,
+            'image_ktp': ktp
+          });
+      if (response.statusCode == 200) {
         print('account created successfully');
       }
-    } catch(e){
+    } catch (e) {
       print(e.toString());
     }
-
   }
 
   String? dropdownValue = "Tenaga Pendidik";
@@ -65,7 +170,6 @@ class _DaftarPageState extends State<DaftarPage> {
   }
 
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PaylaterTheme.white,
@@ -108,7 +212,9 @@ class _DaftarPageState extends State<DaftarPage> {
                         ),
                         TextFormField(
                           autocorrect: true,
-                          validator: (input) => input!.isValidEmail() ? null : "Username harus di isi",
+                          validator: (input) => input!.isValidEmail()
+                              ? null
+                              : "Username harus di isi",
                           // selectionHeightStyle:
                           //     BoxHeightStyle.includeLineSpacingMiddle,
 
@@ -122,8 +228,8 @@ class _DaftarPageState extends State<DaftarPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
                               hintText: 'Masukan Username',
-                              hintStyle:
-                                  TextStyle(color: PaylaterTheme.deactivatedText),
+                              hintStyle: TextStyle(
+                                  color: PaylaterTheme.deactivatedText),
                               filled: true,
                               fillColor: PaylaterTheme.white),
                           style: const TextStyle(
@@ -166,8 +272,8 @@ class _DaftarPageState extends State<DaftarPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
                               hintText: 'Masukan Email',
-                              hintStyle:
-                                  TextStyle(color: PaylaterTheme.deactivatedText),
+                              hintStyle: TextStyle(
+                                  color: PaylaterTheme.deactivatedText),
                               filled: true,
                               fillColor: PaylaterTheme.white),
                           style: const TextStyle(
@@ -201,18 +307,18 @@ class _DaftarPageState extends State<DaftarPage> {
                             const Flexible(
                               flex: 2,
                               child: TextField(
-
                                 enabled: false,
                                 maxLines: 1,
                                 decoration: InputDecoration(
-                                    labelStyle: TextStyle(fontWeight: FontWeight.w600),
+                                    labelStyle:
+                                        TextStyle(fontWeight: FontWeight.w600),
                                     labelText: '62',
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 5.0, horizontal: 15.0),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide.none,
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(10))),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
                                     filled: true,
                                     fillColor: PaylaterTheme.white),
                                 style: TextStyle(
@@ -263,8 +369,7 @@ class _DaftarPageState extends State<DaftarPage> {
                     ),
 
                     //Pekerjaan
-                    Column
-                      (
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
@@ -281,10 +386,12 @@ class _DaftarPageState extends State<DaftarPage> {
                           decoration: const InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.all(Radius.circular(10))),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.all(Radius.circular(10))),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
                             filled: true,
                             fillColor: PaylaterTheme.white,
                           ),
@@ -347,16 +454,23 @@ class _DaftarPageState extends State<DaftarPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text('no file'),
+                              wajah != null
+                                  ? Image.file(
+                                      wajah!,
+                                      width: 30,
+                                      height: 30,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Text('no file'),
                               IconButton(
                                 padding: EdgeInsets.all(8),
                                 color: Color(0xffd8d8e0),
-                                onPressed: () => TakePictureScreen(
-                                  camera: firstCamera,
+                                onPressed: () => pickImage("wajah"),
+                                icon: Icon(
+                                  Icons.camera_alt_rounded,
+                                  color: Colors.black,
                                 ),
-                                icon: Icon(Icons.camera_alt_rounded, color: Colors.black,),
                               ),
-
                             ],
                           ),
                         )
@@ -392,17 +506,23 @@ class _DaftarPageState extends State<DaftarPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text('no file'),
+                              ktp != null
+                                  ? Image.file(
+                                      ktp!,
+                                      width: 30,
+                                      height: 30,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Text('no file'),
                               IconButton(
                                 padding: EdgeInsets.all(8),
                                 color: Color(0xffF7F7FC),
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera,),),
+                                onPressed: () => pickImage("ktp"),
+                                icon: Icon(
+                                  Icons.camera_alt_rounded,
+                                  color: Colors.black,
                                 ),
-                                icon: Icon(Icons.camera_alt_rounded, color: Colors.black,),
                               ),
-
                             ],
                           ),
                         )
@@ -432,12 +552,11 @@ class _DaftarPageState extends State<DaftarPage> {
                         Popup.confirmDialog(context,
                             message: "Konfirmasi data anda?",
                             dialogCallback: (value) async {
-                          if (value == 'confirm') {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()));
+                          if (value == 'Confirm') {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => LoginPage()));
                           }
-                          if (value == 'cancel') {}
+                          if (value == 'Cancel') {}
                         });
                       },
                       child: Container(
