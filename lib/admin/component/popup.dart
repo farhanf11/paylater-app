@@ -87,6 +87,7 @@ class Popup {
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
+
                         if (dialogCallback != null) {
                           dialogCallback("Confirm");
                         }
