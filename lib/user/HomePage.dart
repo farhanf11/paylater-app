@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
       Response response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/scrapper'),
           headers: {
-            'Authorization': this.token,
+            'Authorization': token,
           },
           body: {
             'url': url,
@@ -44,12 +44,29 @@ class _HomePageState extends State<HomePage> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         if(responseData['success'] == false ){
-          print('gagal');
+          AlertDialog alert = AlertDialog(
+            title: Text("Gagal Mengirim Link"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+          showDialog(context: context, builder: (context) => alert);
         }else{
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (BuildContext context) => RincianAkad()));
+                  builder: (BuildContext context) =>
+                      RincianAkad(
+                          fotoProduk: responseData['data']['image'],
+                          namaProduk: responseData['data']['title'],
+                          hargaProduk: responseData['data']['price'],
+                      )
+              )
+          );
           AlertDialog alert = AlertDialog(
             title: Text("Berhasil"),
             content: Container(

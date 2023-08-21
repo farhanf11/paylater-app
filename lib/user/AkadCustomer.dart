@@ -1,16 +1,43 @@
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:paylater/user/HomePage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../admin/component/popup.dart';
 import '../theme.dart';
 
 class RincianAkad extends StatefulWidget {
-  const RincianAkad({Key? key}) : super(key: key);
+  const RincianAkad({Key? key, required this.fotoProduk, required this.namaProduk, required this.hargaProduk}) : super(key: key);
+  final String fotoProduk;
+  final String namaProduk;
+  final int hargaProduk;
 
   @override
   State<RincianAkad> createState() => _RincianAkadState();
 }
 
 class _RincianAkadState extends State<RincianAkad> {
+  _RincianAkadState();
+  String fotoProduk = "";
+  String namaProduk= "";
+  int hargaProduk = 0;
+
+  void initState() {
+    RincianProduk();
+  }
+
+  void RincianProduk() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+
+    setState(() {
+      fotoProduk = widget.fotoProduk;
+      namaProduk = widget.namaProduk;
+      hargaProduk = widget.hargaProduk;
+    });
+  }
+
   String? alamat;
   String? dropdownValue = "Customer";
   TextEditingController inputCatatan = TextEditingController();
@@ -57,21 +84,21 @@ class _RincianAkadState extends State<RincianAkad> {
                               offset: const Offset(0, 2))
                         ],
                         shape: BoxShape.rectangle,
-                        image: const DecorationImage(
+                        image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              "https://img.freepik.com/free-photo/elegant-smartphone-composition_23-2149437084.jpg?size=626&ext=jpg&ga=GA1.2.208731134.1681022893&semt=ais",
+                              fotoProduk.toString()
                             ))),
                   ),
                   SizedBox(
                     height: 16,
                   ),
                   Text(
-                    'Nama Produk',
+                    namaProduk.toString(),
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
-                  const Text(
-                    '12 - 12 - 2022',
+                  Text(
+                    'Rp '+hargaProduk.toString(),
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -136,8 +163,8 @@ class _RincianAkadState extends State<RincianAkad> {
                 SizedBox(
                   height: 5,
                 ),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     Text('Cicilan : ', style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500,
                     ),),

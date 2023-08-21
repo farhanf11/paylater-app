@@ -33,7 +33,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('email', email);
+        prefs.setString(
+            'email', email
+        );
 
         AlertDialog alert = AlertDialog(
           title: Text("OTP Telah Dikirim"),

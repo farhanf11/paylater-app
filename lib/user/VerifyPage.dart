@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:paylater/admin/component/AdminNavbarBot.dart';
 import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -66,11 +67,19 @@ class _VerifyPageState extends State<VerifyPage> {
         prefs.setString('email_address', responseData['data']['email_address']);
         prefs.setString('job', responseData['data']['job']);
 
-        showDialog(context: context, builder: (context) => alert);
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (BuildContext context) => NavbarBot()));
+        if(responseData['data']['role'] == "admin" ) {
+          showDialog(context: context, builder: (context) => alert);
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => AdminNavbarBot()));
+        }else{
+          showDialog(context: context, builder: (context) => alert);
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => NavbarBot()));
+        }
       } else {
         print('failed');
       }
