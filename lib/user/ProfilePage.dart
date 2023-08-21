@@ -1,13 +1,75 @@
-// import 'package:js/js.dart';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../profile_page/biodata.dart';
+import '../profile_page/edit_profile.dart';
+import '../profile_page/privacyPolicy.dart';
+import '../profile_page/ubah_alamat.dart';
 import 'HistoryPage.dart';
+import 'components/profileComponent/buttonProfile.dart';
+import 'components/profileComponent/dataButton.dart';
 import 'components/profileComponent/menuProfile.dart';
 import 'components/profileComponent/profileInfo.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+_sendingMails() async {
+  var url = Uri.parse("mailto:fpfusion.77@gmail.com");
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  _ProfilePageState();
+  var user_name = "username";
+  var email_address = "email";
+  var phone_number = "phone";
+
+  void initState() {
+    ProfilebyId();
+  }
+
+  ///get data tokken id
+  void ProfilebyId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    try {
+      Response response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          headers: {
+            'Authorization': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            user_name = responseData['data']['user_name'];
+            email_address = responseData['data']['email_address'];
+            phone_number = responseData['data']['phone_number'];
+          });
+
+        }
+
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +95,56 @@ class ProfilePage extends StatelessWidget {
 
                 Column(
                   children: [
-                    ProfileInfo(),
+                    Column(
+                      children: [
+                        Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 4, color: Theme.of(context).scaffoldBackgroundColor),
+                              boxShadow: [
+                                BoxShadow(
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    color: Colors.black.withOpacity(0.1),
+                                    offset: const Offset(0, 10))
+                              ],
+                              shape: BoxShape.circle,
+                              image: const DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                                  ))),
+                        ),
+
+                        //username
+                        Text(
+                          user_name.toString(),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+
+                        //email
+                        Text(
+                          email_address.toString(),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+
+                        Text(
+                          phone_number.toString(),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -66,8 +177,123 @@ class ProfilePage extends StatelessWidget {
                       height: 30,
                     ),
 
-                    //widget menu profile
-                    const MenuProfile(),
+                    /// data profile
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          MaterialButton(
+                            color: Colors.white,
+                            child: ButtonProfile(DataButton(
+                              id: 1,
+                              icon1: Icons.person_pin,
+                              text1: 'Edit Profil',
+                              text2: 'Edit profil kamu agar lebih menarik',
+                              icon2: Icons.arrow_right_outlined,
+                            )),
+                            onPressed: () => Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) => const EditProfil())),
+                          ),
+
+                          const SizedBox(
+                            height: 4,
+                          ),
+
+                          //alamat
+                          MaterialButton(
+                            color: Colors.white,
+                            child: ButtonProfile(DataButton(
+                              id: 2,
+                              icon1: Icons.add_home,
+                              text1: 'Edit Alamat Pengiriman',
+                              text2: 'Edit alamat pengiriman kamu',
+                              icon2: Icons.arrow_right_outlined,
+                            )),
+                            onPressed: () => Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) => const UbahAlamat())),
+                          ),
+
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          //biodata
+                          MaterialButton(
+                            color: Colors.white,
+                            child: ButtonProfile(DataButton(
+                              id: 3,
+                              icon1: Icons.playlist_add_circle_sharp,
+                              text1: 'Biodata',
+                              text2: 'Lengkapi biodata sebelum dapat melakukan pesanan',
+                              icon2: Icons.arrow_right_outlined,
+                            )),
+                            onPressed: () => Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) => const Biodata())),
+                          ),
+                          //end biodata
+
+                          const SizedBox(height: 4,),
+
+                          //widget bantuan
+                          MaterialButton(
+                            color: Colors.white,
+                            onPressed: _sendingMails,
+                            child: ButtonProfile(DataButton(
+                              id: 4,
+                              icon1: Icons.attach_email,
+                              text1: 'Kirim Email',
+                              text2: 'Kirim email untuk info selebihnya',
+                              icon2: Icons.arrow_right_outlined,
+                            )),
+                          ),
+                          //end Pesan Email
+                          SizedBox(height: 4,),
+                          //bantuan
+                          MaterialButton(
+                              color: Colors.white,
+                              child: ButtonProfile(DataButton(
+                                id: 5,
+                                icon1: Icons.help,
+                                text1: 'Pusat Bantuan',
+                                text2: 'Dapatkan jawaban terbaik dari hal yang ingin kamu tanyakan',
+                                icon2: Icons.arrow_right_outlined,
+                              )),
+                              onPressed: () => {}
+                          ),
+                          //end Bantuan
+                          SizedBox(height: 4,),
+
+                          //terms condition
+                          MaterialButton(
+                            color: Colors.white,
+                            child: ButtonProfile(DataButton(
+                              id: 6,
+                              icon1: Icons.perm_device_info_outlined,
+                              text1: 'Syarat dan Ketentuan',
+                              text2: 'Syarat dan ketentuan Ilkompay',
+                              icon2: Icons.arrow_right_outlined,
+                            )),
+                            onPressed: () => Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) => Biodata())),
+                          ),
+                          //end terms condition
+                          SizedBox(height: 4,),
+                          //privacy policy
+                          MaterialButton(
+                            color: Colors.white,
+                            child: ButtonProfile(DataButton(
+                              id: 7,
+                              icon1: Icons.privacy_tip,
+                              text1: 'Kebijakan Privasi',
+                              text2: 'Kebijakan Privasi ILKOMPAY',
+                              icon2: Icons.arrow_right_outlined,
+                            )),
+                            onPressed: () => Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) => const PrivacyPolicy())),
+                          ),
+                          //end bantuan
+                        ],
+                      ),
+                    )
                   ],
                 ),
 
@@ -87,9 +313,9 @@ class ProfilePage extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       SizedBox(
                         width: 10,
                       ),
@@ -114,3 +340,4 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
+

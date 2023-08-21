@@ -54,10 +54,17 @@ class _VerifyPageState extends State<VerifyPage> {
             ),
           ],
         );
+        print(responseData['data']['id']);
+        print(responseData['data']['user_name']);
 
         ///set token login
+        ///
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', 'Bearer ' + responseData['token']);
+        prefs.setInt('id', responseData['data']['id']);
+        prefs.setString('user_name', responseData['data']['user_name']);
+        prefs.setString('email_address', responseData['data']['email_address']);
+        prefs.setString('job', responseData['data']['job']);
 
         showDialog(context: context, builder: (context) => alert);
         Navigator.push(

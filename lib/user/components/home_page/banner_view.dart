@@ -29,11 +29,7 @@ class BannerView extends StatelessWidget {
           );
         },
         options: CarouselOptions(
-            onPageChanged: (index, reason) {
-              print(index.toString());
-
-              print(reason.toString());
-            },
+            onPageChanged: (index, reason) {},
             height: 172,
             autoPlay: true,
             autoPlayAnimationDuration: Duration(seconds: 2),
