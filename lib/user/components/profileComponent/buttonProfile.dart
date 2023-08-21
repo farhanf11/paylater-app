@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/components/profileComponent/dataButton.dart';
-import '../../profile_page/edit_profile.dart';
+import 'dataButton.dart';
 
 class ButtonProfile extends StatelessWidget {
 

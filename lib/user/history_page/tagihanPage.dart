@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../models/tagihan.dart';
 import '../components/card_tagihan.dart';
-import '../models/tagihan.dart';
 
 class TagihanPage extends StatelessWidget{
   @override

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/components/profileComponent/buttonProfile.dart';
 import 'package:paylater/profile_page/biodata.dart';
 import 'package:paylater/profile_page/edit_profile.dart';
 import 'package:paylater/profile_page/privacyPolicy.dart';
 import 'package:paylater/profile_page/ubah_alamat.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'buttonProfile.dart';
 import 'dataButton.dart';
 
 _sendingMails() async {

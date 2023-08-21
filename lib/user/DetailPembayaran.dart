@@ -1,12 +1,7 @@
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
-import 'package:paylater/user/TransferBank.dart';
-
 import '../admin/component/popup.dart';
-import '../components/profileComponent/buttonProfile.dart';
-import '../components/profileComponent/dataButton.dart';
-import '../profile_page/helpCenter.dart';
 import '../theme.dart';
 
 class DetailPembayaran extends StatelessWidget {

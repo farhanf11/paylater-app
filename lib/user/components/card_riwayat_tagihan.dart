@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/history_page/detail_tagihan.dart';
-import '../models/tagihan.dart';
+import '../../models/tagihan.dart';
+import '../history_page/detail_tagihan.dart';
 
 class CardRiwayatTagihan extends StatelessWidget{
 

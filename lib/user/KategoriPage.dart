@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../components/card_categories.dart';
-import '../components/card_product.dart';
 import '../models/categories.dart';
 import '../models/products.dart';
+import 'components/card_categories.dart';
+import 'components/card_product.dart';
 
 class KategoriPage extends StatelessWidget {
   const KategoriPage({Key? key}) : super(key: key);

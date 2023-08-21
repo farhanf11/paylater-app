@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../components/card_product.dart';
 import '../../models/products.dart';
+import '../components/card_product.dart';
 
 class TrendingComp extends StatefulWidget {
   @override

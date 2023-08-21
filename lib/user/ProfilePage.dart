@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:paylater/components/profileComponent/menuProfile.dart';
-import 'package:paylater/components/profileComponent/profileInfo.dart';
 import 'HistoryPage.dart';
+import 'components/profileComponent/menuProfile.dart';
+import 'components/profileComponent/profileInfo.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);

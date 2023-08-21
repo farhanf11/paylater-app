@@ -13,7 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool isChecked = false;
   final TextEditingController inputEmail = TextEditingController();
 
   void login(String email) async {
@@ -24,19 +23,22 @@ class _LoginPageState extends State<LoginPage> {
             'email_address': email,
           });
       if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
         Navigator.push(
             context,
             new MaterialPageRoute(
                 builder: (BuildContext context) => VerifyPage(
                       email: email,
-                    )));
+                    )
+            ),
+        );
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', email);
 
         AlertDialog alert = AlertDialog(
           title: Text("OTP Telah Dikirim"),
           content: Container(
-            child: Text("Berhasil mengirimkan kode OTP ke email" + " " + email),
+            child: Text(responseData['message']),
           ),
           actions: [
             TextButton(
@@ -49,8 +51,9 @@ class _LoginPageState extends State<LoginPage> {
         showDialog(context: context, builder: (context) => alert);
       }
       if (response.statusCode == 422) {
+        var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          title: Text("Isi format email dengan benar!"),
+          title: Text(responseData['message']),
           actions: [
             TextButton(
               child: Text('Ok'),
@@ -111,26 +114,6 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Checkbox(
-                            value: isChecked,
-                            onChanged: (bool? value) {
-                              // This is where we update the state when the checkbox is tapped
-                              setState(() {
-                                isChecked = value!;
-                              });
-                            }),
-                        SizedBox(width: 10),
-                        const Text(
-                          'Saya menyetujui Persyaratan Layanan dan \n Kebijakan Privasi',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
                 Container(
@@ -152,10 +135,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
-          )),
+          )
+      ),
     );
   }
 }

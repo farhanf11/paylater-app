@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:ui';
+import 'package:http/http.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:paylater/user/AkadCustomer.dart';
 import 'package:paylater/user/homeComponents/kategoriComp.dart';
 import 'package:paylater/user/homeComponents/trendingComp.dart';
-import '../components/home_page/banner_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'components/home_page/banner_view.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,6 +15,90 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String token = "";
+
+  void initState() {
+    getToken();
+  }
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+      print(token);
+    });
+  }
+
+  final TextEditingController inputUrl = TextEditingController();
+
+  void Scrapp(String url) async {
+    try {
+      Response response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/scrapper'),
+          headers: {
+            'Authorization': this.token,
+          },
+          body: {
+            'url': url,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => RincianAkad()));
+          AlertDialog alert = AlertDialog(
+            title: Text("Berhasil"),
+            content: Container(
+              child: Text(responseData['message']),
+            ),
+            actions: [
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context, builder: (context) => alert);
+        }
+
+      }
+      if (response.statusCode == 422) {
+        var responseData = json.decode(response.body);
+        AlertDialog alert = AlertDialog(
+          title: Text(responseData['message']),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+      if (response.statusCode == 404) {
+        AlertDialog alert = AlertDialog(
+          title: Text("Email tidak terdaftar"),
+          content: Container(
+            child: Text("Email yang anda masukan salah"),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                                 'assets/images/logo.png',
                                 height: 48,
                               ),
-                              Text(
+                              const Text(
                                 'Paylater Syariah',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
@@ -71,7 +158,7 @@ class _HomePageState extends State<HomePage> {
 
             Container(
               height: 100,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                     color: Colors.black38,
@@ -94,6 +181,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: TextField(
+                        controller: inputUrl,
                         autofocus: true,
                         style: TextStyle(color: Colors.blue[500], fontSize: 16),
                         decoration: InputDecoration(
@@ -113,20 +201,18 @@ class _HomePageState extends State<HomePage> {
                                         side: BorderSide(color: Colors.lightBlueAccent))),
                               ),
                               child: Text('Submit'),
-                              onPressed: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => RincianAkad())),
+                              onPressed: () => {Scrapp(inputUrl.text.toString())},
                             ),
                             hintText: 'Paste link here',
                             hintStyle:
                                 TextStyle(color: Colors.grey.shade600, fontSize: 15)),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
                       child: Text(
                         'tempel link url barang yang ingin anda ajukan pada kolom diatas*',
                         style: TextStyle(

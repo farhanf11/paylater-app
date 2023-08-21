@@ -256,7 +256,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         TextFormField(
@@ -364,11 +364,11 @@ class _DaftarPageState extends State<DaftarPage> {
                       ],
                     ),
 
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
-                    //Pekerjaan
+                    ///Pekerjaan
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -414,7 +414,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               value: value,
                               child: Text(
                                 value,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
                                     color: PaylaterTheme.grey),
@@ -424,11 +424,11 @@ class _DaftarPageState extends State<DaftarPage> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
-                    //verif wajah
+                    ///verif wajah
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -439,7 +439,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Container(
@@ -466,7 +466,7 @@ class _DaftarPageState extends State<DaftarPage> {
                                 padding: EdgeInsets.all(8),
                                 color: Color(0xffd8d8e0),
                                 onPressed: () => pickImage("wajah"),
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.camera_alt_rounded,
                                   color: Colors.black,
                                 ),
@@ -476,11 +476,11 @@ class _DaftarPageState extends State<DaftarPage> {
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
-                    //verif ktp
+                    ///verif ktp
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -528,7 +528,7 @@ class _DaftarPageState extends State<DaftarPage> {
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],

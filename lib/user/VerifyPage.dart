@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:paylater/navbar/NavbarBot.dart';
@@ -41,9 +43,10 @@ class _VerifyPageState extends State<VerifyPage> {
             'email_address': widget.email,
           });
       if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
           title: Text("Berhasil Login"),
-          content: Text("Berhasil login dengan akun :" + " " + widget.email),
+          content: Text(responseData['message']),
           actions: [
             TextButton(
               child: const Text('Ok'),
@@ -51,6 +54,10 @@ class _VerifyPageState extends State<VerifyPage> {
             ),
           ],
         );
+
+        ///set token login
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', 'Bearer ' + responseData['token']);
 
         showDialog(context: context, builder: (context) => alert);
         Navigator.push(

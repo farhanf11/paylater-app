@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/history_page/tagihanPage.dart';
-import 'package:paylater/history_page/RiwayatTagihan.dart';
 import 'package:paylater/user/ProfilePage.dart';
+
+import 'history_page/RiwayatTagihan.dart';
+import 'history_page/tagihanPage.dart';
 
 
 class HistoryPage extends StatefulWidget {

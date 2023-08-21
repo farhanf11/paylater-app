@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/user/KategoriPage.dart';
-import '../models/categories.dart';
+import '../../models/categories.dart';
 
 class CardCategories extends StatelessWidget{
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
+import '../../models/tagihan.dart';
 import '../components/card_riwayat_tagihan.dart';
-import '../models/tagihan.dart';
 
 class RiwayatTagihan extends StatelessWidget{
   @override

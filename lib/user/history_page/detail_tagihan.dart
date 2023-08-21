@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/components/detailTagihan/detailCicilan.dart';
-import 'package:paylater/components/detailTagihan/detailPesanan.dart';
-import 'package:paylater/history_page/tagihanPage.dart';
-import 'package:paylater/history_page/RiwayatTagihan.dart';
-import 'package:paylater/user/DetailPembayaran.dart';
 import 'package:paylater/user/TransferBank.dart';
+import 'package:paylater/user/history_page/tagihanPage.dart';
 
-import '../admin/component/popup.dart';
-import '../theme.dart';
+import '../../admin/component/popup.dart';
+import '../../theme.dart';
+import '../components/detailTagihan/detailCicilan.dart';
+import '../components/detailTagihan/detailPesanan.dart';
+import 'RiwayatTagihan.dart';
 
 class DetailTagihan extends StatefulWidget {
   const DetailTagihan({Key? key}) : super(key: key);
@@ -91,15 +90,15 @@ class _DetailTagihanState extends State<DetailTagihan> {
                     ),
                   ),
 
-                  //Rincian pesanan
+                  ///Rincian pesanan
                   SizedBox(height: 24,),
                   DetailPesanan(),
 
-                  //Rincian Cicilan
+                  ///Rincian Cicilan
                   SizedBox(height: 24,),
                   DetailCicilan(),
 
-                  //alamat
+                  ///alamat
                   SizedBox(height: 24,),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 16),
@@ -142,7 +141,7 @@ class _DetailTagihanState extends State<DetailTagihan> {
                   ),
 
                   SizedBox(height: 24,),
-                  //resi
+                  ///resi
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
