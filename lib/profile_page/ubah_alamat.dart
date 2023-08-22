@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:paylater/navbar/NavbarBot.dart';
-import 'package:paylater/user/ProfilePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UbahAlamat extends StatefulWidget {
@@ -26,7 +25,6 @@ class _UbahAlamatState extends State<UbahAlamat> {
     setState(() {
       token = prefs.getString('token')!;
       id = prefs.getInt('id')!;
-      print(token);
     });
   }
 
@@ -101,6 +99,7 @@ class _UbahAlamatState extends State<UbahAlamat> {
       print(e.toString());
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
