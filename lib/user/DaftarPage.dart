@@ -1,12 +1,10 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paylater/user/LoginPage.dart';
-import 'package:paylater/user/VerifyFace.dart';
 import '../admin/component/popup.dart';
 import '../theme.dart';
 
@@ -240,12 +238,12 @@ class _DaftarPageState extends State<DaftarPage> {
                         ),
                       ],
                     ),
-                    //End Username
-                    SizedBox(
+
+                    const SizedBox(
                       height: 20,
                     ),
 
-                    //email
+                    ///email
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -284,11 +282,12 @@ class _DaftarPageState extends State<DaftarPage> {
                         ),
                       ],
                     ),
-                    SizedBox(
+
+                    const SizedBox(
                       height: 20,
                     ),
 
-                    //Nomor Telepon
+                    ///Nomor Telepon
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

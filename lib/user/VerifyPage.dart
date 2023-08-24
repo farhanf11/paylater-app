@@ -92,7 +92,7 @@ class _VerifyPageState extends State<VerifyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff025464),
+        backgroundColor: const Color(0xff025464),
         leading: const BackButton(),
       ),
       body: Container(

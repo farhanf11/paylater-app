@@ -1,27 +1,94 @@
-import 'package:flutter/material.dart';
-import 'package:paylater/user/HomePage.dart';
+import 'dart:convert';
 
-import '../admin/component/popup.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../navbar/NavbarBot.dart';
 import '../theme.dart';
-import '../user/ProfilePage.dart';
-import '../user/VerifyPage.dart';
 
 class EditProfil extends StatefulWidget {
   const EditProfil({Key? key}) : super(key: key);
-
 
   @override
   State<EditProfil> createState() => _EditProfilState();
 }
 
 class _EditProfilState extends State<EditProfil> {
-  TextEditingController inputnama = TextEditingController();
-  TextEditingController inputtelp = TextEditingController();
+  String token = "";
+  var id = 0;
+
+  void initState() {
+    getToken();
+  }
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+      id = prefs.getInt('id')!;
+    });
+  }
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController telpController = TextEditingController();
+
+  void AddBiodata(String username, String telp ) async {
+    try {
+      Response response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/update-biodata/$id'),
+          headers: {
+            'Authorization': token,
+          },
+          body: {
+            'username': username,
+            'telp': telp,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if (responseData['success'] == false) {
+          print('gagal');
+        } else {
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => NavbarBot()));
+          AlertDialog alert = AlertDialog(
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context, builder: (context) => alert);
+        }
+      }
+      if (response.statusCode == 422) {
+        var responseData = json.decode(response.body);
+        AlertDialog alert = AlertDialog(
+          title: Text(responseData['message']),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   void dispose() {
-    inputnama.dispose();
-    inputtelp.dispose();
+    usernameController.dispose();
+    telpController.dispose();
     super.dispose();
   }
 
@@ -31,7 +98,7 @@ class _EditProfilState extends State<EditProfil> {
         backgroundColor: PaylaterTheme.white,
         title: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Text('Mengedit Akun',
+          child: Text('Mengedit Profil',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -76,7 +143,7 @@ class _EditProfilState extends State<EditProfil> {
                     TextField(
                       // selectionHeightStyle:
                       //     BoxHeightStyle.includeLineSpacingMiddle,
-                      controller: inputnama,
+                      controller: usernameController,
                       maxLines: 1,
                       decoration: const InputDecoration(
                           contentPadding:
@@ -145,7 +212,7 @@ class _EditProfilState extends State<EditProfil> {
                           child: SizedBox(
                             width: double.infinity,
                             child: TextField(
-                              controller: inputtelp,
+                              controller: telpController,
                               maxLines: 1,
                               decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
@@ -174,45 +241,41 @@ class _EditProfilState extends State<EditProfil> {
                 ),
                 SizedBox(height: 200,),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: PaylaterTheme.maincolor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
+                      style: const ButtonStyle(
+                        padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                        backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
                       ),
-                      onPressed: () {
-                        Popup.confirmDialog(context,
-                            message: "Simpan Perubahan?",
-                            dialogCallback: (value) async {
-                              if (value == 'Ya') {
-                                Navigator.of(context).pop();
-                              }
-                              if (value == 'Tidak') {}
-                            });
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => {
+                        AddBiodata(
+                            usernameController.text.toString(),
+                            telpController.text.toString(),
+                        )
                       },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text("Simpan")),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: PaylaterTheme.grey,
+                        backgroundColor: PaylaterTheme.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const ProfilePage()));
+                        Navigator.of(context).pop();
                       },
                       child: Container(
                           padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text("Batal")),
+                          child: const Text("Batal")),
                     ),
                   ],
                 ),

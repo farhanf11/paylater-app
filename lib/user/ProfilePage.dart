@@ -10,8 +10,6 @@ import '../profile_page/ubah_alamat.dart';
 import 'HistoryPage.dart';
 import 'components/profileComponent/buttonProfile.dart';
 import 'components/profileComponent/dataButton.dart';
-import 'components/profileComponent/menuProfile.dart';
-import 'components/profileComponent/profileInfo.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -34,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   var user_name = "username";
   var email_address = "email";
   var phone_number = "phone";
+  var image_face = "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250";
 
   void initState() {
     ProfilebyId();
@@ -60,6 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
             user_name = responseData['data']['user_name'];
             email_address = responseData['data']['email_address'];
             phone_number = responseData['data']['phone_number'];
+            image_face = responseData['data']['image_face'];
           });
 
         }
@@ -111,10 +111,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     offset: const Offset(0, 10))
                               ],
                               shape: BoxShape.circle,
-                              image: const DecorationImage(
+                              image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: NetworkImage(
-                                    "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                                    image_face,
                                   ))),
                         ),
 

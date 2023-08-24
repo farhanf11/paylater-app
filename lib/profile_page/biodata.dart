@@ -15,8 +15,15 @@ class Biodata extends StatefulWidget {
 }
 
 class _BiodataState extends State<Biodata> {
+  String _gender= '';
   String token = "";
   var id = 0;
+
+  void _handleRadioValueChange(String? value) {
+    setState(() {
+      _gender= value!;
+    });
+  }
 
   void initState() {
     getToken();
@@ -72,9 +79,7 @@ class _BiodataState extends State<Biodata> {
                   builder: (BuildContext context) => NavbarBot()));
           AlertDialog alert = AlertDialog(
             title: Text("Berhasil"),
-            content: Container(
-              child: Text(responseData['message']),
-            ),
+            content: Text(responseData['message']),
             actions: [
               TextButton(
                 child: Text('Ok'),
@@ -90,21 +95,6 @@ class _BiodataState extends State<Biodata> {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
           title: Text(responseData['message']),
-          actions: [
-            TextButton(
-              child: Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (context) => alert);
-      }
-      if (response.statusCode == 404) {
-        AlertDialog alert = AlertDialog(
-          title: Text("Email tidak terdaftar"),
-          content: Container(
-            child: Text("Email yang anda masukan salah"),
-          ),
           actions: [
             TextButton(
               child: Text('Ok'),
@@ -195,7 +185,7 @@ class _BiodataState extends State<Biodata> {
               ),
 
               ///tanggal Lahir
-              Text(
+              const Text(
                 'Tanggal Lahir',
                 style: TextStyle(
                     fontSize: 14,
@@ -238,17 +228,47 @@ class _BiodataState extends State<Biodata> {
               const SizedBox(
                 height: 5,
               ),
-
-              ///gender
               TextField(
-                controller: genderController,
+                controller: ibukandungController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Jenis Kelamin',
+                  hintText: 'Nama Ibu Kandung',
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
 
-              SizedBox(
+              ///gender
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Gender',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                  ListTile(
+                    leading: Radio<String>(
+                      value: 'male',
+                      groupValue: _gender,
+                      onChanged: _handleRadioValueChange,
+                    ),
+                    title: const Text('Male'),
+                  ),
+                  ListTile(
+                    leading: Radio<String>(
+                      value: 'female',
+                      groupValue: _gender,
+                      onChanged: _handleRadioValueChange,
+                    ),
+                    title: const Text('Female'),
+                  ),
+                ],
+              ),
+              const SizedBox(
                 height: 10,
               ),
 
@@ -260,7 +280,7 @@ class _BiodataState extends State<Biodata> {
                     fontWeight: FontWeight.w600,
                     color: Colors.black),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               TextField(
@@ -270,13 +290,12 @@ class _BiodataState extends State<Biodata> {
                   hintText: 'Provinsi',
                 ),
               ),
-
               const SizedBox(
                 height: 10,
               ),
 
               ///Kota
-              Text(
+              const Text(
                 'Kota',
                 style: TextStyle(
                     fontSize: 14,
@@ -293,13 +312,14 @@ class _BiodataState extends State<Biodata> {
                   hintText: 'Kota',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ],
           ),
           SizedBox(height: 60),
-          //submit
+
+          ///submit
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -316,12 +336,12 @@ class _BiodataState extends State<Biodata> {
                 onPressed: () => {
                   AddBiodata(
                       namaController.text.toString(),
-                      nikController.toString(),
-                      ibukandungController.toString(),
-                      dateController.toString(),
-                      genderController.toString(),
-                      kotaControler.toString(),
-                      provinsiController.toString())
+                      nikController.text.toString(),
+                      ibukandungController.text.toString(),
+                      dateController.text.toString(),
+                      _gender.toString(),
+                      kotaControler.text.toString(),
+                      provinsiController.text.toString())
                 },
               ),
               SizedBox(
