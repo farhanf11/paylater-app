@@ -115,7 +115,7 @@ class _BiodataState extends State<Biodata> {
       appBar: AppBar(
         backgroundColor: Color(0xff025464),
         title: const Text(
-          'Biodata Diri',
+          'Edit Biodata',
           style: TextStyle(fontSize: 14),
         ),
         centerTitle: true,
