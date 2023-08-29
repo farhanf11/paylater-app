@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/user/LoginPage.dart';
-import 'package:paylater/user/VerifyFace.dart';
 import '../admin/component/popup.dart';
 import '../theme.dart';
 

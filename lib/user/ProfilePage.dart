@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:paylater/profile_page/biodataPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../profile_page/biodata.dart';
@@ -75,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff025464),
+        backgroundColor: const Color(0xff025464),
         title: const Text(
           "Profile",
           style: TextStyle(fontSize: 16),
@@ -84,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         height: double.maxFinite,
-        color: Color(0xffF6F6F6),
+        color: const Color(0xffF6F6F6),
         child: ListView(physics: ClampingScrollPhysics(), children: [
           Container(
             child: Column(
@@ -188,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               id: 1,
                               icon1: Icons.person_pin,
                               text1: 'Edit Profil',
-                              text2: 'Edit profil kamu agar lebih menarik',
+                              text2: 'Kamu bisa memngubah username disini',
                               icon2: Icons.arrow_right_outlined,
                             )),
                             onPressed: () => Navigator.of(context)
@@ -223,11 +224,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               id: 3,
                               icon1: Icons.playlist_add_circle_sharp,
                               text1: 'Biodata',
-                              text2: 'Lengkapi biodata sebelum dapat melakukan pesanan',
+                              text2: 'Lengkapi biodata sebelum melakukan pesanan',
                               icon2: Icons.arrow_right_outlined,
                             )),
                             onPressed: () => Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) => const Biodata())),
+                                .push(MaterialPageRoute(builder: (context) => const BiodataPage())),
                           ),
                           //end biodata
 

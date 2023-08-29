@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../navbar/NavbarBot.dart';
-import '../theme.dart';
 
 class BiodataPage extends StatefulWidget {
   const BiodataPage({Key? key}) : super(key: key);
@@ -15,28 +13,63 @@ class BiodataPage extends StatefulWidget {
 }
 
 class _BiodataPageState extends State<BiodataPage> {
-  String _gender= '';
+  _BiodataPageState();
+  var full_name = "full_name";
+  var nik ="nik";
+  var mother_name = "mother_name";
+  var birth_date = "birth_date";
+  var gender = "gender";
+  var province = "province";
+  var city = "city";
+  var address = "address";
+  var job = "job";
+  var image_face = "image_face";
+  var image_ktp = "image_ktp";
+
   String token = "";
   var id = 0;
 
-  void _handleRadioValueChange(String? value) {
-    setState(() {
-      _gender= value!;
-    });
-  }
-
   void initState() {
-    getToken();
+    BiodatabyId();
   }
 
-  getToken() async {
+  void BiodatabyId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      token = prefs.getString('token')!;
-      id = prefs.getInt('id')!;
-    });
-  }
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    try {
+      Response response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          headers: {
+            'Authorization': token,
+          });
 
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            full_name = responseData['data']['full_name'];
+            nik = responseData['data']['nik'];
+            mother_name = responseData['data']['mother_name'];
+            birth_date = responseData['data']['birth_date'];
+            gender = responseData['data']['gender'];
+            city = responseData['data']['city'];
+            province = responseData['data']['province'];
+            job = responseData['data']['job'];
+            address = responseData['data']['address'];
+            image_face = responseData['data']['image_face'];
+            image_ktp = responseData['data']['image_ktp'];
+          });
+
+        }
+
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,45 +96,130 @@ class _BiodataPageState extends State<BiodataPage> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(8)
         ),
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text('Biodata {Username}', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),),
-            SizedBox(height: 10,),
-            Text('Nama Lengkap', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),),
-            SizedBox(height: 4,),
-            Text('{nama lengkap}', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+            const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Biodata Diri', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),),
+              ],
+            ),
+            const SizedBox(height: 16,),
+            Row(
+              children: [
+                const Text('Nama Lengkap :', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
+                const SizedBox(width : 4,),
+                Text(full_name.toString(), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),),
+              ],
+            ),
+            const SizedBox(height: 10,),
 
-            SizedBox(height: 10,),
-            Text('NIK', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),),
-            SizedBox(height: 4,),
-            Text('{nik}', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+            Row(
+              children: [
+                const Text('NIK', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
+                const SizedBox(width: 4,),
+                Text(nik.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+              ],
+            ),
+            const SizedBox(height: 10,),
 
-            SizedBox(height: 10,),
-            Text('Tanggal Lahir', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),),
-            SizedBox(height: 4,),
-            Text('{tanggal}', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+            Row(
+              children: [
+                const Text('Tanggal Lahir : ', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
+                const SizedBox(width: 4,),
+                Text(birth_date.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+              ],
+            ),
+            const SizedBox(height: 10,),
 
+            Row(
+              children: [
+                const Text('Nama Ibu Kandung : ', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
+                const SizedBox(height: 4,),
+                Text(mother_name.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+              ],
+            ),
             SizedBox(height: 10,),
-            Text('Nama Ibu Kandung', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),),
-            SizedBox(height: 4,),
-            Text('{nama ibu kandung}', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
 
-            SizedBox(height: 10,),
-            Text('Gender', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),),
-            SizedBox(height: 4,),
-            Text('{gender}', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+            Row(
+              children: [
+                const Text('Gender : ', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
+                const SizedBox(width: 4,),
+                Text(gender.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+              ],
+            ),
 
-            SizedBox(height: 10,),
-            Text('Provinsi', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),),
-            SizedBox(height: 4,),
-            Text('{provinsi}', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
 
-            SizedBox(height: 10,),
-            Text('Kota', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),),
-            SizedBox(height: 4,),
-            Text('{kota}', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+
+
+
+
+
+            const SizedBox(height: 10,),
+            const Text('Provinsi', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
+            const SizedBox(height: 4,),
+            Text(province.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+
+            const SizedBox(height: 10,),
+            const Text('Kota', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
+            const SizedBox(height: 4,),
+            Text(city.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+
+            const SizedBox(height: 10,),
+            const Text('Pekerjaan', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
+            const SizedBox(height: 4,),
+            Text(job.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+
+            const SizedBox(height: 10,),
+            const Text('Alamat', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
+            const SizedBox(height: 4,),
+            Text(address.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+
+            SizedBox(height: 14,),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              height: 120,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 4, color: Theme.of(context).scaffoldBackgroundColor),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        color: Colors.black.withOpacity(0.1),
+                        offset: const Offset(0, 10))
+                  ],
+                  shape: BoxShape.rectangle,
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        image_face,
+                      ))),
+            ),
+
+            SizedBox(height: 14,),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              height: 120,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 4, color: Theme.of(context).scaffoldBackgroundColor),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        color: Colors.black.withOpacity(0.1),
+                        offset: const Offset(0, 10))
+                  ],
+                  shape: BoxShape.rectangle,
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        image_ktp,
+                      ))),
+            ),
           ],
         ),
       ),
