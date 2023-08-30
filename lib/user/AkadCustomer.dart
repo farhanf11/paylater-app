@@ -1,6 +1,9 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:paylater/user/HistoryPage.dart';
 import 'package:paylater/user/HomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../admin/component/popup.dart';
@@ -21,21 +24,103 @@ class _RincianAkadState extends State<RincianAkad> {
   String fotoProduk = "";
   String namaProduk= "";
   int hargaProduk = 0;
+  String token = "";
+  var id = 0;
 
   void initState() {
     RincianProduk();
   }
 
+  ///get rincian produk
   void RincianProduk() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token')!;
-    var id = prefs.getInt('id')!;
+    // var token = prefs.getString('token')!;
+    // var id = prefs.getInt('id')!;
 
     setState(() {
       fotoProduk = widget.fotoProduk;
       namaProduk = widget.namaProduk;
       hargaProduk = widget.hargaProduk;
     });
+  }
+
+  final TextEditingController dateController = TextEditingController();
+  final TextEditingController namaController = TextEditingController();
+  final TextEditingController nikController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController ibukandungController = TextEditingController();
+  final TextEditingController provinsiController = TextEditingController();
+  final TextEditingController kotaControler = TextEditingController();
+
+  ///post permintaan akad
+  void EditAddress(String address) async {
+    try {
+      Response response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/order-store/$id'),
+          headers: {
+            'Authorization': token,
+          },
+          body: {
+            'address': address,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => HistoryPage()));
+          AlertDialog alert = AlertDialog(
+            title: Text("Berhasil"),
+            content: Container(
+              child: Text(responseData['message']),
+            ),
+            actions: [
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context, builder: (context) => alert);
+        }
+
+      }
+      if (response.statusCode == 422) {
+        var responseData = json.decode(response.body);
+        AlertDialog alert = AlertDialog(
+          title: Text(responseData['message']),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+      if (response.statusCode == 404) {
+        AlertDialog alert = AlertDialog(
+          title: Text("Email tidak terdaftar"),
+          content: Container(
+            child: Text("Email yang anda masukan salah"),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   String? alamat;
