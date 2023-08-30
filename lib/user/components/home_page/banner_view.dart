@@ -22,8 +22,8 @@ class BannerView extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: AssetImage(index.isEven
-                    ? '../assets/images/banner/banner1.jpg'
-                    : '../assets/images/banner/banner1.jpg'),
+                    ? 'assets/images/banner/banner1.jpg'
+                    : 'assets/images/banner/banner1.jpg'),
               ),
             ),
           );

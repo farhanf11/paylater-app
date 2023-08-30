@@ -36,30 +36,28 @@ class KategoriComp extends StatelessWidget {
                       children: [
                         CardCategories(Categories(
                             id: 1,
-                            imageUrl: '../assets/images/categories/pria.png',
+                            imageUrl: 'assets/images/categories/pria.png',
                             name: 'Pakaian Pria')),
                         SizedBox(
                           width: 14,
                         ),
                         CardCategories(Categories(
                             id: 2,
-                            imageUrl: '../assets/images/categories/wanita.png',
+                            imageUrl: 'assets/images/categories/wanita.png',
                             name: 'Pakaian Wanita')),
                         SizedBox(
                           width: 10,
                         ),
                         CardCategories(Categories(
                             id: 3,
-                            imageUrl:
-                                '../assets/images/categories/elektronik.png',
+                            imageUrl: 'assets/images/categories/elektronik.png',
                             name: 'Elektronik')),
                         SizedBox(
                           width: 10,
                         ),
                         CardCategories(Categories(
                             id: 4,
-                            imageUrl:
-                                '../assets/images/categories/anak-anak.png',
+                            imageUrl: 'assets/images/categories/anak-anak.png',
                             name: 'Anak-anak')),
                       ],
                     ),
@@ -70,16 +68,14 @@ class KategoriComp extends StatelessWidget {
                       children: [
                         CardCategories(Categories(
                             id: 5,
-                            imageUrl:
-                                '../assets/images/categories/kecantikan.png',
+                            imageUrl: 'assets/images/categories/kecantikan.png',
                             name: 'Kecantikan')),
                         SizedBox(
                           width: 10,
                         ),
                         CardCategories(Categories(
                             id: 6,
-                            imageUrl:
-                                '../assets/images/categories/kesehatan.png',
+                            imageUrl: 'assets/images/categories/kesehatan.png',
                             name: 'Kesehatan')),
                         SizedBox(
                           width: 10,
@@ -87,15 +83,14 @@ class KategoriComp extends StatelessWidget {
                         CardCategories(Categories(
                             id: 7,
                             imageUrl:
-                                '../assets/images/categories/kebutuhan-rumah.png',
+                                'assets/images/categories/kebutuhan-rumah.png',
                             name: 'Kebutuhan Rumah')),
                         SizedBox(
                           width: 10,
                         ),
                         CardCategories(Categories(
                             id: 8,
-                            imageUrl:
-                                '../assets/images/categories/olahraga.png',
+                            imageUrl: 'assets/images/categories/olahraga.png',
                             name: 'Olahraga')),
                       ],
                     ),
