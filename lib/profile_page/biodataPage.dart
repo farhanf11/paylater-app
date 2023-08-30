@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:paylater/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../navbar/NavbarBot.dart';
 
@@ -15,7 +16,7 @@ class BiodataPage extends StatefulWidget {
 class _BiodataPageState extends State<BiodataPage> {
   _BiodataPageState();
   var full_name = "full_name";
-  var nik ="nik";
+  var nik = "nik";
   var mother_name = "mother_name";
   var birth_date = "birth_date";
   var gender = "gender";
@@ -39,16 +40,17 @@ class _BiodataPageState extends State<BiodataPage> {
     var id = prefs.getInt('id')!;
     try {
       Response response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          Uri.parse(
+              'https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
           headers: {
             'Authorization': token,
           });
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        if(responseData['success'] == false ){
+        if (responseData['success'] == false) {
           print('gagal');
-        }else{
+        } else {
           setState(() {
             full_name = responseData['data']['full_name'];
             nik = responseData['data']['nik'];
@@ -62,9 +64,7 @@ class _BiodataPageState extends State<BiodataPage> {
             image_face = responseData['data']['image_face'];
             image_ktp = responseData['data']['image_ktp'];
           });
-
         }
-
       }
     } catch (e) {
       print(e.toString());
@@ -91,136 +91,270 @@ class _BiodataPageState extends State<BiodataPage> {
             )),
       ),
       body: Container(
-        padding: EdgeInsets.all(24),
+        padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8)
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Biodata Diri', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),),
-              ],
-            ),
-            const SizedBox(height: 16,),
-            Row(
-              children: [
-                const Text('Nama Lengkap :', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
-                const SizedBox(width : 4,),
-                Text(full_name.toString(), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),),
-              ],
-            ),
-            const SizedBox(height: 10,),
-
-            Row(
-              children: [
-                const Text('NIK', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
-                const SizedBox(width: 4,),
-                Text(nik.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
-              ],
-            ),
-            const SizedBox(height: 10,),
-
-            Row(
-              children: [
-                const Text('Tanggal Lahir : ', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
-                const SizedBox(width: 4,),
-                Text(birth_date.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
-              ],
-            ),
-            const SizedBox(height: 10,),
-
-            Row(
-              children: [
-                const Text('Nama Ibu Kandung : ', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
-                const SizedBox(height: 4,),
-                Text(mother_name.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
-              ],
-            ),
-            SizedBox(height: 10,),
-
-            Row(
-              children: [
-                const Text('Gender : ', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
-                const SizedBox(width: 4,),
-                Text(gender.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
-              ],
-            ),
-
-
-
-
-
-
-
-            const SizedBox(height: 10,),
-            const Text('Provinsi', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
-            const SizedBox(height: 4,),
-            Text(province.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
-
-            const SizedBox(height: 10,),
-            const Text('Kota', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
-            const SizedBox(height: 4,),
-            Text(city.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
-
-            const SizedBox(height: 10,),
-            const Text('Pekerjaan', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
-            const SizedBox(height: 4,),
-            Text(job.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
-
-            const SizedBox(height: 10,),
-            const Text('Alamat', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),),
-            const SizedBox(height: 4,),
-            Text(address.toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
-
-            SizedBox(height: 14,),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              height: 120,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 4, color: Theme.of(context).scaffoldBackgroundColor),
-                  boxShadow: [
-                    BoxShadow(
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                        color: Colors.black.withOpacity(0.1),
-                        offset: const Offset(0, 10))
-                  ],
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                        image_face,
-                      ))),
-            ),
-
-            SizedBox(height: 14,),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              height: 120,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 4, color: Theme.of(context).scaffoldBackgroundColor),
-                  boxShadow: [
-                    BoxShadow(
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                        color: Colors.black.withOpacity(0.1),
-                        offset: const Offset(0, 10))
-                  ],
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                        image_ktp,
-                      ))),
-            ),
-          ],
+            color: PaylaterTheme.spacer,
+            borderRadius: BorderRadius.circular(8)),
+        child: Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              color: PaylaterTheme.white,
+              borderRadius: BorderRadius.circular(10)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Biodata Diri',
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Nama Lengkap',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                      color: PaylaterTheme.deactivatedText,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    full_name.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'NIK',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                      color: PaylaterTheme.deactivatedText,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    nik.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Tanggal Lahir',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                      color: PaylaterTheme.deactivatedText,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    birth_date.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Nama Ibu Kandung',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                      color: PaylaterTheme.deactivatedText,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    mother_name.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Gender : ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                      color: PaylaterTheme.deactivatedText,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    gender.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'Provinsi',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
+                  color: PaylaterTheme.deactivatedText,
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                province.toString(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'Kota',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
+                  color: PaylaterTheme.deactivatedText,
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                city.toString(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'Pekerjaan',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
+                  color: PaylaterTheme.deactivatedText,
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                job.toString(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'Alamat',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
+                  color: PaylaterTheme.deactivatedText,
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                address.toString(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              SizedBox(
+                height: 14,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                height: 120,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 4,
+                        color: Theme.of(context).scaffoldBackgroundColor),
+                    boxShadow: [
+                      BoxShadow(
+                          spreadRadius: 2,
+                          blurRadius: 10,
+                          color: Colors.black.withOpacity(0.1),
+                          offset: const Offset(0, 10))
+                    ],
+                    shape: BoxShape.rectangle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          image_face,
+                        ))),
+              ),
+              SizedBox(
+                height: 14,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                height: 120,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 4,
+                        color: Theme.of(context).scaffoldBackgroundColor),
+                    boxShadow: [
+                      BoxShadow(
+                          spreadRadius: 2,
+                          blurRadius: 10,
+                          color: Colors.black.withOpacity(0.1),
+                          offset: const Offset(0, 10))
+                    ],
+                    shape: BoxShape.rectangle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          image_ktp,
+                        ))),
+              ),
+            ],
+          ),
         ),
       ),
     );

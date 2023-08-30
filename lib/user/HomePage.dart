@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     getToken();
   }
+
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        if(responseData['success'] == false ){
+        if (responseData['success'] == false) {
           AlertDialog alert = AlertDialog(
             title: Text("Gagal Mengirim Link"),
             content: Text(responseData['message']),
@@ -55,18 +56,15 @@ class _HomePageState extends State<HomePage> {
             ],
           );
           showDialog(context: context, builder: (context) => alert);
-        }else{
+        } else {
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      RincianAkad(
-                          fotoProduk: responseData['data']['image'],
-                          namaProduk: responseData['data']['title'],
-                          hargaProduk: responseData['data']['price'],
-                      )
-              )
-          );
+                  builder: (BuildContext context) => RincianAkad(
+                        fotoProduk: responseData['data']['image'],
+                        namaProduk: responseData['data']['title'],
+                        hargaProduk: responseData['data']['price'],
+                      )));
           AlertDialog alert = AlertDialog(
             title: Text("Berhasil"),
             content: Container(
@@ -82,7 +80,6 @@ class _HomePageState extends State<HomePage> {
 
           showDialog(context: context, builder: (context) => alert);
         }
-
       }
       if (response.statusCode == 422) {
         var responseData = json.decode(response.body);
@@ -116,6 +113,7 @@ class _HomePageState extends State<HomePage> {
       print(e.toString());
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,8 +127,8 @@ class _HomePageState extends State<HomePage> {
               height: 400,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(
-                        '../assets/images/background/bg-landing.png'),
+                    image:
+                        AssetImage('assets/images/background/bg-landing.png'),
                     fit: BoxFit.cover),
               ),
               child: Column(
@@ -172,7 +170,6 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-
             Container(
               height: 100,
               decoration: const BoxDecoration(
@@ -189,6 +186,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 10),
@@ -198,6 +196,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: TextField(
+                        textAlignVertical: TextAlignVertical.center,
                         controller: inputUrl,
                         autofocus: true,
                         style: TextStyle(color: Colors.blue[500], fontSize: 16),
@@ -210,19 +209,21 @@ class _HomePageState extends State<HomePage> {
                             prefixIcon: Icon(Icons.link),
                             suffix: ElevatedButton(
                               style: ButtonStyle(
-                                padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    PaylaterTheme.maincolor),
                                 shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                        RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(18.0),
-                                        side: BorderSide(color: Colors.lightBlueAccent))),
+                                  borderRadius: BorderRadius.circular(14.0),
+                                )),
                               ),
                               child: Text('Submit'),
-                              onPressed: () => {Scrapp(inputUrl.text.toString())},
+                              onPressed: () =>
+                                  {Scrapp(inputUrl.text.toString())},
                             ),
                             hintText: 'Paste link here',
-                            hintStyle:
-                                TextStyle(color: Colors.grey.shade600, fontSize: 15)),
+                            hintStyle: TextStyle(
+                                color: Colors.grey.shade600, fontSize: 15)),
                       ),
                     ),
                     const SizedBox(
@@ -241,10 +242,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SizedBox(height: 10,),
-
+            SizedBox(
+              height: 10,
+            ),
             KategoriComp(),
-
             TrendingComp(),
           ],
         ),
