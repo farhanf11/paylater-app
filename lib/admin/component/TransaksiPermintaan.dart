@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/detail_AkunCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
-import '../admin_createakun.dart';
-
 
 class TransaksiPermintaan extends StatefulWidget {
   const TransaksiPermintaan({Key? key}) : super(key: key);
@@ -122,8 +119,8 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                   children: [
                                      Image(
                                        image: NetworkImage(datas[index]['image']),
-                                       width: 80,
-                                       height: 80,
+                                       width: 60,
+                                       height: 60,
                                        fit: BoxFit.fill,
                                      ),
                                     const SizedBox(width: 20,),
@@ -131,15 +128,33 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        //Nama
-                                        Text(
-                                          datas[index]['title'],
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: PaylaterTheme.darkerText,
+                                        ///Nama
+                                        RichText(
+                                          maxLines: 10,
+                                          softWrap: true,
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text:
+                                                datas[index]['title'],
+                                                style: const TextStyle(
+                                                  color: PaylaterTheme.darkerText,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
+                                        // RichText(
+                                        //   Text(
+                                        //     datas[index]['title'],
+                                        //     style: const TextStyle(
+                                        //       fontSize: 16,
+                                        //       fontWeight: FontWeight.bold,
+                                        //       color: PaylaterTheme.darkerText,
+                                        //     ),
+                                        //   ),
+                                        // ),
 
                                         /// Tenor cicilan
                                         Text(

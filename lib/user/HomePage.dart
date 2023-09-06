@@ -4,9 +4,9 @@ import 'package:http/http.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:paylater/user/AkadCustomer.dart';
-import 'package:paylater/user/homeComponents/kategoriComp.dart';
-import 'package:paylater/user/homeComponents/trendingComp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/tagihan.dart';
+import 'components/card_riwayat_tagihan.dart';
 import 'components/home_page/banner_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Tagihan tagihan;
   String token = "";
 
   void initState() {
@@ -115,6 +116,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,11 +124,11 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         color: Colors.white,
         child: ListView(
-          physics: ClampingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           children: [
             Container(
               height: 400,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                     image:
                         AssetImage('assets/images/background/bg-landing.png'),
@@ -243,11 +245,60 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            KategoriComp(),
-            TrendingComp(),
+             Padding(
+                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+               child: Column(
+                 mainAxisAlignment: MainAxisAlignment.start,
+                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                 children: [
+                   const Text('Riwayat Tagihan',
+                     style: TextStyle(
+                       fontSize: 16,
+                       fontWeight: FontWeight.w700,
+                       color: PaylaterTheme.maincolor,
+                       fontFamily: PaylaterTheme.fontName,
+                     ),
+                   ),
+                   const SizedBox(height: 5,),
+                   CardRiwayatTagihan(Tagihan(
+                       id: 1,
+                       imageUrl: "https://media.istockphoto.com/id/1286249900/id/foto/merek-baru-iphone-12-pro-max-di-pacific-blue-di-pengaturan-studio.jpg?s=612x612&w=0&k=20&c=ejvqcTDMppI8slqjyRCP66UVJqHkfoAQHpinrini-gY=",
+                       productName: 'iPhone 13 Black, 128 gb',
+                       tenorCicilan: 12,
+                       statusTagihan: 'Lunas',
+                       hargaCicilan: 1399899,
+                       hargaBarang: 14799000,
+                       tanggalJatuhTempo: '12/April/2023'
+                   ),),
+                   const SizedBox(height: 8,),
+                   CardRiwayatTagihan(Tagihan(
+                       id: 1,
+                       imageUrl: "https://media.istockphoto.com/id/1286249900/id/foto/merek-baru-iphone-12-pro-max-di-pacific-blue-di-pengaturan-studio.jpg?s=612x612&w=0&k=20&c=ejvqcTDMppI8slqjyRCP66UVJqHkfoAQHpinrini-gY=",
+                       productName: 'iPhone 13 Black, 128 gb',
+                       tenorCicilan: 12,
+                       statusTagihan: 'Lunas',
+                       hargaCicilan: 1399899,
+                       hargaBarang: 14799000,
+                       tanggalJatuhTempo: '12/April/2023'
+                   ),),
+                   const SizedBox(height: 8,),
+                   CardRiwayatTagihan(Tagihan(
+                       id: 1,
+                       imageUrl: "https://media.istockphoto.com/id/1286249900/id/foto/merek-baru-iphone-12-pro-max-di-pacific-blue-di-pengaturan-studio.jpg?s=612x612&w=0&k=20&c=ejvqcTDMppI8slqjyRCP66UVJqHkfoAQHpinrini-gY=",
+                       productName: 'iPhone 13 Black, 128 gb',
+                       tenorCicilan: 12,
+                       statusTagihan: 'Lunas',
+                       hargaCicilan: 1399899,
+                       hargaBarang: 14799000,
+                       tanggalJatuhTempo: '12/April/2023'
+                   ),),
+                 ],
+               ),
+
+             ),
           ],
         ),
       ),

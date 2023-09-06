@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paylater/user/ProfilePage.dart';
-
 import 'history_page/RiwayatTagihan.dart';
 import 'history_page/tagihanPage.dart';
 
@@ -26,14 +24,10 @@ class _HistoryPageState extends State<HistoryPage> {
       length: 4 ,
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xff025464),
-            title: Text("History", style: TextStyle(fontSize: 16),),
-            leading: GestureDetector(
-              child: Icon( Icons.arrow_back, color: Colors.white,),
-              onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ProfilePage())),
-            ) ,
-            bottom: TabBar(
+            backgroundColor: const Color(0xff025464),
+            title: const Text("History", style: TextStyle(fontSize: 16),),
+            leading: const BackButton(),
+            bottom: const TabBar(
               tabs: [
                 Tab(text: 'Tagihan',),
                 Tab(text: 'Riwayat Tagihan',),
