@@ -45,6 +45,7 @@ class _BiodataState extends State<Biodata> {
   final TextEditingController provinsiController = TextEditingController();
   final TextEditingController kotaControler = TextEditingController();
 
+  ///date
   void dispose() {
     dateController.dispose();
     super.dispose();
@@ -67,11 +68,9 @@ class _BiodataState extends State<Biodata> {
             'city': city,
             'province': province,
           });
-
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         if (responseData['success'] == false) {
-          print('gagal');
         } else {
           Navigator.push(
               context,

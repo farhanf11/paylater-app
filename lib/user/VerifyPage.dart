@@ -25,7 +25,7 @@ class _VerifyPageState extends State<VerifyPage> {
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      email = prefs.getString('username')!;
+      email = prefs.getString('email')!;
     });
   }
 

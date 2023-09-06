@@ -24,11 +24,11 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
         children: [
           Container(
             height: 120,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
-                  colors: const [
+                  colors: [
                     PaylaterTheme.maincolor,
                     Color.fromRGBO(12, 166, 195, 1),
                   ]),
@@ -37,12 +37,12 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text("Rp 85.000.000",
                           style: TextStyle(
                               fontSize: 20,
@@ -80,7 +80,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Expanded(
@@ -103,12 +103,12 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                   ),
                 ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
+              child: const Padding(
+                padding: EdgeInsets.all(25.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       "Rincian Dana",
                       style: TextStyle(
                         fontSize: 18,
@@ -124,7 +124,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(12.0),
+                                padding: EdgeInsets.all(12.0),
                                 child: Text(
                                   'Total Dana Keluar',
                                   style: TextStyle(
@@ -134,10 +134,10 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                                    EdgeInsets.fromLTRB(20, 0, 20, 12),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  children: const [
+                                  children: [
                                     Text("Rp",
                                         style: TextStyle(
                                             fontSize: 14,
@@ -163,7 +163,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Icon(
                               Icons.data_exploration,
                               size: 30,
@@ -182,7 +182,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
+                              Padding(
                                 padding: EdgeInsets.all(12.0),
                                 child: Text(
                                   'Total Dana Saat Ini',
@@ -193,10 +193,10 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                                    EdgeInsets.fromLTRB(20, 0, 20, 12),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  children: const [
+                                  children: [
                                     Text("Rp",
                                         style: TextStyle(
                                             fontSize: 14,
@@ -221,7 +221,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                               )
                             ],
                           ),
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Icon(
                               Icons.monetization_on,

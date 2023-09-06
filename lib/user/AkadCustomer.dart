@@ -4,28 +4,42 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:paylater/user/HistoryPage.dart';
-import 'package:paylater/user/HomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../admin/component/popup.dart';
 import '../theme.dart';
 
 class RincianAkad extends StatefulWidget {
-  const RincianAkad({Key? key, required this.fotoProduk, required this.namaProduk, required this.hargaProduk}) : super(key: key);
+  const RincianAkad({Key? key, required this.fotoProduk, required this.namaProduk, required this.hargaProduk, required this.url}) : super(key: key);
   final String fotoProduk;
   final String namaProduk;
   final int hargaProduk;
+  final String url;
 
   @override
   State<RincianAkad> createState() => _RincianAkadState();
 }
 
 class _RincianAkadState extends State<RincianAkad> {
-  _RincianAkadState();
   String fotoProduk = "";
   String namaProduk= "";
   int hargaProduk = 0;
+  String url = "";
   String token = "";
   var id = 0;
+  String _address = '';
+  String _tenor = '';
+  var address = "address";
+
+  void _handleAddress(String? value) {
+    setState(() {
+      _address= value!;
+    });
+  }
+
+  void _handleTenor(String? value) {
+    setState(() {
+      _tenor= value!;
+    });
+  }
 
   void initState() {
     RincianProduk();
@@ -34,26 +48,23 @@ class _RincianAkadState extends State<RincianAkad> {
   ///get rincian produk
   void RincianProduk() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // var token = prefs.getString('token')!;
-    // var id = prefs.getInt('id')!;
+    token = prefs.getString('token')!;
+    id = prefs.getInt('id')!;
 
     setState(() {
       fotoProduk = widget.fotoProduk;
       namaProduk = widget.namaProduk;
       hargaProduk = widget.hargaProduk;
+      url = widget.url;
     });
   }
 
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController namaController = TextEditingController();
-  final TextEditingController nikController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
-  final TextEditingController ibukandungController = TextEditingController();
-  final TextEditingController provinsiController = TextEditingController();
-  final TextEditingController kotaControler = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController tenorController = TextEditingController();
+  final TextEditingController catatanController = TextEditingController();
 
   ///post permintaan akad
-  void EditAddress(String address) async {
+  void AddOrder(String tenor, String address, String note) async {
     try {
       Response response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/order-store/$id'),
@@ -61,23 +72,27 @@ class _RincianAkadState extends State<RincianAkad> {
             'Authorization': token,
           },
           body: {
-            'address': address,
+            'url': url,
+            'image': fotoProduk,
+            'title': namaProduk,
+            'price': hargaProduk,
+            'tenor': _tenor,
+            'address': _address,
+            'note': note,
           });
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        if(responseData['success'] == false ){
+        if (responseData['success'] == false) {
           print('gagal');
-        }else{
+        } else {
           Navigator.push(
               context,
               new MaterialPageRoute(
                   builder: (BuildContext context) => HistoryPage()));
           AlertDialog alert = AlertDialog(
             title: Text("Berhasil"),
-            content: Container(
-              child: Text(responseData['message']),
-            ),
+            content: Text(responseData['message']),
             actions: [
               TextButton(
                 child: Text('Ok'),
@@ -88,27 +103,11 @@ class _RincianAkadState extends State<RincianAkad> {
 
           showDialog(context: context, builder: (context) => alert);
         }
-
       }
-      if (response.statusCode == 422) {
+      if (response.statusCode != 200) {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
           title: Text(responseData['message']),
-          actions: [
-            TextButton(
-              child: Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (context) => alert);
-      }
-      if (response.statusCode == 404) {
-        AlertDialog alert = AlertDialog(
-          title: Text("Email tidak terdaftar"),
-          content: Container(
-            child: Text("Email yang anda masukan salah"),
-          ),
           actions: [
             TextButton(
               child: Text('Ok'),
@@ -126,7 +125,6 @@ class _RincianAkadState extends State<RincianAkad> {
   String? alamat;
   String? dropdownValue = "Customer";
   TextEditingController inputCatatan = TextEditingController();
-  final _controller = TextEditingController();
 
   @override
   void dispose() {
@@ -183,8 +181,8 @@ class _RincianAkadState extends State<RincianAkad> {
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    'Rp '+hargaProduk.toString(),
-                    style: TextStyle(
+                    'Rp $hargaProduk',
+                    style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Colors.grey),
@@ -193,165 +191,99 @@ class _RincianAkadState extends State<RincianAkad> {
               ),
             ),
 
+            ///tenor
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Pekerjaan',
+                  'Gender',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: PaylaterTheme.grey),
+                      color: Colors.black),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    filled: true,
-                    fillColor: PaylaterTheme.white,
+                ListTile(
+                  leading: Radio<String>(
+                    value: '3',
+                    groupValue: _tenor,
+                    onChanged: _handleTenor,
                   ),
-                  dropdownColor: PaylaterTheme.white,
-                  hint: const Text(
-                    "Choose",
-                    style: TextStyle(
-                        color: PaylaterTheme.deactivatedText,
-                        fontWeight: FontWeight.w600),
+                  title: const Text('3 bulan'),
+                ),
+                ListTile(
+                  leading: Radio<String>(
+                    value: '6',
+                    groupValue: _tenor,
+                    onChanged: _handleTenor,
                   ),
-                  value: dropdownValue,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownValue = newValue!;
-                    });
-                  },
-                  items: <String>['Admin', 'Pengawas', 'Customer']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: PaylaterTheme.grey),
-                      ),
-                    );
-                  }).toList(),
+                  title: const Text('6 bulan'),
                 ),
-                SizedBox(
-                  height: 5,
+                ListTile(
+                  leading: Radio<String>(
+                    value: '12',
+                    groupValue: _tenor,
+                    onChanged: _handleTenor,
+                  ),
+                  title: const Text('12 bulan'),
                 ),
-                const Row(
-                  children: [
-                    Text('Cicilan : ', style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500,
-                    ),),
-                    Text(
-                      '1.200.000',
-                      style: TextStyle(color: Colors.orange),
-                    ),
-                    Text('12 Bulan', style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500,
-                    ),),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                const Text(
-                  'note : Harga yang ditetapkan sudah termasuk ongkir dan biaya\n layanan pada ecommerce',
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text('Alamat Pengiriman', style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),),
-                SizedBox(height: 5,),
-                RadioListTile(
-                  title: Text("Koperasi FMIPA UNJ"),
-                  value: "UNJ Kampus A, Gedung Dewi Sartika lt.5, Koperasi Matematika",
-                  groupValue: alamat,
-                  onChanged: (value) {
-                    setState(() {
-                      alamat = value.toString();
-                    });
-                  },
-                ),
-                RadioListTile(
-                  title: Text("Alamat Sendiri"),
-                  value: "Jl.Ximpangan Raya",
-                  groupValue: alamat,
-                  onChanged: (value) {
-                    setState(() {
-                      alamat = value.toString();
-                    });
-                  },
-                ),
-                SizedBox(height: 10,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Cattan', style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),),
-                    SizedBox(height: 5,),
-                    TextFormField(
-                      controller: _controller,
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          onPressed: _controller.clear,
-                          icon: Icon(Icons.clear),
-                          color: PaylaterTheme.maincolor,
-
-                        ),
-                        border: OutlineInputBorder(),
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: 'Catatan',
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
-            SizedBox(height: 60,),
+            const SizedBox(
+              height: 10,
+            ),
+
+            ///address
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Gender',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
+                ),
+                ListTile(
+                  leading: Radio<String>(
+                    value: 'Koperasi Rumpun Matematika UNJ, Gedung Dewi Sartika Lt.5, UNJ Kampus A, Rawamangun, Jakarta Timur',
+                    groupValue: _address,
+                    onChanged: _handleAddress,
+                  ),
+                  title: const Text('Di UNJ'),
+                ),
+                ListTile(
+                  leading: Radio<String>(
+                    value: '6',
+                    groupValue: _address,
+                    onChanged: _handleAddress,
+                  ),
+                  title: Text(address),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 60,),
+            ///submit
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: PaylaterTheme.maincolor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    ),
+                  style: const ButtonStyle(
+                    padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                    backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
                   ),
-                  onPressed: () {
-                    Popup.confirmDialog(context,
-                        message: "Konfirmasi data anda?",
-                        dialogCallback: (value) async {
-                          if (value == 'confirm') {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
-                          }
-                          if (value == 'cancel') {}
-                        });
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () => {
+                    AddOrder(
+                      _address.toString(),
+                      _tenor.toString(),
+                      catatanController.text.toString(),
+                    ),
                   },
-                  child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text("Konfirmasi")),
                 ),
                 SizedBox(
                   height: 10,

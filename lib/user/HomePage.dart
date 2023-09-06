@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage> {
                         fotoProduk: responseData['data']['image'],
                         namaProduk: responseData['data']['title'],
                         hargaProduk: responseData['data']['price'],
+                        url: url,
                       )));
           AlertDialog alert = AlertDialog(
             title: Text("Berhasil"),

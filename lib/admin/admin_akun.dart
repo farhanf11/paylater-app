@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui';
 import 'package:paylater/admin/component/AkunAdminPengawas.dart';
 import 'package:paylater/admin/component/AkunCustomer.dart';
@@ -27,30 +26,38 @@ class _AdminAkunState extends State<AdminAkun> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: const Color(0xff025464),
-            title: Text("Kelola Akun", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: 'Unverify',),
-                Tab(text: 'Customer',),
-                Tab(text: "Admin",)
-              ],
-            ),
+        appBar: AppBar(
+          backgroundColor: const Color(0xff025464),
+          title: Text(
+            "Kelola Akun",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
-          backgroundColor: PaylaterTheme.white,
-          body: const TabBarView(
-            children: [
-              //Tagihan
-              AkunUnverify(),
-
-              //riwayat tagihan
-              AkunCustomer(),
-
-              AkunAdminPengawas(),
+          bottom: const TabBar(
+            tabs: [
+              Tab(
+                text: 'Unverify',
+              ),
+              Tab(
+                text: 'Customer',
+              ),
+              Tab(
+                text: "Admin",
+              )
             ],
           ),
+        ),
+        backgroundColor: PaylaterTheme.white,
+        body: const TabBarView(
+          children: [
+            //Tagihan
+            AkunUnverify(),
 
+            //riwayat tagihan
+            AkunCustomer(),
+
+            AkunAdminPengawas(),
+          ],
+        ),
       ),
     );
   }
