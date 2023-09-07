@@ -122,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         //username
                         Text(
                           user_name.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
@@ -139,18 +139,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
                         Text(
                           phone_number.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black87,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
-                    //button cek tagihan
+                    ///button cek tagihan
                     Container(
                       margin: const EdgeInsets.symmetric(
                         horizontal: 10,

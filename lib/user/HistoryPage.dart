@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'history_page/RiwayatTagihan.dart';
+import 'history_page/tagihanBerlangsung.dart';
 import 'history_page/tagihanPage.dart';
 
 
@@ -15,6 +16,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   final pages = [
     TagihanPage(),
+    TagihanBerlangsung(),
     RiwayatTagihan(),
   ];
 
@@ -29,7 +31,8 @@ class _HistoryPageState extends State<HistoryPage> {
             leading: const BackButton(),
             bottom: const TabBar(
               tabs: [
-                Tab(text: 'Tagihan',),
+                Tab(text: 'Pending',),
+                Tab(text: 'Berlangsung',),
                 Tab(text: 'Riwayat Tagihan',),
               ],
             ),
@@ -40,6 +43,8 @@ class _HistoryPageState extends State<HistoryPage> {
               children: [
                 //Tagihan
                 TagihanPage(),
+
+                TagihanBerlangsung(),
 
                 //riwayat tagihan
                 RiwayatTagihan(),

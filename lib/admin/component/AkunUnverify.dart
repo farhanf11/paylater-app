@@ -29,7 +29,6 @@ class _AkunUnverifyState extends State<AkunUnverify> {
     setState(() {
       isLoading = true;
       token = prefs.getString('token')!;
-      print(token);
     });
     try {
       Response response = await get(
@@ -41,11 +40,8 @@ class _AkunUnverifyState extends State<AkunUnverify> {
       inspect(response);
 
       if (response.statusCode == 200) {
-        // final List<dynamic> responseData = json.decode(response.body);
         var responseData = json.decode(response.body);
         datas = responseData['data']['data'];
-        print(datas);
-        // return Customer(data: datas);
       } else {
         print('gagal');
       }

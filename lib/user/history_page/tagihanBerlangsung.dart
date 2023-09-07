@@ -6,32 +6,34 @@ import 'package:paylater/admin/detail_AkunCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 
-class TransaksiPermintaan extends StatefulWidget {
-  const TransaksiPermintaan({Key? key}) : super(key: key);
+class TagihanBerlangsung extends StatefulWidget {
+  const TagihanBerlangsung({Key? key}) : super(key: key);
 
   @override
-  State<TransaksiPermintaan> createState() => _TransaksiPermintaanState();
+  State<TagihanBerlangsung> createState() => _TagihanBerlangsungState();
 }
 
-class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
-  _TransaksiPermintaanState();
-  String token = "";
+class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
+  _TagihanBerlangsungState();
   List datas = [];
   bool isLoading = false;
 
   void initState() {
-    getAkun();
+    getTagihanBerlangsung();
   }
 
-  Future<void> getAkun() async {
+  Future<void> getTagihanBerlangsung() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    print(id);
     setState(() {
       isLoading = true;
       token = prefs.getString('token')!;
     });
     try {
       Response response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=request&page=1'),
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=&page=1'),
           headers: {
             'Authorization': token,
           });
@@ -114,12 +116,12 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                     Image(
-                                       image: NetworkImage(datas[index]['image']),
-                                       width: 60,
-                                       height: 60,
-                                       fit: BoxFit.fill,
-                                     ),
+                                    Image(
+                                      image: NetworkImage(datas[index]['image']),
+                                      width: 60,
+                                      height: 60,
+                                      fit: BoxFit.fill,
+                                    ),
                                     const SizedBox(width: 20,),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,

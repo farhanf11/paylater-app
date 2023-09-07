@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RincianProduct extends StatefulWidget {
   const RincianProduct({Key? key}) : super(key: key);
@@ -8,6 +13,45 @@ class RincianProduct extends StatefulWidget {
 }
 
 class _RincianProductState extends State<RincianProduct> {
+  List datas = [];
+  bool isLoading = false;
+
+  void initState() {
+    getTagihanbyID();
+  }
+
+  Future<void> getTagihanbyID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    var order_id = prefs.getInt('order_id');
+    print(id);
+    setState(() {
+      isLoading = true;
+      token = prefs.getString('token')!;
+    });
+    try {
+      Response response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&order_id=$order_id'),
+          headers: {
+            'Authorization': token,
+          });
+      inspect(response);
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        datas =  responseData['data']['data'];
+        // return Customer(data: datas);
+      }else{
+        print('gagal');
+      }
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Column(

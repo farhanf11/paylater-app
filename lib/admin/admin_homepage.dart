@@ -1,8 +1,11 @@
-import 'dart:math';
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:ui';
+import 'package:http/http.dart';
 import 'package:paylater/admin/admin_keuangan.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminHomePage extends StatefulWidget {
   @override
@@ -10,6 +13,46 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
+  String token = "";
+  String permintaan = '';
+  String berlangsung = '';
+  String selesai = '';
+  String jatuh_tempo = '';
+  String total_user = '';
+  String email_unverified = '';
+
+
+  void initState() {
+    getDashboardData();
+  }
+
+
+  void getDashboardData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+    });
+    try {
+      Response response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/dashboard'),
+          headers: {
+            'Authorization': token,
+          },
+      );
+      print(token);
+
+      var resultData = json.decode(response.body);
+      permintaan = resultData['data']['permintaan'].toString();
+      berlangsung = resultData['data']['berlangsung'].toString();
+      selesai = resultData['data']['selesai'].toString();
+      jatuh_tempo = resultData['data']['jatuh_tempo'].toString();
+      total_user = resultData['data']['total_user'].toString();
+      email_unverified = resultData['data']['email_unverified'].toString();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,17 +82,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ), backgroundColor: const Color.fromRGBO(2, 84, 100, 1)),
                   onPressed: () {Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => AdminKeuangan()));},
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Padding(
                         padding:
-                            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                            EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text("Dana Tersedia",
                                 style: TextStyle(
                                   fontSize: 14,
@@ -67,7 +110,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.arrow_circle_right,
                             size: 35,
                           ),
@@ -102,8 +145,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             elevation: 5,
                             margin: EdgeInsets.all(10),
                             child: Column(
-                              children: const [
-                                Padding(
+                              children: [
+                                const Padding(
                                   padding: EdgeInsets.all(5.0),
                                   child: Text(
                                     'Permintaan',
@@ -116,8 +159,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
-                                    '3',
-                                    style: TextStyle(
+                                    permintaan,
+                                    style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
@@ -139,11 +182,11 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             elevation: 5,
                             margin: EdgeInsets.all(10),
                             child: Column(
-                              children: const [
-                                Padding(
+                              children: [
+                                const Padding(
                                   padding: EdgeInsets.all(5.0),
                                   child: Text(
-                                    'Berlangsung',
+                                    "Berlangsung",
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
@@ -153,8 +196,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
-                                    '4',
-                                    style: TextStyle(
+                                    berlangsung,
+                                    style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
@@ -182,8 +225,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             elevation: 5,
                             margin: EdgeInsets.all(10),
                             child: Column(
-                              children: const [
-                                Padding(
+                              children: [
+                                const Padding(
                                   padding: EdgeInsets.all(5.0),
                                   child: Text(
                                     'Selesai',
@@ -196,7 +239,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
-                                    '0',
+                                    selesai,
                                     style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
@@ -219,8 +262,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             elevation: 5,
                             margin: EdgeInsets.all(10),
                             child: Column(
-                              children: const [
-                                Padding(
+                              children: [
+                                const Padding(
                                   padding: EdgeInsets.all(5.0),
                                   child: Text(
                                     'Jatuh Tempo',
@@ -233,7 +276,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
-                                    '0',
+                                    jatuh_tempo,
                                     style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
@@ -258,8 +301,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 elevation: 5,
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
+                    const Padding(
+                      padding: EdgeInsets.all(12.0),
                       child: Row(
                         children: [
                           Text(
@@ -285,7 +328,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             ),
                             child: const Center(
                               child: Text(
-                                'Total Akun',
+                                "Total User",
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -296,13 +339,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           Container(
                             height: 30,
                             width: 30,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              color: const Color.fromRGBO(2, 84, 100, 1),
+                              color: Color.fromRGBO(2, 84, 100, 1),
                             ),
                             child: Center(
                               child: Text(
-                                '54',
+                                total_user,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -326,7 +369,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               color: const Color.fromRGBO(195, 163, 84, 1),
                               borderRadius: BorderRadius.circular(60),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 'Email Unverify',
                                 style: TextStyle(
@@ -339,13 +382,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           Container(
                             height: 30,
                             width: 30,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              color: const Color.fromRGBO(195, 163, 84, 1),
+                              color: Color.fromRGBO(195, 163, 84, 1),
                             ),
                             child: Center(
                               child: Text(
-                                '54',
+                                email_unverified,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -356,27 +399,27 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(2.0),
+                            padding: EdgeInsets.all(2.0),
                             child: CircleAvatar(
                               maxRadius: 3,
                               backgroundColor: Colors.grey,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(2.0),
+                            padding: EdgeInsets.all(2.0),
                             child: CircleAvatar(
                               maxRadius: 3,
                               backgroundColor: Colors.grey,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(2.0),
+                            padding: EdgeInsets.all(2.0),
                             child: CircleAvatar(
                               maxRadius: 3,
                               backgroundColor: Colors.grey,
@@ -394,14 +437,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ),
 
             //trending product
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Card(
                 elevation: 5,
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: EdgeInsets.all(12.0),
                       child: Row(
                         children: [
                           Text(
@@ -414,41 +457,39 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     ),
                     Column(
                       children: [
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: const [
-                                    Image(
-                                      image: AssetImage(
-                                          "assets/icon/avatardefault.png"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Jhon son",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700)),
-                                  ],
-                                ),
-                                Text(
-                                  'tanggal pembayaran : 28-01-2023',
-                                  style: TextStyle(
-                                      fontSize: 10, color: Colors.grey),
-                                ),
-                              ],
-                            ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        "assets/icon/avatardefault.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Jhon son",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700)),
+                                ],
+                              ),
+                              Text(
+                                'tanggal pembayaran : 28-01-2023',
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.grey),
+                              ),
+                            ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -464,7 +505,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text("Iphone 13 Black Series New ibox, 128gb",
                                       style: TextStyle(
                                           fontSize: 12,
@@ -498,41 +539,39 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     ),
                     Column(
                       children: [
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: const [
-                                    Image(
-                                      image: AssetImage(
-                                          "assets/icon/avatardefault.png"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Jhon son",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700)),
-                                  ],
-                                ),
-                                Text(
-                                  'tanggal pembayaran : 28-01-2023',
-                                  style: TextStyle(
-                                      fontSize: 10, color: Colors.grey),
-                                ),
-                              ],
-                            ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        "assets/icon/avatardefault.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Jhon son",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700)),
+                                ],
+                              ),
+                              Text(
+                                'tanggal pembayaran : 28-01-2023',
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.grey),
+                              ),
+                            ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -548,7 +587,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text("Iphone 13 Black Series New ibox, 128gb",
                                       style: TextStyle(
                                           fontSize: 12,
@@ -581,10 +620,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Padding(
                             padding: EdgeInsets.all(2.0),
                             child: CircleAvatar(

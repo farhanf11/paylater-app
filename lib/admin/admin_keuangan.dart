@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
+import 'package:http/http.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminKeuangan extends StatefulWidget {
   @override
@@ -9,6 +12,45 @@ class AdminKeuangan extends StatefulWidget {
 }
 
 class _AdminKeuanganState extends State<AdminKeuangan> {
+  String token = "";
+  String dana_tersedia = '';
+  String data_cicilan_aktif = '';
+  String dana_belum_kembali = '';
+  String total_dana_keluar = '';
+  String dana_cicilan_masuk = '';
+  String keuntungan = '';
+
+
+  void initState() {
+    getDataKeuangan();
+  }
+
+
+  void getDataKeuangan() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+    });
+    try {
+      Response response = await get(
+        Uri.parse('https://paylater.harysusilo.my.id/api/admin/dashboard'),
+        headers: {
+          'Authorization': token,
+        },
+      );
+      print(token);
+
+      var resultData = json.decode(response.body);
+      dana_tersedia = resultData['data']['dana_tersedia'].toString();
+      data_cicilan_aktif = resultData['data']['data_cicilan_aktif'].toString();
+      dana_belum_kembali = resultData['data']['dana_belum_kembali'].toString();
+      total_dana_keluar = resultData['data']['total_dana_keluar'].toString();
+      dana_cicilan_masuk = resultData['data']['dana_cicilan_masuk'].toString();
+      keuntungan = resultData['data']['email_unverified'].toString();
+    } catch (e) {
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,18 +79,18 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Rp 85.000.000",
-                          style: TextStyle(
+                      Text(dana_tersedia,
+                          style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: PaylaterTheme.white)),
-                      Text("Total Dana",
+                      const Text("Total Dana",
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w400,
@@ -103,12 +145,12 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                   ),
                 ],
               ),
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.all(25.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Rincian Dana",
                       style: TextStyle(
                         fontSize: 18,
@@ -123,7 +165,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.all(12.0),
                                 child: Text(
                                   'Total Dana Keluar',
@@ -138,31 +180,31 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text("Rp",
+                                    const Text("Rp",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             color: PaylaterTheme.darkText)),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 3,
                                     ),
-                                    Text("23.335.559",
-                                        style: TextStyle(
+                                    Text(total_dana_keluar,
+                                        style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             color: PaylaterTheme.decline)),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 3,
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 3,
                               )
                             ],
                           ),
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Icon(
                               Icons.data_exploration,
@@ -173,7 +215,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 12,),
+                    const SizedBox(height: 12,),
                     Card(
                       elevation: 5,
                       child: Row(
@@ -182,7 +224,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.all(12.0),
                                 child: Text(
                                   'Total Dana Saat Ini',
@@ -193,20 +235,20 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                               ),
                               Padding(
                                 padding:
-                                    EdgeInsets.fromLTRB(20, 0, 20, 12),
+                                    const EdgeInsets.fromLTRB(20, 0, 20, 12),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text("Rp",
+                                    const Text("Rp",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             color: PaylaterTheme.darkText)),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 3,
                                     ),
-                                    Text("13.335.559",
-                                        style: TextStyle(
+                                    Text(dana_cicilan_masuk,
+                                        style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.green)),
