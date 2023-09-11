@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:paylater/admin/detail_AkunCustomer.dart';
+import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 
@@ -79,7 +79,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                         onPressed: () { Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    DetailAkun())); },
+                                    RincianCicilanAdmin())); },
                         child: Expanded(
                           child: Container(
                             constraints: BoxConstraints(maxWidth: double.infinity),

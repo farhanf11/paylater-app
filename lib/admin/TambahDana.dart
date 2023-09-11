@@ -2,39 +2,37 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:paylater/user/VerifyPage.dart';
+import 'package:paylater/admin/admin_keuangan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class TambahDana extends StatefulWidget {
+  const TambahDana({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<TambahDana> createState() => _TambahDanaState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _TambahDanaState extends State<TambahDana> {
   final TextEditingController inputEmail = TextEditingController();
 
-  void login(String email) async {
+  void login(String amount) async {
     try {
       Response response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/auth/send-otp-code'),
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/cash-store'),
           body: {
-            'email_address': email,
+            'amount': amount,
           });
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (BuildContext context) => VerifyPage(
-                      email: email,
-                    )
-            ),
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => AdminKeuangan(),
+          ),
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString(
-            'email', email
+            'amount', amount
         );
 
         AlertDialog alert = AlertDialog(
@@ -75,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: BackButton(color: Colors.black),
-        title: const Text('Login',
+        title: const Text('Tambah Dana',
             style: TextStyle(
               color: Colors.black,
             ),
@@ -96,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: inputEmail,
                         decoration: const InputDecoration(
                           border: UnderlineInputBorder(),
-                          labelText: 'Masukkan Email Anda',
+                          labelText: 'Masukkan Jumlah Dana',
                         ),
                       ),
                     ),
@@ -108,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                       ElevatedButton(
                         style: const ButtonStyle(
                             backgroundColor:
-                                MaterialStatePropertyAll(Color(0xff025464))),
+                            MaterialStatePropertyAll(Color(0xff025464))),
                         onPressed: () => {login(inputEmail.text.toString())},
                         child: Container(
                           padding: const EdgeInsets.symmetric(

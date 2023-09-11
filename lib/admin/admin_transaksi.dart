@@ -30,7 +30,7 @@ class _AdminTransaksiState extends State<AdminTransaksi> {
         appBar: AppBar(
           backgroundColor: const Color(0xff025464),
           title: Text(
-            "Kelola Akun",
+            "Daftar Transaksi",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
           bottom: const TabBar(
