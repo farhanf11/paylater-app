@@ -3,87 +3,73 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/AdminNavbarBot.dart';
-import 'package:paylater/navbar/NavbarBot.dart';
-import 'package:paylater/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class VerifyPage extends StatefulWidget {
-  const VerifyPage({Key? key, required this.email}) : super(key: key);
-  final String email;
+class TambahResi extends StatefulWidget {
+  const TambahResi({Key? key}) : super(key: key);
 
   @override
-  State<VerifyPage> createState() => _VerifyPageState();
+  State<TambahResi> createState() => _TambahResiState();
 }
 
-class _VerifyPageState extends State<VerifyPage> {
-  _VerifyPageState();
-  String email = "";
+class _TambahResiState extends State<TambahResi> {
+  _TambahResiState();
+  String token = "";
 
   void initState() {
-    getData();
+    getToken();
   }
-
-  getData() async {
+  getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      email = prefs.getString('email')!;
+      token = prefs.getString('token')!;
     });
   }
 
-  TextEditingController newTextEditingController = TextEditingController();
-  FocusNode focusNode = FocusNode();
+  final TextEditingController inputResi = TextEditingController();
+  final order_id = 1;
 
-  final TextEditingController inputOTP = TextEditingController();
-
-  void login(String email) async {
-    print(email);
+  void AddResi(var order_id, String airway_bill) async {
     try {
       Response response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/auth/login'),
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/airwaybill-store'),
+          headers: {
+            'Authorization': token,
+          },
           body: {
-            'otp_code': inputOTP.text,
-            'email_address': widget.email,
+            'order_id': order_id,
+            'airway_bill': airway_bill,
           });
+
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        AlertDialog alert = AlertDialog(
-          icon: Icon(Icons.check_circle_rounded, size: 8, color: PaylaterTheme.maincolor),
-          content: Text(responseData['message']),
-          actions: [
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-
-        ///set token login
-        ///
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('token', 'Bearer ' + responseData['token']);
-        prefs.setInt('id', responseData['data']['id']);
-        prefs.setString('user_name', responseData['data']['user_name']);
-        prefs.setString('email_address', responseData['data']['email_address']);
-        prefs.setString('job', responseData['data']['job']);
-
-        if(responseData['data']['role'] == "admin" ) {
-          showDialog(context: context, builder: (context) => alert);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
           Navigator.push(
               context,
               new MaterialPageRoute(
                   builder: (BuildContext context) => AdminNavbarBot()));
-        }else{
+          AlertDialog alert = AlertDialog(
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
           showDialog(context: context, builder: (context) => alert);
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => NavbarBot()));
         }
-      } else {
+
+      }
+      else {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          icon: Icon(Icons.warning, size: 20, color: Colors.red),
-          content: Text(responseData['message']),
+          title: Text(responseData['message']),
+          content: const Text('Kolom resi harus di isi'),
           actions: [
             TextButton(
               child: const Text('Ok'),
@@ -91,7 +77,6 @@ class _VerifyPageState extends State<VerifyPage> {
             ),
           ],
         );
-
         showDialog(context: context, builder: (context) => alert);
       }
     } catch (e) {
@@ -103,8 +88,13 @@ class _VerifyPageState extends State<VerifyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff025464),
-        leading: const BackButton(),
+        backgroundColor: Colors.white,
+        leading: BackButton(color: Colors.black),
+        title: const Text('Tambah Resi',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center),
       ),
       body: Container(
           height: double.maxFinite,
@@ -118,10 +108,11 @@ class _VerifyPageState extends State<VerifyPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
-                        controller: inputOTP,
+                        keyboardType: TextInputType.text,
+                        controller: inputResi,
                         decoration: const InputDecoration(
                           border: UnderlineInputBorder(),
-                          labelText: 'Masukkan 6 Kode OTP',
+                          labelText: 'Masukkan Resi Sesuai dari Marketplace',
                         ),
                       ),
                     ),
@@ -133,8 +124,12 @@ class _VerifyPageState extends State<VerifyPage> {
                       ElevatedButton(
                         style: const ButtonStyle(
                             backgroundColor:
-                                MaterialStatePropertyAll(Color(0xff025464))),
-                        onPressed: () => {login(inputOTP.text.toString())},
+                            MaterialStatePropertyAll(Color(0xff025464))),
+                        onPressed: () => {AddResi(
+                          order_id.toString(),
+                          inputResi.text.toString(),
+
+                        )},
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 60),
@@ -146,10 +141,11 @@ class _VerifyPageState extends State<VerifyPage> {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
-          )),
+          )
+      ),
     );
   }
 }

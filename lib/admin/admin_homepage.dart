@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/admin_keuangan.dart';
 import 'package:paylater/theme.dart';
@@ -14,15 +15,16 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePageState extends State<AdminHomePage> {
   String token = "";
-  String permintaan = '';
-  String berlangsung = '';
-  String selesai = '';
-  String jatuh_tempo = '';
-  String total_user = '';
-  String email_unverified = '';
+  var permintaan = ''.obs;
+  var berlangsung = ''.obs;
+  var selesai = ''.obs;
+  var jatuh_tempo = 0.obs;
+  var total_user = 0.obs;
+  var email_unverified = ''.obs;
 
 
   void initState() {
+    super.initState();
     getDashboardData();
   }
 
@@ -33,7 +35,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
       token = prefs.getString('token')!;
     });
     try {
-      Response response = await get(
+      var response = await get(
           Uri.parse('https://paylater.harysusilo.my.id/api/admin/dashboard'),
           headers: {
             'Authorization': token,
@@ -42,12 +44,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
       print(token);
 
       var resultData = json.decode(response.body);
-      permintaan = resultData['data']['permintaan'].toString();
-      berlangsung = resultData['data']['berlangsung'].toString();
-      selesai = resultData['data']['selesai'].toString();
-      jatuh_tempo = resultData['data']['jatuh_tempo'].toString();
-      total_user = resultData['data']['total_user'].toString();
-      email_unverified = resultData['data']['email_unverified'].toString();
+      permintaan.value = resultData['data']['permintaan'];
+      berlangsung.value = resultData['data']['berlangsung'];
+      selesai.value = resultData['data']['selesai'];
+      jatuh_tempo.value = resultData['data']['jatuh_tempo'];
+      total_user.value = resultData['data']['total_user'];
+      email_unverified.value = resultData['data']['email_unverified'];
     } catch (e) {
       print(e);
     }
@@ -65,7 +67,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
       ),
       backgroundColor: PaylaterTheme.nearlyGreen.withOpacity(0.3),
       body: Container(
-        padding: EdgeInsets.all(6),
+        padding: const EdgeInsets.all(6),
         color: Colors.white,
         child: ListView(
           physics: const ClampingScrollPhysics(),
@@ -143,7 +145,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             elevation: 5,
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             child: Column(
                               children: [
                                 const Padding(
@@ -158,19 +160,19 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    permintaan,
+                                  child: Obx(() => Text(
+                                    permintaan.value,
                                     style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
-                                  ),
+                                  ),)
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.13,
                           width: MediaQuery.of(context).size.width * 0.42,
                           child: Card(
@@ -195,13 +197,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    berlangsung,
+                                  child: Obx(() => Text(
+                                    berlangsung.value,
                                     style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
-                                  ),
+                                  ),)
                                 ),
                               ],
                             ),
@@ -213,7 +215,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.13,
                           width: MediaQuery.of(context).size.width * 0.42,
                           child: Card(
@@ -238,13 +240,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    selesai,
-                                    style: TextStyle(
+                                  child: Obx(() => Text(
+                                    selesai.value,
+                                    style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
-                                  ),
+                                  ),)
                                 ),
                               ],
                             ),
@@ -260,7 +262,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             elevation: 5,
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             child: Column(
                               children: [
                                 const Padding(
@@ -274,14 +276,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    jatuh_tempo,
-                                    style: TextStyle(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Obx(() => Text(
+                                    jatuh_tempo.value.toString(),
+                                    style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
-                                  ),
+                                  ),)
                                 ),
                               ],
                             ),
@@ -343,14 +345,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               shape: BoxShape.circle,
                               color: Color.fromRGBO(2, 84, 100, 1),
                             ),
-                            child: Center(
+                            child: Obx(() => Center(
                               child: Text(
-                                total_user,
-                                style: TextStyle(
+                                total_user.value.toString(),
+                                style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white),
-                              ),
+                              ),)
                             ),
                           ),
                         ],
@@ -387,13 +389,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               color: Color.fromRGBO(195, 163, 84, 1),
                             ),
                             child: Center(
-                              child: Text(
-                                email_unverified,
-                                style: TextStyle(
+                              child: Obx(() => Text(
+                                email_unverified.value.toString(),
+                                style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white),
-                              ),
+                              ),)
                             ),
                           ),
                         ],
@@ -448,7 +450,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       child: Row(
                         children: [
                           Text(
-                            'Daftar Pembayaran Terbaru',
+                            'Daftar Permintaan Cicilan',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
@@ -481,7 +483,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 ],
                               ),
                               Text(
-                                'tanggal pembayaran : 28-01-2023',
+                                'Tanggal Permintaan : 28-01-2023',
                                 style: TextStyle(
                                     fontSize: 10, color: Colors.grey),
                               ),
@@ -511,25 +513,36 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                           fontSize: 12,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w700)),
-                                  Text("Pembayaran 1/6",
-                                      style: TextStyle(
-                                          fontSize: 8,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500)),
+                                  Row(
+                                    children: [
+                                      Text("Cicilan : " + "3" + " " + "Bulan",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500)
+                                      ),
+                                    ],
+                                  ),
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  Text("Cicilan:",
-                                      style: TextStyle(
-                                        fontSize: 8,
-                                        color: Colors.black,
-                                      )),
-                                  Text("3.155.000",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Color.fromRGBO(
-                                              237, 131, 33, 1),
-                                          fontWeight: FontWeight.bold)),
+                                  Row(
+                                    children: [
+                                      Text("Harga: ",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          )
+                                      ),
+                                      Text("3.155.000",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  237, 131, 33, 1),
+                                              fontWeight: FontWeight.bold)
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ],

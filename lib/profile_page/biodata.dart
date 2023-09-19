@@ -205,10 +205,10 @@ class _BiodataState extends State<Biodata> {
                   var date = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
+                      firstDate: DateTime(1950),
                       lastDate: DateTime(2100));
                   if (date != null) {
-                    dateController.text = DateFormat('MM/dd/yyyy').format(date);
+                    dateController.text = DateFormat('dd/mm/yyyy').format(date);
                   }
                 },
               ),

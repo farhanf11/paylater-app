@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/theme.dart';
-
 import 'component/popup.dart';
 
 class EditAkun extends StatefulWidget {
-  const EditAkun({Key? key}) : super(key: key);
+  const EditAkun({Key? key, required this.user_id}) : super(key: key);
+  final int user_id;
 
   @override
   State<EditAkun> createState() => _EditAkunState();

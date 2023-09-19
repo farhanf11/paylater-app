@@ -90,10 +90,10 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-
+                ///isi
                 Column(
                   children: [
                     Column(
@@ -302,7 +302,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 60,
                 ),
 
-                //logout
+                ///logout
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   margin: const EdgeInsets.symmetric(horizontal: 10),

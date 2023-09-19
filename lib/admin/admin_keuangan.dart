@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:paylater/admin/component/AdminNavbarBot.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,18 +15,25 @@ class AdminKeuangan extends StatefulWidget {
 
 class _AdminKeuanganState extends State<AdminKeuangan> {
   String token = "";
-  String dana_tersedia = '';
-  String data_cicilan_aktif = '';
-  String dana_belum_kembali = '';
-  String total_dana_keluar = '';
-  String dana_cicilan_masuk = '';
-  String keuntungan = '';
+  var dana_tersedia = 0.obs;
+  var data_cicilan_aktif = 0.obs;
+  var dana_belum_kembali = 0.obs;
+  var total_dana_keluar = 0.obs;
+  var dana_cicilan_masuk = 0.obs;
+  var keuntungan = 0.obs;
 
 
   void initState() {
     getDataKeuangan();
+    getToken();
   }
 
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+    });
+  }
 
   void getDataKeuangan() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -32,8 +41,8 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
       token = prefs.getString('token')!;
     });
     try {
-      Response response = await get(
-        Uri.parse('https://paylater.harysusilo.my.id/api/admin/dashboard'),
+      var response = await get(
+        Uri.parse('https://paylater.harysusilo.my.id/api/admin/detail-keuangan'),
         headers: {
           'Authorization': token,
         },
@@ -41,16 +50,72 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
       print(token);
 
       var resultData = json.decode(response.body);
-      dana_tersedia = resultData['data']['dana_tersedia'].toString();
-      data_cicilan_aktif = resultData['data']['data_cicilan_aktif'].toString();
-      dana_belum_kembali = resultData['data']['dana_belum_kembali'].toString();
-      total_dana_keluar = resultData['data']['total_dana_keluar'].toString();
-      dana_cicilan_masuk = resultData['data']['dana_cicilan_masuk'].toString();
-      keuntungan = resultData['data']['email_unverified'].toString();
+      print(resultData['data']);
+      dana_tersedia.value = resultData['data']['dana_tersedia'];
+      data_cicilan_aktif.value = resultData['data']['data_cicilan_aktif'];
+      dana_belum_kembali.value = resultData['data']['dana_belum_kembali'];
+      total_dana_keluar.value = resultData['data']['total_dana_keluar'];
+      dana_cicilan_masuk.value = resultData['data']['dana_cicilan_masuk'];
+      keuntungan.value = resultData['data']['email_unverified'];
     } catch (e) {
       print(e);
     }
   }
+
+  final TextEditingController inputDana = TextEditingController();
+  void AddDana(String amount) async {
+    try {
+      var response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/cash-store'),
+          headers: {
+            'Authorization': token,
+          },
+          body: {
+            'amount': amount,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          Navigator.of(context).pop();
+          AlertDialog alert = AlertDialog(
+            title: Text("Berhasil"),
+            content: Container(
+              child: Text(responseData['message']),
+            ),
+            actions: [
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context, builder: (context) => alert);
+        }
+
+      }
+      else {
+        var responseData = json.decode(response.body);
+        AlertDialog alert = AlertDialog(
+          title: Text(responseData['message']),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,11 +150,13 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(dana_tersedia,
-                          style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: PaylaterTheme.white)),
+                      Obx(() => Text(dana_tersedia.value.toString(),
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: PaylaterTheme.white
+                        ),
+                      ),),
                       const Text("Total Dana",
                           style: TextStyle(
                               fontSize: 13,
@@ -107,7 +174,51 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           primary: PaylaterTheme.maincolor),
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                scrollable: true,
+                                title: const Text('Input Jumlah Dana'),
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Form(
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(height: 8,),
+                                          TextField(
+                                            controller: inputDana,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Rp',
+                                              icon: Icon(Icons.monetization_on_outlined, color: Colors.yellow,),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                  ),
+                                ),
+                                actions: [
+                                  ElevatedButton(
+                                    style: const ButtonStyle(
+                                        backgroundColor:
+                                        MaterialStatePropertyAll(Color(0xff025464))),
+                                    onPressed: () => {AddDana(
+                                      inputDana.text.toString(),
+                                    )},
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 60),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Text('Selanjutnya'),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
                       icon: const Icon(
                         Icons.point_of_sale,
                         size: 14,
@@ -117,7 +228,9 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                           style: TextStyle(
                               color: PaylaterTheme.white,
                               fontSize: 8,
-                              fontWeight: FontWeight.w600))),
+                              fontWeight: FontWeight.w600)
+                      ),
+                  ),
                 )
               ],
             ),
@@ -188,11 +301,11 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                                     const SizedBox(
                                       width: 3,
                                     ),
-                                    Text(total_dana_keluar,
+                                    Obx(() => Text(total_dana_keluar.value.toString(),
                                         style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
-                                            color: PaylaterTheme.decline)),
+                                            color: PaylaterTheme.decline)),),
                                     const SizedBox(
                                       width: 3,
                                     ),
@@ -247,23 +360,20 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                                     const SizedBox(
                                       width: 3,
                                     ),
-                                    Text(dana_cicilan_masuk,
+                                    Obx(() => Text(dana_cicilan_masuk.value.toString(),
                                         style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.green)),
-                                    SizedBox(
+                                            color: Colors.green)),),
+                                    const SizedBox(
                                       width: 3,
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 3,
-                              )
                             ],
                           ),
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Icon(
                               Icons.monetization_on,

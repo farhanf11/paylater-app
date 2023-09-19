@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:paylater/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../navbar/NavbarBot.dart';
 
 class BiodataPage extends StatefulWidget {
   const BiodataPage({Key? key}) : super(key: key);
@@ -75,7 +74,7 @@ class _BiodataPageState extends State<BiodataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff025464),
+        backgroundColor: const Color(0xff025464),
         title: const Text(
           'Biodata',
           style: TextStyle(fontSize: 14),
@@ -91,12 +90,12 @@ class _BiodataPageState extends State<BiodataPage> {
             )),
       ),
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
             color: PaylaterTheme.spacer,
             borderRadius: BorderRadius.circular(8)),
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
               color: PaylaterTheme.white,
               borderRadius: BorderRadius.circular(10)),
@@ -133,7 +132,9 @@ class _BiodataPageState extends State<BiodataPage> {
                   ),
                   Text(
                     full_name.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14),
                   ),
                 ],
               ),
