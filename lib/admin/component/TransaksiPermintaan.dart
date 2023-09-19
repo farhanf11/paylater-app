@@ -20,10 +20,11 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
   bool isLoading = false;
 
   void initState() {
-    getAkun();
+    super.initState();
+    getOrder();
   }
 
-  Future<void> getAkun() async {
+  Future<void> getOrder() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       isLoading = true;
@@ -40,7 +41,6 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas =  responseData['data']['data'];
-        // return Customer(data: datas);
       }else{
         print('gagal');
       }
@@ -59,7 +59,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: isLoading?const LinearProgressIndicator(
         ///style
-        valueColor:AlwaysStoppedAnimation<Color>(Colors.blue),
+        valueColor:AlwaysStoppedAnimation<Color>(Colors.grey),
       ):Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -76,10 +76,15 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MaterialButton(
-                        onPressed: () { Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    RincianCicilanAdmin())); },
+                        onPressed: () { Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => RincianCicilanAdmin(
+                                order_id: datas[index]['id'],
+                                user_id: datas[index]['user_id'],
+                              ),
+                          ),
+                        );},
                         child: Expanded(
                           child: Container(
                             constraints: BoxConstraints(maxWidth: double.infinity),
@@ -91,18 +96,18 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
-                                const Row(
+                                Row(
                                   children: [
                                     CircleAvatar(
                                       backgroundImage: NetworkImage(
-                                          'https://th.bing.com/th/id/OIP.JjR1XczV2cg3ltpGE4IrVQHaH3?w=144&h=180&c=7&r=0&o=5&dpr=2.2&pid=1.7'
+                                          datas[index]['user']['image_face']
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Text('Johnson',
-                                        style: TextStyle(
+                                    Text(datas[index]['user']['user_name'],
+                                        style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
@@ -121,96 +126,81 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                        fit: BoxFit.fill,
                                      ),
                                     const SizedBox(width: 20,),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        ///Nama
-                                        RichText(
-                                          maxLines: 10,
-                                          softWrap: true,
-                                          text: TextSpan(
+                                    Flexible(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          ///Nama
+                                          Text(
+                                            datas[index]['title'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              color: PaylaterTheme.darkerText,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+
+                                          /// Tenor cicilan
+                                          Text(
+                                            '${'Tenor Cicilan :' +
+                                                ' ' +
+                                                datas[index]['tenor']} bulan',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: PaylaterTheme.darkerText,
+                                            ),
+                                          ),
+
+                                          ///price
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              TextSpan(
-                                                text:
-                                                datas[index]['title'],
-                                                style: const TextStyle(
+                                              const Text(
+                                                'Harga : ' + 'Rp' + ' ',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
                                                   color: PaylaterTheme.darkerText,
-                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              Text(
+                                                datas[index]['price'].toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: PaylaterTheme.orange,
                                                 ),
                                               ),
                                             ],
                                           ),
-                                        ),
-                                        // RichText(
-                                        //   Text(
-                                        //     datas[index]['title'],
-                                        //     style: const TextStyle(
-                                        //       fontSize: 16,
-                                        //       fontWeight: FontWeight.bold,
-                                        //       color: PaylaterTheme.darkerText,
-                                        //     ),
-                                        //   ),
-                                        // ),
 
-                                        /// Tenor cicilan
-                                        Text(
-                                          '${'Tenor Cicilan :' +
-                                              ' ' +
-                                              datas[index]['tenor']} bulan',
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: PaylaterTheme.darkerText,
+                                          ///notes
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              const Text(
+                                                'Catatan : ',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: PaylaterTheme.darkerText,
+                                                ),
+                                              ),
+                                              Text(
+                                                datas[index]['note'],
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-
-                                        ///price
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            const Text(
-                                              'Harga : ' + 'Rp' + ' ',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700,
-                                                color: PaylaterTheme.darkerText,
-                                              ),
-                                            ),
-                                            Text(
-                                              datas[index]['price'].toString(),
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700,
-                                                color: PaylaterTheme.orange,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-
-                                        ///notes
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              'Catatan :' + ' ',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                                color: PaylaterTheme.darkerText,
-                                              ),
-                                            ),
-                                            Text(
-                                              datas[index]['note'],
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

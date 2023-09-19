@@ -21,6 +21,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
   bool isLoading = false;
 
   void initState() {
+    super.initState();
     getAkun();
   }
 
@@ -37,8 +38,6 @@ class _AkunUnverifyState extends State<AkunUnverify> {
           headers: {
             'Authorization': token,
           });
-      inspect(response);
-
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas = responseData['data']['data'];
@@ -59,7 +58,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
       child: isLoading
-          ? CircularProgressIndicator(
+          ? const CircularProgressIndicator(
               ///style
 
               )
@@ -102,7 +101,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                 fontWeight: FontWeight.w600))),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Flexible(
@@ -118,8 +117,13 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                           children: [
                             MaterialButton(
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => DetailAkun()));
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailAkun(
+                                        user_id: datas[index]['id'],
+                                      )
+                                    )
+                                );
                               },
                               child: Expanded(
                                 child: Container(

@@ -1,28 +1,69 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:paylater/user/LoginPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../admin/component/popup.dart';
 import '../theme.dart';
 
 class DetailAkun extends StatefulWidget {
-  const DetailAkun({Key? key}) : super(key: key);
+  const DetailAkun({Key? key, required this.user_id}) : super(key: key);
+  final int user_id;
 
   @override
   State<DetailAkun> createState() => _DetailAkunState();
 }
 
 class _DetailAkunState extends State<DetailAkun> {
-  TextEditingController inputnama = TextEditingController();
-  TextEditingController inputtelp = TextEditingController();
-  TextEditingController inputemail = TextEditingController();
-  String? dropdownValue = "Tenaga Pendidik";
+  _DetailAkunState();
+  String token = "";
+  var id = 0.obs;
+  var user_name = 'user_name'.obs;
+  var mail_address = 'mail_address'.obs;
+  var phone_number = 'phone_number'.obs;
+  var job = 'job'.obs;
+  var image_face = 'image_face'.obs;
+  var image_ktp = 'image_ktp'.obs;
+  bool isLoading = false;
 
-  get firstCamera => null;
-
-  @override
   void dispose() {
-    inputnama.dispose();
-    inputtelp.dispose();
     super.dispose();
+    GetUserData();
+  }
+
+  void GetUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isLoading = true;
+    token = prefs.getString('token')!;
+    try {
+      var response = await get(
+        Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/${widget.user_id}'),
+        headers: {
+          'Authorization': token,
+        },);
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        print(responseData['data']['user_name']);
+        if (responseData['success'] == false) {
+          print('gagal');
+        } else {
+          user_name.value = responseData['data']['user_name'];
+          mail_address.value = responseData['data']['mail_address'];
+          phone_number.value = responseData['data']['phone_number'];
+          job.value = responseData['data']['job'];
+          image_face.value = responseData['data']['image_face'];
+          image_ktp.value = responseData['data']['image_ktp'];
+        }
+      }else{
+        print('gagal');
+      }
+    } catch (e) {
+      print(e);
+    }
+    isLoading = false;
   }
 
   Widget build(BuildContext context) {
@@ -50,7 +91,12 @@ class _DetailAkunState extends State<DetailAkun> {
               size: 20,
             )),
       ),
-      body: Container(
+      body: isLoading?const LinearProgressIndicator(
+        ///style
+        valueColor:AlwaysStoppedAnimation<Color>(Colors.grey),
+        color: Colors.grey,
+        backgroundColor: Colors.white,
+      ):Container(
         color: PaylaterTheme.spacer,
         child: ListView(physics: const ClampingScrollPhysics(), children: [
           Container(
@@ -66,7 +112,7 @@ class _DetailAkunState extends State<DetailAkun> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Username',
+                          'Email',
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -75,36 +121,22 @@ class _DetailAkunState extends State<DetailAkun> {
                         const SizedBox(
                           height: 5,
                         ),
-                        TextFormField(
-                          controller: inputnama,
-                          enabled: false,
-                          maxLines: 1,
-                          decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 5.0, horizontal: 15.0),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                              hintText: 'User satu',
-                              hintStyle:
-                              TextStyle(color: PaylaterTheme.deactivatedText),
-                              filled: true,
-                              fillColor: PaylaterTheme.white),
+                        Obx(() => Text(
+                          user_name.value,
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
                           ),
-                        ),
+                        ),)
                       ],
                     ),
                     //End Username
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
-                    //email
+                    ///email
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -115,38 +147,25 @@ class _DetailAkunState extends State<DetailAkun> {
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
-                        TextField(
-                          enabled: false,
-                          controller: inputemail,
-                          maxLines: 1,
-                          decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 5.0, horizontal: 15.0),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                              hintText: 'user123@gmail.com',
-                              hintStyle:
-                              TextStyle(color: PaylaterTheme.deactivatedText),
-                              filled: true,
-                              fillColor: PaylaterTheme.white),
+                        Obx(() => Text(
+                          mail_address.value,
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
                           ),
-                        ),
+                        ),)
+
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
-                    //Nomor Telepon
+                    ///Nomor Telepon
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -160,79 +179,28 @@ class _DetailAkunState extends State<DetailAkun> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Row(
-                          children: [
-                            const Flexible(
-                              flex: 2,
-                              child: TextField(
-                                enabled: false,
-                                maxLines: 1,
-                                decoration: InputDecoration(
-                                    labelStyle: TextStyle(),
-                                    labelText: '62',
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 5.0, horizontal: 15.0),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                    filled: true,
-                                    fillColor: PaylaterTheme.white),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Flexible(
-                              flex: 8,
-                              fit: FlexFit.tight,
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: TextField(
-                                  enabled: false,
-                                  controller: inputtelp,
-                                  maxLines: 1,
-                                  decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 5.0, horizontal: 15.0),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
-                                      hintText: '812345678',
-                                      hintStyle: TextStyle(
-                                          color: PaylaterTheme.deactivatedText),
-                                      filled: true,
-                                      fillColor: PaylaterTheme.white),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        Obx(() => Text(
+                          phone_number.value,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                        ),)
+
                       ],
                     ),
 
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
-                    //Pekerjaan
-                    Column
-                      (
+                    ///Pekerjaan
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Status Pekerjaan',
+                          'Pekerjaan',
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -241,31 +209,18 @@ class _DetailAkunState extends State<DetailAkun> {
                         const SizedBox(
                           height: 5,
                         ),
-                        TextField(
-                          enabled: false,
-                          controller: inputtelp,
-                          maxLines: 1,
-                          decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 5.0, horizontal: 15.0),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10))),
-                              hintText: 'Dosen',
-                              hintStyle: TextStyle(
-                                  color: PaylaterTheme.deactivatedText),
-                              filled: true,
-                              fillColor: PaylaterTheme.white),
+                        Obx(() => Text(
+                          job.value,
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
                           ),
-                        ),
+                        ),)
+
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
@@ -283,26 +238,23 @@ class _DetailAkunState extends State<DetailAkun> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Container(
-                          height: 200,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                            image: const DecorationImage(image: NetworkImage('https://img.freepik.com/free-vector/man-face-close-up_98292-4059.jpg?size=626&ext=jpg&ga=GA1.2.901965733.1670248694&semt=ais'))
-                          ),
-                        )
+                        Obx(() => Image(
+                            width: 120,
+                            image: NetworkImage(
+                              image_face.value,
+                            ))),
                       ],
                     ),
                     const SizedBox(
                       height: 20,
                     ),
 
-                    //verif ktp
+                    ///verif ktp
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Verifikasi Kartu Identitas (KTP)',
+                          'Verifikasi KTP',
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -311,14 +263,11 @@ class _DetailAkunState extends State<DetailAkun> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Container(
-                          height: 200,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                              image: const DecorationImage(image: NetworkImage('https://img.freepik.com/free-vector/organic-flat-about-me-landing-page_23-2148899204.jpg?w=1380&t=st=1689579056~exp=1689579656~hmac=8590acdddc0156c05c22df6dd7ca560b91ac49ab42baa68f0c2ac9bfe77582de'))
-                          ),
-                        )
+                        Obx(() => Image(
+                            width: 120,
+                            image: NetworkImage(
+                              image_ktp.value,
+                            ))),
                       ],
                     ),
                   ],

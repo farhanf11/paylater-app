@@ -199,6 +199,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: TextField(
+                        keyboardType: TextInputType.url,
                         textAlignVertical: TextAlignVertical.center,
                         controller: inputUrl,
                         autofocus: true,

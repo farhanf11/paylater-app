@@ -67,25 +67,11 @@ class _UbahAlamatState extends State<UbahAlamat> {
         }
 
       }
-      if (response.statusCode == 422) {
+      else {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
           title: Text(responseData['message']),
-          actions: [
-            TextButton(
-              child: Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (context) => alert);
-      }
-      if (response.statusCode == 404) {
-        AlertDialog alert = AlertDialog(
-          title: Text("Email tidak terdaftar"),
-          content: Container(
-            child: Text("Email yang anda masukan salah"),
-          ),
+          icon: Icon(Icons.warning, size: 8, color: Colors.red),
           actions: [
             TextButton(
               child: Text('Ok'),

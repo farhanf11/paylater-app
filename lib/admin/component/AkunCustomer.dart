@@ -107,7 +107,7 @@ class _AkunCustomerState extends State<AkunCustomer> {
                           fontWeight: FontWeight.w600))),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Flexible(
@@ -124,7 +124,7 @@ class _AkunCustomerState extends State<AkunCustomer> {
                       MaterialButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => DetailAkun()));
+                              builder: (context) => DetailAkun(user_id: datas[index]['user_id'],)));
                         },
                         child: Expanded(
                           child: Container(
