@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'history_page/RiwayatTagihan.dart';
 import 'history_page/tagihanBerlangsung.dart';
-import 'history_page/tagihanPage.dart';
+import 'history_page/PermintaanOrder.dart';
 
 
 class HistoryPage extends StatefulWidget {
@@ -15,7 +15,7 @@ class _HistoryPageState extends State<HistoryPage> {
   int pageIndex = 0;
 
   final pages = [
-    TagihanPage(),
+    PermintaanOrder(),
     TagihanBerlangsung(),
     RiwayatTagihan(),
   ];
@@ -33,20 +33,18 @@ class _HistoryPageState extends State<HistoryPage> {
               tabs: [
                 Tab(text: 'Pending',),
                 Tab(text: 'Berlangsung',),
-                Tab(text: 'Riwayat Tagihan',),
+                Tab(text: 'Riwayat',),
               ],
             ),
           ),
           body:Container(
-            color: Color(0xffE3E9EB),
+            color: const Color(0xffE3E9EB),
             child: TabBarView(
               children: [
-                //Tagihan
-                TagihanPage(),
+                PermintaanOrder(),
 
                 TagihanBerlangsung(),
 
-                //riwayat tagihan
                 RiwayatTagihan(),
               ],
             ),

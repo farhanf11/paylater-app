@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paylater/user/HistoryPage.dart';
 import 'package:paylater/user/HomePage.dart';
 import 'package:paylater/user/ProfilePage.dart';
+import 'package:paylater/user/history_page/PermintaanOrder.dart';
 
 class NavbarBot extends StatefulWidget {
   const NavbarBot({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class _NavbarBotState extends State<NavbarBot> {
 
   final pages = [
     HomePage(),
+    HistoryPage(),
     ProfilePage(),
   ];
 
@@ -63,6 +65,25 @@ class _NavbarBotState extends State<NavbarBot> {
               });
             },
             icon: pageIndex == 1
+                ? const Icon(
+              Icons.shopping_cart,
+              color: Color(0xFF000000),
+              size: 35,
+            )
+                : const Icon(
+              Icons.shopping_cart_outlined,
+              color: Color(0xFF000000),
+              size: 35,
+            ),
+          ),
+          IconButton(
+            enableFeedback: false,
+            onPressed: () {
+              setState(() {
+                pageIndex = 2;
+              });
+            },
+            icon: pageIndex == 2
                 ? const Icon(
               Icons.person,
               color: Color(0xFF000000),

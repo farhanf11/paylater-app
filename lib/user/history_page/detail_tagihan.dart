@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/user/TransferBank.dart';
-import 'package:paylater/user/history_page/tagihanPage.dart';
+import 'package:paylater/user/history_page/PermintaanOrder.dart';
 
 import '../../admin/component/popup.dart';
 import '../../theme.dart';
@@ -19,7 +19,7 @@ class _DetailTagihanState extends State<DetailTagihan> {
   int pageIndex = 0;
 
   final pages = [
-    TagihanPage(),
+    PermintaanOrder(),
     RiwayatTagihan(),
   ];
 
@@ -112,11 +112,11 @@ class _DetailTagihanState extends State<DetailTagihan> {
                       children: [
                         //Head
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          decoration: const BoxDecoration(
                             border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffE3E9EB))),
                           ),
-                          child: Text('Alamat Pengiriman',
+                          child: const Text('Alamat Pengiriman',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,
@@ -154,11 +154,11 @@ class _DetailTagihanState extends State<DetailTagihan> {
                       children: [
                         //Head
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                           decoration: BoxDecoration(
                             border: Border(bottom: BorderSide(style: BorderStyle.solid, color: Color(0xffE3E9EB))),
                           ),
-                          child: Text('Resi Pengiriman',
+                          child: const Text('Resi Pengiriman',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,

@@ -1,55 +1,65 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
+import 'package:number_paginator/number_paginator.dart';
 
-class TagihanBerlangsung extends StatefulWidget {
-  const TagihanBerlangsung({Key? key}) : super(key: key);
+class PermintaanOrder extends StatefulWidget {
+  const PermintaanOrder({Key? key}) : super(key: key);
 
   @override
-  State<TagihanBerlangsung> createState() => _TagihanBerlangsungState();
+  State<PermintaanOrder> createState() => _PermintaanOrderState();
 }
 
-class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
-  _TagihanBerlangsungState();
+class _PermintaanOrderState extends State<PermintaanOrder> {
+  _PermintaanOrderState();
+  String token = "";
   List datas = [];
   bool isLoading = false;
   var user_name = "username".obs;
   var email_address = "email".obs;
   var phone_number = "phone".obs;
   var image_face = "image".obs;
-  int page = 0;
+  int _currentpage = 0;
+  int _numPages = 10;
+
 
   void initState() {
-    getTagihanBerlangsung();
+    super.initState();
+    getOrder();
     ProfilebyId();
   }
 
-  Future<void> getTagihanBerlangsung() async {
+  final List<Map<String, dynamic>> pages = List.generate(
+      50,
+          (index) => {
+
+          }
+  );
+  ///get list order request
+  Future<void> getOrder() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token')!;
-    var id = prefs.getInt('id')!;
-    print(id);
     setState(() {
       isLoading = true;
       token = prefs.getString('token')!;
     });
+    var id = prefs.getInt('id')!;
     try {
       var response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=&page=1'),
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=$_currentpage'),
           headers: {
             'Authorization': token,
           });
+      print(_currentpage);
       inspect(response);
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas =  responseData['data']['data'];
-        // return Customer(data: datas);
       }else{
         print('gagal');
       }
@@ -98,9 +108,10 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
     return Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: isLoading?const LinearProgressIndicator(
-        ///style
-        valueColor:AlwaysStoppedAnimation<Color>(Colors.blue),
+      child: isLoading?const Center(
+        child: LinearProgressIndicator(
+          ///style
+        ),
       ):Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -209,6 +220,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                                               ),
                                               Text(
                                                 datas[index]['price'].toString(),
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
@@ -255,6 +267,15 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                 );
               },
             ),
+          ),
+          NumberPaginator(
+            numberPages: _numPages,
+
+            onPageChange: (index){
+                setState(() {
+                  _currentpage=index;
+                });
+            },
           ),
         ],
       ),

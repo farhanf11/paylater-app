@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/profile_page/biodataPage.dart';
+import 'package:paylater/profile_page/helpCenter.dart';
+import 'package:paylater/profile_page/termsCondition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../profile_page/biodata.dart';
@@ -30,10 +33,10 @@ _sendingMails() async {
 
 class _ProfilePageState extends State<ProfilePage> {
   _ProfilePageState();
-  var user_name = "username";
-  var email_address = "email";
-  var phone_number = "phone";
-  var image_face = "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250";
+  var user_name = "username".obs;
+  var email_address = "email".obs;
+  var phone_number = "phone".obs;
+  var image_face = "image_face".obs;
 
   void initState() {
     ProfilebyId();
@@ -45,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
     var token = prefs.getString('token')!;
     var id = prefs.getInt('id')!;
     try {
-      Response response = await get(
+      var response = await get(
           Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
           headers: {
             'Authorization': token,
@@ -57,10 +60,10 @@ class _ProfilePageState extends State<ProfilePage> {
           print('gagal');
         }else{
           setState(() {
-            user_name = responseData['data']['user_name'];
-            email_address = responseData['data']['email_address'];
-            phone_number = responseData['data']['phone_number'];
-            image_face = responseData['data']['image_face'];
+            user_name.value = responseData['data']['user_name'];
+            email_address.value = responseData['data']['email_address'];
+            phone_number.value = responseData['data']['phone_number'];
+            image_face.value = responseData['data']['image_face'];
           });
 
         }
@@ -98,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     Column(
                       children: [
-                        Container(
+                        Obx(() => Container(
                           width: 72,
                           height: 72,
                           decoration: BoxDecoration(
@@ -115,35 +118,35 @@ class _ProfilePageState extends State<ProfilePage> {
                               image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: NetworkImage(
-                                    image_face,
+                                    image_face.value,
                                   ))),
-                        ),
+                        ),),
 
-                        //username
-                        Text(
+                        ///username
+                        Obx(() => Text(
                           user_name.toString(),
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
-                        ),
+                        ),),
 
-                        //email
-                        Text(
+                        ///email
+                        Obx(() => Text(
                           email_address.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.grey,
                           ),
-                        ),
+                        ),),
 
-                        Text(
+                        Obx(() => Text(
                           phone_number.toString(),
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black87,
                           ),
-                        ),
+                        ),),
                       ],
                     ),
                     const SizedBox(
@@ -258,26 +261,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 text2: 'Dapatkan jawaban terbaik dari hal yang ingin kamu tanyakan',
                                 icon2: Icons.arrow_right_outlined,
                               )),
-                              onPressed: () => {}
+                              onPressed: () => Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) => const HelpCenter())),
                           ),
                           //end Bantuan
                           SizedBox(height: 4,),
 
-                          //terms condition
-                          MaterialButton(
-                            color: Colors.white,
-                            child: ButtonProfile(DataButton(
-                              id: 6,
-                              icon1: Icons.perm_device_info_outlined,
-                              text1: 'Syarat dan Ketentuan',
-                              text2: 'Syarat dan ketentuan Ilkompay',
-                              icon2: Icons.arrow_right_outlined,
-                            )),
-                            onPressed: () => Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) => Biodata())),
-                          ),
-                          //end terms condition
-                          SizedBox(height: 4,),
                           //privacy policy
                           MaterialButton(
                             color: Colors.white,
@@ -330,7 +319,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 )
               ],

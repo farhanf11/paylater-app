@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:paylater/user/AkadCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/tagihan.dart';
@@ -264,38 +266,42 @@ class _HomePageState extends State<HomePage> {
                      ),
                    ),
                    const SizedBox(height: 5,),
-                   CardRiwayatTagihan(Tagihan(
-                       id: 1,
-                       imageUrl: "https://media.istockphoto.com/id/1286249900/id/foto/merek-baru-iphone-12-pro-max-di-pacific-blue-di-pengaturan-studio.jpg?s=612x612&w=0&k=20&c=ejvqcTDMppI8slqjyRCP66UVJqHkfoAQHpinrini-gY=",
-                       productName: 'iPhone 13 Black, 128 gb',
-                       tenorCicilan: 12,
-                       statusTagihan: 'Lunas',
-                       hargaCicilan: 1399899,
-                       hargaBarang: 14799000,
-                       tanggalJatuhTempo: '12/April/2023'
-                   ),),
-                   const SizedBox(height: 8,),
-                   CardRiwayatTagihan(Tagihan(
-                       id: 1,
-                       imageUrl: "https://media.istockphoto.com/id/1286249900/id/foto/merek-baru-iphone-12-pro-max-di-pacific-blue-di-pengaturan-studio.jpg?s=612x612&w=0&k=20&c=ejvqcTDMppI8slqjyRCP66UVJqHkfoAQHpinrini-gY=",
-                       productName: 'iPhone 13 Black, 128 gb',
-                       tenorCicilan: 12,
-                       statusTagihan: 'Lunas',
-                       hargaCicilan: 1399899,
-                       hargaBarang: 14799000,
-                       tanggalJatuhTempo: '12/April/2023'
-                   ),),
-                   const SizedBox(height: 8,),
-                   CardRiwayatTagihan(Tagihan(
-                       id: 1,
-                       imageUrl: "https://media.istockphoto.com/id/1286249900/id/foto/merek-baru-iphone-12-pro-max-di-pacific-blue-di-pengaturan-studio.jpg?s=612x612&w=0&k=20&c=ejvqcTDMppI8slqjyRCP66UVJqHkfoAQHpinrini-gY=",
-                       productName: 'iPhone 13 Black, 128 gb',
-                       tenorCicilan: 12,
-                       statusTagihan: 'Lunas',
-                       hargaCicilan: 1399899,
-                       hargaBarang: 14799000,
-                       tanggalJatuhTempo: '12/April/2023'
-                   ),),
+                   Container(
+                     decoration: BoxDecoration(
+                       color: Colors.white,
+                       borderRadius: BorderRadius.circular(8),
+                     ),
+                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                     child: Row(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         const Text("Link 1"),
+                         IconButton(onPressed: () async {
+                           await Clipboard.setData(ClipboardData(text: "Link 1"));
+                           AlertDialog alert = AlertDialog(
+                             content: Text('Menyalin Bank BNI Link1'),
+                             backgroundColor: Colors.white,
+                             icon: const Icon(CupertinoIcons.checkmark_seal_fill, size: 14),
+                             iconColor: PaylaterTheme.maincolor,
+                             actions: [
+                               TextButton(
+                                 child: const Text('Ok'),
+                                 onPressed: () => Navigator.of(context).pop(),
+                               ),
+                             ],
+                           );
+                           showDialog(context: context, builder: (context) => alert);
+                         },
+                             icon: const Icon(
+                               Icons.copy,
+                               color: PaylaterTheme.maincolor,
+                               size: 12,
+                             )
+                         ),
+                       ],
+                     ),
+                   ),
                  ],
                ),
 

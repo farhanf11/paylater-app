@@ -1,46 +1,38 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 
-class TagihanBerlangsung extends StatefulWidget {
-  const TagihanBerlangsung({Key? key}) : super(key: key);
+class TransaksiBerlangsung extends StatefulWidget {
+  const TransaksiBerlangsung({Key? key}) : super(key: key);
 
   @override
-  State<TagihanBerlangsung> createState() => _TagihanBerlangsungState();
+  State<TransaksiBerlangsung> createState() => _TransaksiBerlangsungState();
 }
 
-class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
-  _TagihanBerlangsungState();
+class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
+  _TransaksiBerlangsungState();
+  String token = "";
   List datas = [];
   bool isLoading = false;
-  var user_name = "username".obs;
-  var email_address = "email".obs;
-  var phone_number = "phone".obs;
-  var image_face = "image".obs;
-  int page = 0;
 
   void initState() {
-    getTagihanBerlangsung();
-    ProfilebyId();
+    super.initState();
+    getOrder();
   }
 
-  Future<void> getTagihanBerlangsung() async {
+  Future<void> getOrder() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token')!;
-    var id = prefs.getInt('id')!;
-    print(id);
     setState(() {
       isLoading = true;
       token = prefs.getString('token')!;
     });
     try {
-      var response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=&page=1'),
+      Response response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=approve&page=1'),
           headers: {
             'Authorization': token,
           });
@@ -49,7 +41,6 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas =  responseData['data']['data'];
-        // return Customer(data: datas);
       }else{
         print('gagal');
       }
@@ -61,38 +52,6 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
     });
   }
 
-  ///get profile user
-  void ProfilebyId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token')!;
-    var id = prefs.getInt('id')!;
-    try {
-      var response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
-          headers: {
-            'Authorization': token,
-          });
-
-      if (response.statusCode == 200) {
-        var responseData = json.decode(response.body);
-        if(responseData['success'] == false ){
-          print('gagal');
-        }else{
-          setState(() {
-            user_name.value = responseData['data']['user_name'];
-            email_address.value = responseData['data']['email_address'];
-            phone_number.value = responseData['data']['phone_number'];
-            image_face.value = responseData['data']['image_face'];
-          });
-
-        }
-
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -100,7 +59,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: isLoading?const LinearProgressIndicator(
         ///style
-        valueColor:AlwaysStoppedAnimation<Color>(Colors.blue),
+        valueColor:AlwaysStoppedAnimation<Color>(Colors.grey),
       ):Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -139,21 +98,20 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                               children: [
                                 Row(
                                   children: [
-                                    Obx(() => CircleAvatar(
+                                    CircleAvatar(
                                       backgroundImage: NetworkImage(
-                                          image_face.value
+                                          datas[index]['user']['image_face']
                                       ),
-                                    ),),
+                                    ),
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    Obx(() => Text(user_name.value,
+                                    Text(datas[index]['user']['user_name'],
                                         style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
-                                        )
-                                    ),),
+                                        )),
                                   ],
                                 ),
                                 const SizedBox(height: 10,),
@@ -187,6 +145,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                                           /// Tenor cicilan
                                           Text(
                                             '${'Tenor Cicilan :' +
+                                                ' ' +
                                                 datas[index]['tenor']} bulan',
                                             style: const TextStyle(
                                               fontSize: 14,
@@ -197,10 +156,10 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
 
                                           ///price
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
                                               const Text(
-                                                'Harga : Rp ',
+                                                'Harga : ' + 'Rp' + ' ',
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
