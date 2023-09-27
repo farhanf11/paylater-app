@@ -24,8 +24,8 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
   var email_address = "email".obs;
   var phone_number = "phone".obs;
   var image_face = "image".obs;
-  int _currentpage = 0;
-  int _numPages = 10;
+  var current_page = 0.obs;
+  var last_page = 0.obs;
 
 
   void initState() {
@@ -34,12 +34,6 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
     ProfilebyId();
   }
 
-  final List<Map<String, dynamic>> pages = List.generate(
-      50,
-          (index) => {
-
-          }
-  );
   ///get list order request
   Future<void> getOrder() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,16 +44,17 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
     var id = prefs.getInt('id')!;
     try {
       var response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=$_currentpage'),
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=$current_page'),
           headers: {
             'Authorization': token,
           });
-      print(_currentpage);
       inspect(response);
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas =  responseData['data']['data'];
+        current_page.value = responseData['data']['current_page'];
+        last_page.value = responseData['data']['last_page'];
       }else{
         print('gagal');
       }
@@ -268,15 +263,15 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
               },
             ),
           ),
-          NumberPaginator(
-            numberPages: _numPages,
+          Obx(() => NumberPaginator(
+            numberPages: last_page.value,
 
             onPageChange: (index){
-                setState(() {
-                  _currentpage=index;
-                });
+              setState(() {
+                current_page.value=index;
+              });
             },
-          ),
+          ),)
         ],
       ),
     );

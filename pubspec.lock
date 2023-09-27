@@ -296,14 +296,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  grecaptcha:
-    dependency: "direct main"
-    description:
-      name: grecaptcha
-      sha256: ee094630ec514d93fdf4cf7f7261b4836f41e92c1c005616d7310f44cdfeaa96
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.6"
   http:
     dependency: "direct main"
     description:
