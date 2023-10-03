@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:number_paginator/number_paginator.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
@@ -17,39 +18,53 @@ class TagihanBerlangsung extends StatefulWidget {
 class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
   _TagihanBerlangsungState();
   List datas = [];
-  bool isLoading = false;
+  String token = "";
+  // bool isLoading = false;
   var user_name = "username".obs;
   var email_address = "email".obs;
   var phone_number = "phone".obs;
   var image_face = "image".obs;
-  int page = 0;
+  var _currentPage = 0.obs;
+  var last_page = 1.obs;
+  List links = [];
 
   void initState() {
     getTagihanBerlangsung();
     ProfilebyId();
   }
 
-  Future<void> getTagihanBerlangsung() async {
+  Future<void> getTagihanBerlangsung({url = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token')!;
-    var id = prefs.getInt('id')!;
-    print(id);
     setState(() {
-      isLoading = true;
-      token = prefs.getString('token')!;
+      // isLoading = true;
+      var token = prefs.getString('token')!;
     });
+    var id = prefs.getInt('id')!;
+
     try {
-      var response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=&page=1'),
-          headers: {
-            'Authorization': token,
-          });
-      inspect(response);
+      var response;
+      if(url == ''){
+        response = await get(
+            Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=1'),
+            headers: {
+              'Authorization': token,
+            }
+        );
+      } else {
+        response = await get(
+            Uri.parse(url),
+            headers: {
+              'Authorization': token,
+            }
+        );
+      }
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas =  responseData['data']['data'];
-        // return Customer(data: datas);
+        _currentPage.value = responseData['data']['current_page'];
+        last_page.value = responseData['data']['last_page'];
+        links = responseData['data']['links'];
       }else{
         print('gagal');
       }
@@ -57,7 +72,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
       print(e);
     }
     setState(() {
-      isLoading = false;
+      // isLoading = false;
     });
   }
 
@@ -98,10 +113,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
     return Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: isLoading?const LinearProgressIndicator(
-        ///style
-        valueColor:AlwaysStoppedAnimation<Color>(Colors.blue),
-      ):Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -256,6 +268,14 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
               },
             ),
           ),
+          Obx(() => NumberPaginator(
+
+            numberPages: last_page.value,
+            onPageChange: (index) {
+              getTagihanBerlangsung(url: links[index+1]['url']);
+              print(_currentPage);
+            },
+          ),),
         ],
       ),
     );

@@ -19,14 +19,14 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
   _PermintaanOrderState();
   String token = "";
   List datas = [];
-  bool isLoading = false;
+  // bool isLoading = false;
   var user_name = "username".obs;
   var email_address = "email".obs;
   var phone_number = "phone".obs;
   var image_face = "image".obs;
-  var current_page = 0.obs;
-  var last_page = 0.obs;
-
+  var _currentPage = 0.obs;
+  var last_page = 1.obs;
+  List links = [];
 
   void initState() {
     super.initState();
@@ -35,26 +35,38 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
   }
 
   ///get list order request
-  Future<void> getOrder() async {
+  Future<void> getOrder({url = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isLoading = true;
+      // isLoading = true;
       token = prefs.getString('token')!;
     });
     var id = prefs.getInt('id')!;
+
     try {
-      var response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=$current_page'),
-          headers: {
-            'Authorization': token,
-          });
-      inspect(response);
+      var response;
+      if(url == ''){
+        response = await get(
+            Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=1'),
+            headers: {
+              'Authorization': token,
+            }
+        );
+      } else {
+        response = await get(
+            Uri.parse(url),
+            headers: {
+              'Authorization': token,
+            }
+        );
+      }
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas =  responseData['data']['data'];
-        current_page.value = responseData['data']['current_page'];
+        _currentPage.value = responseData['data']['current_page'];
         last_page.value = responseData['data']['last_page'];
+        links = responseData['data']['links'];
       }else{
         print('gagal');
       }
@@ -62,7 +74,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
       print(e);
     }
     setState(() {
-      isLoading = false;
+      // isLoading = false;
     });
   }
 
@@ -103,11 +115,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
     return Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: isLoading?const Center(
-        child: LinearProgressIndicator(
-          ///style
-        ),
-      ):Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -264,14 +272,13 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
             ),
           ),
           Obx(() => NumberPaginator(
-            numberPages: last_page.value,
 
-            onPageChange: (index){
-              setState(() {
-                current_page.value=index;
-              });
+            numberPages: last_page.value,
+            onPageChange: (index) {
+              getOrder(url: links[index+1]['url']);
+              print(_currentPage);
             },
-          ),)
+          ),),
         ],
       ),
     );

@@ -15,6 +15,7 @@ class RincianCicilanAdmin extends StatefulWidget {
   final int order_id;
   final int user_id;
 
+
   @override
   State<RincianCicilanAdmin> createState() => _RincianCicilanAdminState();
 }
@@ -38,7 +39,16 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
   var request_date = 'request_date'.obs;
   var status = 'status'.obs;
   var created_at = 'created_at'.obs;
+
+  var id_installment = 0.obs;
+  var order_id = 0.obs;
+  var instalment_unique_id = "6";
+  var instalment_number = "".obs;
+  var instalment_price = 0.obs;
+  var status_installment = "approve".obs;
+  var due_date = "".obs;
   bool isLoading = false;
+  List cicilans = [];
 
   void initState() {
     super.initState();
@@ -70,7 +80,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        print(responseData);
+        cicilans =  responseData['data']['data']['instalment'];
+        print(cicilans);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -224,10 +235,11 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             ),
           ),
 
-          ///Rincian pesanan
           const SizedBox(
             height: 24,
           ),
+
+          ///Rincian pesanan
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
@@ -360,6 +372,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
           const SizedBox(
             height: 24,
           ),
+
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
@@ -370,7 +383,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                //Head
+                ///Head
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: const BoxDecoration(
@@ -393,46 +406,55 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                   ),
                 ),
 
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Cicilan 1',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      const Text(
-                        '500.000',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      TextButton(
-                          onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const DetailPembayaranCicilan()),
+                ///isi
+                Flexible(
+                    child: ListView.builder(
+                      itemCount: cicilans.length,
+                      itemBuilder: (BuildContext context, int index){
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Cicilan 1',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),
                               ),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 3, horizontal: 8),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: PaylaterTheme.maincolor),
-                            child: const Text(
-                              'lihat',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )),
-                    ],
-                  ),
+                              const Text(
+                                '500.000',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              TextButton(
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const DetailPembayaranCicilan()),
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 3, horizontal: 8),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: PaylaterTheme.maincolor),
+                                    child: const Text(
+                                      'lihat',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                 ),
+
 
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -552,7 +574,6 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                   ),
                 ),
 
-                //Tenor
                 Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16, vertical: 12),
@@ -572,6 +593,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
           const SizedBox(
             height: 24,
           ),
+
+          ///tanggal sampai
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(

@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
+import 'package:number_paginator/number_paginator.dart';
 
 class TransaksiBerlangsung extends StatefulWidget {
   const TransaksiBerlangsung({Key? key}) : super(key: key);
@@ -17,30 +19,53 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
   _TransaksiBerlangsungState();
   String token = "";
   List datas = [];
-  bool isLoading = false;
+  // bool isLoading = false;
+  var user_name = "username".obs;
+  var email_address = "email".obs;
+  var phone_number = "phone".obs;
+  var image_face = "image".obs;
+  var _currentPage = 0.obs;
+  var last_page = 1.obs;
+  List links = [];
 
   void initState() {
     super.initState();
     getOrder();
+    ProfilebyId();
   }
 
-  Future<void> getOrder() async {
+  ///get list order request
+  Future<void> getOrder({url = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isLoading = true;
+      // isLoading = true;
       token = prefs.getString('token')!;
     });
+
     try {
-      Response response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=approve&page=1'),
-          headers: {
-            'Authorization': token,
-          });
-      inspect(response);
+      var response;
+      if(url == ''){
+        response = await get(
+            Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=&page=1'),
+            headers: {
+              'Authorization': token,
+            }
+        );
+      } else {
+        response = await get(
+            Uri.parse(url),
+            headers: {
+              'Authorization': token,
+            }
+        );
+      }
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas =  responseData['data']['data'];
+        _currentPage.value = responseData['data']['current_page'];
+        last_page.value = responseData['data']['last_page'];
+        links = responseData['data']['links'];
       }else{
         print('gagal');
       }
@@ -48,8 +73,40 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
       print(e);
     }
     setState(() {
-      isLoading = false;
+      // isLoading = false;
     });
+  }
+
+  ///get profile user
+  void ProfilebyId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    try {
+      var response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          headers: {
+            'Authorization': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            user_name.value = responseData['data']['user_name'];
+            email_address.value = responseData['data']['email_address'];
+            phone_number.value = responseData['data']['phone_number'];
+            image_face.value = responseData['data']['image_face'];
+          });
+
+        }
+
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -57,10 +114,7 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
     return Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: isLoading?const LinearProgressIndicator(
-        ///style
-        valueColor:AlwaysStoppedAnimation<Color>(Colors.grey),
-      ):Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -98,20 +152,21 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                               children: [
                                 Row(
                                   children: [
-                                    CircleAvatar(
+                                    Obx(() => CircleAvatar(
                                       backgroundImage: NetworkImage(
-                                          datas[index]['user']['image_face']
+                                          image_face.value
                                       ),
-                                    ),
+                                    ),),
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    Text(datas[index]['user']['user_name'],
+                                    Obx(() => Text(user_name.value,
                                         style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
-                                        )),
+                                        )
+                                    ),),
                                   ],
                                 ),
                                 const SizedBox(height: 10,),
@@ -145,7 +200,6 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                                           /// Tenor cicilan
                                           Text(
                                             '${'Tenor Cicilan :' +
-                                                ' ' +
                                                 datas[index]['tenor']} bulan',
                                             style: const TextStyle(
                                               fontSize: 14,
@@ -156,10 +210,10 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
 
                                           ///price
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               const Text(
-                                                'Harga : ' + 'Rp' + ' ',
+                                                'Harga : Rp ',
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
@@ -168,6 +222,7 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                                               ),
                                               Text(
                                                 datas[index]['price'].toString(),
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
@@ -215,6 +270,14 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
               },
             ),
           ),
+          Obx(() => NumberPaginator(
+
+            numberPages: last_page.value,
+            onPageChange: (index) {
+              getOrder(url: links[index+1]['url']);
+              print(_currentPage);
+            },
+          ),),
         ],
       ),
     );

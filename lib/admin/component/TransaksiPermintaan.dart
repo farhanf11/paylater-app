@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
+import 'package:number_paginator/number_paginator.dart';
 
 class TransaksiPermintaan extends StatefulWidget {
   const TransaksiPermintaan({Key? key}) : super(key: key);
@@ -17,30 +19,54 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
   _TransaksiPermintaanState();
   String token = "";
   List datas = [];
-  bool isLoading = false;
+  // bool isLoading = false;
+  var user_name = "username".obs;
+  var email_address = "email".obs;
+  var phone_number = "phone".obs;
+  var image_face = "image".obs;
+  var _currentPage = 0.obs;
+  var last_page = 1.obs;
+  List links = [];
 
   void initState() {
     super.initState();
     getOrder();
+    ProfilebyId();
   }
 
-  Future<void> getOrder() async {
+  ///get list order request
+  Future<void> getOrder({url = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isLoading = true;
+      // isLoading = true;
       token = prefs.getString('token')!;
     });
+    var id = prefs.getInt('id')!;
+
     try {
-      Response response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=request&page=1'),
-          headers: {
-            'Authorization': token,
-          });
-      inspect(response);
+      var response;
+      if(url == ''){
+        response = await get(
+            Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=1'),
+            headers: {
+              'Authorization': token,
+            }
+        );
+      } else {
+        response = await get(
+            Uri.parse(url),
+            headers: {
+              'Authorization': token,
+            }
+        );
+      }
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas =  responseData['data']['data'];
+        _currentPage.value = responseData['data']['current_page'];
+        last_page.value = responseData['data']['last_page'];
+        links = responseData['data']['links'];
       }else{
         print('gagal');
       }
@@ -48,8 +74,40 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
       print(e);
     }
     setState(() {
-      isLoading = false;
+      // isLoading = false;
     });
+  }
+
+  ///get profile user
+  void ProfilebyId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    try {
+      var response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          headers: {
+            'Authorization': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            user_name.value = responseData['data']['user_name'];
+            email_address.value = responseData['data']['email_address'];
+            phone_number.value = responseData['data']['phone_number'];
+            image_face.value = responseData['data']['image_face'];
+          });
+
+        }
+
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -57,10 +115,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
     return Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: isLoading?const LinearProgressIndicator(
-        ///style
-        valueColor:AlwaysStoppedAnimation<Color>(Colors.grey),
-      ):Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -79,10 +134,10 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                         onPressed: () { Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => RincianCicilanAdmin(
-                                order_id: datas[index]['id'],
-                                user_id: datas[index]['user_id'],
-                              ),
+                            builder: (BuildContext context) => RincianCicilanAdmin(
+                              order_id: datas[index]['id'],
+                              user_id: datas[index]['user_id'],
+                            ),
                           ),
                         );},
                         child: Expanded(
@@ -98,20 +153,21 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                               children: [
                                 Row(
                                   children: [
-                                    CircleAvatar(
+                                    Obx(() => CircleAvatar(
                                       backgroundImage: NetworkImage(
-                                          datas[index]['user']['image_face']
+                                          image_face.value
                                       ),
-                                    ),
+                                    ),),
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    Text(datas[index]['user']['user_name'],
+                                    Obx(() => Text(user_name.value,
                                         style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
-                                        )),
+                                        )
+                                    ),),
                                   ],
                                 ),
                                 const SizedBox(height: 10,),
@@ -119,12 +175,12 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                     Image(
-                                       image: NetworkImage(datas[index]['image']),
-                                       width: 60,
-                                       height: 60,
-                                       fit: BoxFit.fill,
-                                     ),
+                                    Image(
+                                      image: NetworkImage(datas[index]['image']),
+                                      width: 60,
+                                      height: 60,
+                                      fit: BoxFit.fill,
+                                    ),
                                     const SizedBox(width: 20,),
                                     Flexible(
                                       child: Column(
@@ -145,7 +201,6 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                           /// Tenor cicilan
                                           Text(
                                             '${'Tenor Cicilan :' +
-                                                ' ' +
                                                 datas[index]['tenor']} bulan',
                                             style: const TextStyle(
                                               fontSize: 14,
@@ -156,10 +211,10 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
 
                                           ///price
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               const Text(
-                                                'Harga : ' + 'Rp' + ' ',
+                                                'Harga : Rp ',
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
@@ -168,6 +223,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                               ),
                                               Text(
                                                 datas[index]['price'].toString(),
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
@@ -215,6 +271,14 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
               },
             ),
           ),
+          Obx(() => NumberPaginator(
+
+            numberPages: last_page.value,
+            onPageChange: (index) {
+              getOrder(url: links[index+1]['url']);
+              print(_currentPage);
+            },
+          ),),
         ],
       ),
     );
