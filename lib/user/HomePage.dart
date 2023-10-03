@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:paylater/user/AkadCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/tagihan.dart';
-import 'components/card_riwayat_tagihan.dart';
 import 'components/home_page/banner_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -91,7 +90,7 @@ class _HomePageState extends State<HomePage> {
           title: Text(responseData['message']),
           actions: [
             TextButton(
-              child: Text('Ok'),
+              child: const Text('Ok'),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
@@ -100,10 +99,8 @@ class _HomePageState extends State<HomePage> {
       }
       if (response.statusCode == 404) {
         AlertDialog alert = AlertDialog(
-          title: Text("Email tidak terdaftar"),
-          content: Container(
-            child: Text("Email yang anda masukan salah"),
-          ),
+          title: const Text("Email tidak terdaftar"),
+          content: const Text("Email yang anda masukan salah"),
           actions: [
             TextButton(
               child: Text('Ok'),
@@ -141,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                   Stack(
                     children: <Widget>[
                       Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                             top: 20,
                             left: 10,
                           ),
@@ -160,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                                   color: Colors.white,
                                 ),
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.more_vert,
                                 color: Colors.white,
                               ),
@@ -168,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   BannerView(),
@@ -278,9 +275,9 @@ class _HomePageState extends State<HomePage> {
                        children: [
                          const Text("Link 1"),
                          IconButton(onPressed: () async {
-                           await Clipboard.setData(ClipboardData(text: "Link 1"));
+                           await Clipboard.setData(const ClipboardData(text: "Link 1"));
                            AlertDialog alert = AlertDialog(
-                             content: Text('Menyalin Bank BNI Link1'),
+                             content: const Text('Menyalin Bank BNI Link1'),
                              backgroundColor: Colors.white,
                              icon: const Icon(CupertinoIcons.checkmark_seal_fill, size: 14),
                              iconColor: PaylaterTheme.maincolor,

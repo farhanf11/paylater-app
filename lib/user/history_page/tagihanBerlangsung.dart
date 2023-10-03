@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
+import 'package:paylater/user/history_page/detail_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 
@@ -29,15 +30,17 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
   List links = [];
 
   void initState() {
+    super.initState();
     getTagihanBerlangsung();
     ProfilebyId();
   }
 
+  ///get list order request
   Future<void> getTagihanBerlangsung({url = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       // isLoading = true;
-      var token = prefs.getString('token')!;
+      token = prefs.getString('token')!;
     });
     var id = prefs.getInt('id')!;
 
@@ -45,7 +48,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
       var response;
       if(url == ''){
         response = await get(
-            Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=1'),
+            Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=ongoing&page=1'),
             headers: {
               'Authorization': token,
             }
@@ -57,6 +60,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
               'Authorization': token,
             }
         );
+        print(token);
       }
 
       if (response.statusCode == 200) {
@@ -140,10 +144,10 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                         );},
                         child: Expanded(
                           child: Container(
-                            constraints: BoxConstraints(maxWidth: double.infinity),
+                            constraints: const BoxConstraints(maxWidth: double.infinity),
                             height: 160,
                             width: 360,
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                             decoration: BoxDecoration(
                                 color: PaylaterTheme.white,
                                 borderRadius: BorderRadius.circular(10)),
@@ -160,6 +164,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                                       width: 10,
                                     ),
                                     Obx(() => Text(user_name.value,
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
@@ -221,6 +226,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                                               ),
                                               Text(
                                                 datas[index]['price'].toString(),
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
@@ -231,27 +237,15 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                                           ),
 
                                           ///notes
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const Text(
-                                                'Catatan : ',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: PaylaterTheme.darkerText,
-                                                ),
-                                              ),
                                               Text(
                                                 datas[index]['note'],
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
                                                 ),
                                               ),
-                                            ],
-                                          ),
                                         ],
                                       ),
                                     ),

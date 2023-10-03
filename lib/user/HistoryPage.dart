@@ -17,7 +17,7 @@ class _HistoryPageState extends State<HistoryPage> {
   final pages = [
     PermintaanOrder(),
     TagihanBerlangsung(),
-    RiwayatTagihan(),
+    RiwayatOrder(),
   ];
 
   @override
@@ -45,7 +45,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
                 TagihanBerlangsung(),
 
-                RiwayatTagihan(),
+                RiwayatOrder(),
               ],
             ),
           ),

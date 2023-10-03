@@ -1,24 +1,24 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
-import 'package:number_paginator/number_paginator.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
+import 'package:number_paginator/number_paginator.dart';
 
-class RiwayatTagihan extends StatefulWidget {
-  const RiwayatTagihan({Key? key}) : super(key: key);
+class RiwayatOrder extends StatefulWidget {
+  const RiwayatOrder({Key? key}) : super(key: key);
 
   @override
-  State<RiwayatTagihan> createState() => _RiwayatTagihanState();
+  State<RiwayatOrder> createState() => _RiwayatOrderState();
 }
 
-class _RiwayatTagihanState extends State<RiwayatTagihan> {
-  _RiwayatTagihanState();
-  List datas = [];
+class _RiwayatOrderState extends State<RiwayatOrder> {
+  _RiwayatOrderState();
   String token = "";
+  List datas = [];
   // bool isLoading = false;
   var user_name = "username".obs;
   var email_address = "email".obs;
@@ -29,15 +29,17 @@ class _RiwayatTagihanState extends State<RiwayatTagihan> {
   List links = [];
 
   void initState() {
-    getTagihanBerlangsung();
+    super.initState();
+    getRiwayatOrder();
     ProfilebyId();
   }
 
-  Future<void> getTagihanBerlangsung({url = ''}) async {
+  ///get list order request
+  Future<void> getRiwayatOrder({url = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       // isLoading = true;
-      var token = prefs.getString('token')!;
+      token = prefs.getString('token')!;
     });
     var id = prefs.getInt('id')!;
 
@@ -57,6 +59,7 @@ class _RiwayatTagihanState extends State<RiwayatTagihan> {
               'Authorization': token,
             }
         );
+        print(token);
       }
 
       if (response.statusCode == 200) {
@@ -221,6 +224,7 @@ class _RiwayatTagihanState extends State<RiwayatTagihan> {
                                               ),
                                               Text(
                                                 datas[index]['price'].toString(),
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
@@ -272,7 +276,7 @@ class _RiwayatTagihanState extends State<RiwayatTagihan> {
 
             numberPages: last_page.value,
             onPageChange: (index) {
-              getTagihanBerlangsung(url: links[index+1]['url']);
+              getRiwayatOrder(url: links[index+1]['url']);
               print(_currentPage);
             },
           ),),

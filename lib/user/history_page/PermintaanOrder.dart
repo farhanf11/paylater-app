@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
+import 'package:paylater/user/history_page/detail_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 import 'package:number_paginator/number_paginator.dart';
@@ -59,6 +60,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
               'Authorization': token,
             }
         );
+        print(token);
       }
 
       if (response.statusCode == 200) {
@@ -134,7 +136,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                         onPressed: () { Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (BuildContext context) => RincianCicilanAdmin(
+                            builder: (BuildContext context) => RincianTagihan(
                               order_id: datas[index]['id'],
                               user_id: datas[index]['user_id'],
                             ),
@@ -245,12 +247,15 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                                                   color: PaylaterTheme.darkerText,
                                                 ),
                                               ),
-                                              Text(
-                                                datas[index]['note'],
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
+                                              Flexible(
+                                                child: Text(
+                                                  datas[index]['note'],
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
                                               ),
                                             ],
