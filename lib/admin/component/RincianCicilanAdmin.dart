@@ -407,52 +407,45 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                 ),
 
                 ///isi
-                Flexible(
-                    child: ListView.builder(
-                      itemCount: cicilans.length,
-                      itemBuilder: (BuildContext context, int index){
-                        return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Cicilan 1',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              const Text(
-                                '500.000',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              TextButton(
-                                  onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const DetailPembayaranCicilan()),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 3, horizontal: 8),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(4),
-                                        color: PaylaterTheme.maincolor),
-                                    child: const Text(
-                                      'lihat',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  )),
-                            ],
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Cicilan 1',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      const Text(
+                        '500.000',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      TextButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                const DetailPembayaranCicilan()),
                           ),
-                        );
-                      },
-                    ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 3, horizontal: 8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: PaylaterTheme.maincolor),
+                            child: const Text(
+                              'lihat',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )),
+                    ],
+                  ),
                 ),
 
 

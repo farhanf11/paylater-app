@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:paylater/admin/component/TambahResi.dart';
+import 'package:paylater/admin/component/DetailPembayaranCicilan.dart';
+import 'package:paylater/admin/component/RincianBayarCicilan.dart';
 import 'package:paylater/admin/component/popup.dart';
 import 'package:paylater/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,7 +81,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         cicilans =  responseData['data']['instalment'];
-        print(responseData);
+        print(cicilans);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -101,6 +102,13 @@ class _RincianTagihanState extends State<RincianTagihan> {
           request_date.value = responseData['data']['request_date'];
           created_at.value = responseData['data']['created_at'];
           status.value = responseData['data']['status'];
+          id_installment.value = responseData['data']['instalment']['id_installment'];
+          order_id.value = responseData['data']['instalment']['order_id'];
+          instalment_unique_id = responseData['data']['instalment']['instalment_unique_id'];
+          instalment_number.value = responseData['data']['instalment']['instalment_number'];
+          instalment_price.value = responseData['data']['instalment']['instalment_price'];
+          status_installment.value = responseData['data']['instalment']['status_installment'];
+          due_date.value = responseData['data']['instalment']['due_date'];
         }
       }else{
         print('gagal');
@@ -316,176 +324,86 @@ class _RincianTagihanState extends State<RincianTagihan> {
           ),
 
           ///Rincian Cicilan
-          // Container(
-          //   margin: const EdgeInsets.symmetric(horizontal: 16),
-          //   decoration: BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.circular(8),
-          //   ),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.stretch,
-          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //     children: [
-          //       ///Head
-          //       Container(
-          //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          //         decoration: const BoxDecoration(
-          //           border: Border(
-          //               bottom: BorderSide(
-          //                   style: BorderStyle.solid,
-          //                   color: Color(0xffE3E9EB))),
-          //         ),
-          //         child: const Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Text(
-          //               'Rincian Cicilan Pembayaran',
-          //               style: TextStyle(
-          //                   color: Colors.black,
-          //                   fontSize: 14,
-          //                   fontWeight: FontWeight.w600),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //
-          //       ///isi
-          //       Flexible(
-          //         child: ListView.builder(
-          //           itemCount: cicilans.length,
-          //           itemBuilder: (BuildContext context, int index){
-          //             return Container(
-          //               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-          //               child: Row(
-          //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //                 children: [
-          //                   const Text(
-          //                     'Cicilan 1',
-          //                     style: TextStyle(
-          //                         color: Colors.black,
-          //                         fontSize: 14,
-          //                         fontWeight: FontWeight.w400),
-          //                   ),
-          //                   const Text(
-          //                     '500.000',
-          //                     style: TextStyle(
-          //                         color: Colors.black,
-          //                         fontSize: 14,
-          //                         fontWeight: FontWeight.w400),
-          //                   ),
-          //                   TextButton(
-          //                       onPressed: () => Navigator.push(
-          //                         context,
-          //                         MaterialPageRoute(
-          //                             builder: (context) =>
-          //                             const DetailPembayaranCicilan()),
-          //                       ),
-          //                       child: Container(
-          //                         padding: const EdgeInsets.symmetric(
-          //                             vertical: 3, horizontal: 8),
-          //                         decoration: BoxDecoration(
-          //                             borderRadius: BorderRadius.circular(4),
-          //                             color: PaylaterTheme.maincolor),
-          //                         child: const Text(
-          //                           'lihat',
-          //                           style: TextStyle(color: Colors.white),
-          //                         ),
-          //                       )),
-          //                 ],
-          //               ),
-          //             );
-          //           },
-          //         ),
-          //       ),
-          //
-          //
-          //       Container(
-          //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             const Text(
-          //               'Cicilan 2',
-          //               style: TextStyle(
-          //                   color: Colors.black,
-          //                   fontSize: 14,
-          //                   fontWeight: FontWeight.w400),
-          //             ),
-          //             Text(
-          //               '500.000',
-          //               style: TextStyle(
-          //                   color: Colors.black,
-          //                   fontSize: 14,
-          //                   fontWeight: FontWeight.w400),
-          //             ),
-          //             TextButton(
-          //                 onPressed: () => Navigator.push(
-          //                   context,
-          //                   MaterialPageRoute(
-          //                       builder: (context) =>
-          //                       const DetailPembayaranCicilan()),
-          //                 ),
-          //                 child: Container(
-          //                   padding: const EdgeInsets.symmetric(
-          //                       vertical: 3, horizontal: 8),
-          //                   decoration: BoxDecoration(
-          //                       borderRadius: BorderRadius.circular(4),
-          //                       color: PaylaterTheme.maincolor),
-          //                   child: const Text(
-          //                     'lihat',
-          //                     style: TextStyle(color: Colors.white),
-          //                   ),
-          //                 )),
-          //           ],
-          //         ),
-          //       ),
-          //
-          //       Container(
-          //         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             const Text(
-          //               'Cicilan 3',
-          //               style: TextStyle(
-          //                   color: Colors.black,
-          //                   fontSize: 14,
-          //                   fontWeight: FontWeight.w400),
-          //             ),
-          //             Text(
-          //               '500.000',
-          //               style: TextStyle(
-          //                   color: Colors.black,
-          //                   fontSize: 14,
-          //                   fontWeight: FontWeight.w400),
-          //             ),
-          //             TextButton(
-          //                 onPressed: () => Navigator.push(
-          //                   context,
-          //                   MaterialPageRoute(
-          //                       builder: (context) =>
-          //                       const DetailPembayaranCicilan()),
-          //                 ),
-          //                 child: Container(
-          //                   padding: EdgeInsets.symmetric(
-          //                       vertical: 3, horizontal: 8),
-          //                   decoration: BoxDecoration(
-          //                       borderRadius: BorderRadius.circular(4),
-          //                       color: PaylaterTheme.maincolor),
-          //                   child: const Text(
-          //                     'lihat',
-          //                     style: TextStyle(color: Colors.white),
-          //                   ),
-          //                 )),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ///Head
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffE3E9EB))),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Rincian Cicilan Pembayaran',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
 
-          ///alamat
+                ///isi
+                // Container(
+                //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       const Text(
+                //         'Cicilan 1',
+                //         style: TextStyle(
+                //             color: Colors.black,
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.w400),
+                //       ),
+                //       Obx(() => Text(
+                //         instalment_price.value.toString(),
+                //         style: const TextStyle(
+                //             color: Colors.black,
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.w400),
+                //       ),),
+                //       TextButton(
+                //           onPressed: () => Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) =>
+                //                 const DetailPembayaranCicilan()),
+                //           ),
+                //           child: Container(
+                //             padding: const EdgeInsets.symmetric(
+                //                 vertical: 3, horizontal: 8),
+                //             decoration: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(4),
+                //                 color: PaylaterTheme.maincolor),
+                //             child: const Text(
+                //               'lihat',
+                //               style: TextStyle(color: Colors.white),
+                //             ),
+                //           )),
+                //     ],
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+
           const SizedBox(
+          ///alamat
             height: 24,
           ),
           Container(
@@ -532,12 +450,62 @@ class _RincianTagihanState extends State<RincianTagihan> {
             ),
           ),
 
-          ///resi
           const SizedBox(
             height: 24,
           ),
 
-          ///tanggal sampai
+          ///Catatan
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ///Head
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 12),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffE3E9EB))),
+                  ),
+
+                  child: const Text(
+                    'Tanggal Sampai',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+
+                ///arrival date
+                Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    child: Obx(() => Text(
+                      arrival_date.value,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
+                    ),)
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(
+            height: 24,
+          ),
+
+          ///Resi
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
@@ -592,6 +560,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
           const SizedBox(
             height: 24,
           ),
+          ///tanggal sampai
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
@@ -633,61 +602,6 @@ class _RincianTagihanState extends State<RincianTagihan> {
                           fontSize: 14,
                           fontWeight: FontWeight.w400),
                     ),)
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(
-            height: 24,
-          ),
-
-          ///button
-          Padding(
-            padding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: PaylaterTheme.maincolor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  onPressed: () {
-                    Popup.confirmDialog(context,
-                        message: "Yakin tagihan ini sudah lunas?",
-                        dialogCallback: (value) async {
-                          if (value == 'Ya') {
-                            Navigator.of(context).pop();
-                          }
-                          if (value == 'Batal') {}
-                        });
-                  },
-                  child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text("Tagihan Lunas")),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: PaylaterTheme.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => TransferBank()));
-                  },
-                  child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text("Jatuh Tempo")),
                 ),
               ],
             ),

@@ -47,7 +47,7 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
       var response;
       if(url == ''){
         response = await get(
-            Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=1'),
+            Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=done&page=1'),
             headers: {
               'Authorization': token,
             }
