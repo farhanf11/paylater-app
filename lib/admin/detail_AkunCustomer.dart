@@ -9,8 +9,8 @@ import '../admin/component/popup.dart';
 import '../theme.dart';
 
 class DetailAkun extends StatefulWidget {
-  const DetailAkun({Key? key, required this.user_id}) : super(key: key);
-  final int user_id;
+  const DetailAkun({Key? key, required this.id}) : super(key: key);
+  final int id;
 
   @override
   State<DetailAkun> createState() => _DetailAkunState();
@@ -19,7 +19,7 @@ class DetailAkun extends StatefulWidget {
 class _DetailAkunState extends State<DetailAkun> {
   _DetailAkunState();
   String token = "";
-  var id = 0.obs;
+  String id = "";
   var user_name = 'user_name'.obs;
   var mail_address = 'mail_address'.obs;
   var phone_number = 'phone_number'.obs;
@@ -28,18 +28,19 @@ class _DetailAkunState extends State<DetailAkun> {
   var image_ktp = 'image_ktp'.obs;
   bool isLoading = false;
 
+  @override
   void dispose() {
     super.dispose();
-    GetUserData();
+    GetUserData(id);
   }
 
-  void GetUserData() async {
+  void GetUserData(var id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     isLoading = true;
     token = prefs.getString('token')!;
     try {
       var response = await get(
-        Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/${widget.user_id}'),
+        Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/${widget.id}'),
         headers: {
           'Authorization': token,
         },);
@@ -273,10 +274,11 @@ class _DetailAkunState extends State<DetailAkun> {
                   ],
                 ),
 
-                //button
-                SizedBox(
+                ///button
+                const SizedBox(
                   height: 80,
                 ),
+
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [

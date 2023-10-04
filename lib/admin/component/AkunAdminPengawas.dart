@@ -149,7 +149,7 @@ class _AkunAdminPengawasState extends State<AkunAdminPengawas> {
                         onPressed: () { Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    DetailAkun(user_id: 0,))); },
+                                    DetailAkun(id: 0,))); },
                         child: Expanded(
                           child: Container(
                             decoration: BoxDecoration(

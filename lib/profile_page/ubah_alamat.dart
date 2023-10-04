@@ -70,8 +70,8 @@ class _UbahAlamatState extends State<UbahAlamat> {
       else {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          title: Text(responseData['message']),
-          icon: Icon(Icons.warning, size: 8, color: Colors.red),
+          title: Text("Kolom alamat harus di isi"),
+          icon: Icon(Icons.warning, size: 12, color: Colors.red),
           actions: [
             TextButton(
               child: Text('Ok'),

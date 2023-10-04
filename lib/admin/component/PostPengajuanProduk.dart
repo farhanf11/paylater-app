@@ -2,28 +2,23 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../navbar/NavbarBot.dart';
-import '../theme.dart';
 
-class Biodata extends StatefulWidget {
-  const Biodata({Key? key}) : super(key: key);
+import '../../navbar/NavbarBot.dart';
+import '../../theme.dart';
+
+
+class PostPengajuanProduk extends StatefulWidget {
+  const PostPengajuanProduk({Key? key}) : super(key: key);
 
   @override
-  State<Biodata> createState() => _BiodataState();
+  State<PostPengajuanProduk> createState() => _PostPengajuanProdukState();
 }
 
-class _BiodataState extends State<Biodata> {
+class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
   String _gender= '';
   String token = "";
   var id = 0;
-
-  void _handleRadioValueChange(String? value) {
-    setState(() {
-      _gender= value!;
-    });
-  }
 
   @override
   void initState() {
@@ -116,7 +111,7 @@ class _BiodataState extends State<Biodata> {
       appBar: AppBar(
         backgroundColor: Color(0xff025464),
         title: const Text(
-          'Edit Biodata',
+          'Rincian Produk',
           style: TextStyle(fontSize: 14),
         ),
         centerTitle: true,
@@ -142,7 +137,7 @@ class _BiodataState extends State<Biodata> {
 
               ///Nama Lengkap
               const Text(
-                'Nama Lengkap',
+                'Nama Produk',
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -155,16 +150,16 @@ class _BiodataState extends State<Biodata> {
                 controller: namaController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Nama Lengkap',
+                  hintText: 'nama produk',
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 24,
               ),
 
               ///NIK
               const Text(
-                'NIK',
+                'Url Foto Produk',
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -177,50 +172,18 @@ class _BiodataState extends State<Biodata> {
                 controller: nikController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'NIK',
+                  hintText: 'url foto produk',
                 ),
               ),
               //End NIK
-              const SizedBox(
-                height: 10,
-              ),
 
-              ///tanggal Lahir
-              const Text(
-                'Tanggal Lahir',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
               const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                readOnly: true,
-                controller: dateController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Tanggal Lahir',
-                ),
-                onTap: () async {
-                  var date = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1950),
-                      lastDate: DateTime(2050));
-                  if (date != null) {
-                    dateController.text = DateFormat('dd/mm/yyyy').format(date);
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 10,
+                height: 24,
               ),
 
               ///ibu kandung
               const Text(
-                'Nama Ibu Kandung',
+                'Harga Produk',
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -233,49 +196,17 @@ class _BiodataState extends State<Biodata> {
                 controller: ibukandungController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Nama Ibu Kandung',
+                  hintText: 'harga produk',
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
 
-              ///gender
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Gender',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                  ),
-                  ListTile(
-                    leading: Radio<String>(
-                      value: 'male',
-                      groupValue: _gender,
-                      onChanged: _handleRadioValueChange,
-                    ),
-                    title: const Text('Male'),
-                  ),
-                  ListTile(
-                    leading: Radio<String>(
-                      value: 'female',
-                      groupValue: _gender,
-                      onChanged: _handleRadioValueChange,
-                    ),
-                    title: const Text('Female'),
-                  ),
-                ],
-              ),
               const SizedBox(
-                height: 10,
+                height: 24,
               ),
 
               ///Provinsi
               const Text(
-                'Provinsi',
+                'Estimasi Ongkir',
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -288,33 +219,12 @@ class _BiodataState extends State<Biodata> {
                 controller: provinsiController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Provinsi',
+                  hintText: 'sesuaikan ongkir dari marketplace',
                 ),
-              ),
-              const SizedBox(
-                height: 10,
               ),
 
-              ///Kota
-              const Text(
-                'Kota',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
               const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                controller: kotaControler,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Kota',
-                ),
-              ),
-              const SizedBox(
-                height: 10,
+                height: 24,
               ),
             ],
           ),

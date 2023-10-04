@@ -46,7 +46,7 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
       var response;
       if(url == ''){
         response = await get(
-            Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=&page=1'),
+            Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=ongoing&page=1'),
             headers: {
               'Authorization': token,
             }
@@ -152,21 +152,20 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                               children: [
                                 Row(
                                   children: [
-                                    Obx(() => CircleAvatar(
+                                    CircleAvatar(
                                       backgroundImage: NetworkImage(
-                                          image_face.value
+                                          datas[index]['user']['image_face']
                                       ),
-                                    ),),
-                                    const SizedBox(
-                                      width: 10,
                                     ),
-                                    Obx(() => Text(user_name.value,
+                                    SizedBox(width: 10,),
+                                    Text(
+                                        datas[index]['user']['user_name'],
                                         style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
                                         )
-                                    ),),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 10,),
@@ -244,14 +243,17 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                                                   color: PaylaterTheme.darkerText,
                                                 ),
                                               ),
-                                              Text(
-                                                datas[index]['note'],
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
+                                              Flexible(child:
+                                                Text(
+                                                  datas[index]['note'],
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
-                                              ),
+                                              )
                                             ],
                                           ),
                                         ],

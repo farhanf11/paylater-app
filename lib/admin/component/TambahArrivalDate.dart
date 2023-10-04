@@ -1,24 +1,32 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+
 
 class TambahArrivalDate extends StatefulWidget {
-  const TambahArrivalDate({Key? key}) : super(key: key);
+  const TambahArrivalDate({Key? key, required this.order_id}) : super(key: key);
 
+  final String order_id;
   @override
   State<TambahArrivalDate> createState() => _TambahArrivalDateState();
 }
 
 class _TambahArrivalDateState extends State<TambahArrivalDate> {
+  _TambahArrivalDateState();
   String token = "";
+  String order_id = "";
 
+  @override
   void initState() {
+    super.initState();
     getToken();
-
   }
+
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -28,34 +36,42 @@ class _TambahArrivalDateState extends State<TambahArrivalDate> {
 
   final TextEditingController inputDate = TextEditingController();
 
-  void AddDate(String arrival_date) async {
+  ///date
+  @override
+  void dispose() {
+    inputDate.dispose();
+    super.dispose();
+  }
+
+  void AddDate(var order_id, String arrivalDate) async {
     try {
       Response response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/airwaybill-store'),
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/arrivaldate-store'),
           headers: {
             'Authorization': token,
           },
           body: {
-            'arrival_date': arrival_date,
+            'order_id': widget.order_id,
+            'arrival_date': arrivalDate,
           });
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         if(responseData['success'] == false ){
-          print('gagal');
+          if (kDebugMode) {
+            print('gagal');
+          }
         }else{
           Navigator.push(
               context,
               new MaterialPageRoute(
                   builder: (BuildContext context) => RincianCicilanAdmin(order_id: 0, user_id: 0,)));
           AlertDialog alert = AlertDialog(
-            title: Text("Berhasil"),
-            content: Container(
-              child: Text(responseData['message']),
-            ),
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
             actions: [
               TextButton(
-                child: Text('Ok'),
+                child: const Text('Ok'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -71,7 +87,7 @@ class _TambahArrivalDateState extends State<TambahArrivalDate> {
           title: Text(responseData['message']),
           actions: [
             TextButton(
-              child: Text('Ok'),
+              child: const Text('Ok'),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
@@ -88,7 +104,7 @@ class _TambahArrivalDateState extends State<TambahArrivalDate> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.black),
         title: const Text('Tambah Tanggal Sampai',
             style: TextStyle(
               color: Colors.black,
@@ -106,35 +122,42 @@ class _TambahArrivalDateState extends State<TambahArrivalDate> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(10),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
+                      child: TextField(
+                        readOnly: true,
                         controller: inputDate,
                         decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          labelText: 'Masukkan Tanggal Sesuai dari Marketplace',
+                          border: OutlineInputBorder(),
+                          hintText: 'Tanggal Lahir',
                         ),
+                        onTap: () async {
+                          var date = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1990),
+                              lastDate: DateTime(2050));
+                          if (date != null) {
+                            inputDate.text = DateFormat('dd/mm/yyyy').format(date);
+                          }
+                        },
                       ),
                     ),
                   ],
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        style: const ButtonStyle(
-                            backgroundColor:
-                            MaterialStatePropertyAll(Color(0xff025464))),
-                        onPressed: () => {AddDate(inputDate.text.toString())},
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 60),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Text('Selanjutnya'),
-                        ),
-                      ),
-                    ],
+                ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor:
+                      MaterialStatePropertyAll(Color(0xff025464))),
+                  onPressed: () => {AddDate(
+                    order_id.toString(),
+                    inputDate.text.toString()
+                  )},
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 60),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: const Text('Selanjutnya'),
                   ),
                 ),
               ],

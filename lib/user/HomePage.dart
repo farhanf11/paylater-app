@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         var responseData = json.decode(response.body);
         if (responseData['success'] == false) {
           AlertDialog alert = AlertDialog(
-            title: Text("Gagal Mengirim Link"),
+            title: const Text("Gagal Mengirim Link"),
             content: Text(responseData['message']),
             actions: [
               TextButton(
@@ -62,17 +62,10 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (BuildContext context) => RincianAkad(
-                        fotoProduk: responseData['data']['image'],
-                        namaProduk: responseData['data']['title'],
-                        hargaProduk: responseData['data']['price'],
-                        url: url,
-                      )));
+                  builder: (BuildContext context) => RincianAkad()));
           AlertDialog alert = AlertDialog(
-            title: Text("Berhasil"),
-            content: Container(
-              child: Text(responseData['message']),
-            ),
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
             actions: [
               TextButton(
                 child: Text('Ok'),
@@ -83,11 +76,11 @@ class _HomePageState extends State<HomePage> {
 
           showDialog(context: context, builder: (context) => alert);
         }
-      }
+      } else {}
       if (response.statusCode == 422) {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          title: Text(responseData['message']),
+          title: const Text("Kolom harus di isi dengan link produk yang benar"),
           actions: [
             TextButton(
               child: const Text('Ok'),
@@ -95,6 +88,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         );
+        print(responseData['data']);
         showDialog(context: context, builder: (context) => alert);
       }
       if (response.statusCode == 404) {
@@ -103,7 +97,7 @@ class _HomePageState extends State<HomePage> {
           content: const Text("Email yang anda masukan salah"),
           actions: [
             TextButton(
-              child: Text('Ok'),
+              child: const Text('Ok'),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
@@ -114,7 +108,6 @@ class _HomePageState extends State<HomePage> {
       print(e.toString());
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -185,13 +178,13 @@ class _HomePageState extends State<HomePage> {
                 color: Color(0xFFFFFFFF),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
                       height: 40,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -209,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide(color: Colors.white)),
-                            prefixIcon: Icon(Icons.link),
+                            prefixIcon: const Icon(Icons.link),
                             suffix: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
@@ -220,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(14.0),
                                 )),
                               ),
-                              child: Text('Submit'),
+                              child: const Text('Submit'),
                               onPressed: () =>
                                   {Scrapp(inputUrl.text.toString())},
                             ),
@@ -245,64 +238,282 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+
             const SizedBox(
               height: 10,
             ),
-             Padding(
-                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-               child: Column(
-                 mainAxisAlignment: MainAxisAlignment.start,
-                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                 children: [
-                   const Text('Riwayat Tagihan',
-                     style: TextStyle(
-                       fontSize: 16,
-                       fontWeight: FontWeight.w700,
-                       color: PaylaterTheme.maincolor,
-                       fontFamily: PaylaterTheme.fontName,
-                     ),
-                   ),
-                   const SizedBox(height: 5,),
-                   Container(
-                     decoration: BoxDecoration(
-                       color: Colors.white,
-                       borderRadius: BorderRadius.circular(8),
-                     ),
-                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                     child: Row(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: [
-                         const Text("Link 1"),
-                         IconButton(onPressed: () async {
-                           await Clipboard.setData(const ClipboardData(text: "Link 1"));
-                           AlertDialog alert = AlertDialog(
-                             content: const Text('Menyalin Bank BNI Link1'),
-                             backgroundColor: Colors.white,
-                             icon: const Icon(CupertinoIcons.checkmark_seal_fill, size: 14),
-                             iconColor: PaylaterTheme.maincolor,
-                             actions: [
-                               TextButton(
-                                 child: const Text('Ok'),
-                                 onPressed: () => Navigator.of(context).pop(),
-                               ),
-                             ],
-                           );
-                           showDialog(context: context, builder: (context) => alert);
-                         },
-                             icon: const Icon(
-                               Icons.copy,
-                               color: PaylaterTheme.maincolor,
-                               size: 12,
-                             )
-                         ),
-                       ],
-                     ),
-                   ),
-                 ],
-               ),
 
-             ),
+            ///pengajuan link
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    'Riwayat Pengajuan',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: PaylaterTheme.maincolor,
+                      fontFamily: PaylaterTheme.fontName,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Flexible(
+                          child: Text(
+                            "https://tokopedia.com/seoatu-futsal-nike-mercurial",
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        PopupMenuButton(
+                            child: const Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Icon(
+                                  CupertinoIcons.ellipsis_vertical,
+                                  size: 16,
+                                ),
+                              ),
+                            ),
+                            itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    value: 1,
+                                    child: TextButton(
+                                        onPressed: () async {
+                                          await Clipboard.setData(
+                                              const ClipboardData(
+                                                  text:
+                                                      "https://tokopedia.com/seoatu-futsal-nike-mercurial"));
+                                          AlertDialog alert = AlertDialog(
+                                            content: const Text(
+                                                'Menyalin Bank BNI Link Produk 1'),
+                                            backgroundColor: Colors.white,
+                                            icon: const Icon(
+                                                CupertinoIcons
+                                                    .checkmark_seal_fill,
+                                                size: 20),
+                                            iconColor: PaylaterTheme.maincolor,
+                                            actions: [
+                                              TextButton(
+                                                child: const Text('Ok'),
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                              ),
+                                            ],
+                                          );
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) => alert);
+                                        },
+                                        child: Text(
+                                          'salin',
+                                          style: TextStyle(color: Colors.black),
+                                        )),
+                                  ),
+                                  PopupMenuItem(
+                                    value: 2,
+                                    child: TextButton(
+                                        onPressed: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const RincianAkad()),
+                                            ),
+                                        child: Text(
+                                          'Akad',
+                                          style: TextStyle(color: Colors.black),
+                                        )),
+                                  ),
+                                ])
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Flexible(
+                          child: Text(
+                            "https://tokopedia.com/seoatu-futsal-nike-mercurial",
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        PopupMenuButton(
+                            child: const Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Icon(
+                                  CupertinoIcons.ellipsis_vertical,
+                                  size: 16,
+                                ),
+                              ),
+                            ),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 1,
+                                child: TextButton(
+                                    onPressed: () async {
+                                      await Clipboard.setData(
+                                          const ClipboardData(
+                                              text:
+                                              "https://tokopedia.com/seoatu-futsal-nike-mercurial"));
+                                      AlertDialog alert = AlertDialog(
+                                        content: const Text(
+                                            'Menyalin Bank BNI Link Produk 1'),
+                                        backgroundColor: Colors.white,
+                                        icon: const Icon(
+                                            CupertinoIcons
+                                                .checkmark_seal_fill,
+                                            size: 20),
+                                        iconColor: PaylaterTheme.maincolor,
+                                        actions: [
+                                          TextButton(
+                                            child: const Text('Ok'),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                          ),
+                                        ],
+                                      );
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => alert);
+                                    },
+                                    child: Text(
+                                      'salin',
+                                      style: TextStyle(color: Colors.black),
+                                    )),
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                child: TextButton(
+                                    onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const RincianAkad()),
+                                    ),
+                                    child: Text(
+                                      'Akad',
+                                      style: TextStyle(color: Colors.black),
+                                    )),
+                              ),
+                            ])
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Flexible(
+                          child: Text(
+                            "https://tokopedia.com/seoatu-futsal-nike-mercurial",
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        PopupMenuButton(
+                            child: const Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Icon(
+                                  CupertinoIcons.ellipsis_vertical,
+                                  size: 16,
+                                ),
+                              ),
+                            ),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 1,
+                                child: TextButton(
+                                    onPressed: () async {
+                                      await Clipboard.setData(
+                                          const ClipboardData(
+                                              text:
+                                              "https://tokopedia.com/seoatu-futsal-nike-mercurial"));
+                                      AlertDialog alert = AlertDialog(
+                                        content: const Text(
+                                            'Menyalin Bank BNI Link Produk 1'),
+                                        backgroundColor: Colors.white,
+                                        icon: const Icon(
+                                            CupertinoIcons
+                                                .checkmark_seal_fill,
+                                            size: 20),
+                                        iconColor: PaylaterTheme.maincolor,
+                                        actions: [
+                                          TextButton(
+                                            child: const Text('Ok'),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                          ),
+                                        ],
+                                      );
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => alert);
+                                    },
+                                    child: Text(
+                                      'salin',
+                                      style: TextStyle(color: Colors.black),
+                                    )),
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                child: TextButton(
+                                    onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const RincianAkad()),
+                                    ),
+                                    child: Text(
+                                      'Akad',
+                                      style: TextStyle(color: Colors.black),
+                                    )),
+                              ),
+                            ])
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

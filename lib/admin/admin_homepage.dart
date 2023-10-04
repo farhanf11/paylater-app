@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/admin_keuangan.dart';
+import 'package:paylater/admin/component/PostPengajuanProduk.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -225,7 +227,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             elevation: 5,
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             child: Column(
                               children: [
                                 const Padding(
@@ -239,7 +241,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Obx(() => Text(
                                     selesai.value,
                                     style: const TextStyle(
@@ -439,200 +441,197 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ),
 
             //trending product
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Card(
                 elevation: 5,
                 child: Column(
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Row(
                         children: [
                           Text(
-                            'Daftar Permintaan Cicilan',
+                            'Daftar Pengajuan Link',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                     ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                    MaterialButton(
+                        onPressed: () { Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const PostPengajuanProduk(),
+                          ),
+                        );},
+                        child:Container(
+                          color: const Color(0xFFF5F7F8),
+                          child: Column(
                             children: [
-                              Row(
-                                children: [
-                                  Image(
-                                    image: AssetImage(
-                                        "assets/icon/avatardefault.png"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Jhon son",
+                              Container(
+                                padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Image(
+                                          image: AssetImage(
+                                              "assets/icon/avatardefault.png"),
+                                          fit: BoxFit.fill,
+                                        ),
+                                        SizedBox(
+                                          width: 12,
+                                        ),
+                                        Text("Jhon son",
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700)),
+                                      ],
+                                    ),
+                                    Text(
+                                      '28-01-2023',
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700)),
-                                ],
+                                          fontSize: 12, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Text(
-                                'Tanggal Permintaan : 28-01-2023',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.grey),
+                              const Padding(
+                                padding: EdgeInsets.fromLTRB(20, 6, 20, 12),
+                                child: Flexible(
+                                  child: Text(
+                                    "https://tokopedia.com/seoatu-futsal-nike-mercurial",
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image(
-                                image: AssetImage(
-                                    "assets/images/barangdefault.png"),
-                                height: 50,
-                                fit: BoxFit.fill,
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+
+                    SizedBox(height: 4,),
+                    MaterialButton(
+                      onPressed: () { Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const PostPengajuanProduk(),
+                        ),
+                      );},
+                      child:Container(
+                        color: const Color(0xFFF5F7F8),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text("Iphone 13 Black Series New ibox, 128gb",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700)),
                                   Row(
                                     children: [
-                                      Text("Cicilan : " + "3" + " " + "Bulan",
+                                      Image(
+                                        image: AssetImage(
+                                            "assets/icon/avatardefault.png"),
+                                        fit: BoxFit.fill,
+                                      ),
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      Text("Jhon son",
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: Colors.black,
-                                              fontWeight: FontWeight.w500)
-                                      ),
+                                              fontWeight: FontWeight.w700)),
                                     ],
                                   ),
-                                  SizedBox(
-                                    height: 5,
+                                  Text(
+                                    '28-01-2023',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey),
                                   ),
+                                ],
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(20, 6, 20, 12),
+                              child: Flexible(
+                                child: Text(
+                                  "https://tokopedia.com/seoatu-futsal-nike-mercurial",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 4,),
+                    MaterialButton(
+                      onPressed: () { Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const PostPengajuanProduk(),
+                        ),
+                      );},
+                      child:Container(
+                        color: const Color(0xFFF5F7F8),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
                                   Row(
                                     children: [
-                                      Text("Harga: ",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                          )
+                                      Image(
+                                        image: AssetImage(
+                                            "assets/icon/avatardefault.png"),
+                                        fit: BoxFit.fill,
                                       ),
-                                      Text("3.155.000",
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      Text("Jhon son",
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Color.fromRGBO(
-                                                  237, 131, 33, 1),
-                                              fontWeight: FontWeight.bold)
-                                      ),
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700)),
                                     ],
                                   ),
+                                  Text(
+                                    '28-01-2023',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey),
+                                  ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(20, 6, 20, 12),
+                              child: Flexible(
+                                child: Text(
+                                  "https://tokopedia.com/seoatu-futsal-nike-mercurial",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  Image(
-                                    image: AssetImage(
-                                        "assets/icon/avatardefault.png"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Jhon son",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700)),
-                                ],
-                              ),
-                              Text(
-                                'tanggal pembayaran : 28-01-2023',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image(
-                                image: AssetImage(
-                                    "assets/images/barangdefault.png"),
-                                height: 50,
-                                fit: BoxFit.fill,
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Iphone 13 Black Series New ibox, 128gb",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700)),
-                                  Text("Pembayaran 1/6",
-                                      style: TextStyle(
-                                          fontSize: 8,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text("Cicilan:",
-                                      style: TextStyle(
-                                        fontSize: 8,
-                                        color: Colors.black,
-                                      )),
-                                  Text("3.155.000",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Color.fromRGBO(
-                                              237, 131, 33, 1),
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
+                    SizedBox(height: 4,),
+                    const Padding(
                       padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

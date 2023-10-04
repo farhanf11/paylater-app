@@ -125,6 +125,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
         automaticallyImplyLeading: false,
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
+        leading: BackButton(),
       ),
       backgroundColor: PaylaterTheme.spacer,
       body: Column(

@@ -63,9 +63,6 @@ class _RincianTagihanState extends State<RincianTagihan> {
     });
   }
 
-  final TextEditingController inputDate = TextEditingController();
-  final TextEditingController inputID = TextEditingController();
-
   void GetOrderData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -81,7 +78,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         cicilans =  responseData['data']['instalment'];
-        print(cicilans);
+        print(cicilans.length);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -102,13 +99,14 @@ class _RincianTagihanState extends State<RincianTagihan> {
           request_date.value = responseData['data']['request_date'];
           created_at.value = responseData['data']['created_at'];
           status.value = responseData['data']['status'];
-          id_installment.value = responseData['data']['instalment']['id_installment'];
-          order_id.value = responseData['data']['instalment']['order_id'];
-          instalment_unique_id = responseData['data']['instalment']['instalment_unique_id'];
-          instalment_number.value = responseData['data']['instalment']['instalment_number'];
-          instalment_price.value = responseData['data']['instalment']['instalment_price'];
-          status_installment.value = responseData['data']['instalment']['status_installment'];
-          due_date.value = responseData['data']['instalment']['due_date'];
+
+          id_installment.value = responseData['data']['instalment'][0]['id_installment'];
+          order_id.value = responseData['data']['instalment'][0]['order_id'];
+          instalment_unique_id = responseData['data']['instalment'][0]['instalment_unique_id'];
+          instalment_number.value = responseData['data']['instalment'][0]['instalment_number'];
+          instalment_price.value = responseData['data']['instalment'][0]['instalment_price'];
+          status_installment.value = responseData['data']['instalment'][0]['status_installment'];
+          due_date.value = responseData['data']['instalment'][0]['due_date'];
         }
       }else{
         print('gagal');
@@ -358,46 +356,47 @@ class _RincianTagihanState extends State<RincianTagihan> {
                 ),
 
                 ///isi
-                // Container(
-                //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       const Text(
-                //         'Cicilan 1',
-                //         style: TextStyle(
-                //             color: Colors.black,
-                //             fontSize: 14,
-                //             fontWeight: FontWeight.w400),
-                //       ),
-                //       Obx(() => Text(
-                //         instalment_price.value.toString(),
-                //         style: const TextStyle(
-                //             color: Colors.black,
-                //             fontSize: 14,
-                //             fontWeight: FontWeight.w400),
-                //       ),),
-                //       TextButton(
-                //           onPressed: () => Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //                 builder: (context) =>
-                //                 const DetailPembayaranCicilan()),
-                //           ),
-                //           child: Container(
-                //             padding: const EdgeInsets.symmetric(
-                //                 vertical: 3, horizontal: 8),
-                //             decoration: BoxDecoration(
-                //                 borderRadius: BorderRadius.circular(4),
-                //                 color: PaylaterTheme.maincolor),
-                //             child: const Text(
-                //               'lihat',
-                //               style: TextStyle(color: Colors.white),
-                //             ),
-                //           )),
-                //     ],
-                //   ),
-                // ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Cicilan 1',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Obx(() => Text(
+                        instalment_price.value.toString(),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),),
+                      TextButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                const DetailPembayaranCicilan()),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 3, horizontal: 8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: PaylaterTheme.maincolor),
+                            child: const Text(
+                              'lihat',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -526,11 +525,11 @@ class _RincianTagihanState extends State<RincianTagihan> {
                             style: BorderStyle.solid,
                             color: Color(0xffE3E9EB))),
                   ),
-                  child: Row(
+                  child: const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Kode Resi',
                         style: TextStyle(
                             color: Colors.black,

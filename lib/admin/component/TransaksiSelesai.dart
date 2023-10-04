@@ -8,17 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 import 'package:number_paginator/number_paginator.dart';
 
-import 'AdminNavbarBot.dart';
-
-class TransaksiPermintaan extends StatefulWidget {
-  const TransaksiPermintaan({Key? key}) : super(key: key);
+class TransaksiSelesai extends StatefulWidget {
+  const TransaksiSelesai({Key? key}) : super(key: key);
 
   @override
-  State<TransaksiPermintaan> createState() => _TransaksiPermintaanState();
+  State<TransaksiSelesai> createState() => _TransaksiSelesaiState();
 }
 
-class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
-  _TransaksiPermintaanState();
+class _TransaksiSelesaiState extends State<TransaksiSelesai> {
+  _TransaksiSelesaiState();
   String token = "";
   List datas = [];
   // bool isLoading = false;
@@ -43,13 +41,12 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
       // isLoading = true;
       token = prefs.getString('token')!;
     });
-    var id = prefs.getInt('id')!;
 
     try {
       var response;
       if(url == ''){
         response = await get(
-            Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=request&page=1'),
+            Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=done&page=1'),
             headers: {
               'Authorization': token,
             }
@@ -69,18 +66,6 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
         _currentPage.value = responseData['data']['current_page'];
         last_page.value = responseData['data']['last_page'];
         links = responseData['data']['links'];
-        print(responseData['data']['data']['user']['user_name']);
-        if(responseData['success'] == false ){
-          print('gagal');
-        }else{
-          setState(() {
-            user_name.value = responseData['data']['data']['user']['user_name'];
-            email_address.value = responseData['data']['email_address'];
-            phone_number.value = responseData['data']['phone_number'];
-            image_face.value = responseData['data']['image_face'];
-          });
-
-        }
       }else{
         print('gagal');
       }
@@ -90,62 +75,6 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
     setState(() {
       // isLoading = false;
     });
-  }
-
-  ///acc transaksi
-  void VerifyAkun(var order_id, String is_approve) async {
-    try {
-      var response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/approval-order'),
-          headers: {
-            'Authorization': token,
-          },
-          body: {
-            'order_id': order_id,
-            'is_approve': is_approve,
-          });
-
-      if (response.statusCode == 200) {
-        var responseData = json.decode(response.body);
-        if(responseData['success'] == false ){
-          print('gagal');
-        }else{
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => AdminNavbarBot()));
-          AlertDialog alert = AlertDialog(
-            title: const Text("Berhasil"),
-            content: Text(responseData['message']),
-            actions: [
-              TextButton(
-                child: const Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          );
-
-          showDialog(context: context, builder: (context) => alert);
-        }
-
-      }
-      else {
-        var responseData = json.decode(response.body);
-        AlertDialog alert = AlertDialog(
-          title: Text(responseData['message']),
-          content: const Text('Tidak sesuai'),
-          actions: [
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (context) => alert);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
   }
 
   ///get profile user
@@ -196,8 +125,8 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MaterialButton(
@@ -212,10 +141,10 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                         );},
                         child: Expanded(
                           child: Container(
-                            constraints: const BoxConstraints(maxWidth: double.infinity),
+                            constraints: BoxConstraints(maxWidth: double.infinity),
                             height: 160,
                             width: 360,
-                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                             decoration: BoxDecoration(
                                 color: PaylaterTheme.white,
                                 borderRadius: BorderRadius.circular(10)),
@@ -228,14 +157,14 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                           datas[index]['user']['image_face']
                                       ),
                                     ),
-                                    const SizedBox(width: 10,),
+                                    SizedBox(width: 10,),
                                     Text(
                                         datas[index]['user']['user_name'],
                                         style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
-                                        ),
+                                        )
                                     ),
                                   ],
                                 ),
@@ -263,8 +192,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                               color: PaylaterTheme.darkerText,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600
+                                              fontSize: 16,
                                             ),
                                           ),
 
@@ -281,7 +209,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
 
                                           ///price
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               const Text(
                                                 'Harga : Rp ',
@@ -315,15 +243,12 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                                   color: PaylaterTheme.darkerText,
                                                 ),
                                               ),
-                                              Flexible(
-                                                child: Text(
-                                                  datas[index]['note'],
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey,
-                                                  ),
+                                              Text(
+                                                datas[index]['note'],
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
                                                 ),
                                               ),
                                             ],
@@ -337,46 +262,6 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                             ),
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MaterialButton(
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: PaylaterTheme.maincolor,
-                                borderRadius: BorderRadius.all(Radius.circular(6))
-                              ),
-
-                              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 4),
-                              child: const Text('Setujui Pesanan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
-                            ),
-                            onPressed: () {
-                              VerifyAkun(
-                                  datas[index]['id'].toString(),
-                                  "approve"
-                              );
-                            },
-                          ),
-
-                          MaterialButton(
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.all(Radius.circular(6))
-                              ),
-
-                              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 4),
-                              child: const Text('Tolak Pesanan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
-                            ),
-                            onPressed: () {
-                              VerifyAkun(
-                                  datas[index]['id'].toString(),
-                                  "reject"
-                              );
-                            },
-                          ),
-                        ],
                       ),
                     ],
                   ),

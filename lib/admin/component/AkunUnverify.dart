@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/detail_AkunCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 import '../admin_createakun.dart';
+import 'AdminNavbarBot.dart';
 
 class AkunUnverify extends StatefulWidget {
   const AkunUnverify({Key? key}) : super(key: key);
@@ -50,6 +50,61 @@ class _AkunUnverifyState extends State<AkunUnverify> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  void VerifyAkun(var user_id, String is_verified) async {
+    try {
+      Response response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/verify-user'),
+          headers: {
+            'Authorization': token,
+          },
+          body: {
+            'id': user_id,
+            'is_verified': is_verified,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => AdminNavbarBot()));
+          AlertDialog alert = AlertDialog(
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context, builder: (context) => alert);
+        }
+
+      }
+      else {
+        var responseData = json.decode(response.body);
+        AlertDialog alert = AlertDialog(
+          title: Text(responseData['message']),
+          content: const Text('Tidak sesuai'),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -120,7 +175,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                 Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => DetailAkun(
-                                        user_id: datas[index]['id'],
+                                        id: datas[index]['id'],
                                       )
                                     )
                                 );
@@ -173,7 +228,12 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                     color: PaylaterTheme.nearlyDarkBlue,
                                     size: 25,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    VerifyAkun(
+                                        datas[index]['id'].toString(),
+                                        "verified"
+                                    );
+                                  },
                                 ),
                                 IconButton(
                                   icon: const Icon(
@@ -181,7 +241,11 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                     color: PaylaterTheme.decline,
                                     size: 25,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {VerifyAkun(
+                                      datas[index]['id'].toString(),
+                                      "rejected"
+                                  );
+                                  },
                                 ),
                               ],
                             ),

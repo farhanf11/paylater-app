@@ -47,7 +47,7 @@ class _VerifyPageState extends State<VerifyPage> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          icon: Icon(Icons.check_circle_rounded, size: 8, color: PaylaterTheme.maincolor),
+          icon: const Icon(Icons.check_circle_rounded, size: 20, color: PaylaterTheme.maincolor),
           content: Text(responseData['message']),
           actions: [
             TextButton(
@@ -83,7 +83,7 @@ class _VerifyPageState extends State<VerifyPage> {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
           icon: Icon(Icons.warning, size: 20, color: Colors.red),
-          content: Text(responseData['message']),
+          content: Text("Kolom OTP Harus diisi dengan benar"),
           actions: [
             TextButton(
               child: const Text('Ok'),

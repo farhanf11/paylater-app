@@ -38,10 +38,7 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         AlertDialog alert = AlertDialog(
-          title: Text("OTP Telah Dikirim"),
-          content: Container(
-            child: Text(responseData['message']),
-          ),
+          title: Text(responseData['message']),
           actions: [
             TextButton(
               child: Text('Ok'),
@@ -54,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       }else {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          title: Text(responseData['message']),
+          title: Text("Kolom email harus di isi dengan benar"),
           actions: [
             TextButton(
               child: Text('Ok'),
@@ -102,25 +99,23 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        style: const ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Color(0xff025464))),
-                        onPressed: () => {login(inputEmail.text.toString())},
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 60),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Text('Selanjutnya'),
+                Column(
+                  children: [
+                    ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Color(0xff025464))),
+                      onPressed: () => {login(inputEmail.text.toString())},
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 60),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
                         ),
+                        child: Text('Selanjutnya'),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),

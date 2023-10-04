@@ -8,11 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../theme.dart';
 
 class RincianAkad extends StatefulWidget {
-  const RincianAkad({Key? key, required this.fotoProduk, required this.namaProduk, required this.hargaProduk, required this.url}) : super(key: key);
-  final String fotoProduk;
-  final String namaProduk;
-  final int hargaProduk;
-  final String url;
+  const RincianAkad({Key? key}) : super(key: key);
+
 
   @override
   State<RincianAkad> createState() => _RincianAkadState();
@@ -50,13 +47,13 @@ class _RincianAkadState extends State<RincianAkad> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token')!;
     id = prefs.getInt('id')!;
-
-    setState(() {
-      fotoProduk = widget.fotoProduk;
-      namaProduk = widget.namaProduk;
-      hargaProduk = widget.hargaProduk;
-      url = widget.url;
-    });
+    //
+    // setState(() {
+    //   fotoProduk = widget.fotoProduk;
+    //   namaProduk = widget.namaProduk;
+    //   hargaProduk = widget.hargaProduk;
+    //   url = widget.url;
+    // });
   }
 
   final TextEditingController addressController = TextEditingController();

@@ -6,7 +6,8 @@ import 'package:paylater/admin/component/AdminNavbarBot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TambahResi extends StatefulWidget {
-  const TambahResi({Key? key}) : super(key: key);
+  const TambahResi({Key? key, required this.order_id}) : super(key: key);
+  final String order_id;
 
   @override
   State<TambahResi> createState() => _TambahResiState();
@@ -15,10 +16,14 @@ class TambahResi extends StatefulWidget {
 class _TambahResiState extends State<TambahResi> {
   _TambahResiState();
   String token = "";
+  String order_id = "";
 
+  @override
   void initState() {
+    super.initState();
     getToken();
   }
+
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -27,7 +32,6 @@ class _TambahResiState extends State<TambahResi> {
   }
 
   final TextEditingController inputResi = TextEditingController();
-  final order_id = 1;
 
   void AddResi(var order_id, String airway_bill) async {
     try {
@@ -37,7 +41,7 @@ class _TambahResiState extends State<TambahResi> {
             'Authorization': token,
           },
           body: {
-            'order_id': order_id,
+            'order_id': widget.order_id,
             'airway_bill': airway_bill,
           });
 
@@ -89,7 +93,7 @@ class _TambahResiState extends State<TambahResi> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.black),
         title: const Text('Tambah Resi',
             style: TextStyle(
               color: Colors.black,
@@ -118,28 +122,21 @@ class _TambahResiState extends State<TambahResi> {
                     ),
                   ],
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        style: const ButtonStyle(
-                            backgroundColor:
-                            MaterialStatePropertyAll(Color(0xff025464))),
-                        onPressed: () => {AddResi(
-                          order_id.toString(),
-                          inputResi.text.toString(),
-
-                        )},
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 60),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Text('Selanjutnya'),
-                        ),
-                      ),
-                    ],
+                ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor:
+                      MaterialStatePropertyAll(Color(0xff025464))),
+                  onPressed: () => {AddResi(
+                    order_id.toString(),
+                    inputResi.text.toString(),
+                  )},
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 60),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: const Text('Selanjutnya'),
                   ),
                 ),
               ],

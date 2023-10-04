@@ -124,7 +124,7 @@ class _AkunCustomerState extends State<AkunCustomer> {
                       MaterialButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => DetailAkun(user_id: datas[index]['user_id'],)));
+                              builder: (context) => DetailAkun(id: datas[index]['user_id'],)));
                         },
                         child: Expanded(
                           child: Container(
