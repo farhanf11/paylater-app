@@ -47,7 +47,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
       var response;
       if(url == ''){
         response = await get(
-            Uri.parse('https://paylater.harysusilo.my.id/api/get-order-list?user_id=$id&status=request&page=1'),
+            Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=request&page=1'),
             headers: {
               'Authorization': token,
             }
@@ -67,6 +67,18 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
         _currentPage.value = responseData['data']['current_page'];
         last_page.value = responseData['data']['last_page'];
         links = responseData['data']['links'];
+        print(responseData['data']['data']['user']['user_name']);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            user_name.value = responseData['data']['data']['user']['user_name'];
+            email_address.value = responseData['data']['email_address'];
+            phone_number.value = responseData['data']['phone_number'];
+            image_face.value = responseData['data']['image_face'];
+          });
+
+        }
       }else{
         print('gagal');
       }
@@ -153,21 +165,20 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                               children: [
                                 Row(
                                   children: [
-                                    Obx(() => CircleAvatar(
+                                    CircleAvatar(
                                       backgroundImage: NetworkImage(
-                                          image_face.value
+                                          datas[index]['user']['image_face']
                                       ),
-                                    ),),
-                                    const SizedBox(
-                                      width: 10,
                                     ),
-                                    Obx(() => Text(user_name.value,
+                                    SizedBox(width: 10,),
+                                    Text(
+                                        datas[index]['user']['user_name'],
                                         style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
                                         )
-                                    ),),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 10,),

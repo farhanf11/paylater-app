@@ -770,57 +770,6 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
           const SizedBox(
             height: 24,
           ),
-
-          ///button
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: PaylaterTheme.maincolor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  onPressed: () {
-                    Popup.confirmDialog(context,
-                        message: "Yakin tagihan ini sudah lunas?",
-                        dialogCallback: (value) async {
-                      if (value == 'Ya') {
-                        Navigator.of(context).pop();
-                      }
-                      if (value == 'Batal') {}
-                    });
-                  },
-                  child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text("Tagihan Lunas")),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: PaylaterTheme.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => TransferBank()));
-                  },
-                  child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text("Jatuh Tempo")),
-                ),
-              ],
-            ),
-          ),
         ]),
       ),
     );

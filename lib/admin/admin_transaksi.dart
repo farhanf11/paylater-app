@@ -2,7 +2,9 @@ import 'dart:ui';
 import 'package:paylater/admin/component/AkunAdminPengawas.dart';
 import 'package:paylater/admin/component/AkunCustomer.dart';
 import 'package:paylater/admin/component/AkunUnverify.dart';
+import 'package:paylater/admin/component/TransaksiBerlangsung.dart';
 import 'package:paylater/admin/component/TransaksiPermintaan.dart';
+import 'package:paylater/admin/component/TransaksiSelesai.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -54,9 +56,9 @@ class _AdminTransaksiState extends State<AdminTransaksi> {
             TransaksiPermintaan(),
 
             //riwayat tagihan
-            AkunCustomer(),
+            TransaksiBerlangsung(),
 
-            AkunAdminPengawas(),
+            TransaksiSelesai(),
           ],
         ),
       ),

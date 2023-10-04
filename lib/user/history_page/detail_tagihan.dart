@@ -526,11 +526,11 @@ class _RincianTagihanState extends State<RincianTagihan> {
                             style: BorderStyle.solid,
                             color: Color(0xffE3E9EB))),
                   ),
-                  child: Row(
+                  child: const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Kode Resi',
                         style: TextStyle(
                             color: Colors.black,

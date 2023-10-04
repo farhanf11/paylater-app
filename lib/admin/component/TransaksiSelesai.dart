@@ -8,15 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 import 'package:number_paginator/number_paginator.dart';
 
-class TransaksiBerlangsung extends StatefulWidget {
-  const TransaksiBerlangsung({Key? key}) : super(key: key);
+class TransaksiSelesai extends StatefulWidget {
+  const TransaksiSelesai({Key? key}) : super(key: key);
 
   @override
-  State<TransaksiBerlangsung> createState() => _TransaksiBerlangsungState();
+  State<TransaksiSelesai> createState() => _TransaksiSelesaiState();
 }
 
-class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
-  _TransaksiBerlangsungState();
+class _TransaksiSelesaiState extends State<TransaksiSelesai> {
+  _TransaksiSelesaiState();
   String token = "";
   List datas = [];
   // bool isLoading = false;
@@ -46,7 +46,7 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
       var response;
       if(url == ''){
         response = await get(
-            Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=ongoing&page=1'),
+            Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-order?status=done&page=1'),
             headers: {
               'Authorization': token,
             }

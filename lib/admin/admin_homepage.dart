@@ -484,6 +484,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               ),
                               Text(
                                 'Tanggal Permintaan : 28-01-2023',
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontSize: 10, color: Colors.grey),
                               ),
@@ -509,6 +510,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text("Iphone 13 Black Series New ibox, 128gb",
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.black,
@@ -577,6 +579,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               ),
                               Text(
                                 'tanggal pembayaran : 28-01-2023',
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontSize: 10, color: Colors.grey),
                               ),
@@ -602,6 +605,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text("Iphone 13 Black Series New ibox, 128gb",
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.black,
