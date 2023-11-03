@@ -734,7 +734,6 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
           const SizedBox(
             height: 24,
           ),
-<<<<<<< HEAD
 
           if (note.value != null && note.value!="note")
             Container(
@@ -786,8 +785,6 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
           const SizedBox(
             height: 24,
           ),
-=======
->>>>>>> 980740962cd6867870733bad7be4f8006ff48921
         ]),
       ),
     );

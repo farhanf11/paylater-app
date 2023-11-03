@@ -444,9 +444,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
               height: 10,
             ),
 
-<<<<<<< HEAD
-=======
-            //trending product
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Card(
@@ -677,7 +674,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
               ),
             ),
->>>>>>> 980740962cd6867870733bad7be4f8006ff48921
           ],
         ),
       ),
