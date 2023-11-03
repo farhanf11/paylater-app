@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:paylater/user/AkadCustomer.dart';
+import 'package:paylater/user/RiwayatPengajuanLink.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/tagihan.dart';
 import 'components/home_page/banner_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,8 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Tagihan tagihan;
   String token = "";
+  var url = "url".obs;
+  List datas = [];
 
   void initState() {
     getToken();
@@ -33,10 +34,12 @@ class _HomePageState extends State<HomePage> {
 
   final TextEditingController inputUrl = TextEditingController();
 
-  void Scrapp(String url) async {
+  void PostLink(String url) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getInt('id')!;
     try {
-      Response response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/scrapper'),
+      var response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/link-store/$id'),
           headers: {
             'Authorization': token,
           },
@@ -62,13 +65,13 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (BuildContext context) => RincianAkad()));
+                  builder: (BuildContext context) => RiwayatPengajuanLink()));
           AlertDialog alert = AlertDialog(
             title: const Text("Berhasil"),
             content: Text(responseData['message']),
             actions: [
               TextButton(
-                child: Text('Ok'),
+                child: const Text('Ok'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -103,6 +106,33 @@ class _HomePageState extends State<HomePage> {
           ],
         );
         showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void LinkbyId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    try {
+      var response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-link?user_id=$id&status='),
+          headers: {
+            'Authorization': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        datas =  responseData['data']['data'];
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            url.value = responseData['data']['data']['url'];
+          });
+        }
       }
     } catch (e) {
       print(e.toString());
@@ -215,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               child: const Text('Submit'),
                               onPressed: () =>
-                                  {Scrapp(inputUrl.text.toString())},
+                                  {PostLink(inputUrl.text.toString())},
                             ),
                             hintText: 'Paste link here',
                             hintStyle: TextStyle(
@@ -244,276 +274,209 @@ class _HomePageState extends State<HomePage> {
             ),
 
             ///pengajuan link
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text(
-                    'Riwayat Pengajuan',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: PaylaterTheme.maincolor,
-                      fontFamily: PaylaterTheme.fontName,
+            MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => RiwayatPengajuanLink(),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  );
+                },
+              child: Container(
+                color: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Flexible(
-                          child: Text(
-                            "https://tokopedia.com/seoatu-futsal-nike-mercurial",
-                            overflow: TextOverflow.ellipsis,
+                        Text(
+                          'Riwayat Pengajuan',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: PaylaterTheme.maincolor,
+                            fontFamily: PaylaterTheme.fontName,
                           ),
                         ),
-                        PopupMenuButton(
-                            child: const Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Icon(
-                                  CupertinoIcons.ellipsis_vertical,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                            itemBuilder: (context) => [
-                                  PopupMenuItem(
-                                    value: 1,
-                                    child: TextButton(
-                                        onPressed: () async {
-                                          await Clipboard.setData(
-                                              const ClipboardData(
-                                                  text:
-                                                      "https://tokopedia.com/seoatu-futsal-nike-mercurial"));
-                                          AlertDialog alert = AlertDialog(
-                                            content: const Text(
-                                                'Menyalin Bank BNI Link Produk 1'),
-                                            backgroundColor: Colors.white,
-                                            icon: const Icon(
-                                                CupertinoIcons
-                                                    .checkmark_seal_fill,
-                                                size: 20),
-                                            iconColor: PaylaterTheme.maincolor,
-                                            actions: [
-                                              TextButton(
-                                                child: const Text('Ok'),
-                                                onPressed: () =>
-                                                    Navigator.of(context).pop(),
-                                              ),
-                                            ],
-                                          );
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) => alert);
-                                        },
-                                        child: Text(
-                                          'salin',
-                                          style: TextStyle(color: Colors.black),
-                                        )),
-                                  ),
-                                  PopupMenuItem(
-                                    value: 2,
-                                    child: TextButton(
-                                        onPressed: () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const RincianAkad()),
-                                            ),
-                                        child: Text(
-                                          'Akad',
-                                          style: TextStyle(color: Colors.black),
-                                        )),
-                                  ),
-                                ])
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('Lihat Semua', style: TextStyle(fontSize: 12),),
+                            Icon(Icons.chevron_right, color: PaylaterTheme.maincolor, size: 20,)
+                          ],
+                        )
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
+                    const SizedBox(
+                      height: 5,
                     ),
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Flexible(
-                          child: Text(
-                            "https://tokopedia.com/seoatu-futsal-nike-mercurial",
-                            overflow: TextOverflow.ellipsis,
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Color(0x2700B6A2), width: 3)
+                      ),
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                      child: const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                        PopupMenuButton(
-                            child: const Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Icon(
-                                  CupertinoIcons.ellipsis_vertical,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: 1,
-                                child: TextButton(
-                                    onPressed: () async {
-                                      await Clipboard.setData(
-                                          const ClipboardData(
-                                              text:
-                                              "https://tokopedia.com/seoatu-futsal-nike-mercurial"));
-                                      AlertDialog alert = AlertDialog(
-                                        content: const Text(
-                                            'Menyalin Bank BNI Link Produk 1'),
-                                        backgroundColor: Colors.white,
-                                        icon: const Icon(
-                                            CupertinoIcons
-                                                .checkmark_seal_fill,
-                                            size: 20),
-                                        iconColor: PaylaterTheme.maincolor,
-                                        actions: [
-                                          TextButton(
-                                            child: const Text('Ok'),
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(),
-                                          ),
-                                        ],
-                                      );
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => alert);
-                                    },
-                                    child: Text(
-                                      'salin',
-                                      style: TextStyle(color: Colors.black),
-                                    )),
-                              ),
-                              PopupMenuItem(
-                                value: 2,
-                                child: TextButton(
-                                    onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const RincianAkad()),
-                                    ),
-                                    child: Text(
-                                      'Akad',
-                                      style: TextStyle(color: Colors.black),
-                                    )),
-                              ),
-                            ])
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Flexible(
-                          child: Text(
-                            "https://tokopedia.com/seoatu-futsal-nike-mercurial",
+                          Flexible(child: Text(
+                            'request',
                             overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        PopupMenuButton(
-                            child: const Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Icon(
-                                  CupertinoIcons.ellipsis_vertical,
-                                  size: 16,
-                                ),
-                              ),
+                            style: TextStyle(
+                                color: PaylaterTheme.orange,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600
                             ),
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: 1,
-                                child: TextButton(
-                                    onPressed: () async {
-                                      await Clipboard.setData(
-                                          const ClipboardData(
-                                              text:
-                                              "https://tokopedia.com/seoatu-futsal-nike-mercurial"));
-                                      AlertDialog alert = AlertDialog(
-                                        content: const Text(
-                                            'Menyalin Bank BNI Link Produk 1'),
-                                        backgroundColor: Colors.white,
-                                        icon: const Icon(
-                                            CupertinoIcons
-                                                .checkmark_seal_fill,
-                                            size: 20),
-                                        iconColor: PaylaterTheme.maincolor,
-                                        actions: [
-                                          TextButton(
-                                            child: const Text('Ok'),
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(),
-                                          ),
-                                        ],
-                                      );
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => alert);
-                                    },
-                                    child: Text(
-                                      'salin',
-                                      style: TextStyle(color: Colors.black),
-                                    )),
-                              ),
-                              PopupMenuItem(
-                                value: 2,
-                                child: TextButton(
-                                    onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const RincianAkad()),
-                                    ),
-                                    child: Text(
-                                      'Akad',
-                                      style: TextStyle(color: Colors.black),
-                                    )),
-                              ),
-                            ])
-                      ],
+                          )),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Color(0x2700B6A2), width: 3)
+                      ),
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                      child: const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Flexible(child: Text(
+                            'request',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: PaylaterTheme.orange,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600
+                            ),
+                          )),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Color(0x2700B6A2), width: 3)
+                      ),
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                      child: const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Flexible(child: Text(
+                            'request',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: PaylaterTheme.orange,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600
+                            ),
+                          )),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Color(0x2700B6A2), width: 3)
+                      ),
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                      child: const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Flexible(child: Text(
+                            'request',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: PaylaterTheme.orange,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600
+                            ),
+                          )),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Color(0x2700B6A2), width: 3)
+                      ),
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                      child: const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Flexible(child: Text(
+                            'request',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: PaylaterTheme.orange,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600
+                            ),
+                          )),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            )
           ],
         ),
       ),

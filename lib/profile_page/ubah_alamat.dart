@@ -70,8 +70,8 @@ class _UbahAlamatState extends State<UbahAlamat> {
       else {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          title: Text("Kolom alamat harus di isi"),
-          icon: Icon(Icons.warning, size: 12, color: Colors.red),
+          title: const Text("Kolom alamat harus di isi"),
+          icon: const Icon(Icons.warning, size: 12, color: Colors.red),
           actions: [
             TextButton(
               child: Text('Ok'),
@@ -106,8 +106,8 @@ class _UbahAlamatState extends State<UbahAlamat> {
             )),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-        color: Color(0xffF6F6F6),
+        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+        color: const Color(0xffF6F6F6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,7 +119,7 @@ class _UbahAlamatState extends State<UbahAlamat> {
                 const Text('Alamat Pengiriman Baru', style: TextStyle(
                     fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
                 ),),
-                SizedBox(height: 5,),
+                const SizedBox(height: 5,),
                 TextField(
                   controller: inputAddress,
                   decoration: const InputDecoration(

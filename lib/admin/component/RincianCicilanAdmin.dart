@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/TambahArrivalDate.dart';
 import 'package:paylater/admin/component/TambahResi.dart';
@@ -8,8 +10,12 @@ import 'package:paylater/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
+import 'DetailPembayaranCicilan.dart';
+
 class RincianCicilanAdmin extends StatefulWidget {
-  const RincianCicilanAdmin({Key? key, required this.order_id, required this.user_id}) : super(key: key);
+  const RincianCicilanAdmin(
+      {Key? key, required this.order_id, required this.user_id})
+      : super(key: key);
   final int order_id;
   final int user_id;
 
@@ -27,10 +33,10 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
   var price = 0.obs;
   var image = 'image'.obs;
   var url = 'url'.obs;
-  var title = 'titleeee'.obs;
+  var title = 'title'.obs;
   var total_price = 0.obs;
   var tenor = 'tenor'.obs;
-  var address = 'addressoooo'.obs;
+  var address = 'address'.obs;
   var note = 'note'.obs;
   var arrival_date = 'arrival_date'.obs;
   var request_date = 'request_date'.obs;
@@ -44,6 +50,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
   var instalment_price = 0.obs;
   var status_installment = "approve".obs;
   var due_date = "".obs;
+  var user_name ="".obs;
+  var phone_number = "".obs;
   bool isLoading = false;
   List cicilans = [];
 
@@ -70,38 +78,44 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
     });
     try {
       var response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/get-order-detail?user_id=${widget.user_id}&order_id=${widget.order_id}'),
-          headers: {
-            'Authorization': token,
-          },);
+        Uri.parse(
+            'https://paylater.harysusilo.my.id/api/get-order-detail?user_id=${widget.user_id}&order_id=${widget.order_id}'),
+        headers: {
+          'Authorization': token,
+        },
+      );
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        cicilans =  responseData['data']['instalment'];
-        print(cicilans);
+        cicilans = responseData['data']['instalment'];
+        print(responseData['data']['user']['user_name']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
-          id.value = responseData['data']['id'];
-          no_order.value = responseData['data']['no_order'];
-          title.value = responseData['data']['title'];
-          image.value = responseData['data']['image'];
-          price.value = responseData['data']['price'];
-          tenor.value = responseData['data']['tenor'];
-          address.value = responseData['data']['address'];
-          user_id.value = responseData['data']['user_id'];
-          airway_bill.value = responseData['data']['airway_bill'];
-          url.value = responseData['data']['url'];
-          total_price.value = responseData['data']['total_price'];
-          note.value = responseData['data']['note'];
-          address.value = responseData['data']['address'];
-          arrival_date.value = responseData['data']['arrival_date'];
-          request_date.value = responseData['data']['request_date'];
-          created_at.value = responseData['data']['created_at'];
-          status.value = responseData['data']['status'];
+          print('data berhasil diambil');
+          setState(() {
+            phone_number.value = responseData['data']['user']['phone_number'];
+            user_name.value = responseData['data']['user']['user_name'];
+            id.value = responseData['data']['id'];
+            no_order.value = responseData['data']['no_order'];
+            title.value = responseData['data']['title'];
+            image.value = responseData['data']['image'];
+            price.value = responseData['data']['price'];
+            tenor.value = responseData['data']['tenor']??"";
+            address.value = responseData['data']['address']??"";
+            user_id.value = responseData['data']['user_id'];
+            airway_bill.value = responseData['data']['airway_bill']??"";
+            url.value = responseData['data']['url'];
+            total_price.value = responseData['data']['total_price']??"";
+            note.value = responseData['data']['note']??"";
+            arrival_date.value = responseData['data']['arrival_date']??"";
+            request_date.value = responseData['data']['request_date']??"";
+            created_at.value = responseData['data']['created_at'];
+            status.value = responseData['data']['status'];
+          });
+          print(user_name.value);
         }
-
-      }else{
+      } else {
         print('gagal');
       }
     } catch (e) {
@@ -139,7 +153,10 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 20),
             child: const Text(
               'Rincian Pembayaran',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black),
             ),
           ),
           const SizedBox(
@@ -154,21 +171,127 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             child: Column(
               children: [
                 Obx(() => Image(
-                  width: 120,
+                    width: 120,
                     image: NetworkImage(
-                  image.value,
-                ))),
+                      image.value,
+                    ))),
                 const SizedBox(
                   height: 16,
                 ),
-                Obx(() =>
-                    Text(
-                      title.value,
-                      style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                      ),
+                Obx(
+                  () => Text(
+                    title.value,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(
+            height: 24,
+          ),
+
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ///username
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffEBEBEB))),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'User Name',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Obx(
+                            () => Text(
+                          user_name.value,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+
+                ///telepon
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffEBEBEB))),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Nomor Telepon',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        phone_number.value.toString(),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+
+                ///Tagihan Tersisa
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Tanggal Permintaan',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Obx(() => Text(
+                        created_at.value.toString(),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),)
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -191,8 +314,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
               children: [
                 ///Nomor Pesanan
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
@@ -209,50 +332,55 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                             fontSize: 14,
                             fontWeight: FontWeight.w600),
                       ),
-                      Obx(() => Text(
-                        no_order.value,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
-                      ),)
+                      Obx(
+                        () => Text(
+                          no_order.value,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      )
                     ],
                   ),
                 ),
 
                 ///Tenor
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                            style: BorderStyle.solid,
-                            color: Color(0xffEBEBEB))),
+                if (tenor.value!="tenor")
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              style: BorderStyle.solid,
+                              color: Color(0xffEBEBEB))),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Tenor',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          '${tenor.value} Bulan',
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Tenor',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        '$tenor Bulan',
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ),
 
                 ///Total Tagihan
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
@@ -280,9 +408,10 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                   ),
                 ),
 
-                //Tagihan Tersisa
+                ///Tagihan Tersisa
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -396,12 +525,15 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
           //   ),
           // ),
 
+          if (address.value != null && address.value!="address")
           ///alamat
           const SizedBox(
             height: 24,
           ),
+
+          if (address.value!="address")
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
@@ -412,8 +544,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
               children: [
                 //Head
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
@@ -430,15 +562,17 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                 ),
 
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12),
-                  child: Obx(() => Text(
-                    address.value,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
-                  ),)
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    child: Obx(
+                      () => Text(
+                        address.value,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    )
                 ),
               ],
             ),
@@ -449,7 +583,6 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
           ),
 
           ///resi
-
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
@@ -462,8 +595,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
               children: [
                 ///Head
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
@@ -483,37 +616,41 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                       ),
                       ElevatedButton(
                           onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TambahResi(order_id: id.toString(),)),
-                          ),
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TambahResi(
+                                          order_id: id.toString(),
+                                        )),
+                              ),
                           style: ButtonStyle(
-                            shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6),)),
-                            backgroundColor: MaterialStatePropertyAll(PaylaterTheme.maincolor),
+                            shape:
+                                MaterialStatePropertyAll(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                            )),
+                            backgroundColor: MaterialStatePropertyAll(
+                                PaylaterTheme.maincolor),
                           ),
                           child: const Text(
                             "Tambah Resi",
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
-                          )
-                      ),
+                            style: TextStyle(color: Colors.white),
+                          )),
                     ],
                   ),
                 ),
 
                 ///resi
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12),
-                  child: Obx(() => Text(
-                    airway_bill.value,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
-                  ),)
-                ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    child: Obx(
+                      () => Text(
+                        airway_bill.value,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    )),
               ],
             ),
           ),
@@ -533,8 +670,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
               children: [
                 ///Head
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
@@ -554,40 +691,96 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                       ),
                       ElevatedButton(
                           onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TambahArrivalDate(order_id: id.toString(),)),
-                          ),
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TambahArrivalDate(
+                                          order_id: id.toString(),
+                                        )),
+                              ),
                           style: ButtonStyle(
-                            shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6),)),
-                            backgroundColor: MaterialStatePropertyAll(PaylaterTheme.maincolor),
+                            shape:
+                                MaterialStatePropertyAll(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                            )),
+                            backgroundColor: MaterialStatePropertyAll(
+                                PaylaterTheme.maincolor),
                           ),
                           child: const Text(
                             "Tetapkan Tanggal",
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
-                          )
-                      ),
+                            style: TextStyle(color: Colors.white),
+                          )),
                     ],
                   ),
                 ),
 
                 ///arrival date
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12),
-                  child: Obx(() => Text(
-                    arrival_date.value,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
-                  ),)
-                ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    child: Obx(
+                      () => Text(
+                        arrival_date.value,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    )),
               ],
             ),
           ),
+
+          ///notes
+          const SizedBox(
+            height: 24,
+          ),
+
+          if (note.value != null && note.value!="note")
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  //Head
+                  Container(
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              style: BorderStyle.solid,
+                              color: Color(0xffE3E9EB))),
+                    ),
+                    child: const Text(
+                      'Alamat Pengiriman',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+
+                  Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      child: Obx(
+                            () => Text(
+                          note.value,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      )
+                  ),
+                ],
+              ),
+            ),
 
           const SizedBox(
             height: 24,

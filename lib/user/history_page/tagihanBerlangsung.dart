@@ -190,13 +190,22 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          ///Nama
+                                          ///Nama produk
                                           Text(
                                             datas[index]['title'],
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                               color: PaylaterTheme.darkerText,
                                               fontSize: 16,
+                                            ),
+                                          ),
+
+                                          Text(
+                                            '${datas[index]['no_order']}',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: PaylaterTheme.darkerText,
                                             ),
                                           ),
 
@@ -234,17 +243,6 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                                               ),
                                             ],
                                           ),
-
-                                          ///notes
-                                              Text(
-                                                datas[index]['note'],
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
                                         ],
                                       ),
                                     ),

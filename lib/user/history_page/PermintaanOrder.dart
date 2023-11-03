@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
-import 'package:paylater/admin/component/RincianBayarCicilan.dart';
 import 'package:paylater/user/history_page/detail_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
@@ -28,6 +27,9 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
   var _currentPage = 0.obs;
   var last_page = 1.obs;
   List links = [];
+  var tenor = "tenor".obs;
+  var note = "note".obs;
+  var request_date = "".obs;
 
   void initState() {
     super.initState();
@@ -69,6 +71,15 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
         _currentPage.value = responseData['data']['current_page'];
         last_page.value = responseData['data']['last_page'];
         links = responseData['data']['links'];
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            user_name.value = responseData['data']['data']['user']['user_name'];
+            tenor.value = responseData['data']['data']['tenor']??"";
+            request_date.value = responseData['data']['data']['request_date'];
+          });
+        }
       }else{
         print('gagal');
       }
@@ -144,32 +155,47 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                         );},
                         child: Expanded(
                           child: Container(
-                            constraints: BoxConstraints(maxWidth: double.infinity),
+                            constraints: const BoxConstraints(maxWidth: double.infinity),
                             height: 160,
                             width: 360,
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                             decoration: BoxDecoration(
                                 color: PaylaterTheme.white,
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
                                 Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Obx(() => CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          image_face.value
-                                      ),
-                                    ),),
-                                    const SizedBox(
-                                      width: 10,
+                                    Row(
+                                      children: [
+                                        Obx(() => CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              image_face.value
+                                          ),
+                                        ),),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Obx(() => Text(user_name.value,
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black87,
+                                                fontWeight: FontWeight.w700
+                                            )
+                                        ),),
+                                      ],
                                     ),
-                                    Obx(() => Text(user_name.value,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700
-                                        )
-                                    ),),
+                                    if (datas[index]['request_date'] != null)
+                                    Text(
+                                      '${datas[index]['request_date']}',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 10,),
@@ -200,16 +226,15 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                                             ),
                                           ),
 
-                                          /// Tenor cicilan
-                                          Text(
-                                            '${'Tenor Cicilan :' +
-                                                datas[index]['tenor']} bulan',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: PaylaterTheme.darkerText,
+                                          /// no order
+                                            Text(
+                                              '${datas[index]['no_order']}',
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: PaylaterTheme.darkerText,
+                                              ),
                                             ),
-                                          ),
 
                                           ///price
                                           Row(
@@ -234,32 +259,16 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                                               ),
                                             ],
                                           ),
-
-                                          ///notes
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const Text(
-                                                'Catatan : ',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: PaylaterTheme.darkerText,
-                                                ),
+                                          /// Tenor cicilan
+                                          if (tenor.value != null && tenor.value!="tenor")
+                                            Text(
+                                              '${datas[index]['tenor']} Bulan',
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: PaylaterTheme.darkerText,
                                               ),
-                                              Flexible(
-                                                child: Text(
-                                                  datas[index]['note'],
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
                                         ],
                                       ),
                                     ),

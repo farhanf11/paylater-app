@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/profile_page/biodataPage.dart';
 import 'package:paylater/profile_page/helpCenter.dart';
+import 'package:paylater/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../profile_page/edit_profile.dart';
@@ -124,9 +125,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       ///username
                       Obx(() => Text(
                         user_name.value,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),),
 
@@ -135,7 +137,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         email_address.value,
                         style: const TextStyle(
                           fontSize: 14,
-                          color: Colors.grey,
+                          color: PaylaterTheme.nearlyDarkBlue,
+                          fontWeight: FontWeight.w500
                         ),
                       ),),
 

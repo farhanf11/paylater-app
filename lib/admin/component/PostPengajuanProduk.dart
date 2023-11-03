@@ -1,24 +1,27 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:paylater/admin/component/AdminNavbarBot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../navbar/NavbarBot.dart';
 import '../../theme.dart';
 
 
 class PostPengajuanProduk extends StatefulWidget {
-  const PostPengajuanProduk({Key? key}) : super(key: key);
+  const PostPengajuanProduk({Key? key, required this.link_id, required this.user_id}) : super(key: key);
+
+  final int link_id;
+  final int user_id;
 
   @override
   State<PostPengajuanProduk> createState() => _PostPengajuanProdukState();
 }
 
 class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
-  String _gender= '';
   String token = "";
-  var id = 0;
+  var user_id = 0;
+  var link_id = 0;
 
   @override
   void initState() {
@@ -30,40 +33,31 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       token = prefs.getString('token')!;
-      id = prefs.getInt('id')!;
     });
   }
 
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController namaController = TextEditingController();
-  final TextEditingController nikController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
-  final TextEditingController ibukandungController = TextEditingController();
-  final TextEditingController provinsiController = TextEditingController();
-  final TextEditingController kotaControler = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController imageController = TextEditingController();
+  final TextEditingController noteController = TextEditingController();
+  final TextEditingController urlController = TextEditingController();
+  final TextEditingController linkIdController = TextEditingController();
 
-  ///date
-  void dispose() {
-    dateController.dispose();
-    super.dispose();
-  }
-
-  void AddBiodata(String full_name, String nik, String mother_name,
-      String birth_date, String gender, String city, String province) async {
+  void CreateOrder(String title, String price, String image,
+      String note, String url, String link_id) async {
     try {
-      Response response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/update-biodata/$id'),
+      var response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/order-create/${widget.user_id}'),
           headers: {
             'Authorization': token,
           },
           body: {
-            'full_name': full_name,
-            'nik': nik,
-            'mother_name': mother_name,
-            'birth_date': birth_date,
-            'gender': gender,
-            'city': city,
-            'province': province,
+            'title': title,
+            'price': price,
+            'image': image,
+            'note': note,
+            'url': url,
+            'link_id': link_id,
           });
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
@@ -72,13 +66,13 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (BuildContext context) => NavbarBot()));
+                  builder: (BuildContext context) => AdminNavbarBot()));
           AlertDialog alert = AlertDialog(
-            title: Text("Berhasil"),
+            title: const Text("Berhasil"),
             content: Text(responseData['message']),
             actions: [
               TextButton(
-                child: Text('Ok'),
+                child: const Text('Ok'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -135,7 +129,7 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                 height: 10,
               ),
 
-              ///Nama Lengkap
+              ///Nama
               const Text(
                 'Nama Produk',
                 style: TextStyle(
@@ -147,41 +141,17 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                 height: 5,
               ),
               TextField(
-                controller: namaController,
+                controller: titleController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'nama produk',
+                  hintText: 'Nama produk',
                 ),
               ),
               const SizedBox(
                 height: 24,
               ),
 
-              ///NIK
-              const Text(
-                'Url Foto Produk',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                controller: nikController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'url foto produk',
-                ),
-              ),
-              //End NIK
-
-              const SizedBox(
-                height: 24,
-              ),
-
-              ///ibu kandung
+              ///Harga
               const Text(
                 'Harga Produk',
                 style: TextStyle(
@@ -193,20 +163,21 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                 height: 5,
               ),
               TextField(
-                controller: ibukandungController,
+                controller: priceController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'harga produk',
+                  hintText: 'Harga produk',
                 ),
               ),
+              //End NIK
 
               const SizedBox(
                 height: 24,
               ),
 
-              ///Provinsi
+              ///Image
               const Text(
-                'Estimasi Ongkir',
+                'Link Gambar Produk',
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -216,15 +187,77 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                 height: 5,
               ),
               TextField(
-                controller: provinsiController,
+                controller: imageController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'sesuaikan ongkir dari marketplace',
+                  hintText: 'Link gambar produk',
                 ),
               ),
 
               const SizedBox(
                 height: 24,
+              ),
+
+              ///Provinsi
+              const Text(
+                'Pesan',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              TextField(
+                controller: noteController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Pesan kepada customer',
+                ),
+              ),
+
+
+              const SizedBox(
+                height: 24,
+              ),
+              const Text(
+                'Url Produk',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              TextField(
+                controller: urlController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Url produk dari marketplace',
+                ),
+              ),
+
+              const SizedBox(
+                height: 24,
+              ),
+              const Text(
+                'Link ID',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              TextField(
+                controller: linkIdController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: '',
+                ),
               ),
             ],
           ),
@@ -245,14 +278,13 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () => {
-                  AddBiodata(
-                      namaController.text.toString(),
-                      nikController.text.toString(),
-                      ibukandungController.text.toString(),
-                      dateController.text.toString(),
-                      _gender.toString(),
-                      kotaControler.text.toString(),
-                      provinsiController.text.toString())
+                  CreateOrder(
+                      titleController.text.toString(),
+                      priceController.text.toString(),
+                      imageController.text.toString(),
+                      noteController.text.toString(),
+                      urlController.text.toString(),
+                      linkIdController.text.toString())
                 },
               ),
               const SizedBox(

@@ -8,6 +8,8 @@ import 'package:paylater/admin/component/TransaksiSelesai.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 
+import 'component/PermintaanLink.dart';
+
 class AdminTransaksi extends StatefulWidget {
   const AdminTransaksi({super.key});
 
@@ -19,6 +21,7 @@ class _AdminTransaksiState extends State<AdminTransaksi> {
   int pageIndex = 0;
 
   final pages = [
+    const PermintaanLink(),
     const TransaksiPermintaan(),
     const AkunUnverify(),
     const AkunAdminPengawas(),
@@ -27,21 +30,24 @@ class _AdminTransaksiState extends State<AdminTransaksi> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xff025464),
-          title: Text(
+          title: const Text(
             "Daftar Transaksi",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
           bottom: const TabBar(
             tabs: [
               Tab(
-                text: 'Permintaan',
+                text: 'Link',
               ),
               Tab(
-                text: 'Berlangsung',
+                text: 'Request',
+              ),
+              Tab(
+                text: 'Berjalan',
               ),
               Tab(
                 text: "Selesai",
@@ -52,12 +58,16 @@ class _AdminTransaksiState extends State<AdminTransaksi> {
         backgroundColor: PaylaterTheme.white,
         body: const TabBarView(
           children: [
+            //Link
+            PermintaanLink(),
+
             //Tagihan
             TransaksiPermintaan(),
 
-            //riwayat tagihan
+            //Berlangsung
             TransaksiBerlangsung(),
 
+            //Selesai
             TransaksiSelesai(),
           ],
         ),

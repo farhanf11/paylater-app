@@ -10,6 +10,8 @@ import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'component/RincianCicilanAdmin.dart';
+
 class AdminHomePage extends StatefulWidget {
   @override
   _AdminHomePageState createState() => _AdminHomePageState();
@@ -17,12 +19,14 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePageState extends State<AdminHomePage> {
   String token = "";
+  List datas = [];
   var permintaan = ''.obs;
   var berlangsung = ''.obs;
   var selesai = ''.obs;
   var jatuh_tempo = 0.obs;
   var total_user = 0.obs;
   var email_unverified = ''.obs;
+  var url = "url".obs;
 
 
   void initState() {
@@ -298,7 +302,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               ),
             ),
 
-            //Data Akun Customer
+            ///Data Akun Customer
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Card(
@@ -440,230 +444,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
               height: 10,
             ),
 
-            //trending product
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Card(
-                elevation: 5,
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Daftar Pengajuan Link',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                        onPressed: () { Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => const PostPengajuanProduk(),
-                          ),
-                        );},
-                        child:Container(
-                          color: const Color(0xFFF5F7F8),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Image(
-                                          image: AssetImage(
-                                              "assets/icon/avatardefault.png"),
-                                          fit: BoxFit.fill,
-                                        ),
-                                        SizedBox(
-                                          width: 12,
-                                        ),
-                                        Text("Jhon son",
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w700)),
-                                      ],
-                                    ),
-                                    Text(
-                                      '28-01-2023',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 12, color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(20, 6, 20, 12),
-                                child: Flexible(
-                                  child: Text(
-                                    "https://tokopedia.com/seoatu-futsal-nike-mercurial",
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                    ),
-
-                    SizedBox(height: 4,),
-                    MaterialButton(
-                      onPressed: () { Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const PostPengajuanProduk(),
-                        ),
-                      );},
-                      child:Container(
-                        color: const Color(0xFFF5F7F8),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                            "assets/icon/avatardefault.png"),
-                                        fit: BoxFit.fill,
-                                      ),
-                                      SizedBox(
-                                        width: 12,
-                                      ),
-                                      Text("Jhon son",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700)),
-                                    ],
-                                  ),
-                                  Text(
-                                    '28-01-2023',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.fromLTRB(20, 6, 20, 12),
-                              child: Flexible(
-                                child: Text(
-                                  "https://tokopedia.com/seoatu-futsal-nike-mercurial",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 4,),
-                    MaterialButton(
-                      onPressed: () { Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const PostPengajuanProduk(),
-                        ),
-                      );},
-                      child:Container(
-                        color: const Color(0xFFF5F7F8),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                            "assets/icon/avatardefault.png"),
-                                        fit: BoxFit.fill,
-                                      ),
-                                      SizedBox(
-                                        width: 12,
-                                      ),
-                                      Text("Jhon son",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700)),
-                                    ],
-                                  ),
-                                  Text(
-                                    '28-01-2023',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.fromLTRB(20, 6, 20, 12),
-                              child: Flexible(
-                                child: Text(
-                                  "https://tokopedia.com/seoatu-futsal-nike-mercurial",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 4,),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(2.0),
-                            child: CircleAvatar(
-                              maxRadius: 3,
-                              backgroundColor: Colors.grey,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(2.0),
-                            child: CircleAvatar(
-                              maxRadius: 3,
-                              backgroundColor: Colors.grey,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(2.0),
-                            child: CircleAvatar(
-                              maxRadius: 3,
-                              backgroundColor: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),

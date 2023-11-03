@@ -15,7 +15,6 @@ class RincianTagihan extends StatefulWidget {
   final int order_id;
   final int user_id;
 
-
   @override
   State<RincianTagihan> createState() => _RincianTagihanState();
 }
@@ -167,7 +166,8 @@ class _RincianTagihanState extends State<RincianTagihan> {
                     width: 120,
                     image: NetworkImage(
                       image.value,
-                    ))),
+                    ))
+                ),
                 const SizedBox(
                   height: 16,
                 ),

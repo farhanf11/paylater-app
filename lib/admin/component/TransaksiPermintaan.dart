@@ -29,6 +29,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
   var _currentPage = 0.obs;
   var last_page = 1.obs;
   List links = [];
+  var tenor = "tenor".obs;
 
   void initState() {
     super.initState();
@@ -43,7 +44,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
       // isLoading = true;
       token = prefs.getString('token')!;
     });
-    var id = prefs.getInt('id')!;
+    // var id = prefs.getInt('id')!;
 
     try {
       var response;
@@ -69,17 +70,13 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
         _currentPage.value = responseData['data']['current_page'];
         last_page.value = responseData['data']['last_page'];
         links = responseData['data']['links'];
-        print(responseData['data']['data']['user']['user_name']);
         if(responseData['success'] == false ){
           print('gagal');
         }else{
           setState(() {
             user_name.value = responseData['data']['data']['user']['user_name'];
-            email_address.value = responseData['data']['email_address'];
-            phone_number.value = responseData['data']['phone_number'];
-            image_face.value = responseData['data']['image_face'];
+            tenor.value = responseData['data']['data']['tenor']??"";
           });
-
         }
       }else{
         print('gagal');
@@ -93,7 +90,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
   }
 
   ///acc transaksi
-  void VerifyAkun(var order_id, String is_approve) async {
+  void VerifyOrder(var order_id, String is_approve) async {
     try {
       var response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/admin/approval-order'),
@@ -171,9 +168,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
             phone_number.value = responseData['data']['phone_number'];
             image_face.value = responseData['data']['image_face'];
           });
-
         }
-
       }
     } catch (e) {
       print(e.toString());
@@ -195,7 +190,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
               itemCount: datas.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -215,7 +210,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                             constraints: const BoxConstraints(maxWidth: double.infinity),
                             height: 160,
                             width: 360,
-                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                             decoration: BoxDecoration(
                                 color: PaylaterTheme.white,
                                 borderRadius: BorderRadius.circular(10)),
@@ -268,10 +263,9 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                             ),
                                           ),
 
-                                          /// Tenor cicilan
+                                          /// No order
                                           Text(
-                                            '${'Tenor Cicilan :' +
-                                                datas[index]['tenor']} bulan',
+                                            '${datas[index]['no_order']}',
                                             style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -303,30 +297,15 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                             ],
                                           ),
 
-                                          ///notes
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const Text(
-                                                'Catatan : ',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: PaylaterTheme.darkerText,
-                                                ),
-                                              ),
-                                              Flexible(
-                                                child: Text(
-                                                  datas[index]['note'],
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                          /// Tenor cicilan
+                                          if (tenor.value != null && tenor.value!="tenor")
+                                          Text(
+                                            '${datas[index]['tenor']} Bulan',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: PaylaterTheme.darkerText,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -339,7 +318,8 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                         ),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           MaterialButton(
                             child: Container(
@@ -352,7 +332,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                               child: const Text('Setujui Pesanan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
                             ),
                             onPressed: () {
-                              VerifyAkun(
+                              VerifyOrder(
                                   datas[index]['id'].toString(),
                                   "approve"
                               );
@@ -370,7 +350,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                               child: const Text('Tolak Pesanan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
                             ),
                             onPressed: () {
-                              VerifyAkun(
+                              VerifyOrder(
                                   datas[index]['id'].toString(),
                                   "reject"
                               );

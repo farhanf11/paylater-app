@@ -2,29 +2,32 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/user/HistoryPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../theme.dart';
 
 class RincianAkad extends StatefulWidget {
-  const RincianAkad({Key? key}) : super(key: key);
-
+  const RincianAkad({Key? key, required this.link_id, required this.user_id}) : super(key: key);
+  final int link_id;
+  final int user_id;
 
   @override
   State<RincianAkad> createState() => _RincianAkadState();
 }
 
 class _RincianAkadState extends State<RincianAkad> {
-  String fotoProduk = "";
-  String namaProduk= "";
-  int hargaProduk = 0;
+  var id = 0.obs;
+  var image = "".obs;
+  var title = "".obs;
+  var price = 0.obs;
   String url = "";
   String token = "";
-  var id = 0;
   String _address = '';
   String _tenor = '';
   var address = "address";
+  List order = [];
 
   void _handleAddress(String? value) {
     setState(() {
@@ -38,22 +41,42 @@ class _RincianAkadState extends State<RincianAkad> {
     });
   }
 
+  @override
   void initState() {
-    RincianProduk();
+    super.initState();
+    GetOrderData();
   }
 
   ///get rincian produk
-  void RincianProduk() async {
+  void GetOrderData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token')!;
-    id = prefs.getInt('id')!;
-    //
-    // setState(() {
-    //   fotoProduk = widget.fotoProduk;
-    //   namaProduk = widget.namaProduk;
-    //   hargaProduk = widget.hargaProduk;
-    //   url = widget.url;
-    // });
+    setState(() {
+      token = prefs.getString('token')!;
+    });
+    try {
+      var response = await get(
+        Uri.parse('https://paylater.harysusilo.my.id/api/get-link-detail?user_id=${widget.user_id}&link_id=${widget.link_id}'),
+        headers: {
+          'Authorization': token,
+        },);
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        print(responseData['data']['order']['title']);
+        if (responseData['success'] == false) {
+          print('gagal');
+        } else {
+          id.value = responseData['data']['id'];
+          title.value = responseData['data']['order']['title'];
+          price.value = responseData['data']['order']['price'];
+          image.value = responseData['data']['order']['image'];
+        }
+      }else{
+        print('gagal');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   final TextEditingController addressController = TextEditingController();
@@ -63,16 +86,16 @@ class _RincianAkadState extends State<RincianAkad> {
   ///post permintaan akad
   void AddOrder(String tenor, String address, String note) async {
     try {
-      Response response = await post(
+      var response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/order-store/$id'),
           headers: {
             'Authorization': token,
           },
           body: {
             'url': url,
-            'image': fotoProduk,
-            'title': namaProduk,
-            'price': hargaProduk,
+            'image': image,
+            'title': title,
+            'price': price,
             'tenor': _tenor,
             'address': _address,
             'note': note,
@@ -146,44 +169,29 @@ class _RincianAkadState extends State<RincianAkad> {
                 borderRadius: BorderRadius.circular(6),
                 color: Colors.white,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 6),
               child: Column(
                 children: [
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 2,
-                            color: Theme.of(context).scaffoldBackgroundColor),
-                        boxShadow: [
-                          BoxShadow(
-                              spreadRadius: 2,
-                              blurRadius: 8,
-                              color: Colors.black.withOpacity(0.1),
-                              offset: const Offset(0, 2))
-                        ],
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              fotoProduk.toString()
-                            ))),
+                  Obx(() => Image(
+                      width: 120,
+                      image: NetworkImage(
+                        image.value,
+                      ))
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
-                  Text(
-                    namaProduk.toString(),
+                  Obx(() => Text(
+                    title.value.toString(),
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    'Rp $hargaProduk',
+                  ),),
+                  Obx(() => Text(
+                    'Rp' + price.value.toString(),
                     style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Colors.grey),
-                  ),
+                  ),)
                 ],
               ),
             ),
@@ -259,47 +267,38 @@ class _RincianAkadState extends State<RincianAkad> {
               ],
             ),
 
-            SizedBox(height: 60,),
-            ///submit
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ElevatedButton(
-                  style: const ButtonStyle(
-                    padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
-                    backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
+                const Text('Alamat Pengiriman Baru', style: TextStyle(
+                    fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
+                ),),
+                const SizedBox(height: 5,),
+                TextField(
+                  controller: catatanController,
+                  decoration: const InputDecoration(
+                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff025464))),
+                    border: OutlineInputBorder(),
+                    hintText: 'Masukan Alamat Baru',
                   ),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () => {
-                    AddOrder(
-                      _address.toString(),
-                      _tenor.toString(),
-                      catatanController.text.toString(),
-                    ),
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: PaylaterTheme.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text("Batal")),
                 ),
               ],
+            ),
+
+            SizedBox(height: 60,),
+            ///submit
+            ElevatedButton(
+              style: const ButtonStyle(
+                padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
+              ),
+              child: const Text('Submit', style: TextStyle(color: Colors.white),),
+              onPressed: () => {
+                AddOrder(
+                    addressController.text.toString(),
+                    tenorController.text.toString(),
+                    catatanController.text.toString()
+                )},
             ),
           ],
         ),
