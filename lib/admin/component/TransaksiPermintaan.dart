@@ -70,13 +70,25 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
         _currentPage.value = responseData['data']['current_page'];
         last_page.value = responseData['data']['last_page'];
         links = responseData['data']['links'];
+<<<<<<< HEAD
+=======
+        print(responseData['data']['data']['user']['user_name']);
+>>>>>>> 980740962cd6867870733bad7be4f8006ff48921
         if(responseData['success'] == false ){
           print('gagal');
         }else{
           setState(() {
             user_name.value = responseData['data']['data']['user']['user_name'];
+<<<<<<< HEAD
             tenor.value = responseData['data']['data']['tenor']??"";
           });
+=======
+            email_address.value = responseData['data']['email_address'];
+            phone_number.value = responseData['data']['phone_number'];
+            image_face.value = responseData['data']['image_face'];
+          });
+
+>>>>>>> 980740962cd6867870733bad7be4f8006ff48921
         }
       }else{
         print('gagal');
@@ -223,14 +235,22 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                           datas[index]['user']['image_face']
                                       ),
                                     ),
+<<<<<<< HEAD
                                     const SizedBox(width: 10,),
+=======
+                                    SizedBox(width: 10,),
+>>>>>>> 980740962cd6867870733bad7be4f8006ff48921
                                     Text(
                                         datas[index]['user']['user_name'],
                                         style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
+<<<<<<< HEAD
                                         ),
+=======
+                                        )
+>>>>>>> 980740962cd6867870733bad7be4f8006ff48921
                                     ),
                                   ],
                                 ),

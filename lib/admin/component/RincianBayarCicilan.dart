@@ -64,7 +64,11 @@ class _RincianBayarCicilanState extends State<RincianBayarCicilan> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
+<<<<<<< HEAD
         datas =  responseData['data']['instalment'];
+=======
+        datas =  responseData['data']['data']['instalment'];
+>>>>>>> 980740962cd6867870733bad7be4f8006ff48921
         cicilans =  responseData['data']['instalment'];
         print(cicilans);
         if (responseData['success'] == false) {
@@ -91,6 +95,7 @@ class _RincianBayarCicilanState extends State<RincianBayarCicilan> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return ///Rincian Cicilan
       Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -175,5 +180,60 @@ class _RincianBayarCicilanState extends State<RincianBayarCicilan> {
           ],
         ),
       );
+=======
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        children: [
+          ///Rincian Cicilan
+          Flexible(
+              fit: FlexFit.tight,
+              child: ListView.builder(
+                  itemCount: cicilans.length,
+                  itemBuilder: (BuildContext context, int index){
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Cicilan 1',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        Obx(() => Text(
+                          instalment_price.value.toString(),
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
+                        ),),
+                        TextButton(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const DetailPembayaranCicilan()),
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 3, horizontal: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: PaylaterTheme.maincolor),
+                              child: const Text(
+                                'lihat',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )),
+                      ],
+                    );
+                  }
+              )
+          )
+        ],
+      ),
+    );
+>>>>>>> 980740962cd6867870733bad7be4f8006ff48921
   }
 }

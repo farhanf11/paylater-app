@@ -64,10 +64,16 @@ class _AdminTransaksiState extends State<AdminTransaksi> {
             //Tagihan
             TransaksiPermintaan(),
 
+<<<<<<< HEAD
             //Berlangsung
             TransaksiBerlangsung(),
 
             //Selesai
+=======
+            //riwayat tagihan
+            TransaksiBerlangsung(),
+
+>>>>>>> 980740962cd6867870733bad7be4f8006ff48921
             TransaksiSelesai(),
           ],
         ),

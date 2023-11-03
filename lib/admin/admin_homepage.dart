@@ -444,6 +444,240 @@ class _AdminHomePageState extends State<AdminHomePage> {
               height: 10,
             ),
 
+<<<<<<< HEAD
+=======
+            //trending product
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Card(
+                elevation: 5,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Daftar Permintaan Cicilan',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        "assets/icon/avatardefault.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Jhon son",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700)),
+                                ],
+                              ),
+                              Text(
+                                'Tanggal Permintaan : 28-01-2023',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image(
+                                image: AssetImage(
+                                    "assets/images/barangdefault.png"),
+                                height: 50,
+                                fit: BoxFit.fill,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Iphone 13 Black Series New ibox, 128gb",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700)),
+                                  Row(
+                                    children: [
+                                      Text("Cicilan : " + "3" + " " + "Bulan",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500)
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("Harga: ",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          )
+                                      ),
+                                      Text("3.155.000",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  237, 131, 33, 1),
+                                              fontWeight: FontWeight.bold)
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        "assets/icon/avatardefault.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Jhon son",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700)),
+                                ],
+                              ),
+                              Text(
+                                'tanggal pembayaran : 28-01-2023',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image(
+                                image: AssetImage(
+                                    "assets/images/barangdefault.png"),
+                                height: 50,
+                                fit: BoxFit.fill,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Iphone 13 Black Series New ibox, 128gb",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700)),
+                                  Text("Pembayaran 1/6",
+                                      style: TextStyle(
+                                          fontSize: 8,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500)),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text("Cicilan:",
+                                      style: TextStyle(
+                                        fontSize: 8,
+                                        color: Colors.black,
+                                      )),
+                                  Text("3.155.000",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Color.fromRGBO(
+                                              237, 131, 33, 1),
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(2.0),
+                            child: CircleAvatar(
+                              maxRadius: 3,
+                              backgroundColor: Colors.grey,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(2.0),
+                            child: CircleAvatar(
+                              maxRadius: 3,
+                              backgroundColor: Colors.grey,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(2.0),
+                            child: CircleAvatar(
+                              maxRadius: 3,
+                              backgroundColor: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+>>>>>>> 980740962cd6867870733bad7be4f8006ff48921
           ],
         ),
       ),
