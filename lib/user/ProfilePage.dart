@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:paylater/profile_page/biodataPage.dart';
 import 'package:paylater/profile_page/helpCenter.dart';
 import 'package:paylater/theme.dart';
+import 'package:paylater/user/LoginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../profile_page/edit_profile.dart';
@@ -37,6 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
   var phone_number = "phone".obs;
   var image_face = "image_face".obs;
   var address = "address".obs;
+  String token = "";
 
   @override
   void initState() {
@@ -75,6 +77,87 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  ///logout
+  void PostLogout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+    });
+    try {
+      var response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/auth/logout'),
+          headers: {
+            'Authorization': token,
+          },
+          body: {
+            'token': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if (responseData['success'] == false) {
+          AlertDialog alert = AlertDialog(
+            title: const Text("Logout"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+          showDialog(context: context, builder: (context) => alert);
+        } else {
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => LoginPage()));
+          AlertDialog alert = AlertDialog(
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context, builder: (context) => alert);
+        }
+      } else {}
+      if (response.statusCode == 422) {
+        var responseData = json.decode(response.body);
+        AlertDialog alert = AlertDialog(
+          title: const Text("Kolom harus di isi dengan link produk yang benar"),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        print(responseData['data']);
+        showDialog(context: context, builder: (context) => alert);
+      }
+      if (response.statusCode == 404) {
+        AlertDialog alert = AlertDialog(
+          title: const Text("Email tidak terdaftar"),
+          content: const Text("Email yang anda masukan salah"),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: const Color(0xff025464),
         title: const Text(
-          "Profile",
+          "Profil",
           style: TextStyle(fontSize: 16),
         ),
         centerTitle: true,
@@ -305,33 +388,23 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
 
               ///logout
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                height: 40,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      style: BorderStyle.solid,
-                      color: Color(0xff025464),
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'Keluar',
-                      style: TextStyle(
-                          color: Color(0xff025464),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
+              ElevatedButton(
+                style: const ButtonStyle(
+                  padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 4, horizontal: 80)),
+                  backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
                 ),
+                child: const Text(
+                  'Logout',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                ),
+                onPressed: () => {
+                  PostLogout(),
+                },
               ),
+
               const SizedBox(
                 height: 10,
               )

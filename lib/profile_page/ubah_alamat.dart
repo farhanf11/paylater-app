@@ -18,7 +18,6 @@ class _UbahAlamatState extends State<UbahAlamat> {
 
   void initState() {
     getToken();
-
   }
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

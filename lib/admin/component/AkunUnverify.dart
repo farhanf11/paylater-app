@@ -20,6 +20,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
   List datas = [];
   bool isLoading = false;
 
+  @override
   void initState() {
     super.initState();
     getAkun();

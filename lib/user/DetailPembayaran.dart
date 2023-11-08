@@ -73,17 +73,6 @@ class DetailPembayaran extends StatelessWidget {
                         content: Text(_bca, style: _contentStyle),
                         contentHorizontalPadding: 20,
                       ),
-                      ///BNI
-                      AccordionSection(
-                        isOpen: true,
-                        headerBackgroundColor: Color(0xffCCDDE0),
-                        headerBackgroundColorOpened: Color(0xffCCDDE0),
-                        contentBorderColor: Color(0xff2E8A99),
-                        rightIcon: Icon(Icons.keyboard_arrow_down, color: Color(0xff2E8A99)),
-                        header: Text('BNI', style: _headerSubStyle),
-                        content: Text(_bca, style: _contentStyle),
-                        contentHorizontalPadding: 20,
-                      ),
                       ///BTN
                       AccordionSection(
                         isOpen: true,
@@ -121,17 +110,17 @@ class DetailPembayaran extends StatelessWidget {
                               style: BorderStyle.solid,
                               color: Color(0xffEBEBEB))),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'ID Pesanan',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.w600),
                         ),
-                        const Text(
+                        Text(
                           '12345678',
                           style: TextStyle(
                               color: Colors.black,

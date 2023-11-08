@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:paylater/user/RiwayatPengajuanLink.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../navbar/SearchBar.dart';
 import 'components/home_page/banner_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,9 +20,13 @@ class _HomePageState extends State<HomePage> {
   String token = "";
   var url = "url".obs;
   List datas = [];
+  var status = "status".obs;
+  bool isLoading = false;
 
   void initState() {
+    super.initState();
     getToken();
+    LinkbyId();
   }
 
   getToken() async {
@@ -116,6 +121,10 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token')!;
     var id = prefs.getInt('id')!;
+    print(id);
+    setState(() {
+      isLoading = true;
+    });
     try {
       var response = await get(
           Uri.parse('https://paylater.harysusilo.my.id/api/get-link?user_id=$id&status='),
@@ -131,12 +140,16 @@ class _HomePageState extends State<HomePage> {
         }else{
           setState(() {
             url.value = responseData['data']['data']['url'];
+            status.value = responseData['data']['data']['status'];
           });
         }
       }
     } catch (e) {
       print(e.toString());
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -220,36 +233,43 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: TextField(
-                        keyboardType: TextInputType.url,
-                        textAlignVertical: TextAlignVertical.center,
-                        controller: inputUrl,
-                        autofocus: true,
-                        style: TextStyle(color: Colors.blue[500], fontSize: 16),
-                        decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            hoverColor: Colors.orangeAccent,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: Colors.white)),
-                            prefixIcon: const Icon(Icons.link),
-                            suffix: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    PaylaterTheme.maincolor),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14.0),
-                                )),
-                              ),
-                              child: const Text('Submit'),
-                              onPressed: () =>
-                                  {PostLink(inputUrl.text.toString())},
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 270,
+                            child: TextField(
+                              keyboardType: TextInputType.url,
+                              textAlignVertical: TextAlignVertical.center,
+                              controller: inputUrl,
+                              autofocus: true,
+                              style: TextStyle(color: Colors.blue[500], fontSize: 16),
+                              decoration: InputDecoration(
+                                  hoverColor: Colors.orangeAccent,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  prefixIcon: const Icon(Icons.link),
+                                  hintText: 'Paste link here',
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey.shade600, fontSize: 15)),
                             ),
-                            hintText: 'Paste link here',
-                            hintStyle: TextStyle(
-                                color: Colors.grey.shade600, fontSize: 15)),
+                          ),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  PaylaterTheme.maincolor),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14.0),
+                                  )),
+                            ),
+                            child: const Text('Submit'),
+                            onPressed: () =>
+                            {PostLink(inputUrl.text.toString())},
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(
@@ -284,6 +304,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               child: Container(
+                height: 365,
                 color: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                 child: Column(
@@ -317,160 +338,144 @@ class _HomePageState extends State<HomePage> {
                       height: 5,
                     ),
                     Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Color(0x2700B6A2), width: 3)
-                      ),
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                      child: const Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Flexible(child: Text(
-                            'request',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: PaylaterTheme.orange,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600
-                            ),
-                          )),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Color(0x2700B6A2), width: 3)
-                      ),
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                      child: const Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Flexible(child: Text(
-                            'request',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: PaylaterTheme.orange,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600
-                            ),
-                          )),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Color(0x2700B6A2), width: 3)
-                      ),
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                      child: const Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Flexible(child: Text(
-                            'request',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: PaylaterTheme.orange,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600
-                            ),
-                          )),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Color(0x2700B6A2), width: 3)
-                      ),
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                      child: const Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Flexible(child: Text(
-                            'request',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: PaylaterTheme.orange,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600
-                            ),
-                          )),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Color(0x2700B6A2), width: 3)
-                      ),
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                      child: const Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "https://shopee.co.id/33919926.22855986007?sp_atk=3a241a3c-889a-427f-a2fb-97f0b6e826ee&xptdk=3a241a3c-889a-427f-a2fb-97f0b6e826ee",
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Flexible(child: Text(
-                            'request',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: PaylaterTheme.orange,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600
-                            ),
-                          )),
-                        ],
+                      height: 320,
+                      child: Flexible(
+                        fit: FlexFit.tight,
+                        child: ListView.builder(
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  MaterialButton(
+                                    onPressed: () { Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) => RincianAkad(
+                                          link_id: datas[index]['id'],
+                                          user_id: datas[index]['user_id'],
+                                        ),
+                                      ),
+                                    );},
+                                    child: Expanded(
+                                      child: isLoading
+                                          ? const CircularProgressIndicator(
+                                        ///style
+                                        color: Colors.grey,
+                                      )
+                                          : Container(
+                                            constraints: const BoxConstraints(maxWidth: double.infinity),
+                                            height: 52,
+                                            width: 360,
+                                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                                            decoration: BoxDecoration(
+                                                color: PaylaterTheme.white,
+                                                border: Border.all(color: Color(0x2700B6A2), width: 2),
+                                                borderRadius: BorderRadius.circular(10)),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Flexible(child: Text(
+                                                      datas[index]['url'],
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                          color: PaylaterTheme.darkerText,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600
+                                                      ),
+                                                    ),),
+                                                    Flexible(child: Text(
+                                                      datas[index]['status'],
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                          color: PaylaterTheme.orange,
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w600
+                                                      ),
+                                                    )),
+                                                    PopupMenuButton(
+                                                        child: const Align(
+                                                          alignment: Alignment.centerRight,
+                                                          child: Padding(
+                                                            padding: EdgeInsets.all(16.0),
+                                                            child: Icon(
+                                                              CupertinoIcons.ellipsis_vertical,
+                                                              size: 16,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        itemBuilder: (context) => [
+                                                          PopupMenuItem(
+                                                            value: 1,
+                                                            child: TextButton(
+                                                                onPressed: () async {
+                                                                  await Clipboard.setData(
+                                                                      ClipboardData(
+                                                                          text:
+                                                                          datas[index]['url']));
+                                                                  AlertDialog alert = AlertDialog(
+                                                                    title: const Text('Berhasil Menyalin Link : '),
+                                                                    content: Text(
+                                                                        datas[index]['url']),
+                                                                    backgroundColor: Colors.white,
+                                                                    icon: const Icon(
+                                                                        CupertinoIcons
+                                                                            .checkmark_seal_fill,
+                                                                        size: 20),
+                                                                    iconColor: PaylaterTheme.maincolor,
+                                                                    actions: [
+                                                                      TextButton(
+                                                                        child: const Text('Ok'),
+                                                                        onPressed: () =>
+                                                                            Navigator.of(context).pop(),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                  showDialog(
+                                                                      context: context,
+                                                                      builder: (context) => alert);
+                                                                },
+                                                                child: const Text(
+                                                                  'salin',
+                                                                  style: TextStyle(color: Colors.black),
+                                                                )),
+                                                          ),
+                                                          PopupMenuItem(
+                                                            value: 2,
+                                                            child: TextButton(
+                                                                onPressed: () => Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          RincianAkad(
+                                                                            link_id: datas[index]['id'],
+                                                                            user_id: datas[index]['user_id'],
+                                                                          )),
+                                                                ),
+                                                                child: const Text(
+                                                                  'Akad',
+                                                                  style: TextStyle(color: Colors.black),
+                                                                )),
+                                                          ),
+                                                        ])
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],

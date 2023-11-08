@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 import 'package:paylater/admin/component/TambahArrivalDate.dart';
 import 'package:paylater/admin/component/TambahResi.dart';
 import 'package:paylater/theme.dart';
+import 'package:paylater/user/DetailPembayaran.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
@@ -436,94 +437,95 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             ),
           ),
 
-          const SizedBox(
-            height: 24,
-          ),
+          if (status.value != 'request')
+            const SizedBox(
+              height: 24,
+            ),
 
           ///Rincian Cicilan
-          // Container(
-          //   margin: const EdgeInsets.symmetric(horizontal: 16),
-          //   decoration: BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.circular(8),
-          //   ),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.stretch,
-          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //     children: [
-          //       ///Head
-          //       Container(
-          //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          //         decoration: const BoxDecoration(
-          //           border: Border(
-          //               bottom: BorderSide(
-          //                   style: BorderStyle.solid,
-          //                   color: Color(0xffE3E9EB))),
-          //         ),
-          //         child: const Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Text(
-          //               'Rincian Cicilan Pembayaran',
-          //               style: TextStyle(
-          //                   color: Colors.black,
-          //                   fontSize: 14,
-          //                   fontWeight: FontWeight.w600),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //
-          //       ///isi
-          //       Flexible(
-          //         fit: FlexFit.tight,
-          //           child: ListView.builder(
-          //               itemBuilder: (BuildContext context, int index) {
-          //                 return Padding(padding: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-          //                   child: Row(
-          //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //                     children: [
-          //                       const Text(
-          //                         'Cicilan',
-          //                         style: TextStyle(
-          //                             color: Colors.black,
-          //                             fontSize: 14,
-          //                             fontWeight: FontWeight.w400),
-          //                       ),
-          //                       Text(
-          //                         cicilans[index]['instalment_price'],
-          //                         style: const TextStyle(
-          //                             color: Colors.black,
-          //                             fontSize: 14,
-          //                             fontWeight: FontWeight.w400),
-          //                       ),
-          //                       TextButton(
-          //                           onPressed: () => Navigator.push(
-          //                             context,
-          //                             MaterialPageRoute(
-          //                                 builder: (context) =>
-          //                                 const DetailPembayaranCicilan()),
-          //                           ),
-          //                           child: Container(
-          //                             padding: const EdgeInsets.symmetric(
-          //                                 vertical: 3, horizontal: 8),
-          //                             decoration: BoxDecoration(
-          //                                 borderRadius: BorderRadius.circular(4),
-          //                                 color: PaylaterTheme.maincolor),
-          //                             child: const Text(
-          //                               'lihat',
-          //                               style: TextStyle(color: Colors.white),
-          //                             ),
-          //                           )),
-          //                     ],
-          //                   ),
-          //                 );
-          //               },
-          //           )
-          //       )
-          //     ],
-          //   ),
-          // ),
+          if (status.value != 'request')
+            Container(
+              height: 300,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              style: BorderStyle.solid,
+                              color: Color(0xffE3E9EB))),
+                    ),
+                    child: const Text(
+                      'Rincian Cicilan',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Flexible(
+                      fit: FlexFit.tight,
+                      child: ListView.builder(
+                        itemCount: cicilans.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 24,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Cicilan',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                  cicilans[index]['instalment_price'].toString(),
+                                  style: const TextStyle(
+                                      color: PaylaterTheme.orange,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                TextButton(
+                                    onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const DetailPembayaran()),
+                                    ),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 8
+                                      ),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(4),
+                                          color: PaylaterTheme.maincolor),
+                                      child: const Text(
+                                        'bayar',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                  ),
+                ],
+              ),
+            ),
 
           if (address.value != null && address.value!="address")
           ///alamat
@@ -658,6 +660,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
           const SizedBox(
             height: 24,
           ),
+
+          ///arrival date
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
@@ -702,7 +706,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                                 MaterialStatePropertyAll(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6),
                             )),
-                            backgroundColor: MaterialStatePropertyAll(
+                            backgroundColor: const MaterialStatePropertyAll(
                                 PaylaterTheme.maincolor),
                           ),
                           child: const Text(
@@ -713,7 +717,6 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                   ),
                 ),
 
-                ///arrival date
                 Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),
@@ -730,11 +733,11 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             ),
           ),
 
-          ///notes
           const SizedBox(
             height: 24,
           ),
 
+          ///notes
           if (note.value != null && note.value!="note")
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),

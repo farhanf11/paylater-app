@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
-import 'package:paylater/user/HistoryPage.dart';
+import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../theme.dart';
 
@@ -18,15 +18,20 @@ class RincianAkad extends StatefulWidget {
 }
 
 class _RincianAkadState extends State<RincianAkad> {
-  var id = 0.obs;
+  var id = 0;
+  ///get
   var image = "".obs;
   var title = "".obs;
   var price = 0.obs;
+  var order_id = 0.obs;
+  var link_id = 0.obs;
+
   String url = "";
   String token = "";
   String _address = '';
   String _tenor = '';
-  var address = "address";
+  var catatan = '';
+  var address = ''.obs;
   List order = [];
 
   void _handleAddress(String? value) {
@@ -45,6 +50,15 @@ class _RincianAkadState extends State<RincianAkad> {
   void initState() {
     super.initState();
     GetOrderData();
+    getToken();
+  }
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+      id = prefs.getInt('id')!;
+    });
   }
 
   ///get rincian produk
@@ -66,10 +80,12 @@ class _RincianAkadState extends State<RincianAkad> {
         if (responseData['success'] == false) {
           print('gagal');
         } else {
-          id.value = responseData['data']['id'];
           title.value = responseData['data']['order']['title'];
           price.value = responseData['data']['order']['price'];
           image.value = responseData['data']['order']['image'];
+          order_id.value = responseData['data']['order']['id'];
+          link_id.value = responseData['data']['order']['link_id'];
+          address.value = responseData['data']['user']['address'];
         }
       }else{
         print('gagal');
@@ -92,13 +108,12 @@ class _RincianAkadState extends State<RincianAkad> {
             'Authorization': token,
           },
           body: {
-            'url': url,
-            'image': image,
-            'title': title,
-            'price': price,
-            'tenor': _tenor,
-            'address': _address,
+            'address': address,
+            'tenor': tenor,
+
             'note': note,
+            'order_id': order_id.value.toString(),
+            'link_id': link_id.value.toString(),
           });
 
       if (response.statusCode == 200) {
@@ -109,13 +124,13 @@ class _RincianAkadState extends State<RincianAkad> {
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (BuildContext context) => HistoryPage()));
+                  builder: (BuildContext context) => NavbarBot()));
           AlertDialog alert = AlertDialog(
-            title: Text("Berhasil"),
+            title: const Text("Berhasil"),
             content: Text(responseData['message']),
             actions: [
               TextButton(
-                child: Text('Ok'),
+                child: const Text('Ok'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -130,7 +145,7 @@ class _RincianAkadState extends State<RincianAkad> {
           title: Text(responseData['message']),
           actions: [
             TextButton(
-              child: Text('Ok'),
+              child: const Text('Ok'),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
@@ -144,19 +159,13 @@ class _RincianAkadState extends State<RincianAkad> {
 
   String? alamat;
   String? dropdownValue = "Customer";
-  TextEditingController inputCatatan = TextEditingController();
 
-  @override
-  void dispose() {
-    inputCatatan.dispose();
-    super.dispose();
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(),
-        title: Text('Akad'),
+        leading: const BackButton(),
+        title: const Text('Akad'),
         backgroundColor: PaylaterTheme.maincolor,
       ),
       body: Padding(
@@ -183,10 +192,10 @@ class _RincianAkadState extends State<RincianAkad> {
                   ),
                   Obx(() => Text(
                     title.value.toString(),
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),),
                   Obx(() => Text(
-                    'Rp' + price.value.toString(),
+                    'Rp ${price.value}',
                     style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -201,7 +210,7 @@ class _RincianAkadState extends State<RincianAkad> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Gender',
+                  'Tenor',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -213,7 +222,7 @@ class _RincianAkadState extends State<RincianAkad> {
                     groupValue: _tenor,
                     onChanged: _handleTenor,
                   ),
-                  title: const Text('3 bulan'),
+                  title: const Text('3'),
                 ),
                 ListTile(
                   leading: Radio<String>(
@@ -221,7 +230,7 @@ class _RincianAkadState extends State<RincianAkad> {
                     groupValue: _tenor,
                     onChanged: _handleTenor,
                   ),
-                  title: const Text('6 bulan'),
+                  title: const Text('6'),
                 ),
                 ListTile(
                   leading: Radio<String>(
@@ -229,7 +238,7 @@ class _RincianAkadState extends State<RincianAkad> {
                     groupValue: _tenor,
                     onChanged: _handleTenor,
                   ),
-                  title: const Text('12 bulan'),
+                  title: const Text('12'),
                 ),
               ],
             ),
@@ -242,7 +251,7 @@ class _RincianAkadState extends State<RincianAkad> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Gender',
+                  'Alamat',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -250,19 +259,19 @@ class _RincianAkadState extends State<RincianAkad> {
                 ),
                 ListTile(
                   leading: Radio<String>(
-                    value: 'Koperasi Rumpun Matematika UNJ, Gedung Dewi Sartika Lt.5, UNJ Kampus A, Rawamangun, Jakarta Timur',
+                    value: 'unj',
                     groupValue: _address,
                     onChanged: _handleAddress,
                   ),
-                  title: const Text('Di UNJ'),
+                  title: const Text('UNJ'),
                 ),
                 ListTile(
                   leading: Radio<String>(
-                    value: '6',
+                    value: 'mandiri',
                     groupValue: _address,
                     onChanged: _handleAddress,
                   ),
-                  title: Text(address),
+                  title: Text(address.toString() + '(alamat sendiri)'),
                 ),
               ],
             ),
@@ -270,7 +279,7 @@ class _RincianAkadState extends State<RincianAkad> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Alamat Pengiriman Baru', style: TextStyle(
+                const Text('Catatan', style: TextStyle(
                     fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
                 ),),
                 const SizedBox(height: 5,),
@@ -279,26 +288,54 @@ class _RincianAkadState extends State<RincianAkad> {
                   decoration: const InputDecoration(
                     focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff025464))),
                     border: OutlineInputBorder(),
-                    hintText: 'Masukan Alamat Baru',
+                    hintText: 'Catatan untuk pesanan anda',
                   ),
                 ),
               ],
             ),
 
-            SizedBox(height: 60,),
+            const SizedBox(height: 60,),
             ///submit
-            ElevatedButton(
-              style: const ButtonStyle(
-                padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
-                backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
-              ),
-              child: const Text('Submit', style: TextStyle(color: Colors.white),),
-              onPressed: () => {
-                AddOrder(
-                    addressController.text.toString(),
-                    tenorController.text.toString(),
-                    catatanController.text.toString()
-                )},
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton(
+                  style: const ButtonStyle(
+                    padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                    backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
+                  ),
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () => {
+                    print('trigger'),
+                    AddOrder(
+                        _tenor.toString(),
+                        _address.toString(),
+                        catatanController.text.toString()
+                    )
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: PaylaterTheme.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: const Text("Batal")),
+                ),
+              ],
             ),
           ],
         ),

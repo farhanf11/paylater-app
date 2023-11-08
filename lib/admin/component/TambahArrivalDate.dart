@@ -136,7 +136,7 @@ class _TambahArrivalDateState extends State<TambahArrivalDate> {
                               firstDate: DateTime(1990),
                               lastDate: DateTime(2050));
                           if (date != null) {
-                            inputDate.text = DateFormat('dd/mm/yyyy').format(date);
+                            inputDate.text = DateFormat('yyyy/mm/dd').format(date);
                           }
                         },
                       ),
