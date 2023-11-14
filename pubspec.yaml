@@ -46,9 +46,7 @@ dependencies:
   firebase_auth:
   loading_animation_widget:
   accordion: ^2.5.1
-  image_picker: ^1.0.0
   permission_handler: ^10.4.2
-  image_cropper: ^5.0.0
   webview_flutter_plus: ^0.3.0+2
   csc_picker: ^0.2.7
   shared_preferences: ^2.2.0
@@ -59,6 +57,7 @@ dependencies:
   get: ^4.6.6
   number_paginator: ^0.3.2
   custom_pop_up_menu: ^1.2.4
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:

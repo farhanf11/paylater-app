@@ -1,42 +1,119 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:paylater/admin/component/popup.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart';
+import 'package:paylater/admin/component/AdminNavbarBot.dart';
 
 import '../../theme.dart';
 import '../../user/TransferBank.dart';
 
 class DetailPembayaranCicilan extends StatefulWidget {
-  const DetailPembayaranCicilan({Key? key}) : super(key: key);
+  DetailPembayaranCicilan({Key? key,
+    required this.order_id,
+    required this.instalment_id}) : super(key: key);
+
+  final int order_id;
+  final int instalment_id;
 
   @override
   State<DetailPembayaranCicilan> createState() => _DetailPembayaranCicilanState();
 }
 
 class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
+  var tenor = 0.obs;
+  var user_id = 0.obs;
+  var order_id = 0.obs;
+  var instalment_unique_id = "".obs;
+  var instalment_number = "3".obs;
+  var instalment_price = 0.obs;
+  var status = "".obs;
+  var due_date = "".obs;
+  String token = "";
+
+  void VerifyInstalment(var id, var order_id, String is_approve) async {
+    try {
+      var response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/approval-instalment'),
+          headers: {
+            'Authorization': token,
+          },
+          body: {
+            'order_id': order_id,
+            'instalment_id': id,
+            'is_approve': is_approve,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          Navigator.push(
+              context as BuildContext,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => AdminNavbarBot()));
+          AlertDialog alert = AlertDialog(
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context as BuildContext).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context as BuildContext, builder: (context) => alert);
+        }
+
+      }
+      else {
+        var responseData = json.decode(response.body);
+        AlertDialog alert = AlertDialog(
+          title: Text(responseData['message']),
+          content: const Text('Tidak sesuai'),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context as BuildContext).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context as BuildContext, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      animationDuration: Duration(seconds: 2),
+      animationDuration: const Duration(seconds: 2),
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff025464),
+          backgroundColor: const Color(0xff025464),
           leading: const BackButton(
             color: Colors.white,
           ),
           title: const Text(
             "Detail Pembayaran",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500
+            ),
           ),
           centerTitle: true,
         ),
         body: Container(
           width: double.maxFinite,
-          color: Color(0xffE3E9EB),
-          child: ListView(physics: ClampingScrollPhysics(), children: [
+          color: const Color(0xffE3E9EB),
+          child: ListView(physics: const ClampingScrollPhysics(), children: [
             Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
@@ -57,7 +134,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                   height: 24,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
@@ -100,7 +177,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                       ///Tenor
                       Container(
                         padding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         decoration: const BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
@@ -131,7 +208,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                       ///Tagihan Tersisa
                       Container(
                         padding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -161,7 +238,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                   height: 24,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
@@ -204,7 +281,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                   ),
                 ),
 
-                SizedBox(height: 14,),
+                const SizedBox(height: 14,),
 
                 ///button
                 Padding(
@@ -216,17 +293,17 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: PaylaterTheme.maincolor,
+                          backgroundColor: PaylaterTheme.maincolor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
                         onPressed: () {},
                         child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 10),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Text("Konfirmasi")),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       ElevatedButton(

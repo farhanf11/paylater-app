@@ -152,7 +152,7 @@ class _RincianBayarCicilanState extends State<RincianBayarCicilan> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                    const DetailPembayaranCicilan()),
+                                    const BackButton()),
                               ),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(

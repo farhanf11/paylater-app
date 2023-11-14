@@ -81,13 +81,11 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
         }else{
           Navigator.of(context).pop();
           AlertDialog alert = AlertDialog(
-            title: Text("Berhasil"),
-            content: Container(
-              child: Text(responseData['message']),
-            ),
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
             actions: [
               TextButton(
-                child: Text('Ok'),
+                child: const Text('Ok'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -103,7 +101,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
           title: Text(responseData['message']),
           actions: [
             TextButton(
-              child: Text('Ok'),
+              child: const Text('Ok'),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
@@ -174,7 +172,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          primary: PaylaterTheme.maincolor),
+                          backgroundColor: PaylaterTheme.maincolor),
                       onPressed: () {
                         showDialog(
                             context: context,

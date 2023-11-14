@@ -141,10 +141,10 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                         );},
                         child: Expanded(
                           child: Container(
-                            constraints: BoxConstraints(maxWidth: double.infinity),
+                            constraints: const BoxConstraints(maxWidth: double.infinity),
                             height: 160,
                             width: 360,
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                             decoration: BoxDecoration(
                                 color: PaylaterTheme.white,
                                 borderRadius: BorderRadius.circular(10)),
@@ -157,7 +157,7 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                                           datas[index]['user']['image_face']
                                       ),
                                     ),
-                                    SizedBox(width: 10,),
+                                    const SizedBox(width: 10,),
                                     Text(
                                         datas[index]['user']['user_name'],
                                         style: const TextStyle(

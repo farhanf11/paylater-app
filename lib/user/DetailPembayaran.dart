@@ -1,24 +1,110 @@
+import 'dart:convert';
+
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
-import '../admin/component/popup.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../theme.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-class DetailPembayaran extends StatelessWidget {
+
+class DetailPembayaran extends StatefulWidget {
   const DetailPembayaran({Key? key}) : super(key: key);
-  final _headerStyle = const TextStyle(color: Color(0xffffffff), fontSize: 15, fontWeight: FontWeight.bold);
-  final _headerSubStyle = const TextStyle(color: Color(0xff025464), fontSize: 14, fontWeight: FontWeight.bold);
 
-  final _contentStyle = const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.normal);
+  @override
+  State<DetailPembayaran> createState() => _DetailPembayaranState();
+}
+
+class _DetailPembayaranState extends State<DetailPembayaran> {
+  ImagePicker picker = ImagePicker();
+  File? image;
+
+  Future pickImage() async {
+    try{
+      final image = await picker.pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() => this.image = imageTemporary as File?);
+    }
+    on PlatformException catch (e){
+      print('gagal mengambil gambar dari galeri $e');
+    }
+  }
+
+  final _headerStyle = const TextStyle(
+      color: Color(0xffffffff), fontSize: 15, fontWeight: FontWeight.bold);
+  final _headerSubStyle = const TextStyle(
+      color: Color(0xff025464), fontSize: 14, fontWeight: FontWeight.bold);
+
+  final _contentStyle = const TextStyle(
+      color: Colors.black, fontSize: 14, fontWeight: FontWeight.normal);
   final _bca = '''500012345 An. Ilkompay''';
-  final quote = "This is a very awesome quote";
+  String token = "";
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+    });
+  }
+
+  void AddBuktiBayar(String amount) async {
+    try {
+      var response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/cash-store'),
+          headers: {
+            'Authorization': token,
+          },
+          body: {
+            'amount': amount,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if (responseData['success'] == false) {
+          print('gagal');
+        } else {
+          Navigator.of(context).pop();
+          AlertDialog alert = AlertDialog(
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context, builder: (context) => alert);
+        }
+      } else {
+        var responseData = json.decode(response.body);
+        AlertDialog alert = AlertDialog(
+          title: Text(responseData['message']),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffE3E9EB),
       appBar: AppBar(
-        backgroundColor: Color(0xff025464),
+        backgroundColor: const Color(0xff025464),
         title: const Text('Detail Pembayaran Cicilan'),
         leading: const BackButton(),
       ),
@@ -26,60 +112,67 @@ class DetailPembayaran extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Column(
           children: [
-            SizedBox(height: 12,),
+            const SizedBox(
+              height: 12,
+            ),
             Accordion(
               maxOpenSections: 2,
               headerBackgroundColorOpened: Colors.black54,
               scaleWhenAnimating: true,
               openAndCloseAnimation: true,
               headerPadding:
-              const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+                  const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
               sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
               sectionClosingHapticFeedback: SectionHapticFeedback.light,
               children: [
                 AccordionSection(
                   headerPadding:
-                  EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   isOpen: true,
                   header: Text('Transfer Bank', style: _headerStyle),
                   contentBorderColor: const Color(0xff568D98),
-                  headerBackgroundColor: Color(0xff568D98),
-                  headerBackgroundColorOpened: Color(0xff2E8A99),
+                  headerBackgroundColor: const Color(0xff568D98),
+                  headerBackgroundColorOpened: const Color(0xff2E8A99),
                   content: Accordion(
                     maxOpenSections: 1,
                     headerBackgroundColorOpened: Colors.black54,
                     headerPadding:
-                    const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+                        const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
                     children: [
                       ///BCA
                       AccordionSection(
                         isOpen: true,
-                        headerBackgroundColor: Color(0xffCCDDE0),
-                        headerBackgroundColorOpened: Color(0xffCCDDE0),
-                        contentBorderColor: Color(0xff2E8A99),
-                        rightIcon: Icon(Icons.keyboard_arrow_down, color: Color(0xff2E8A99)),
+                        headerBackgroundColor: const Color(0xffCCDDE0),
+                        headerBackgroundColorOpened: const Color(0xffCCDDE0),
+                        contentBorderColor: const Color(0xff2E8A99),
+                        rightIcon: const Icon(Icons.keyboard_arrow_down,
+                            color: Color(0xff2E8A99)),
                         header: Text('BCA', style: _headerSubStyle),
                         content: Text(_bca, style: _contentStyle),
                         contentHorizontalPadding: 20,
                       ),
+
                       ///BRI
                       AccordionSection(
                         isOpen: true,
-                        headerBackgroundColor: Color(0xffCCDDE0),
-                        headerBackgroundColorOpened: Color(0xffCCDDE0),
-                        contentBorderColor: Color(0xff2E8A99),
-                        rightIcon: Icon(Icons.keyboard_arrow_down, color: Color(0xff2E8A99)),
+                        headerBackgroundColor: const Color(0xffCCDDE0),
+                        headerBackgroundColorOpened: const Color(0xffCCDDE0),
+                        contentBorderColor: const Color(0xff2E8A99),
+                        rightIcon: const Icon(Icons.keyboard_arrow_down,
+                            color: Color(0xff2E8A99)),
                         header: Text('BRI', style: _headerSubStyle),
                         content: Text(_bca, style: _contentStyle),
                         contentHorizontalPadding: 20,
                       ),
+
                       ///BTN
                       AccordionSection(
                         isOpen: true,
-                        headerBackgroundColor: Color(0xffCCDDE0),
-                        headerBackgroundColorOpened: Color(0xffCCDDE0),
-                        contentBorderColor: Color(0xff2E8A99),
-                        rightIcon: const Icon(Icons.keyboard_arrow_down, color: Color(0xff2E8A99)),
+                        headerBackgroundColor: const Color(0xffCCDDE0),
+                        headerBackgroundColorOpened: const Color(0xffCCDDE0),
+                        contentBorderColor: const Color(0xff2E8A99),
+                        rightIcon: const Icon(Icons.keyboard_arrow_down,
+                            color: Color(0xff2E8A99)),
                         header: Text('BTN', style: _headerSubStyle),
                         content: Text(_bca, style: _contentStyle),
                         contentHorizontalPadding: 20,
@@ -89,6 +182,7 @@ class DetailPembayaran extends StatelessWidget {
                 ),
               ],
             ),
+
             ///detail
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -102,8 +196,8 @@ class DetailPembayaran extends StatelessWidget {
                 children: [
                   //ID Pesanan
                   Container(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     decoration: const BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
@@ -131,58 +225,27 @@ class DetailPembayaran extends StatelessWidget {
                     ),
                   ),
 
-                  //Tenor
+                  ///Tagihan Cicilan
                   Container(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     decoration: const BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
                               style: BorderStyle.solid,
                               color: Color(0xffEBEBEB))),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Tenor Pembayaran',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        const Text(
-                          '3 Bulan',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  //Total Tagihan
-                  Container(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              style: BorderStyle.solid,
-                              color: Color(0xffEBEBEB))),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
+                        Text(
                           'Total Tagihan',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.w600),
                         ),
-                        const Text(
+                        Text(
                           '1.500.000',
                           style: TextStyle(
                               color: Colors.black,
@@ -214,8 +277,8 @@ class DetailPembayaran extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     decoration: const BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
@@ -232,47 +295,41 @@ class DetailPembayaran extends StatelessWidget {
                               fontSize: 14,
                               fontWeight: FontWeight.w600),
                         ),
-                        ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                primary: PaylaterTheme.maincolor),
-                            onPressed: () {
-                              Popup.textInputDialog(context,
-                                  title: "Masukan Kode Resi",
-                                  dialogCallback: (value) async {
-                                    if (value == 'Confirm') {}
-                                    if (value == 'Cancel') {}
-                                  });
-                            },
-                            label: const Text("Upload Bukti Bayar",
-                                style: TextStyle(
-                                    color: PaylaterTheme.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600)
+                        ElevatedButton(
+                          style: const ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Color(0xff025464))),
+                          onPressed: () => pickImage(),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                          icon: const Icon(
-                            size: 16,
-                            Icons.add_box,
-                            color: Color.fromARGB(255, 190, 190, 190),
+                            child: const Text('Upload'),
                           ),
-                        )
+
+                        ),
                       ],
                     ),
                   ),
 
                   //Tenor
                   Container(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     decoration: const BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
                               style: BorderStyle.solid,
                               color: Color(0xffEBEBEB))),
                     ),
-                    child: const Text(
+                    child: image != null ? Image.file(
+                      image! as File,
+                      height: 200,
+                      width: 120,
+                      fit: BoxFit.cover,
+                    ) : const Text(
                       'Belum Ada Bukti',
                       style: TextStyle(
                           color: Colors.grey,

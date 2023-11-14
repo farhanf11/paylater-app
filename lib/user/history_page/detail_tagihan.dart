@@ -376,7 +376,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                     ///Rincian Cicilan
                     if (status.value != 'request')
                       Container(
-                        height: 300,
+                        height: 200,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),

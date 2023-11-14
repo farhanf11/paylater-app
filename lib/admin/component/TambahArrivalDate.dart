@@ -127,7 +127,7 @@ class _TambahArrivalDateState extends State<TambahArrivalDate> {
                         controller: inputDate,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: 'Tanggal Lahir',
+                          hintText: 'Tanggal Barang Sampai',
                         ),
                         onTap: () async {
                           var date = await showDatePicker(
