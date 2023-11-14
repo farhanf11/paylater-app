@@ -3,12 +3,12 @@ import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../theme.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
+import 'dart:io';
+import 'package:dio/dio.dart';
 
 class DetailPembayaran extends StatefulWidget {
   const DetailPembayaran({Key? key}) : super(key: key);
@@ -22,15 +22,13 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
   File? image;
   Dio dio = Dio();
 
-
   Future pickImage() async {
-    try{
+    try {
       final image = await picker.pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemporary = File(image.path);
       setState(() => this.image = imageTemporary as File?);
-    }
-    on PlatformException catch (e){
+    } on PlatformException catch (e) {
       print('gagal mengambil gambar dari galeri $e');
     }
   }
@@ -52,59 +50,78 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
     });
   }
 
-  uploadImage() async {
+  uploadImage(File? image) async {
     var formData = FormData();
-    formData.files.add(MapEntry("Picture", await MultipartFile.fromFile(data.foto.path, filename: "pic-name.png"), ));
-    var response = await dio.client.post('v1/post', data: formdata);
+    formData.fields.add(MapEntry("order_id", "5"));
+    formData.fields.add(MapEntry("instalment_id", "1"));
+    formData.files.add(MapEntry(
+      "payment_img",
+      await MultipartFile.fromFile(image!.path, filename: "pic-name.png"),
+    ));
+    print("token $token");
+    var response = await dio.post(
+        'https://paylater.harysusilo.my.id/api/instalment-store/4',
+        data: formData,
+        options: Options(
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3BheWxhdGVyLmhhcnlzdXNpbG8ubXkuaWQvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2OTk5NTE1NzQsImV4cCI6MTcwMTE2MTE3NCwibmJmIjoxNjk5OTUxNTc0LCJqdGkiOiJ3ZFZNWVhTYm9CaDVOSDhnIiwic3ViIjoiNCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.9MGnfxzC6C87HVW7HcAxvrlc2sIQftXjlc3mip_UKoQ'
+            },
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            }));
+    print("response ${response.data}");
   }
 
-  void AddBuktiBayar(File payment_img) async {
-    try {
-      var response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/cash-store'),
-          headers: {
-            'Authorization': token,
-          },
-          body: {
-            'payment_img': payment_img,
-          });
-
-      if (response.statusCode == 200) {
-        var responseData = json.decode(response.body);
-        if (responseData['success'] == false) {
-          print('gagal');
-        } else {
-          Navigator.of(context).pop();
-          AlertDialog alert = AlertDialog(
-            title: const Text("Berhasil"),
-            content: Text(responseData['message']),
-            actions: [
-              TextButton(
-                child: const Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          );
-
-          showDialog(context: context, builder: (context) => alert);
-        }
-      } else {
-        var responseData = json.decode(response.body);
-        AlertDialog alert = AlertDialog(
-          title: Text(responseData['message']),
-          actions: [
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (context) => alert);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  // void AddBuktiBayar(File payment_img) async {
+  //   try {
+  //     var response = await post(
+  //         Uri.parse(
+  //             'https://paylater.harysusilo.my.id/api/instalment-store/id'),
+  //         headers: {
+  //           'Authorization': token,
+  //         },
+  //         body: {
+  //           'payment_img': payment_img,
+  //         });
+  //
+  //     if (response.statusCode == 200) {
+  //       var responseData = json.decode(response.body);
+  //       if (responseData['success'] == false) {
+  //         print('gagal');
+  //       } else {
+  //         Navigator.of(context).pop();
+  //         AlertDialog alert = AlertDialog(
+  //           title: const Text("Berhasil"),
+  //           content: Text(responseData['message']),
+  //           actions: [
+  //             TextButton(
+  //               child: const Text('Ok'),
+  //               onPressed: () => Navigator.of(context).pop(),
+  //             ),
+  //           ],
+  //         );
+  //
+  //         showDialog(context: context, builder: (context) => alert);
+  //       }
+  //     } else {
+  //       var responseData = json.decode(response.body);
+  //       AlertDialog alert = AlertDialog(
+  //         title: Text(responseData['message']),
+  //         actions: [
+  //           TextButton(
+  //             child: const Text('Ok'),
+  //             onPressed: () => Navigator.of(context).pop(),
+  //           ),
+  //         ],
+  //       );
+  //       showDialog(context: context, builder: (context) => alert);
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -315,7 +332,6 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                             ),
                             child: const Text('Upload'),
                           ),
-
                         ),
                       ],
                     ),
@@ -331,32 +347,38 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                               style: BorderStyle.solid,
                               color: Color(0xffEBEBEB))),
                     ),
-                    child: image != null ? Image.file(
-                      image!,
-                      height: 200,
-                      width: 120,
-                      fit: BoxFit.cover,
-                    ) : const Text(
-                      'Belum Ada Bukti',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
-                    ),
+                    child: image != null
+                        ? Image.file(
+                            image!,
+                            height: 200,
+                            width: 120,
+                            fit: BoxFit.cover,
+                          )
+                        : const Text(
+                            'Belum Ada Bukti',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400),
+                          ),
                   ),
                 ],
               ),
             ),
+
             ///submit
             ElevatedButton(
               style: const ButtonStyle(
                 padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
                 backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
               ),
-              child: const Text('Submit', style: TextStyle(color: Colors.white),),
-              onPressed: () => {AddBuktiBayar(
-
-              )},
+              child: const Text(
+                'Submit',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => {
+                uploadImage(image)
+              },
             ),
           ],
         ),
