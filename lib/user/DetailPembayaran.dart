@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +20,7 @@ class DetailPembayaran extends StatefulWidget {
 class _DetailPembayaranState extends State<DetailPembayaran> {
   ImagePicker picker = ImagePicker();
   File? image;
+
 
   Future pickImage() async {
     try{
@@ -51,15 +51,28 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
     });
   }
 
-  void AddBuktiBayar(String amount) async {
+  uploadImage() async {
+    var request = new http.MultipartRequest("POST", url);
+    request.fields['user'] = 'someone@somewhere.com';
+    request.files.add(http.MultipartFile.fromPath(
+      'package',
+      'build/package.tar.gz',
+      contentType: new MediaType('application', 'x-tar'),
+    ));
+    request.send().then((response) {
+      if (response.statusCode == 200) print("Uploaded!");
+    });
+  }
+
+  void AddBuktiBayar(File payment_img) async {
     try {
       var response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/cash-store'),
+          Uri.parse('https://paylater.harysusilo.my.id/api/instalment-store/id'),
           headers: {
             'Authorization': token,
           },
           body: {
-            'amount': amount,
+            'payment_img': payment_img,
           });
 
       if (response.statusCode == 200) {
@@ -314,7 +327,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                     ),
                   ),
 
-                  //Tenor
+                  ///image
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
@@ -325,7 +338,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                               color: Color(0xffEBEBEB))),
                     ),
                     child: image != null ? Image.file(
-                      image! as File,
+                      image!,
                       height: 200,
                       width: 120,
                       fit: BoxFit.cover,
@@ -339,6 +352,17 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                   ),
                 ],
               ),
+            ),
+            ///submit
+            ElevatedButton(
+              style: const ButtonStyle(
+                padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
+              ),
+              child: const Text('Submit', style: TextStyle(color: Colors.white),),
+              onPressed: () => {AddBuktiBayar(
+
+              )},
             ),
           ],
         ),

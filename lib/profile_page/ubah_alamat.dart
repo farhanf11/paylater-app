@@ -50,13 +50,11 @@ class _UbahAlamatState extends State<UbahAlamat> {
               new MaterialPageRoute(
                   builder: (BuildContext context) => NavbarBot()));
           AlertDialog alert = AlertDialog(
-            title: Text("Berhasil"),
-            content: Container(
-              child: Text(responseData['message']),
-            ),
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
             actions: [
               TextButton(
-                child: Text('Ok'),
+                child: const Text('Ok'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -130,13 +128,13 @@ class _UbahAlamatState extends State<UbahAlamat> {
               ],
             ),
 
-            //submit
+            ///submit
             ElevatedButton(
               style: const ButtonStyle(
                 padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
                 backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
               ),
-              child: Text('Submit', style: TextStyle(color: Colors.white),),
+              child: const Text('Submit', style: TextStyle(color: Colors.white),),
               onPressed: () => {EditAddress(inputAddress.text.toString())},
             ),
           ],
