@@ -20,6 +20,7 @@ class DetailPembayaran extends StatefulWidget {
 class _DetailPembayaranState extends State<DetailPembayaran> {
   ImagePicker picker = ImagePicker();
   File? image;
+  Dio dio = Dio();
 
 
   Future pickImage() async {
@@ -52,22 +53,15 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
   }
 
   uploadImage() async {
-    var request = new http.MultipartRequest("POST", url);
-    request.fields['user'] = 'someone@somewhere.com';
-    request.files.add(http.MultipartFile.fromPath(
-      'package',
-      'build/package.tar.gz',
-      contentType: new MediaType('application', 'x-tar'),
-    ));
-    request.send().then((response) {
-      if (response.statusCode == 200) print("Uploaded!");
-    });
+    var formData = FormData();
+    formData.files.add(MapEntry("Picture", await MultipartFile.fromFile(data.foto.path, filename: "pic-name.png"), ));
+    var response = await dio.client.post('v1/post', data: formdata);
   }
 
   void AddBuktiBayar(File payment_img) async {
     try {
       var response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/instalment-store/id'),
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/cash-store'),
           headers: {
             'Authorization': token,
           },
