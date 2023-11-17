@@ -199,7 +199,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                 ),
 
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),

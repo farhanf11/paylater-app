@@ -136,15 +136,26 @@ class _PermintaanLinkState extends State<PermintaanLink> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Flexible(child: Text(
-                                      datas[index]['url'],
+                                    Text(
+                                      '(${datas[index]['id']}) ',
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
-                                          color: PaylaterTheme.darkerText,
+                                          color: PaylaterTheme.orange,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600
                                       ),
-                                    ),),
+                                    ),
+                                    Flexible(
+                                        child: Text(
+                                          datas[index]['url'],
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              color: PaylaterTheme.darkerText,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600
+                                          ),
+                                        ),
+                                    ),
                                     PopupMenuButton(
                                         child: const Align(
                                           alignment: Alignment.centerRight,
@@ -192,20 +203,6 @@ class _PermintaanLinkState extends State<PermintaanLink> {
                                                   style: TextStyle(color: Colors.black),
                                                 )),
                                           ),
-                                          // PopupMenuItem(
-                                          //   value: 2,
-                                          //   child: TextButton(
-                                          //       onPressed: () => Navigator.push(
-                                          //         context,
-                                          //         MaterialPageRoute(
-                                          //             builder: (context) =>
-                                          //             const PostPengajuanProduk()),
-                                          //       ),
-                                          //       child: const Text(
-                                          //         'Akad',
-                                          //         style: TextStyle(color: Colors.black),
-                                          //       )),
-                                          // ),
                                         ])
                                   ],
                                 ),

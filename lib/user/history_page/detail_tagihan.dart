@@ -150,7 +150,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
               padding: const EdgeInsets.all(24),
               color: PaylaterTheme.spacer,
               child: ListView(
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   children: [
                     Container(
                       decoration: BoxDecoration(
@@ -434,8 +434,11 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                    const DetailPembayaran()),
-                                              ),
+                                                    DetailPembayaran(
+                                                      order_id: cicilans[index]['order_id'],
+                                                      instalment_id: cicilans[index]['id'],
+                                                    )),
+                                              ), 
                                               child: Container(
                                                 padding: const EdgeInsets.symmetric(
                                                     vertical: 3, horizontal: 8

@@ -168,178 +168,186 @@ class _RincianAkadState extends State<RincianAkad> {
         title: const Text('Akad'),
         backgroundColor: PaylaterTheme.maincolor,
       ),
-      body: Padding(
+      body: ListView(
+        physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 24),
-        child: Column(
-          children: [
-            //detail produk
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                color: Colors.white,
+        children: [
+          Column(
+            children: [
+              //detail produk
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: Colors.white,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 6),
+                child: Column(
+                  children: [
+                    Obx(() => Image(
+                        width: 100,
+                        image: NetworkImage(
+                          image.value,
+                        ))
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Obx(() => Text(
+                      title.value.toString(),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    ),),
+                    Obx(() => Text(
+                      'Rp ${price.value}',
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey),
+                    ),)
+                  ],
+                ),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 6),
-              child: Column(
+
+              ///tenor
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Obx(() => Image(
-                      width: 120,
-                      image: NetworkImage(
-                        image.value,
-                      ))
+                  const Text(
+                    'Tenor',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
                   ),
-                  const SizedBox(
-                    height: 16,
+                  ListTile(
+                    leading: Radio<String>(
+                      value: '3',
+                      groupValue: _tenor,
+                      onChanged: _handleTenor,
+                    ),
+                    title: const Text('3'),
                   ),
-                  Obx(() => Text(
-                    title.value.toString(),
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),),
-                  Obx(() => Text(
-                    'Rp ${price.value}',
-                    style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey),
-                  ),)
+                  ListTile(
+                    leading: Radio<String>(
+                      value: '6',
+                      groupValue: _tenor,
+                      onChanged: _handleTenor,
+                    ),
+                    title: const Text('6'),
+                  ),
+                  ListTile(
+                    leading: Radio<String>(
+                      value: '12',
+                      groupValue: _tenor,
+                      onChanged: _handleTenor,
+                    ),
+                    title: const Text('12'),
+                  ),
                 ],
               ),
-            ),
+              const SizedBox(
+                height: 10,
+              ),
 
-            ///tenor
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Tenor',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
-                ),
-                ListTile(
-                  leading: Radio<String>(
-                    value: '3',
-                    groupValue: _tenor,
-                    onChanged: _handleTenor,
-                  ),
-                  title: const Text('3'),
-                ),
-                ListTile(
-                  leading: Radio<String>(
-                    value: '6',
-                    groupValue: _tenor,
-                    onChanged: _handleTenor,
-                  ),
-                  title: const Text('6'),
-                ),
-                ListTile(
-                  leading: Radio<String>(
-                    value: '12',
-                    groupValue: _tenor,
-                    onChanged: _handleTenor,
-                  ),
-                  title: const Text('12'),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-
-            ///address
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Alamat',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
-                ),
-                ListTile(
-                  leading: Radio<String>(
-                    value: 'unj',
-                    groupValue: _address,
-                    onChanged: _handleAddress,
-                  ),
-                  title: const Text('UNJ'),
-                ),
-                ListTile(
-                  leading: Radio<String>(
-                    value: 'mandiri',
-                    groupValue: _address,
-                    onChanged: _handleAddress,
-                  ),
-                  title: Text(address.toString() + '(alamat sendiri)'),
-                ),
-              ],
-            ),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Catatan', style: TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey
-                ),),
-                const SizedBox(height: 5,),
-                TextField(
-                  controller: catatanController,
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff025464))),
-                    border: OutlineInputBorder(),
-                    hintText: 'Catatan untuk pesanan anda',
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 60,),
-            ///submit
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ElevatedButton(
-                  style: const ButtonStyle(
-                    padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
-                    backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
-                  ),
-                  child: const Text(
-                    'Submit',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () => {
-                    print('trigger'),
-                    AddOrder(
-                        _tenor.toString(),
-                        _address.toString(),
-                        catatanController.text.toString()
-                    )
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: PaylaterTheme.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
+              ///address
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Alamat',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: const Text("Batal")),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+                  ListTile(
+                    leading: Radio<String>(
+                      value: 'unj',
+                      groupValue: _address,
+                      onChanged: _handleAddress,
+                    ),
+                    title: const Text('UNJ'),
+                  ),
+                  ListTile(
+                    leading: Radio<String>(
+                      value: 'mandiri',
+                      groupValue: _address,
+                      onChanged: _handleAddress,
+                    ),
+                    title: Text(address.toString() + '(alamat sendiri)'),
+                  ),
+                ],
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Catatan',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black
+                    ),),
+                  const SizedBox(height: 5,),
+                  TextField(
+                    controller: catatanController,
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff025464))),
+                      border: OutlineInputBorder(),
+                      hintText: 'Catatan untuk pesanan anda',
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 40,),
+              ///submit
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ElevatedButton(
+                    style: const ButtonStyle(
+                      padding: MaterialStatePropertyAll(EdgeInsets.all(14)),
+                      backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
+                    ),
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    onPressed: () => {
+                      print('trigger'),
+                      AddOrder(
+                          _tenor.toString(),
+                          _address.toString(),
+                          catatanController.text.toString()
+                      )
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: PaylaterTheme.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: const Text("Batal")),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      )
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:paylater/user/DaftarPage.dart';
 import 'package:paylater/user/VerifyPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           title: Text(responseData['message']),
           actions: [
             TextButton(
-              child: Text('Ok'),
+              child: const Text('Ok'),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
@@ -49,12 +50,11 @@ class _LoginPageState extends State<LoginPage> {
 
         showDialog(context: context, builder: (context) => alert);
       }else {
-        var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          title: Text("Kolom email harus di isi dengan benar"),
+          title: const Text("Kolom email harus di isi dengan benar"),
           actions: [
             TextButton(
-              child: Text('Ok'),
+              child: const Text('Ok'),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.black),
         title: const Text('Login',
             style: TextStyle(
               color: Colors.black,
@@ -112,9 +112,28 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: Text('Selanjutnya'),
+                        child: const Text('Selanjutnya'),
                       ),
                     ),
+
+                    ///daftar
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Belum memiliki akun?'),
+                        TextButton(onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                            builder: (context) => const DaftarPage()),
+                            ),
+                            child: const Text('Daftar',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.blue,
+                            ),
+                            ))
+                      ],
+                    )
                   ],
                 ),
               ],

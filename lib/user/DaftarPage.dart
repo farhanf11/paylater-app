@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,62 +36,15 @@ class _DaftarPageState extends State<DaftarPage> {
 
   Future pickImage(String foto) async {
     try {
-      if (Platform.isIOS) {
-        return showCupertinoModalPopup<ImageSource>(
-            context: context,
-            builder: (context) => CupertinoActionSheet(
-                  actions: [
-                    CupertinoActionSheetAction(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                          final image = await ImagePicker()
-                              .pickImage(source: ImageSource.camera);
-                          if (image == null) return;
-                          final imageTemporary = File(image.path);
-                          if (foto == "wajah") {
-                            setState(() {
-                              wajah = imageTemporary;
-                            });
-                          }
-                          if (foto == "ktp") {
-                            setState(() {
-                              ktp = imageTemporary;
-                            });
-                          }
-                        },
-                        child: Text('Camera')),
-                    CupertinoActionSheetAction(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-
-                          Navigator.of(context).pop();
-                          final image = await ImagePicker()
-                              .pickImage(source: ImageSource.gallery);
-                          if (image == null) return;
-                          final imageTemporary = File(image.path);
-                          if (foto == "wajah") {
-                            setState(() {
-                              wajah = imageTemporary;
-                            });
-                          }
-                          if (foto == "ktp") {
-                            setState(() {
-                              ktp = imageTemporary;
-                            });
-                          }
-                        },
-                        child: Text('Gallery'))
-                  ],
-                ));
-      } else if (Platform.isAndroid) {
+      if (Platform.isAndroid) {
         return showModalBottomSheet(
             context: context,
             builder: (context) => Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ListTile(
-                        leading: Icon(Icons.camera_alt),
-                        title: Text('Camera'),
+                        leading: const Icon(Icons.camera_alt),
+                        title: const Text('Camera'),
                         onTap: () async {
                           Navigator.of(context).pop();
                           final image = await ImagePicker()
@@ -136,20 +90,47 @@ class _DaftarPageState extends State<DaftarPage> {
     }
   }
 
-  void signUp(String username, email, telp, pekerjaan, wajah, ktp) async {
+  void signUp(String username, String email, String telp, String pekerjaan, File? wajah, File? ktp) async {
     try {
       Response response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/auth/register'),
           body: {
-            'user_name': inputUsername.text,
-            'email_address': inputEmail.text,
-            'phone_number': inputTelp.text,
-            'job': inputJob.selection,
-            'image_face': wajah,
-            'image_ktp': ktp
+            'user_name': username,
+            'email_address': email,
+            'phone_number': telp,
+            'job': pekerjaan,
+            'image_face' : wajah,
+            'image_ktp' : ktp,
           });
       if (response.statusCode == 200) {
-        print('account created successfully');
+        var responseData = json.decode(response.body);
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => LoginPage()
+          ),
+        );
+        AlertDialog alert = AlertDialog(
+          title: Text(responseData['message']),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      } else {
+        AlertDialog alert = AlertDialog(
+          title: const Text("Kolom harus di isi dengan benar"),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
       }
     } catch (e) {
       print(e.toString());
@@ -181,7 +162,7 @@ class _DaftarPageState extends State<DaftarPage> {
               )),
         ),
         centerTitle: true,
-        leading: BackButton(),
+        leading: const BackButton(),
       ),
       body: Container(
         color: PaylaterTheme.spacer,
@@ -195,6 +176,7 @@ class _DaftarPageState extends State<DaftarPage> {
                 //Username
                 Column(
                   children: [
+                    ///name
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -282,7 +264,6 @@ class _DaftarPageState extends State<DaftarPage> {
                         ),
                       ],
                     ),
-
                     const SizedBox(
                       height: 20,
                     ),
@@ -362,7 +343,6 @@ class _DaftarPageState extends State<DaftarPage> {
                         ),
                       ],
                     ),
-
                     const SizedBox(
                       height: 20,
                     ),
@@ -460,10 +440,10 @@ class _DaftarPageState extends State<DaftarPage> {
                                       height: 30,
                                       fit: BoxFit.cover,
                                     )
-                                  : Text('no file'),
+                                  : const Text('no file'),
                               IconButton(
-                                padding: EdgeInsets.all(8),
-                                color: Color(0xffd8d8e0),
+                                padding: const EdgeInsets.all(8),
+                                color: const Color(0xffd8d8e0),
                                 onPressed: () => pickImage("wajah"),
                                 icon: const Icon(
                                   Icons.camera_alt_rounded,
@@ -490,7 +470,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Container(
@@ -512,12 +492,12 @@ class _DaftarPageState extends State<DaftarPage> {
                                       height: 30,
                                       fit: BoxFit.cover,
                                     )
-                                  : Text('no file'),
+                                  : const Text('no file'),
                               IconButton(
-                                padding: EdgeInsets.all(8),
-                                color: Color(0xffF7F7FC),
+                                padding: const EdgeInsets.all(8),
+                                color: const Color(0xffF7F7FC),
                                 onPressed: () => pickImage("ktp"),
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.camera_alt_rounded,
                                   color: Colors.black,
                                 ),
@@ -533,52 +513,53 @@ class _DaftarPageState extends State<DaftarPage> {
                   ],
                 ),
 
-                //button
-                SizedBox(
-                  height: 80,
+                ///button
+                const SizedBox(
+                  height: 60,
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PaylaterTheme.maincolor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
-                      onPressed: () {
-                        Popup.confirmDialog(context,
-                            message: "Konfirmasi data anda?",
-                            dialogCallback: (value) async {
-                          if (value == 'Confirm') {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => LoginPage()));
-                          }
-                          if (value == 'Cancel') {}
-                        });
-                      },
+                      style: const ButtonStyle(
+                          backgroundColor:
+                          MaterialStatePropertyAll(Color(0xff025464))),
+                      onPressed: () => {signUp(
+                        inputUsername.text.toString(),
+                        inputEmail.text.toString(),
+                        inputTelp.text.toString(),
+                        inputJob.text.toString(),
+                        wajah,
+                        ktp
+                      )},
                       child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text("Konfirmasi")),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PaylaterTheme.grey,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 60),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
                         ),
+                        child: const Text('Selanjutnya'),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text("Batal")),
                     ),
+
+                    ///login
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Sudah memiliki akun?'),
+                        TextButton(onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                        ),
+                            child: const Text('Login',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.blue,
+                              ),
+                            ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ],

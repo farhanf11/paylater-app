@@ -124,9 +124,9 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
               itemCount: datas.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MaterialButton(
@@ -144,7 +144,7 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                             constraints: const BoxConstraints(maxWidth: double.infinity),
                             height: 160,
                             width: 360,
-                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                             decoration: BoxDecoration(
                                 color: PaylaterTheme.white,
                                 borderRadius: BorderRadius.circular(10)),
@@ -157,13 +157,15 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                                           datas[index]['user']['image_face']
                                       ),
                                     ),
+
                                     const SizedBox(width: 10,),
                                     Text(
                                         datas[index]['user']['user_name'],
                                         style: const TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
+
                                         )
                                     ),
                                   ],
@@ -175,8 +177,8 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                                   children: [
                                     Image(
                                       image: NetworkImage(datas[index]['image']),
-                                      width: 60,
-                                      height: 60,
+                                      width: 66,
+                                      height: 80,
                                       fit: BoxFit.fill,
                                     ),
                                     const SizedBox(width: 20,),
@@ -191,15 +193,15 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                                             datas[index]['title'],
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
-                                              color: PaylaterTheme.darkerText,
-                                              fontSize: 16,
+                                                color: PaylaterTheme.darkerText,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600
                                             ),
                                           ),
 
-                                          /// Tenor cicilan
+                                          /// No order
                                           Text(
-                                            '${'Tenor Cicilan :' +
-                                                datas[index]['tenor']} bulan',
+                                            '${datas[index]['no_order']}',
                                             style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -209,7 +211,7 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
 
                                           ///price
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               const Text(
                                                 'Harga : Rp ',
@@ -226,29 +228,6 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
                                                   color: PaylaterTheme.orange,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-
-                                          ///notes
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const Text(
-                                                'Catatan : ',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: PaylaterTheme.darkerText,
-                                                ),
-                                              ),
-                                              Text(
-                                                datas[index]['note'],
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
                                                 ),
                                               ),
                                             ],

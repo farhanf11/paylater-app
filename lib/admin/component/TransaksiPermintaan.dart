@@ -192,7 +192,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
               itemCount: datas.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -226,11 +226,11 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                       ),
                                     ),
 
-                                    SizedBox(width: 10,),
+                                    const SizedBox(width: 10,),
                                     Text(
                                         datas[index]['user']['user_name'],
                                         style: const TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700
 
@@ -245,8 +245,8 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                   children: [
                                     Image(
                                       image: NetworkImage(datas[index]['image']),
-                                      width: 60,
-                                      height: 60,
+                                      width: 66,
+                                      height: 80,
                                       fit: BoxFit.fill,
                                     ),
                                     const SizedBox(width: 20,),
@@ -332,8 +332,8 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                 borderRadius: BorderRadius.all(Radius.circular(6))
                               ),
 
-                              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 4),
-                              child: const Text('Setujui Pesanan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
+                              padding: const EdgeInsets.symmetric(horizontal: 52, vertical: 6),
+                              child: const Text('Setujui', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
                             ),
                             onPressed: () {
                               VerifyOrder(
@@ -350,8 +350,8 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                   borderRadius: BorderRadius.all(Radius.circular(6))
                               ),
 
-                              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 4),
-                              child: const Text('Tolak Pesanan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
+                              padding: const EdgeInsets.symmetric(horizontal: 52, vertical: 6),
+                              child: const Text('Tolak', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
                             ),
                             onPressed: () {
                               VerifyOrder(

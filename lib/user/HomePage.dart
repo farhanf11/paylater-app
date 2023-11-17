@@ -273,10 +273,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 12,
                     ),
                     const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: EdgeInsets.symmetric(horizontal: 36.0),
                       child: Text(
                         'tempel link url barang yang ingin anda ajukan pada kolom diatas*',
                         style: TextStyle(
@@ -373,7 +373,7 @@ class _HomePageState extends State<HomePage> {
                                             padding: const EdgeInsets.symmetric(horizontal: 30),
                                             decoration: BoxDecoration(
                                                 color: PaylaterTheme.white,
-                                                border: Border.all(color: Color(0x2700B6A2), width: 2),
+                                                border: Border.all(color: const Color(0x4093B0AF), width: 2),
                                                 borderRadius: BorderRadius.circular(10)),
                                             child: Column(
                                               children: [

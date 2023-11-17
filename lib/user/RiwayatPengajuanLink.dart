@@ -27,7 +27,7 @@ class _RiwayatPengajuanLinkState extends State<RiwayatPengajuanLink> {
   var image_face = "image".obs;
   var _currentPage = 0.obs;
   var last_page = 1.obs;
-  // bool isLoading = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _RiwayatPengajuanLinkState extends State<RiwayatPengajuanLink> {
     var id = prefs.getInt('id')!;
     print(id);
     setState(() {
-      // isLoading = true;
+      isLoading = true;
     });
     try {
       var response = await get(
@@ -66,7 +66,7 @@ class _RiwayatPengajuanLinkState extends State<RiwayatPengajuanLink> {
       print(e.toString());
     }
     setState(() {
-      // isLoading = false;
+      isLoading = false;
     });
   }
 
@@ -78,7 +78,12 @@ class _RiwayatPengajuanLinkState extends State<RiwayatPengajuanLink> {
         leading: BackButton(),
         backgroundColor: PaylaterTheme.maincolor,
       ),
-      body: Container(
+      body: isLoading
+          ? const LinearProgressIndicator(
+        ///style
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+      )
+          : Container(
         color: PaylaterTheme.spacer,
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Column(
@@ -121,7 +126,7 @@ class _RiwayatPengajuanLinkState extends State<RiwayatPengajuanLink> {
                                   padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 30),
                                   decoration: BoxDecoration(
                                       color: PaylaterTheme.white,
-                                      border: Border.all(color: Color(0x2700B6A2), width: 3),
+                                      border: Border.all(color: const Color(0x4093B0AF), width: 3),
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Column(
                                     children: [
