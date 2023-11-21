@@ -1,62 +1,56 @@
 import 'dart:ui';
-import 'package:paylater/admin/component/AdminNavbarBot.dart';
-import 'package:paylater/admin/component/AkunAdminPengawas.dart';
-import 'package:paylater/admin/component/AkunCustomer.dart';
 import 'package:paylater/admin/component/AkunUnverify.dart';
+import 'package:paylater/admin/component/TransaksiPermintaan.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:paylater/user/AcceptedLink.dart';
+import 'package:paylater/user/RiwayatPengajuanLink.dart';
 
-class AdminAkun extends StatefulWidget {
-  const AdminAkun({super.key});
+class LinkCustomer extends StatefulWidget {
+  const LinkCustomer({super.key});
 
   @override
-  _AdminAkunState createState() => _AdminAkunState();
+  _LinkCustomerState createState() => _LinkCustomerState();
 }
 
-class _AdminAkunState extends State<AdminAkun> {
+class _LinkCustomerState extends State<LinkCustomer> {
   int pageIndex = 0;
 
   final pages = [
-    const AkunCustomer(),
-    const AkunUnverify(),
-    const AkunAdminPengawas(),
+    const RiwayatPengajuanLink(),
+    const AcceptedLink(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xff025464),
           title: const Text(
-            "Kelola Akun",
+            "Daftar Link",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
           bottom: const TabBar(
             tabs: [
               Tab(
-                text: 'Unverify',
+                text: 'Diajukan',
               ),
               Tab(
-                text: 'Customer',
+                text: 'Diterima',
               ),
-              Tab(
-                text: "Admin",
-              )
             ],
           ),
         ),
         backgroundColor: PaylaterTheme.white,
         body: const TabBarView(
           children: [
-            //Tagihan
-            AkunUnverify(),
+            //request Link
+            RiwayatPengajuanLink(),
 
-            //riwayat tagihan
-            AkunCustomer(),
-
-            AkunAdminPengawas(),
+            //link accepted
+            AcceptedLink(),
           ],
         ),
       ),

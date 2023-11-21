@@ -58,6 +58,7 @@ dependencies:
   number_paginator: ^0.3.2
   custom_pop_up_menu: ^1.2.4
   image_picker: ^1.0.4
+  loading_progress: ^1.0.2
 
 dev_dependencies:
   flutter_test:

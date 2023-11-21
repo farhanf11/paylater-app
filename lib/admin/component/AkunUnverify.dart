@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/detail_AkunCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,9 @@ class _AkunUnverifyState extends State<AkunUnverify> {
   String token = "";
   List datas = [];
   bool isLoading = false;
+  var _currentPage = 0.obs;
+  var last_page = 1.obs;
+  List links = [];
 
   @override
   void initState() {
@@ -33,7 +37,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
       token = prefs.getString('token')!;
     });
     try {
-      Response response = await get(
+      var response = await get(
           Uri.parse(
               'https://paylater.harysusilo.my.id/api/admin/get-user?status=pending&page=1'),
           headers: {
@@ -42,6 +46,9 @@ class _AkunUnverifyState extends State<AkunUnverify> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         datas = responseData['data']['data'];
+        _currentPage.value = responseData['data']['current_page'];
+        last_page.value = responseData['data']['last_page'];
+        links = responseData['data']['links'];
       } else {
         print('gagal');
       }
@@ -55,7 +62,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
 
   void VerifyAkun(var user_id, String is_verified) async {
     try {
-      Response response = await post(
+      var response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/admin/verify-user'),
           headers: {
             'Authorization': token,
@@ -113,12 +120,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
     return Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
-      child: isLoading
-          ? const CircularProgressIndicator(
-              ///style
-
-              )
-          : Column(
+      child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -162,98 +164,104 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                 ),
                 Flexible(
                   fit: FlexFit.tight,
-                  child: ListView.builder(
-                    itemCount: datas.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      ///card user
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            MaterialButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailAkun(
-                                        id: datas[index]['id'],
+                  child: Center(
+                    child: isLoading
+                        ? const CircularProgressIndicator(
+                      ///style
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+                    ):ListView.builder(
+                      itemCount: datas.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        ///card user
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              MaterialButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailAkun(
+                                          id: datas[index]['id'],
+                                        )
                                       )
-                                    )
-                                );
-                              },
-                              child: Expanded(
-                                child: Container(
-                                  width: 240,
-                                  decoration: BoxDecoration(
-                                      color: PaylaterTheme.white,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5.0, horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(datas[index]['user_name'],
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                )),
-                                            Text(datas[index]['email_address'],
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  color: PaylaterTheme
-                                                      .deactivatedText,
-                                                )),
-                                          ],
-                                        ),
-                                      ],
+                                  );
+                                },
+                                child: Expanded(
+                                  child: Container(
+                                    width: 240,
+                                    decoration: BoxDecoration(
+                                        color: PaylaterTheme.white,
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5.0, horizontal: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(datas[index]['user_name'],
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                  )),
+                                              Text(datas[index]['email_address'],
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: PaylaterTheme
+                                                        .deactivatedText,
+                                                  )),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
 
-                            ///button
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.check_box_rounded,
-                                    color: PaylaterTheme.nearlyDarkBlue,
-                                    size: 25,
+                              ///button
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.check_box_rounded,
+                                      color: PaylaterTheme.nearlyDarkBlue,
+                                      size: 25,
+                                    ),
+                                    onPressed: () {
+                                      VerifyAkun(
+                                          datas[index]['id'].toString(),
+                                          "verified"
+                                      );
+                                    },
                                   ),
-                                  onPressed: () {
-                                    VerifyAkun(
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.disabled_by_default,
+                                      color: PaylaterTheme.decline,
+                                      size: 25,
+                                    ),
+                                    onPressed: () {VerifyAkun(
                                         datas[index]['id'].toString(),
-                                        "verified"
+                                        "rejected"
                                     );
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.disabled_by_default,
-                                    color: PaylaterTheme.decline,
-                                    size: 25,
+                                    },
                                   ),
-                                  onPressed: () {VerifyAkun(
-                                      datas[index]['id'].toString(),
-                                      "rejected"
-                                  );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],

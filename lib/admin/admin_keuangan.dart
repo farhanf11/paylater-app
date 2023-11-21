@@ -21,9 +21,12 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
   var total_dana_keluar = 0.obs;
   var dana_cicilan_masuk = 0.obs;
   var keuntungan = 0.obs;
+  bool isLoading = false;
 
 
+  @override
   void initState() {
+    super.initState();
     getDataKeuangan();
     getToken();
   }
@@ -39,6 +42,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       token = prefs.getString('token')!;
+      isLoading = true;
     });
     try {
       var response = await get(
@@ -60,6 +64,9 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
     } catch (e) {
       print(e);
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   final TextEditingController inputDana = TextEditingController();
@@ -79,7 +86,10 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
         if(responseData['success'] == false ){
           print('gagal');
         }else{
-          Navigator.of(context).pop();
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => AdminNavbarBot()));
           AlertDialog alert = AlertDialog(
             title: const Text("Berhasil"),
             content: Text(responseData['message']),
@@ -123,272 +133,279 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
         automaticallyImplyLeading: false,
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
-        leading: BackButton(),
       ),
       backgroundColor: PaylaterTheme.spacer,
-      body: Column(
-        children: [
-          Container(
-            height: 120,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  colors: [
-                    PaylaterTheme.maincolor,
-                    Color.fromRGBO(12, 166, 195, 1),
-                  ]),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Obx(() => Text(dana_tersedia.value.toString(),
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: PaylaterTheme.white
-                        ),
-                      ),),
-                      const Text("Total Dana",
-                          style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: PaylaterTheme.white)),
-                    ],
-                  ),
+      body: Center(
+        child: isLoading
+            ? const CircularProgressIndicator(
+          ///style
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+        ):Container(
+          child: Column(
+            children: [
+              Container(
+                height: 120,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        PaylaterTheme.maincolor,
+                        Color.fromRGBO(12, 166, 195, 1),
+                      ]),
                 ),
-                SizedBox(
-                  width: 100,
-                  height: 20,
-                  child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          backgroundColor: PaylaterTheme.maincolor),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                scrollable: true,
-                                title: const Text('Input Jumlah Dana'),
-                                content: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Form(
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(height: 8,),
-                                          TextField(
-                                            controller: inputDana,
-                                            decoration: const InputDecoration(
-                                              labelText: 'Rp',
-                                              icon: Icon(Icons.monetization_on_outlined, color: Colors.yellow,),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                  ),
-                                ),
-                                actions: [
-                                  ElevatedButton(
-                                    style: const ButtonStyle(
-                                        backgroundColor:
-                                        MaterialStatePropertyAll(Color(0xff025464))),
-                                    onPressed: () => {AddDana(
-                                      inputDana.text.toString(),
-                                    )},
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 60),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Text('Selanjutnya'),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            });
-                      },
-                      icon: const Icon(
-                        Icons.point_of_sale,
-                        size: 14,
-                        color: Color.fromARGB(255, 215, 194, 0),
-                      ),
-                      label: const Text("Tambah Dana",
-                          style: TextStyle(
-                              color: PaylaterTheme.white,
-                              fontSize: 8,
-                              fontWeight: FontWeight.w600)
-                      ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          Expanded(
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: PaylaterTheme.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25.0),
-                  topRight: Radius.circular(25.0),
-                  bottomLeft: Radius.zero,
-                  bottomRight: Radius.zero,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: PaylaterTheme.grey,
-                    blurRadius: 3,
-                    offset: Offset(0, -3),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(25.0),
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Rincian Dana",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(12.0),
-                                child: Text(
-                                  'Total Dana Keluar',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(20, 0, 20, 12),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Text("Rp",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: PaylaterTheme.darkText)),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                    Obx(() => Text(total_dana_keluar.value.toString(),
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: PaylaterTheme.decline)),),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              )
-                            ],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(
-                              Icons.data_exploration,
-                              size: 30,
-                              color: Colors.red,
+                          Obx(() => Text(dana_tersedia.value.toString(),
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: PaylaterTheme.white
                             ),
-                          ),
+                          ),),
+                          const Text("Total Dana",
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  color: PaylaterTheme.white)),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 12,),
-                    Card(
-                      elevation: 5,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(12.0),
-                                child: Text(
-                                  'Total Dana Saat Ini',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                    SizedBox(
+                      width: 100,
+                      height: 20,
+                      child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Text("Rp",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: PaylaterTheme.darkText)),
-                                    const SizedBox(
-                                      width: 3,
+                              backgroundColor: PaylaterTheme.maincolor),
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    scrollable: true,
+                                    title: const Text('Input Jumlah Dana'),
+                                    content: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Form(
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(height: 8,),
+                                              TextField(
+                                                controller: inputDana,
+                                                decoration: const InputDecoration(
+                                                  labelText: 'Rp',
+                                                  icon: Icon(Icons.monetization_on_outlined, color: Colors.yellow,),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                      ),
                                     ),
-                                    Obx(() => Text(dana_cicilan_masuk.value.toString(),
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.green)),),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                                    actions: [
+                                      ElevatedButton(
+                                        style: const ButtonStyle(
+                                            backgroundColor:
+                                            MaterialStatePropertyAll(Color(0xff025464))),
+                                        onPressed: () => {AddDana(
+                                          inputDana.text.toString(),
+                                        )},
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 60),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          child: Text('Selanjutnya'),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          icon: const Icon(
+                            Icons.point_of_sale,
+                            size: 14,
+                            color: Color.fromARGB(255, 215, 194, 0),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(
-                              Icons.monetization_on,
-                              size: 30,
-                              color: Colors.green,
-                            ),
+                          label: const Text("Tambah Dana",
+                              style: TextStyle(
+                                  color: PaylaterTheme.white,
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w600)
                           ),
-                        ],
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
-            ),
-          )
-        ],
+              const SizedBox(
+                height: 40,
+              ),
+              Expanded(
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: PaylaterTheme.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25.0),
+                      topRight: Radius.circular(25.0),
+                      bottomLeft: Radius.zero,
+                      bottomRight: Radius.zero,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: PaylaterTheme.grey,
+                        blurRadius: 3,
+                        offset: Offset(0, -3),
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(25.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Rincian Dana",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Card(
+                          elevation: 5,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(12.0),
+                                    child: Text(
+                                      'Total Dana Keluar',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.fromLTRB(20, 0, 20, 12),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        const Text("Rp",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: PaylaterTheme.darkText)),
+                                        const SizedBox(
+                                          width: 3,
+                                        ),
+                                        Obx(() => Text(total_dana_keluar.value.toString(),
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: PaylaterTheme.decline)),),
+                                        const SizedBox(
+                                          width: 3,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 3,
+                                  )
+                                ],
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(
+                                  Icons.data_exploration,
+                                  size: 30,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 12,),
+                        Card(
+                          elevation: 5,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(12.0),
+                                    child: Text(
+                                      'Total Dana Saat Ini',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        const Text("Rp",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: PaylaterTheme.darkText)),
+                                        const SizedBox(
+                                          width: 3,
+                                        ),
+                                        Obx(() => Text(dana_cicilan_masuk.value.toString(),
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green)),),
+                                        const SizedBox(
+                                          width: 3,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(
+                                  Icons.monetization_on,
+                                  size: 30,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

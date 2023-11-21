@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:paylater/user/LinkCustomer.dart';
 import 'package:paylater/user/RiwayatPengajuanLink.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../navbar/SearchBar.dart';
@@ -18,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String token = "";
-  var url = "url".obs;
+  var url = "".obs;
   List datas = [];
   var status = "status".obs;
   bool isLoading = false;
@@ -299,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => RiwayatPengajuanLink(),
+                      builder: (BuildContext context) => LinkCustomer(),
                     ),
                   );
                 },

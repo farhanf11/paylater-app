@@ -416,6 +416,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0+4"
+  loading_progress:
+    dependency: "direct main"
+    description:
+      name: loading_progress
+      sha256: bfe1fac950864dfe088b6b4e2872db69f3a06cbcbba6cf5f749415c66f13ca2c
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   matcher:
     dependency: transitive
     description:

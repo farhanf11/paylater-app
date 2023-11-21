@@ -53,14 +53,14 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
     });
   }
 
-  uploadImage(File? image, String order_id, String id) async {
+  uploadImage(File? image) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       token = prefs.getString('token')!;
     });
     var formData = FormData();
-    formData.fields.add(MapEntry("order_id", order_id));
-    formData.fields.add(MapEntry("instalment_id", id));
+    formData.fields.add(MapEntry("order_id", "32"));
+    formData.fields.add(MapEntry("instalment_id", "16"));
     formData.files.add(MapEntry(
       "payment_img",
       await MultipartFile.fromFile(image!.path, filename: "pic-name.png"),
@@ -310,7 +310,6 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
               ),
               onPressed: () => {
                 uploadImage(image),
-                order_id,
               },
             ),
           ],

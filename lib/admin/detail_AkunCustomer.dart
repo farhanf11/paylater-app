@@ -19,25 +19,25 @@ class DetailAkun extends StatefulWidget {
 class _DetailAkunState extends State<DetailAkun> {
   _DetailAkunState();
   String token = "";
-  String id = "";
-  var user_name = 'user_name'.obs;
-  var mail_address = 'mail_address'.obs;
-  var phone_number = 'phone_number'.obs;
-  var job = 'job'.obs;
-  var image_face = 'image_face'.obs;
-  var image_ktp = 'image_ktp'.obs;
+  var id = 0.obs;
+  var user_name = ''.obs;
+  var mail_address = ''.obs;
+  var phone_number = ''.obs;
+  var job = ''.obs;
+  var image_face = ''.obs;
+  var image_ktp = ''.obs;
   bool isLoading = false;
 
   @override
-  void dispose() {
-    super.dispose();
-    GetUserData(id);
+  void initState() {
+    super.initState();
+    GetUserData();
   }
 
-  void GetUserData(var id) async {
+  void GetUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    isLoading = true;
     token = prefs.getString('token')!;
+    isLoading = true;
     try {
       var response = await get(
         Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/${widget.id}'),
@@ -52,7 +52,7 @@ class _DetailAkunState extends State<DetailAkun> {
           print('gagal');
         } else {
           user_name.value = responseData['data']['user_name'];
-          mail_address.value = responseData['data']['mail_address'];
+          mail_address.value = responseData['data']['email_address'];
           phone_number.value = responseData['data']['phone_number'];
           job.value = responseData['data']['job'];
           image_face.value = responseData['data']['image_face'];
@@ -94,184 +94,192 @@ class _DetailAkunState extends State<DetailAkun> {
       ),
       body: isLoading?const LinearProgressIndicator(
         ///style
-        valueColor:AlwaysStoppedAnimation<Color>(Colors.grey),
         color: Colors.grey,
-        backgroundColor: Colors.white,
       ):Container(
         color: PaylaterTheme.spacer,
         child: ListView(physics: const ClampingScrollPhysics(), children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                //Username
-                Column(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Email',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: PaylaterTheme.grey),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Obx(() => Text(
-                          user_name.value,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ///Username
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Username',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: PaylaterTheme.grey),
                           ),
-                        ),)
-                      ],
-                    ),
-                    //End Username
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                    ///email
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Email',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: PaylaterTheme.grey),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Obx(() => Text(
-                          mail_address.value,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                          const SizedBox(
+                            height: 5,
                           ),
-                        ),)
-
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                    ///Nomor Telepon
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Nomor Telepon',
-                          style: TextStyle(
+                          Obx(() => Text(
+                            user_name.value,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
                               fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: PaylaterTheme.grey),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Obx(() => Text(
-                          phone_number.value,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                            ),
+                          ),)
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      ///email
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Email',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: PaylaterTheme.grey),
                           ),
-                        ),)
-
-                      ],
-                    ),
-
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                    ///Pekerjaan
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Pekerjaan',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: PaylaterTheme.grey),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Obx(() => Text(
-                          job.value,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                          const SizedBox(
+                            height: 5,
                           ),
-                        ),)
-
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                    //verif wajah
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Verifikasi Wajah',
-                          style: TextStyle(
+                          Obx(() => Text(
+                            mail_address.value,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
                               fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: PaylaterTheme.grey),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Obx(() => Image(
-                            width: 120,
-                            image: NetworkImage(
-                              image_face.value,
-                            ))),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                            ),
+                          ),)
 
-                    ///verif ktp
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Verifikasi KTP',
-                          style: TextStyle(
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      ///Nomor Telepon
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Nomor Telepon',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: PaylaterTheme.grey),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(() => Text(
+                            phone_number.value,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
                               fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: PaylaterTheme.grey),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Obx(() => Image(
-                            width: 120,
-                            image: NetworkImage(
-                              image_ktp.value,
-                            ))),
-                      ],
-                    ),
-                  ],
+                            ),
+                          ),)
+                        ],
+                      ),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      ///Pekerjaan
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Pekerjaan',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: PaylaterTheme.grey),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(() => Text(
+                            job.value,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                          ),)
+
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      ///wajah
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Lampiran Foto Wajah',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: PaylaterTheme.grey),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(() => Image(
+                              width: 150,
+                              image: NetworkImage(
+                                image_face.value,
+                              ))),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      ///verif ktp
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Lampiran KTP',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: PaylaterTheme.grey),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(() => Image(
+                              width: 150,
+                              image: NetworkImage(
+                                image_ktp.value,
+                              ))),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
 
                 ///button

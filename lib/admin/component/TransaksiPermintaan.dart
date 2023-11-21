@@ -21,16 +21,17 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
   _TransaksiPermintaanState();
   String token = "";
   List datas = [];
-  // bool isLoading = false;
-  var user_name = "username".obs;
-  var email_address = "email".obs;
-  var phone_number = "phone".obs;
-  var image_face = "image".obs;
+  bool isLoading = false;
+  var user_name = "".obs;
+  var email_address = "".obs;
+  var phone_number = "".obs;
+  var image_face = "".obs;
   var _currentPage = 0.obs;
   var last_page = 1.obs;
   List links = [];
-  var tenor = "tenor".obs;
+  var tenor = "".obs;
 
+  @override
   void initState() {
     super.initState();
     getOrder();
@@ -41,10 +42,9 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
   Future<void> getOrder({url = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      // isLoading = true;
       token = prefs.getString('token')!;
+      isLoading = true;
     });
-    // var id = prefs.getInt('id')!;
 
     try {
       var response;
@@ -87,7 +87,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
       print(e);
     }
     setState(() {
-      // isLoading = false;
+      isLoading = false;
     });
   }
 
@@ -188,184 +188,190 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
         children: [
           Flexible(
             fit: FlexFit.tight,
-            child: ListView.builder(
-              itemCount: datas.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MaterialButton(
-                        onPressed: () { Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => RincianCicilanAdmin(
-                              order_id: datas[index]['id'],
-                              user_id: datas[index]['user_id'],
+            child: Center(
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                ///style
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+              ):ListView.builder(
+                itemCount: datas.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MaterialButton(
+                          onPressed: () { Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => RincianCicilanAdmin(
+                                order_id: datas[index]['id'],
+                                user_id: datas[index]['user_id'],
+                              ),
                             ),
-                          ),
-                        );},
-                        child: Expanded(
-                          child: Container(
-                            constraints: const BoxConstraints(maxWidth: double.infinity),
-                            height: 160,
-                            width: 360,
-                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                            decoration: BoxDecoration(
-                                color: PaylaterTheme.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          datas[index]['user']['image_face']
+                          );},
+                          child: Expanded(
+                            child: Container(
+                              constraints: const BoxConstraints(maxWidth: double.infinity),
+                              height: 160,
+                              width: 360,
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                              decoration: BoxDecoration(
+                                  color: PaylaterTheme.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            datas[index]['user']['image_face']
+                                        ),
                                       ),
-                                    ),
 
-                                    const SizedBox(width: 10,),
-                                    Text(
-                                        datas[index]['user']['user_name'],
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700
+                                      const SizedBox(width: 10,),
+                                      Text(
+                                          datas[index]['user']['user_name'],
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700
 
-                                        )
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10,),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Image(
-                                      image: NetworkImage(datas[index]['image']),
-                                      width: 66,
-                                      height: 80,
-                                      fit: BoxFit.fill,
-                                    ),
-                                    const SizedBox(width: 20,),
-                                    Flexible(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          ///Nama
-                                          Text(
-                                            datas[index]['title'],
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                              color: PaylaterTheme.darkerText,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600
-                                            ),
-                                          ),
-
-                                          /// No order
-                                          Text(
-                                            '${datas[index]['no_order']}',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: PaylaterTheme.darkerText,
-                                            ),
-                                          ),
-
-                                          ///price
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                'Harga : Rp ',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: PaylaterTheme.darkerText,
-                                                ),
-                                              ),
-                                              Text(
-                                                datas[index]['price'].toString(),
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: PaylaterTheme.orange,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-
-                                          /// Tenor cicilan
-                                          if (tenor.value != null && tenor.value!="tenor")
-                                          Text(
-                                            '${datas[index]['tenor']} Bulan',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: PaylaterTheme.darkerText,
-                                            ),
-                                          ),
-                                        ],
+                                          )
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Image(
+                                        image: NetworkImage(datas[index]['image']),
+                                        width: 66,
+                                        height: 80,
+                                        fit: BoxFit.fill,
+                                      ),
+                                      const SizedBox(width: 20,),
+                                      Flexible(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            ///Nama
+                                            Text(
+                                              datas[index]['title'],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                color: PaylaterTheme.darkerText,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600
+                                              ),
+                                            ),
+
+                                            /// No order
+                                            Text(
+                                              '${datas[index]['no_order']}',
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: PaylaterTheme.darkerText,
+                                              ),
+                                            ),
+
+                                            ///price
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  'Harga : Rp ',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: PaylaterTheme.darkerText,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  datas[index]['price'].toString(),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: PaylaterTheme.orange,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+
+                                            /// Tenor cicilan
+                                            if (tenor.value == "3" && tenor.value == "6" && tenor.value == "12")
+                                            Text(
+                                              '${datas[index]['tenor']} Bulan',
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: PaylaterTheme.darkerText,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          MaterialButton(
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: PaylaterTheme.maincolor,
-                                borderRadius: BorderRadius.all(Radius.circular(6))
-                              ),
-
-                              padding: const EdgeInsets.symmetric(horizontal: 52, vertical: 6),
-                              child: const Text('Setujui', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
-                            ),
-                            onPressed: () {
-                              VerifyOrder(
-                                  datas[index]['id'].toString(),
-                                  "approve"
-                              );
-                            },
-                          ),
-
-                          MaterialButton(
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.red,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            MaterialButton(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  color: PaylaterTheme.maincolor,
                                   borderRadius: BorderRadius.all(Radius.circular(6))
-                              ),
+                                ),
 
-                              padding: const EdgeInsets.symmetric(horizontal: 52, vertical: 6),
-                              child: const Text('Tolak', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
+                                padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
+                                child: const Text('Setujui', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
+                              ),
+                              onPressed: () {
+                                VerifyOrder(
+                                    datas[index]['id'].toString(),
+                                    "approve"
+                                );
+                              },
                             ),
-                            onPressed: () {
-                              VerifyOrder(
-                                  datas[index]['id'].toString(),
-                                  "reject"
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
+
+                            MaterialButton(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.all(Radius.circular(6))
+                                ),
+
+                                padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
+                                child: const Text('Tolak', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
+                              ),
+                              onPressed: () {
+                                VerifyOrder(
+                                    datas[index]['id'].toString(),
+                                    "reject"
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           Obx(() => NumberPaginator(
@@ -373,7 +379,6 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
             numberPages: last_page.value,
             onPageChange: (index) {
               getOrder(url: links[index+1]['url']);
-              print(_currentPage);
             },
           ),),
         ],

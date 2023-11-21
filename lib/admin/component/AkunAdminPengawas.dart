@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
-import 'package:paylater/admin/detail_AkunCustomer.dart';
+import 'package:paylater/theme.dart';
+import 'package:paylater/user/LoginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../theme.dart';
-import '../admin_createakun.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 class AkunAdminPengawas extends StatefulWidget {
   const AkunAdminPengawas({Key? key}) : super(key: key);
@@ -14,223 +13,255 @@ class AkunAdminPengawas extends StatefulWidget {
   @override
   State<AkunAdminPengawas> createState() => _AkunAdminPengawasState();
 }
-class User {
-  int id;
-  String user_name;
-  String phone_number;
-  String email_address;
-  String job;
-  String role;
-  String image_face;
-
-  User({
-    required this.id,
-    required this.user_name,
-    required this.email_address,
-    required this.phone_number,
-    required this.job,
-    required this.role,
-    required this.image_face,
-  });
-
-  factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    user_name: json["user_name"],
-    email_address: json["email_address"],
-    phone_number: json["phone_number"],
-    job: json["job"],
-    role: json["role"],
-    image_face: json["image_face"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "user_name": user_name,
-    "email_address": email_address,
-    "phone_number": phone_number,
-    "job": job,
-    "role": role,
-    "image_face": image_face,
-  };
-}
-
-
 
 class _AkunAdminPengawasState extends State<AkunAdminPengawas> {
   _AkunAdminPengawasState();
+  var user_name = "username".obs;
+  var email_address = "email".obs;
+  var phone_number = "phone".obs;
+  var image_face = "image_face".obs;
+  var role = "".obs;
   String token = "";
-  List datas = [];
+  bool isLoading = false;
 
+  @override
   void initState() {
-    fetchPendingAkun();
+    super.initState();
+    ProfilebyId();
   }
 
-  void fetchPendingAkun() async {
+  ///get data tokken id
+  void ProfilebyId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
     setState(() {
-      token = prefs.getString('token')!;
-      print(token);
+      isLoading = true;
     });
     try {
-      Response response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/get-user?status=pending&page=1'),
+      var response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
           headers: {
             'Authorization': token,
           });
 
       if (response.statusCode == 200) {
-        // final List<dynamic> responseData = json.decode(response.body);
         var responseData = json.decode(response.body);
-        datas =  responseData['data'] as List<dynamic>;
-        print(datas);
-        // return Customer(data: datas);
-      }else{
-        print('gagal');
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            user_name.value = responseData['data']['user_name'];
+            email_address.value = responseData['data']['email_address'];
+            phone_number.value = responseData['data']['phone_number'];
+            image_face.value = responseData['data']['image_face'];
+            role.value = responseData['data']['role'];
+          });
+        }
       }
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
 
+  ///logout
+  void PostLogout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+    });
+    try {
+      var response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/auth/logout'),
+          headers: {
+            'Authorization': token,
+          },
+          body: {
+            'token': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if (responseData['success'] == false) {
+          AlertDialog alert = AlertDialog(
+            title: const Text("Logout"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+          showDialog(context: context, builder: (context) => alert);
+        } else {
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => LoginPage()));
+          AlertDialog alert = AlertDialog(
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context, builder: (context) => alert);
+        }
+      } else {}
+      if (response.statusCode == 422) {
+        var responseData = json.decode(response.body);
+        AlertDialog alert = AlertDialog(
+          title: const Text("Kolom harus di isi dengan link produk yang benar"),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        print(responseData['data']);
+        showDialog(context: context, builder: (context) => alert);
+      }
+      if (response.statusCode == 404) {
+        AlertDialog alert = AlertDialog(
+          title: const Text("Email tidak terdaftar"),
+          content: const Text("Email yang anda masukan salah"),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              "Admin",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+    return Center(
+      child: Container(
+        height: double.maxFinite,
+        color: const Color(0xffF6F6F6),
+        child: ListView(physics: const ClampingScrollPhysics(), children: [
+          Column(
+            children: [
+              const SizedBox(
+                height: 20,
               ),
-            ),
-          ),
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: SizedBox(
-              height: 30,
-              child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ), backgroundColor: PaylaterTheme.maincolor),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CreateAkun()));
-                  },
-                  icon: const Icon(
-                    Icons.add_circle,
-                    color: PaylaterTheme.light_grey,
-                  ),
-                  label: const Text("Buat Akun",
-                      style: TextStyle(
-                          color: PaylaterTheme.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600))),
-            ),
-          ),
-          SizedBox(height: 10,),
-          Flexible(
-            fit: FlexFit.tight,
-            child: ListView.builder(
-              itemCount: datas.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ///isi
+              Column(
+                children: [
+                  Column(
                     children: [
-                      MaterialButton(
-                        onPressed: () { Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailAkun(id: 0,))); },
-                        child: Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: PaylaterTheme.spacer,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5.0, horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(datas[index].user_name.toString(),
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                                      Text('00000',
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: PaylaterTheme
-                                                .deactivatedText,
-                                          )),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 20,),
-                                  Text('email',
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color:
-                                        PaylaterTheme.deactivatedText,
-                                      )
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                      Obx(() => Container(
+                        width: 72,
+                        height: 72,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 4, color: Theme.of(context).scaffoldBackgroundColor),
+                            boxShadow: [
+                              BoxShadow(
+                                  spreadRadius: 2,
+                                  blurRadius: 10,
+                                  color: Colors.black.withOpacity(0.1),
+                                  offset: const Offset(0, 10))
+                            ],
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  image_face.value,
+                                ))),
+                      ),),
+
+                      const SizedBox(
+                        height: 14,
+                      ),
+
+                      ///username
+                      Obx(() => Text(
+                        user_name.value,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
                         ),
-                      ),
-                      ///button
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 30,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.check_box_rounded,
-                                color: PaylaterTheme.nearlyDarkBlue,
-                                size: 25,
-                              ),
-                              onPressed: () {},
-                            ),
-                          ),
-                          SizedBox(
-                            width: 30,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.disabled_by_default,
-                                color: PaylaterTheme.decline,
-                                size: 25,
-                              ),
-                              onPressed: () {},
-                            ),
-                          ),
-                        ],
-                      ),
+                      ),),
+
+                      ///email
+                      Obx(() => Text(
+                        email_address.value,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: PaylaterTheme.nearlyDarkBlue,
+                            fontWeight: FontWeight.w500
+                        ),
+                      ),),
+
+                      Obx(() => Text(
+                        phone_number.toString(),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black87,
+                        ),
+                      ),),
+
+                      SizedBox(height: 5,),
+                      Obx(() => Text(
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        role.value,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black87,
+                        ),
+                      ),),
                     ],
                   ),
-                );
-              },
-            ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  ///menu
+                ],
+              ),
+
+              ///logout
+              ElevatedButton(
+                style: const ButtonStyle(
+                  padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 4, horizontal: 80)),
+                  backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
+                ),
+                child: const Text(
+                  'Logout',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                ),
+                onPressed: () => {
+                  PostLogout(),
+                },
+              ),
+
+              const SizedBox(
+                height: 10,
+              )
+            ],
           ),
-        ],
+        ]),
       ),
     );
   }
 }
+

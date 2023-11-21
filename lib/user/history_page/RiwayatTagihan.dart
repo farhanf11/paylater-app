@@ -212,7 +212,7 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
 
                                           ///price
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               const Text(
                                                 'Harga : Rp ',
@@ -246,12 +246,15 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
                                                   color: PaylaterTheme.darkerText,
                                                 ),
                                               ),
-                                              Text(
-                                                datas[index]['note'],
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
+                                              Flexible(
+                                                child: Text(
+                                                  datas[index]['note'],
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
                                               ),
                                             ],

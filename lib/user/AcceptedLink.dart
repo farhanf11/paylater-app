@@ -10,14 +10,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../theme.dart';
 
-class RiwayatPengajuanLink extends StatefulWidget {
-  const RiwayatPengajuanLink({Key? key}) : super(key: key);
+class AcceptedLink extends StatefulWidget {
+  const AcceptedLink({Key? key}) : super(key: key);
 
   @override
-  State<RiwayatPengajuanLink> createState() => _RiwayatPengajuanLinkState();
+  State<AcceptedLink> createState() => _AcceptedLinkState();
 }
 
-class _RiwayatPengajuanLinkState extends State<RiwayatPengajuanLink> {
+class _AcceptedLinkState extends State<AcceptedLink> {
 
   String token = "";
   List datas = [];
@@ -44,7 +44,7 @@ class _RiwayatPengajuanLinkState extends State<RiwayatPengajuanLink> {
     });
     try {
       var response = await get(
-          Uri.parse('https://paylater.harysusilo.my.id/api/get-link?user_id=$id&status=request'),
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-link?user_id=$id&status=accept'),
           headers: {
             'Authorization': token,
           });

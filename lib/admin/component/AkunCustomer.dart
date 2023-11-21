@@ -6,7 +6,6 @@ import 'package:http/http.dart';
 import 'package:paylater/admin/detail_AkunCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
-import '../admin_createakun.dart';
 
 
 class AkunCustomer extends StatefulWidget {
@@ -21,8 +20,11 @@ class _AkunCustomerState extends State<AkunCustomer> {
   String token = "";
   List datas = [];
   bool isLoading = false;
+  var id = 0;
 
+  @override
   void initState() {
+    super.initState();
     getAkun();
   }
 
@@ -31,7 +33,6 @@ class _AkunCustomerState extends State<AkunCustomer> {
     setState(() {
       isLoading = true;
       token = prefs.getString('token')!;
-      print(token);
     });
     try {
       Response response = await get(
@@ -40,13 +41,10 @@ class _AkunCustomerState extends State<AkunCustomer> {
             'Authorization': token,
           });
       inspect(response);
-
       if (response.statusCode == 200) {
         // final List<dynamic> responseData = json.decode(response.body);
         var responseData = json.decode(response.body);
         datas =  responseData['data']['data'];
-        print(datas);
-        // return Customer(data: datas);
       }else{
         print('gagal');
       }
@@ -63,133 +61,91 @@ class _AkunCustomerState extends State<AkunCustomer> {
     return Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
-      child: isLoading
-          ? CircularProgressIndicator(
-        ///style
-
-      )
-          : Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              "Sudah Terverifikasi",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-          ),
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: SizedBox(
-              height: 30,
-              child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      backgroundColor: PaylaterTheme.maincolor),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CreateAkun()));
-                  },
-                  icon: const Icon(
-                    Icons.add_circle,
-                    color: PaylaterTheme.light_grey,
-                  ),
-                  label: const Text("Buat Akun",
-                      style: TextStyle(
-                          color: PaylaterTheme.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600))),
-            ),
-          ),
           const SizedBox(
             height: 10,
           ),
           Flexible(
             fit: FlexFit.tight,
-            child: ListView.builder(
-              itemCount: datas.length,
-              itemBuilder: (BuildContext context, int index) {
-                ///card user
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MaterialButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => DetailAkun(id: datas[index]['user_id'],)));
-                        },
-                        child: Expanded(
-                          child: Container(
-                            width: 240,
-                            decoration: BoxDecoration(
-                                color: PaylaterTheme.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5.0, horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(datas[index]['user_name'],
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                                      Text(datas[index]['email_address'],
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: PaylaterTheme
-                                                .deactivatedText,
-                                          )),
-                                    ],
-                                  ),
-                                ],
+            child: Center(
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                ///style
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+              ):ListView.builder(
+                itemCount: datas.length,
+                itemBuilder: (BuildContext context, int index) {
+                  ///card user
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MaterialButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => DetailAkun(
+                                      id: datas[index]['id'],
+                                    )
+                                )
+                            );
+                          },
+                          child: Expanded(
+                            child: Container(
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  color: PaylaterTheme.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 10),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          datas[index]['image_face']
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(datas[index]['user_name'],
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                        Text(datas[index]['email_address'],
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: PaylaterTheme
+                                                  .deactivatedText,
+                                            )),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-
-                      ///button
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.check_box_rounded,
-                              color: PaylaterTheme.nearlyDarkBlue,
-                              size: 25,
-                            ),
-                            onPressed: () {},
-                          ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.disabled_by_default,
-                              color: PaylaterTheme.decline,
-                              size: 25,
-                            ),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],
