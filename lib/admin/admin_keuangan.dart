@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/AdminNavbarBot.dart';
@@ -91,6 +92,8 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
               new MaterialPageRoute(
                   builder: (BuildContext context) => AdminNavbarBot()));
           AlertDialog alert = AlertDialog(
+            icon: const Icon(FontAwesome5.money_check, size: 18),
+            iconColor: PaylaterTheme.maincolor,
             title: const Text("Berhasil"),
             content: Text(responseData['message']),
             actions: [

@@ -162,7 +162,6 @@ class _DaftarPageState extends State<DaftarPage> {
               )),
         ),
         centerTitle: true,
-        leading: const BackButton(),
       ),
       body: Container(
         color: PaylaterTheme.spacer,

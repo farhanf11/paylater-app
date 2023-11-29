@@ -60,7 +60,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
     });
     var formData = FormData();
     formData.fields.add(MapEntry("order_id", "32"));
-    formData.fields.add(MapEntry("instalment_id", "16"));
+    formData.fields.add(MapEntry("instalment_id", "18"));
     formData.files.add(MapEntry(
       "payment_img",
       await MultipartFile.fromFile(image!.path, filename: "pic-name.png"),
@@ -90,230 +90,231 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
         title: const Text('Detail Pembayaran Cicilan'),
         leading: const BackButton(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 12,
-            ),
-            Accordion(
-              maxOpenSections: 2,
-              headerBackgroundColorOpened: Colors.black54,
-              scaleWhenAnimating: true,
-              openAndCloseAnimation: true,
-              headerPadding:
-                  const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
-              sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
-              sectionClosingHapticFeedback: SectionHapticFeedback.light,
-              children: [
-                AccordionSection(
+      body: ListView(
+        physics: const ClampingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 24),
+        children: [
+          const SizedBox(
+            height: 12,
+          ),
+          Accordion(
+            maxOpenSections: 2,
+            headerBackgroundColorOpened: Colors.black54,
+            scaleWhenAnimating: true,
+            openAndCloseAnimation: true,
+            headerPadding:
+            const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+            sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
+            sectionClosingHapticFeedback: SectionHapticFeedback.light,
+            children: [
+              AccordionSection(
+                headerPadding:
+                const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                isOpen: true,
+                header: Text('Transfer Bank', style: _headerStyle),
+                contentBorderColor: const Color(0xff568D98),
+                headerBackgroundColor: const Color(0xff568D98),
+                headerBackgroundColorOpened: const Color(0xff2E8A99),
+                content: Accordion(
+                  maxOpenSections: 1,
+                  headerBackgroundColorOpened: Colors.black54,
                   headerPadding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  isOpen: true,
-                  header: Text('Transfer Bank', style: _headerStyle),
-                  contentBorderColor: const Color(0xff568D98),
-                  headerBackgroundColor: const Color(0xff568D98),
-                  headerBackgroundColorOpened: const Color(0xff2E8A99),
-                  content: Accordion(
-                    maxOpenSections: 1,
-                    headerBackgroundColorOpened: Colors.black54,
-                    headerPadding:
-                        const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+                  const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+                  children: [
+                    ///BCA
+                    AccordionSection(
+                      isOpen: true,
+                      headerBackgroundColor: const Color(0xffCCDDE0),
+                      headerBackgroundColorOpened: const Color(0xffCCDDE0),
+                      contentBorderColor: const Color(0xff2E8A99),
+                      rightIcon: const Icon(Icons.keyboard_arrow_down,
+                          color: Color(0xff2E8A99)),
+                      header: Text('BCA', style: _headerSubStyle),
+                      content: Text(_bca, style: _contentStyle),
+                      contentHorizontalPadding: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          ///detail
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ///ID Pesanan
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 10),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffEBEBEB))),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ///BCA
-                      AccordionSection(
-                        isOpen: true,
-                        headerBackgroundColor: const Color(0xffCCDDE0),
-                        headerBackgroundColorOpened: const Color(0xffCCDDE0),
-                        contentBorderColor: const Color(0xff2E8A99),
-                        rightIcon: const Icon(Icons.keyboard_arrow_down,
-                            color: Color(0xff2E8A99)),
-                        header: Text('BCA', style: _headerSubStyle),
-                        content: Text(_bca, style: _contentStyle),
-                        contentHorizontalPadding: 20,
+                      Text(
+                        'ID Pesanan',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        '12345678',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),
                 ),
+
+                ///Tagihan Cicilan
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 10),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffEBEBEB))),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Total Tagihan',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        '1.500.000',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+
+                //Tagihan Tersisa
               ],
             ),
+          ),
 
-            ///detail
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  //ID Pesanan
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              style: BorderStyle.solid,
-                              color: Color(0xffEBEBEB))),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'ID Pesanan',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          '12345678',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
+          const SizedBox(
+            height: 24,
+          ),
 
-                  ///Tagihan Cicilan
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              style: BorderStyle.solid,
-                              color: Color(0xffEBEBEB))),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total Tagihan',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          '1.500.000',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  //Tagihan Tersisa
-                ],
-              ),
+          ///upload bukti
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
             ),
-
-            const SizedBox(
-              height: 24,
-            ),
-
-            ///upload bukti
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              style: BorderStyle.solid,
-                              color: Color(0xffEBEBEB))),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Bukti Pembayaran',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        ElevatedButton(
-                          style: const ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Color(0xff025464))),
-                          onPressed: () => pickImage(),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: const Text('Upload'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 10),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffEBEBEB))),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Bukti Pembayaran',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      ElevatedButton(
+                        style: const ButtonStyle(
+                            backgroundColor:
+                            MaterialStatePropertyAll(Color(0xff025464))),
+                        onPressed: () => pickImage(),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
                           ),
+                          child: const Text('Upload'),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+                ),
 
-                  ///image
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              style: BorderStyle.solid,
-                              color: Color(0xffEBEBEB))),
-                    ),
-                    child: image != null
-                        ? Image.file(
-                            image!,
-                            height: 200,
-                            width: 120,
-                            fit: BoxFit.cover,
-                          )
-                        : const Text(
-                            'Belum Ada Bukti',
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400),
-                          ),
+                ///image
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 10),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffEBEBEB))),
                   ),
-                ],
-              ),
+                  child: image != null
+                      ? Image.file(
+                    image!,
+                    height: 300,
+                    width: 120,
+                    fit: BoxFit.cover,
+                  )
+                      : const Text(
+                    'Belum Ada Bukti',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ],
             ),
+          ),
 
-            ///submit
-            ElevatedButton(
-              style: const ButtonStyle(
-                padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
-                backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
-              ),
-              child: const Text(
-                'Submit',
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () => {
-                uploadImage(image),
-              },
+          const SizedBox(height: 40,),
+
+          ///submit
+          ElevatedButton(
+            style: const ButtonStyle(
+              padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 60, vertical: 12)),
+              backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
             ),
-          ],
-        ),
+            child: const Text(
+              'Submit',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () => {
+              uploadImage(image),
+            },
+          ),
+        ],
       ),
     );
   }

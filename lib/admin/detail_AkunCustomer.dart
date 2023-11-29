@@ -272,7 +272,7 @@ class _DetailAkunState extends State<DetailAkun> {
                             height: 5,
                           ),
                           Obx(() => Image(
-                              width: 150,
+                              width: 200,
                               image: NetworkImage(
                                 image_ktp.value,
                               ))),
@@ -280,57 +280,6 @@ class _DetailAkunState extends State<DetailAkun> {
                       ),
                     ],
                   ),
-                ),
-
-                ///button
-                const SizedBox(
-                  height: 80,
-                ),
-
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PaylaterTheme.maincolor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
-                      onPressed: () {
-                        Popup.confirmDialog(context,
-                            message: "Yakin Verifikasi Akun?",
-                            dialogCallback: (value) async {
-                              if (value == 'confirm') {
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginPage()));
-                              }
-                              if (value == 'cancel') {}
-                            });
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text("Verifikasi Akun")),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PaylaterTheme.grey,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text("Tolak")),
-                    ),
-                  ],
                 ),
               ],
             ),

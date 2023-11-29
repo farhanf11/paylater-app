@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
@@ -82,7 +83,9 @@ class _AkunUnverifyState extends State<AkunUnverify> {
               new MaterialPageRoute(
                   builder: (BuildContext context) => AdminNavbarBot()));
           AlertDialog alert = AlertDialog(
-            title: const Text("Berhasil"),
+            icon: Icon(CupertinoIcons.person_crop_circle_fill_badge_checkmark, size: 18,),
+            iconColor: PaylaterTheme.maincolor,
+            title: const Text("Verifikasi Akun"),
             content: Text(responseData['message']),
             actions: [
               TextButton(

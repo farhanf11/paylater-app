@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:paylater/profile_page/biodataPage.dart';
 import 'package:paylater/profile_page/helpCenter.dart';
 import 'package:paylater/theme.dart';
+import 'package:paylater/user/LinkCustomer.dart';
 import 'package:paylater/user/LoginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -262,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child: TextButton(
                       child: const Text(
-                        'Cek Tagihan',
+                        'Cek Pengajuan Link',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
@@ -270,7 +271,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       onPressed: () => Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => const HistoryPage())),
+                              builder: (context) => const LinkCustomer())),
                     ),
                   ),
                   const SizedBox(
@@ -282,24 +283,26 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       children: [
-                        MaterialButton(
-                          color: Colors.white,
-                          child: ButtonProfile(DataButton(
-                            id: 1,
-                            icon1: Icons.person_pin,
-                            text1: 'Edit Profil',
-                            text2: 'Kamu bisa memngubah username disini',
-                            icon2: Icons.arrow_right_outlined,
-                          )),
-                          onPressed: () => Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) => const EditProfil())),
-                        ),
 
-                        const SizedBox(
-                          height: 4,
-                        ),
+                        ///edit profil
+                        // MaterialButton(
+                        //   color: Colors.white,
+                        //   child: ButtonProfile(DataButton(
+                        //     id: 1,
+                        //     icon1: Icons.person_pin,
+                        //     text1: 'Edit Profil',
+                        //     text2: 'Kamu bisa memngubah username disini',
+                        //     icon2: Icons.arrow_right_outlined,
+                        //   )),
+                        //   onPressed: () => Navigator.of(context)
+                        //       .push(MaterialPageRoute(builder: (context) => const EditProfil())),
+                        // ),
+                        //
+                        // const SizedBox(
+                        //   height: 4,
+                        // ),
 
-                        //alamat
+                        ///alamat
                         MaterialButton(
                           color: Colors.white,
                           child: ButtonProfile(DataButton(
@@ -316,7 +319,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(
                           height: 4,
                         ),
-                        //biodata
+
+                        ///biodata
                         MaterialButton(
                           color: Colors.white,
                           child: ButtonProfile(DataButton(
@@ -333,7 +337,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                         const SizedBox(height: 4,),
 
-                        //widget bantuan
+                        ///email
                         MaterialButton(
                           color: Colors.white,
                           onPressed: _sendingMails,
@@ -347,7 +351,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         //end Pesan Email
                         SizedBox(height: 4,),
-                        //bantuan
+
+                        ///bantuan
                         MaterialButton(
                             color: Colors.white,
                             child: ButtonProfile(DataButton(
@@ -360,22 +365,22 @@ class _ProfilePageState extends State<ProfilePage> {
                             onPressed: () => Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) => const HelpCenter())),
                         ),
-                        //end Bantuan
-                        SizedBox(height: 4,),
 
-                        //privacy policy
-                        MaterialButton(
-                          color: Colors.white,
-                          child: ButtonProfile(DataButton(
-                            id: 7,
-                            icon1: Icons.privacy_tip,
-                            text1: 'Kebijakan Privasi',
-                            text2: 'Kebijakan Privasi ILKOMPAY',
-                            icon2: Icons.arrow_right_outlined,
-                          )),
-                          onPressed: () => Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) => const PrivacyPolicy())),
-                        ),
+                        // SizedBox(height: 4,),
+
+                        ///privacy policy
+                        // MaterialButton(
+                        //   color: Colors.white,
+                        //   child: ButtonProfile(DataButton(
+                        //     id: 7,
+                        //     icon1: Icons.privacy_tip,
+                        //     text1: 'Kebijakan Privasi',
+                        //     text2: 'Kebijakan Privasi ILKOMPAY',
+                        //     icon2: Icons.arrow_right_outlined,
+                        //   )),
+                        //   onPressed: () => Navigator.of(context)
+                        //       .push(MaterialPageRoute(builder: (context) => const PrivacyPolicy())),
+                        // ),
                         //end bantuan
                       ],
                     ),

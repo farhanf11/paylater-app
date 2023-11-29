@@ -71,6 +71,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       token = prefs.getString('token')!;
+      isLoading = true;
     });
     try {
       var response = await get(
@@ -135,6 +136,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
+          title: Text('Rincian Pembayaran'),
           backgroundColor: PaylaterTheme.maincolor,
           leading: const BackButton(
             color: Colors.white,
@@ -152,24 +154,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
               child: ListView(
                   physics: const ClampingScrollPhysics(),
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Colors.white,
-                      ),
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 90, vertical: 18),
-                      child: const Text(
-                        'Rincian Pembayaran',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
+
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),

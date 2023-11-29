@@ -9,9 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../theme.dart';
 
 class RincianAkad extends StatefulWidget {
-  const RincianAkad({Key? key, required this.link_id, required this.user_id}) : super(key: key);
+  const RincianAkad({Key? key, required this.link_id, required this.user_id, required this.status}) : super(key: key);
   final int link_id;
   final int user_id;
+  final String status;
 
   @override
   State<RincianAkad> createState() => _RincianAkadState();
@@ -51,7 +52,9 @@ class _RincianAkadState extends State<RincianAkad> {
     super.initState();
     GetOrderData();
     getToken();
+    print('status' + widget.status);
   }
+
 
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -168,185 +171,186 @@ class _RincianAkadState extends State<RincianAkad> {
         title: const Text('Akad'),
         backgroundColor: PaylaterTheme.maincolor,
       ),
-      body: ListView(
-        physics: const ClampingScrollPhysics(),
+      body: Container(
         padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 24),
-        children: [
-          Column(
-            children: [
-              //detail produk
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: Colors.white,
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 6),
-                child: Column(
-                  children: [
-                    Obx(() => Image(
-                        width: 100,
-                        image: NetworkImage(
-                          image.value,
-                        ))
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Obx(() => Text(
-                      title.value.toString(),
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                    ),),
-                    Obx(() => Text(
-                      'Rp ${price.value}',
-                      style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey),
-                    ),)
-                  ],
-                ),
+        child: ListView(
+          physics: const ClampingScrollPhysics(),
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: Colors.white,
               ),
-
-              ///tenor
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 6),
+              child: Column(
                 children: [
-                  const Text(
-                    'Tenor',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                  ),
-                  ListTile(
-                    leading: Radio<String>(
-                      value: '3',
-                      groupValue: _tenor,
-                      onChanged: _handleTenor,
-                    ),
-                    title: const Text('3'),
-                  ),
-                  ListTile(
-                    leading: Radio<String>(
-                      value: '6',
-                      groupValue: _tenor,
-                      onChanged: _handleTenor,
-                    ),
-                    title: const Text('6'),
-                  ),
-                  ListTile(
-                    leading: Radio<String>(
-                      value: '12',
-                      groupValue: _tenor,
-                      onChanged: _handleTenor,
-                    ),
-                    title: const Text('12'),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-
-              ///address
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Alamat',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                    ),
-                  ),
-                  ListTile(
-                    leading: Radio<String>(
-                      value: 'unj',
-                      groupValue: _address,
-                      onChanged: _handleAddress,
-                    ),
-                    title: const Text('UNJ'),
-                  ),
-                  ListTile(
-                    leading: Radio<String>(
-                      value: 'mandiri',
-                      groupValue: _address,
-                      onChanged: _handleAddress,
-                    ),
-                    title: Text(address.toString() + '(alamat sendiri)'),
-                  ),
-                ],
-              ),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Catatan',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                    ),),
-                  const SizedBox(height: 5,),
-                  TextField(
-                    controller: catatanController,
-                    decoration: const InputDecoration(
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff025464))),
-                      border: OutlineInputBorder(),
-                      hintText: 'Catatan untuk pesanan anda',
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 40,),
-              ///submit
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                      padding: MaterialStatePropertyAll(EdgeInsets.all(14)),
-                      backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
-                    ),
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    onPressed: () => {
-                      print('trigger'),
-                      AddOrder(
-                          _tenor.toString(),
-                          _address.toString(),
-                          catatanController.text.toString()
-                      )
-                    },
+                  Obx(() => Image(
+                      width: 100,
+                      image: NetworkImage(
+                        image.value,
+                      ))
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 16,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: PaylaterTheme.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: const Text("Batal")),
+                  Obx(() => Text(
+                    title.value.toString(),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  ),),
+                  const SizedBox(
+                    height: 8,
                   ),
+                  Obx(() => Text(
+                    'Rp ${price.value}',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.grey),
+                  ),)
                 ],
               ),
-            ],
-          ),
-        ],
+            ),
+
+            ///tenor
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Tenor',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
+                ),
+                ListTile(
+                  leading: Radio<String>(
+                    value: '3',
+                    groupValue: _tenor,
+                    onChanged: _handleTenor,
+                  ),
+                  title: const Text('3'),
+                ),
+                ListTile(
+                  leading: Radio<String>(
+                    value: '6',
+                    groupValue: _tenor,
+                    onChanged: _handleTenor,
+                  ),
+                  title: const Text('6'),
+                ),
+                ListTile(
+                  leading: Radio<String>(
+                    value: '12',
+                    groupValue: _tenor,
+                    onChanged: _handleTenor,
+                  ),
+                  title: const Text('12'),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+
+            ///address
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Alamat',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black
+                  ),
+                ),
+                ListTile(
+                  leading: Radio<String>(
+                    value: 'unj',
+                    groupValue: _address,
+                    onChanged: _handleAddress,
+                  ),
+                  title: const Text('UNJ'),
+                ),
+                ListTile(
+                  leading: Radio<String>(
+                    value: 'mandiri',
+                    groupValue: _address,
+                    onChanged: _handleAddress,
+                  ),
+                  title: Text(address.toString() + '(alamat sendiri)'),
+                ),
+              ],
+            ),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Catatan',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black
+                  ),),
+                const SizedBox(height: 5,),
+                TextField(
+                  controller: catatanController,
+                  decoration: const InputDecoration(
+                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff025464))),
+                    border: OutlineInputBorder(),
+                    hintText: 'Catatan untuk pesanan anda',
+                  ),
+                ),
+              ],
+            ),
+
+            if (widget.status == 'request' && widget.status != 'accept')
+            SizedBox(height: 60,),
+
+            ///submit
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 4, horizontal: 14)),
+                    backgroundColor: widget.status == 'request'?MaterialStatePropertyAll(Colors.grey):MaterialStatePropertyAll(Color(0xff025464)),
+                  ),
+                  onPressed: widget.status == 'request'?null:() => {
+                    AddOrder(
+                        _tenor.toString(),
+                        _address.toString(),
+                        catatanController.text.toString()
+                    )
+                  },
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: PaylaterTheme.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: const Text("Batal")),
+                ),
+              ],
+            ),
+          ],
+        ),
       )
     );
   }

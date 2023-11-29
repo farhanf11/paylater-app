@@ -19,7 +19,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
   _PermintaanOrderState();
   String token = "";
   List datas = [];
-  // bool isLoading = false;
+  bool isLoading = false;
   var user_name = "username".obs;
   var email_address = "email".obs;
   var phone_number = "phone".obs;
@@ -30,6 +30,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
   var tenor = "tenor".obs;
   var note = "note".obs;
   var request_date = "".obs;
+  bool success = false;
 
   void initState() {
     super.initState();
@@ -41,7 +42,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
   Future<void> getOrder({url = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      // isLoading = true;
+      isLoading = true;
       token = prefs.getString('token')!;
     });
     var id = prefs.getInt('id')!;
@@ -78,6 +79,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
             user_name.value = responseData['data']['data']['user']['user_name'];
             tenor.value = responseData['data']['data']['tenor']??"";
             request_date.value = responseData['data']['data']['request_date'];
+            success = responseData['success'];
           });
         }
       }else{
@@ -87,7 +89,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
       print(e);
     }
     setState(() {
-      // isLoading = false;
+      isLoading = false;
     });
   }
 
@@ -125,7 +127,30 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return success == true?
+    Center(
+      child: isLoading
+          ? const CircularProgressIndicator(
+        ///style
+        color: Colors.grey,
+      ):Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/dataNotFound.jpg',
+            height: 300,
+          ),
+          const SizedBox(height: 5,),
+          const Text('Transaksi Tidak Ditemukan',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600
+            ),
+          )
+        ],
+      ),
+    ):Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
@@ -134,155 +159,154 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
         children: [
           Flexible(
             fit: FlexFit.tight,
-            child: ListView.builder(
-              itemCount: datas.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MaterialButton(
-                        onPressed: () { Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => RincianTagihan(
-                              order_id: datas[index]['id'],
-                              user_id: datas[index]['user_id'],
+            child: Center(
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                ///style
+                color: Colors.grey,
+              ): ListView.builder(
+                itemCount: datas.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MaterialButton(
+                          onPressed: () { Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => RincianTagihan(
+                                order_id: datas[index]['id'],
+                                user_id: datas[index]['user_id'],
+                              ),
                             ),
-                          ),
-                        );},
-                        child: Expanded(
-                          child: Container(
-                            constraints: const BoxConstraints(maxWidth: double.infinity),
-                            height: 160,
-                            width: 360,
-                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                            decoration: BoxDecoration(
-                                color: PaylaterTheme.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Column(
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Obx(() => CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              image_face.value
-                                          ),
-                                        ),),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Obx(() => Text(user_name.value,
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.black87,
-                                                fontWeight: FontWeight.w700
-                                            )
-                                        ),),
-                                      ],
-                                    ),
-                                    if (datas[index]['request_date'] != null)
-                                    Text(
-                                      '${datas[index]['request_date']}',
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10,),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Image(
-                                      image: NetworkImage(datas[index]['image']),
-                                      width: 60,
-                                      height: 60,
-                                      fit: BoxFit.fill,
-                                    ),
-                                    const SizedBox(width: 20,),
-                                    Flexible(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                          );},
+                          child: Expanded(
+                            child: Container(
+                              constraints: const BoxConstraints(maxWidth: double.infinity),
+                              height: 160,
+                              width: 340,
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                              decoration: BoxDecoration(
+                                  color: PaylaterTheme.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
                                         children: [
-                                          ///Nama
-                                          Text(
-                                            datas[index]['title'],
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                              color: PaylaterTheme.darkerText,
-                                              fontSize: 16,
+                                          Obx(() => CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                image_face.value
                                             ),
+                                          ),),
+                                          const SizedBox(
+                                            width: 10,
                                           ),
-
-                                          /// no order
-                                            Text(
-                                              '${datas[index]['no_order']}',
+                                          Obx(() => Text(user_name.value,
                                               style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
+                                                  fontSize: 14,
+                                                  color: Colors.black87,
+                                                  fontWeight: FontWeight.w700
+                                              )),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Image(
+                                        image: NetworkImage(datas[index]['image']),
+                                        width: 60,
+                                        height: 60,
+                                        fit: BoxFit.fill,
+                                      ),
+                                      const SizedBox(width: 20,),
+                                      Flexible(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            ///Nama
+                                            Text(
+                                              datas[index]['title'],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
                                                 color: PaylaterTheme.darkerText,
+                                                fontSize: 16,
                                               ),
                                             ),
 
-                                          ///price
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const Text(
-                                                'Harga : Rp ',
-                                                style: TextStyle(
+                                            /// no order
+                                              Text(
+                                                '${datas[index]['no_order']}',
+                                                style: const TextStyle(
                                                   fontSize: 14,
-                                                  fontWeight: FontWeight.w700,
+                                                  fontWeight: FontWeight.w600,
                                                   color: PaylaterTheme.darkerText,
                                                 ),
                                               ),
+
+                                            const SizedBox(height: 4,),
+
+                                            ///price
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  'Harga : Rp ',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: PaylaterTheme.darkerText,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  datas[index]['price'].toString(),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: PaylaterTheme.orange,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            /// Tenor cicilan
+                                            if (tenor.value != null && tenor.value!="tenor")
                                               Text(
-                                                datas[index]['price'].toString(),
-                                                overflow: TextOverflow.ellipsis,
+                                                '${datas[index]['tenor']} Bulan',
                                                 style: const TextStyle(
                                                   fontSize: 14,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: PaylaterTheme.orange,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: PaylaterTheme.darkerText,
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                          /// Tenor cicilan
-                                          if (tenor.value != null && tenor.value!="tenor")
-                                            Text(
-                                              '${datas[index]['tenor']} Bulan',
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: PaylaterTheme.darkerText,
-                                              ),
-                                            ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           Obx(() => NumberPaginator(

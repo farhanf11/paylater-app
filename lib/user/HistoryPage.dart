@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paylater/user/HomePage.dart';
 import 'history_page/RiwayatTagihan.dart';
 import 'history_page/tagihanBerlangsung.dart';
 import 'history_page/PermintaanOrder.dart';
@@ -15,9 +16,9 @@ class _HistoryPageState extends State<HistoryPage> {
   int pageIndex = 0;
 
   final pages = [
-    PermintaanOrder(),
-    TagihanBerlangsung(),
-    RiwayatOrder(),
+    const PermintaanOrder(),
+    const TagihanBerlangsung(),
+    const RiwayatOrder(),
   ];
 
   @override
@@ -27,8 +28,10 @@ class _HistoryPageState extends State<HistoryPage> {
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: const Color(0xff025464),
-            title: const Text("History", style: TextStyle(fontSize: 16),),
-            leading: const BackButton(),
+            title: const Text("Transaksi User", style: TextStyle(fontSize: 16),),
+            leading: BackButton(
+              onPressed: () => HomePage(),
+            ),
             bottom: const TabBar(
               tabs: [
                 Tab(text: 'Pending',),
@@ -39,7 +42,7 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
           body:Container(
             color: const Color(0xffE3E9EB),
-            child: TabBarView(
+            child: const TabBarView(
               children: [
                 PermintaanOrder(),
 

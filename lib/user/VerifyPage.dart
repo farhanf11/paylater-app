@@ -104,6 +104,7 @@ class _VerifyPageState extends State<VerifyPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff025464),
+        title: const Text('Verifikasi OTP'),
         leading: const BackButton(),
       ),
       body: Container(
