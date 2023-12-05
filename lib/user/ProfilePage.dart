@@ -9,10 +9,7 @@ import 'package:paylater/user/LinkCustomer.dart';
 import 'package:paylater/user/LoginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../profile_page/edit_profile.dart';
-import '../profile_page/privacyPolicy.dart';
 import '../profile_page/ubah_alamat.dart';
-import 'HistoryPage.dart';
 import 'components/profileComponent/buttonProfile.dart';
 import 'components/profileComponent/dataButton.dart';
 
@@ -327,7 +324,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             id: 3,
                             icon1: Icons.playlist_add_circle_sharp,
                             text1: 'Biodata',
-                            text2: 'Lengkapi biodata sebelum melakukan pesanan',
+                            text2: 'Lengkapi biodata diri kamu',
                             icon2: Icons.arrow_right_outlined,
                           )),
                           onPressed: () => Navigator.of(context)
@@ -359,29 +356,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               id: 5,
                               icon1: Icons.help,
                               text1: 'Pusat Bantuan',
-                              text2: 'Dapatkan jawaban terbaik dari hal yang ingin kamu tanyakan',
+                              text2: 'Pusat bantuan penggunaan aplikasi',
                               icon2: Icons.arrow_right_outlined,
                             )),
                             onPressed: () => Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) => const HelpCenter())),
                         ),
 
-                        // SizedBox(height: 4,),
-
-                        ///privacy policy
-                        // MaterialButton(
-                        //   color: Colors.white,
-                        //   child: ButtonProfile(DataButton(
-                        //     id: 7,
-                        //     icon1: Icons.privacy_tip,
-                        //     text1: 'Kebijakan Privasi',
-                        //     text2: 'Kebijakan Privasi ILKOMPAY',
-                        //     icon2: Icons.arrow_right_outlined,
-                        //   )),
-                        //   onPressed: () => Navigator.of(context)
-                        //       .push(MaterialPageRoute(builder: (context) => const PrivacyPolicy())),
-                        // ),
-                        //end bantuan
                       ],
                     ),
                   )

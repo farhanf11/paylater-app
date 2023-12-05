@@ -217,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                height: 100,
+                height: 110,
                 decoration: const BoxDecoration(
                   boxShadow: <BoxShadow>[
                     BoxShadow(

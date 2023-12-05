@@ -186,7 +186,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                           child: Expanded(
                             child: Container(
                               constraints: const BoxConstraints(maxWidth: double.infinity),
-                              height: 160,
+                              height: 156,
                               width: 340,
                               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                               decoration: BoxDecoration(
@@ -250,6 +250,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                                             /// no order
                                               Text(
                                                 '${datas[index]['no_order']}',
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w600,

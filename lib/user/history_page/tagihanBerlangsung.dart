@@ -174,7 +174,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                           child: Expanded(
                             child: Container(
                               constraints: const BoxConstraints(maxWidth: double.infinity),
-                              height: 160,
+                              height: 166,
                               width: 340,
                               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                               decoration: BoxDecoration(
@@ -232,6 +232,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
 
                                             Text(
                                               '${datas[index]['no_order']}',
+                                              overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
@@ -252,7 +253,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
 
                                             ///price
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 const Text(
                                                   'Harga : Rp ',

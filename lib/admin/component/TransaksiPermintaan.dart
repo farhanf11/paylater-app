@@ -337,7 +337,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                   borderRadius: BorderRadius.all(Radius.circular(6))
                                 ),
 
-                                padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
+                                padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
                                 child: const Text('Setujui', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
                               ),
                               onPressed: () {
@@ -355,7 +355,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                     borderRadius: BorderRadius.all(Radius.circular(6))
                                 ),
 
-                                padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
+                                padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
                                 child: const Text('Tolak', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
                               ),
                               onPressed: () {

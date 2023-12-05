@@ -148,7 +148,7 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                             child: Container(
                               constraints: BoxConstraints(maxWidth: double.infinity),
                               height: 160,
-                              width: 360,
+                              width: 348,
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                               decoration: BoxDecoration(
                                   color: PaylaterTheme.white,

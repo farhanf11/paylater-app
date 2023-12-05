@@ -128,6 +128,7 @@ class _AkunCustomerState extends State<AkunCustomer> {
                                               fontWeight: FontWeight.bold,
                                             )),
                                         Text(datas[index]['email_address'],
+                                            overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                               fontSize: 14,
                                               color: PaylaterTheme

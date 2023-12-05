@@ -161,7 +161,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                         color: Colors.white,
                       ),
                       padding:
-                          const EdgeInsets.symmetric(horizontal: 40, vertical: 6),
+                          const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                       child: Column(
                         children: [
                           Obx(() => Image(
@@ -175,6 +175,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                           Obx(
                             () => Text(
                               title.value,
+                              textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -213,7 +214,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Nomor Pesanan',
+                                  'No Order',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -222,6 +223,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                 Obx(
                                   () => Text(
                                     no_order.value,
+                                    overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
@@ -232,7 +234,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                             ),
                           ),
 
-                          ///Tagihan Tersisa
+                          ///Total Harga
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 12),
@@ -240,7 +242,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Total Price',
+                                  'Harga Barang',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -324,7 +326,8 @@ class _RincianTagihanState extends State<RincianTagihan> {
                             ),
                           ),
 
-                          ///Tagihan Tersisa
+                          ///total harga
+                          if (tenor.value != null && tenor.value != 'tenor')
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 12),
@@ -332,7 +335,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Tagihan Tersisa',
+                                  'Total Harga',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -340,7 +343,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                 ),
                                 Obx(
                                   () => Text(
-                                    'Rp ${price.value}',
+                                    'Rp ${total_price.value}',
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,

@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
-import 'package:paylater/admin/admin_keuangan.dart';
 import 'package:paylater/admin/component/PostPengajuanProduk.dart';
 import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
@@ -434,7 +433,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 elevation: 5,
                 child: ///pengajuan link
                 Container(
-                  height: 365,
+                  height: 372,
                   color: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   child: Column(

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart';
 import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,9 +24,10 @@ class _RincianAkadState extends State<RincianAkad> {
   ///get
   var image = "".obs;
   var title = "".obs;
-  var price = 0.obs;
+  var price = "".obs;
   var order_id = 0.obs;
   var link_id = 0.obs;
+  var harga = "".obs;
 
   String url = "";
   String token = "";
@@ -44,6 +46,28 @@ class _RincianAkadState extends State<RincianAkad> {
   void _handleTenor(String? value) {
     setState(() {
       _tenor= value!;
+
+      if (value == "3"){
+        price.value = harga.value;
+        var temp = 0.0;
+        temp = 0.02 * double.parse(price.value);
+        var result = temp + double.parse((price.value));
+        price.value = result.toString();
+      }
+      if (value == "6"){
+        price.value = harga.value;
+        var temp = 0.0;
+        temp = 0.03 * double.parse(price.value);
+        var result = temp + double.parse((price.value));
+        price.value = result.toString();
+      }
+      if (value == "12"){
+        price.value = harga.value;
+        var temp = 0.0;
+        temp = 0.06 * double.parse(price.value);
+        var result = temp + double.parse((price.value));
+        price.value = result.toString();
+      }
     });
   }
 
@@ -84,7 +108,8 @@ class _RincianAkadState extends State<RincianAkad> {
           print('gagal');
         } else {
           title.value = responseData['data']['order']['title'];
-          price.value = responseData['data']['order']['price'];
+          price.value = responseData['data']['order']['price'].toString();
+          harga.value = responseData['data']['order']['price'].toString();
           image.value = responseData['data']['order']['image'];
           order_id.value = responseData['data']['order']['id'];
           link_id.value = responseData['data']['order']['link_id'];
@@ -195,17 +220,30 @@ class _RincianAkadState extends State<RincianAkad> {
                   ),
                   Obx(() => Text(
                     title.value.toString(),
+                    textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),),
+
                   const SizedBox(
                     height: 8,
                   ),
                   Obx(() => Text(
-                    'Rp ${price.value}',
+                    'Rp ${harga.value.split(".")[0]}',
                     style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: Colors.grey),
+                  ),),
+
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Obx(() => Text(
+                    'Rp ${price.value.split(".")[0]}',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.orange),
                   ),)
                 ],
               ),
