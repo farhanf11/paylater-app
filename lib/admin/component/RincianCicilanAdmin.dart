@@ -84,6 +84,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         cicilans = responseData['data']['instalment'];
+        print('cicilan : '+responseData['data']['instalment'][0]['instalment_number']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -493,19 +494,37 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const Text(
-                                          'Cicilan',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400),
+                                        Row(
+                                          children: [
+                                            if(cicilans[index]['status'] == "approve")
+                                              const Padding(
+                                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                                child: Icon( CupertinoIcons.checkmark_seal_fill,
+                                                  size: 20, color: PaylaterTheme.maincolor,
+                                                ),
+                                              ),
+                                            if(cicilans[index]['status'] == "pending")
+                                              const Padding(
+                                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                                child: Icon( CupertinoIcons.clock,
+                                                  size: 20, color: PaylaterTheme.orange,
+                                                ),
+                                              ),
+                                            Text(
+                                              'Cicilan-${cicilans[index]['instalment_number']}',
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
                                         ),
                                         Text(
                                           cicilans[index]['instalment_price'].toString(),
                                           style: const TextStyle(
                                               color: PaylaterTheme.orange,
                                               fontSize: 14,
-                                              fontWeight: FontWeight.w500),
+                                              fontWeight: FontWeight.w700),
                                         ),
                                         TextButton(
                                             onPressed: () => Navigator.push(
@@ -518,7 +537,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                                             ),
                                             child: Container(
                                               padding: const EdgeInsets.symmetric(
-                                                  vertical: 3, horizontal: 8
+                                                  vertical: 4, horizontal: 12
                                               ),
                                               decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(4),
@@ -527,7 +546,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                                                 'Lihat',
                                                 style: TextStyle(color: Colors.white),
                                               ),
-                                            )),
+                                            )
+                                        ),
                                       ],
                                     ),
                                   );
@@ -665,7 +685,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400),
                               ),
-                            )),
+                            )
+                        ),
                       ],
                     ),
                   ),
