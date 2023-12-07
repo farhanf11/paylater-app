@@ -1,15 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:paylater/admin/component/DetailPembayaranCicilan.dart';
-import 'package:paylater/admin/component/RincianBayarCicilan.dart';
-import 'package:paylater/admin/component/popup.dart';
 import 'package:paylater/theme.dart';
 import 'package:paylater/user/DetailPembayaran.dart';
-import 'package:paylater/user/history_page/rincianPembayaran.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../user/TransferBank.dart';
 import 'package:get/get.dart';
 
 class RincianTagihan extends StatefulWidget {
@@ -27,28 +23,28 @@ class _RincianTagihanState extends State<RincianTagihan> {
   _RincianTagihanState();
   String token = "";
   var id = 0.obs;
-  var no_order = 'no_order'.obs;
-  var airway_bill = 'airway_bill'.obs;
+  var no_order = ''.obs;
+  var airway_bill = ''.obs;
   var user_id = 0.obs;
   var price = 0.obs;
-  var image = 'image'.obs;
-  var url = 'url'.obs;
-  var title = 'titleeee'.obs;
+  var image = ''.obs;
+  var url = ''.obs;
+  var title = ''.obs;
   var total_price = 0.obs;
-  var tenor = 'tenor'.obs;
-  var address = 'addressoooo'.obs;
-  var note = 'note'.obs;
-  var arrival_date = 'arrival_date'.obs;
-  var request_date = 'request_date'.obs;
+  var tenor = ''.obs;
+  var address = ''.obs;
+  var note = ''.obs;
+  var arrival_date = ''.obs;
+  var request_date = ''.obs;
   var status = ''.obs;
-  var created_at = 'created_at'.obs;
+  var created_at = ''.obs;
 
   var id_installment = 0.obs;
   var order_id = 0.obs;
-  var instalment_unique_id = "6";
+  var instalment_unique_id = "";
   var instalment_number = "".obs;
   var instalment_price = 0.obs;
-  var status_installment = "approve".obs;
+  var status_installment = "".obs;
   var due_date = "".obs;
   var full_name = "".obs;
   bool isLoading = false;
@@ -85,6 +81,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         cicilans = responseData['data']['instalment'];
+        print(responseData['data']['instalment'][0]['status']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -106,7 +103,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
           arrival_date.value = responseData['data']['arrival_date'] ?? "-";
 
           id_installment.value =
-              responseData['data']['instalment'][0]['id_installment'];
+              responseData['data']['instalment'][0]['id'];
           order_id.value = responseData['data']['instalment'][0]['order_id'];
           instalment_unique_id =
               responseData['data']['instalment'][0]['instalment_unique_id'];
@@ -114,8 +111,8 @@ class _RincianTagihanState extends State<RincianTagihan> {
               responseData['data']['instalment'][0]['instalment_number'];
           instalment_price.value =
               responseData['data']['instalment'][0]['instalment_price'];
-          status_installment.value =
-              responseData['data']['instalment'][0]['status_installment'];
+          status.value =
+              responseData['data']['instalment'][0]['status'];
           due_date.value = responseData['data']['instalment'][0]['due_date'];
         }
       } else {
@@ -234,7 +231,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                             ),
                           ),
 
-                          ///Total Harga
+                          ///Harga barang
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 12),
@@ -417,6 +414,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500),
                                           ),
+                                          if(cicilans[index]['status'] == "not_yet")
                                           TextButton(
                                               onPressed: () => Navigator.push(
                                                 context,
@@ -439,6 +437,22 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                                   style: TextStyle(color: Colors.white),
                                                 ),
                                               )),
+
+                                          if(cicilans[index]['status'] == "pending")
+                                            const Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 20),
+                                              child: Icon( CupertinoIcons.clock,
+                                                size: 20, color: PaylaterTheme.orange,
+                                              ),
+                                            ),
+
+                                          if(cicilans[index]['status'] == "approve")
+                                            const Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 20),
+                                              child: Icon( CupertinoIcons.checkmark_seal_fill,
+                                                size: 20, color: PaylaterTheme.maincolor,
+                                              ),
+                                            )
                                         ],
                                       ),
                                     );

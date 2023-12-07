@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
+import 'package:paylater/user/history_page/detail_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 import 'package:number_paginator/number_paginator.dart';
@@ -162,7 +163,7 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
                           onPressed: () { Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) => RincianCicilanAdmin(
+                              builder: (BuildContext context) => RincianTagihan(
                                 order_id: datas[index]['id'],
                                 user_id: datas[index]['user_id'],
                               ),
@@ -172,7 +173,7 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
                             child: Container(
                               constraints: BoxConstraints(maxWidth: double.infinity),
                               height: 160,
-                              width: 360,
+                              width: 348,
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                               decoration: BoxDecoration(
                                   color: PaylaterTheme.white,
@@ -263,7 +264,7 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
 
                                             ///notes
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 const Text(
                                                   'Catatan : ',

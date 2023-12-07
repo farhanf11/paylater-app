@@ -60,7 +60,7 @@ class _AkunCustomerState extends State<AkunCustomer> {
   Widget build(BuildContext context) {
     return Container(
       color: PaylaterTheme.spacer,
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +96,7 @@ class _AkunCustomerState extends State<AkunCustomer> {
                           },
                           child: Expanded(
                             child: Container(
-                              width: 300,
+                              width: 320,
                               decoration: BoxDecoration(
                                   color: PaylaterTheme.white,
                                   borderRadius: BorderRadius.circular(10)),
@@ -114,7 +114,7 @@ class _AkunCustomerState extends State<AkunCustomer> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      width: 20,
+                                      width: 16,
                                     ),
                                     Column(
                                       mainAxisAlignment:
@@ -123,17 +123,21 @@ class _AkunCustomerState extends State<AkunCustomer> {
                                       CrossAxisAlignment.start,
                                       children: [
                                         Text(datas[index]['user_name'],
+                                            overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
-                                            )),
-                                        Text(datas[index]['email_address'],
+                                            )
+                                        ),
+                                        Text(
+                                            datas[index]['email_address'],
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                               fontSize: 14,
                                               color: PaylaterTheme
                                                   .deactivatedText,
-                                            )),
+                                            )
+                                        ),
                                       ],
                                     ),
                                   ],

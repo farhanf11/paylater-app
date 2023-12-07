@@ -22,9 +22,9 @@ class _AcceptedLinkState extends State<AcceptedLink> {
   String token = "";
   List datas = [];
   var url = "url".obs;
-  var status = "status".obs;
-  var user_name = "username".obs;
-  var image_face = "image".obs;
+  var status = "".obs;
+  var user_name = "".obs;
+  var image_face = "".obs;
   var _currentPage = 0.obs;
   var last_page = 1.obs;
   bool isLoading = false;

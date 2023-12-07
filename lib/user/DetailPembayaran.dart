@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:paylater/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
+
+import '../navbar/NavbarBot.dart';
 
 class DetailPembayaran extends StatefulWidget {
   const DetailPembayaran({Key? key,
@@ -46,28 +50,23 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
       color: Colors.black, fontSize: 14, fontWeight: FontWeight.normal);
   final _bca = '''500012345 An. Ilkompay''';
 
-  getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      token = prefs.getString('token')!;
-    });
-  }
-
   uploadImage(File? image) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       token = prefs.getString('token')!;
+      print(widget.instalment_id);
+      print(widget.order_id);
     });
+    var id = prefs.getInt('id')!;
     var formData = FormData();
-    formData.fields.add(MapEntry("order_id", "32"));
-    formData.fields.add(MapEntry("instalment_id", "18"));
+    formData.fields.add(MapEntry("order_id", "${widget.order_id}"));
+    formData.fields.add(MapEntry("instalment_id", "${widget.instalment_id}"));
     formData.files.add(MapEntry(
       "payment_img",
       await MultipartFile.fromFile(image!.path, filename: "pic-name.png"),
     ));
-    print("token $token");
     var response = await dio.post(
-        'https://paylater.harysusilo.my.id/api/instalment-store/4',
+        'https://paylater.harysusilo.my.id/api/instalment-store/$id',
         data: formData,
         options: Options(
             headers: {
@@ -77,7 +76,20 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
             followRedirects: false,
             validateStatus: (status) {
               return status! < 500;
-            }));
+            }
+        )
+    );
+    print("response data : ${response.data}");
+    if (response.data['success'] == false) {
+      Navigator.pop(context);
+      AlertDialog alert = const AlertDialog(
+        icon: Icon(CupertinoIcons.checkmark_seal_fill, size: 20, color: PaylaterTheme.maincolor, ),
+        title: Text("Berhasil"),
+        content: Text("berhasil melakukan pembayaran"),
+      );
+
+      showDialog(context: context, builder: (context) => alert);
+    }
     print("response ${response.data}");
   }
 
@@ -211,8 +223,6 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                     ],
                   ),
                 ),
-
-                //Tagihan Tersisa
               ],
             ),
           ),
@@ -245,7 +255,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Bukti Pembayaran',
+                        'Upload Bukti',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
@@ -258,11 +268,13 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                         onPressed: () => pickImage(),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 20),
+                              vertical: 4, horizontal: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Text('Upload'),
+                          child: const Icon(
+                            Icons.drive_folder_upload_outlined, size: 20, color: PaylaterTheme.white,
+                          ),
                         ),
                       ),
                     ],
