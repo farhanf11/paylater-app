@@ -229,7 +229,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
-                                'ID Pesanan',
+                                'ID',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14,
@@ -237,6 +237,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                               ),
                               Obx(() => Text(
                                 instalment_unique_id.value,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 14,

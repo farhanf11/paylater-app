@@ -241,7 +241,7 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 const Text(
-                                                  'Catatan : ',
+                                                  'No Order : ',
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w500,
@@ -250,7 +250,7 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                                                 ),
                                                 Flexible(child:
                                                   Text(
-                                                    datas[index]['note'],
+                                                    datas[index]['no_order'],
                                                     overflow: TextOverflow.ellipsis,
                                                     style: const TextStyle(
                                                       fontSize: 14,

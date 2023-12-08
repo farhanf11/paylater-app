@@ -222,7 +222,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'User Name',
+                                  'Username (id)',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -256,7 +256,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Nomor Telepon',
+                                  'No Telepon',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -281,7 +281,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Tanggal Permintaan',
+                                  'Tanggal',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -334,7 +334,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Nomor Pesanan',
+                                  'No Order',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
