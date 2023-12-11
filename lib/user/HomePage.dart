@@ -246,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: 270,
+                              width: 260,
                               child: TextField(
                                 keyboardType: TextInputType.url,
                                 textAlignVertical: TextAlignVertical.center,

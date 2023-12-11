@@ -173,7 +173,7 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
                             child: Container(
                               constraints: BoxConstraints(maxWidth: double.infinity),
                               height: 160,
-                              width: 348,
+                              width: 328,
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                               decoration: BoxDecoration(
                                   color: PaylaterTheme.white,

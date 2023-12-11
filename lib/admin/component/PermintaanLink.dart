@@ -139,7 +139,7 @@ class _PermintaanLinkState extends State<PermintaanLink> {
   Widget build(BuildContext context) {
     return Container(
       color: PaylaterTheme.spacer,
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 14.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -147,11 +147,7 @@ class _PermintaanLinkState extends State<PermintaanLink> {
           Flexible(
             fit: FlexFit.tight,
             child: Center(
-              child: isLoading
-                  ? const CircularProgressIndicator(
-                ///style
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-              ):ListView.builder(
+              child: ListView.builder(
                 itemCount: datas.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
@@ -173,8 +169,8 @@ class _PermintaanLinkState extends State<PermintaanLink> {
                           child: Expanded(
                             child: Container(
                               constraints: const BoxConstraints(maxWidth: double.infinity),
-                              height: 80,
-                              width: 360,
+                              height: 72,
+                              width: 320,
                               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                               decoration: BoxDecoration(
                                   color: PaylaterTheme.white,

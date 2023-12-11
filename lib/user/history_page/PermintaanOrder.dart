@@ -187,7 +187,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                             child: Container(
                               constraints: const BoxConstraints(maxWidth: double.infinity),
                               height: 156,
-                              width: 340,
+                              width: 328,
                               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                               decoration: BoxDecoration(
                                   color: PaylaterTheme.white,

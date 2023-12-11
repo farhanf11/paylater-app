@@ -73,12 +73,10 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
         if(responseData['success'] == false ){
           print('gagal');
         }else{
-          setState(() {
-            user_name.value = responseData['data']['data']['user']['user_name'];
-            email_address.value = responseData['data']['email_address'];
-            phone_number.value = responseData['data']['phone_number'];
-            image_face.value = responseData['data']['image_face'];
-          });
+          user_name.value = responseData['data']['data']['user']['user_name'];
+          email_address.value = responseData['data']['email_address'];
+          phone_number.value = responseData['data']['phone_number'];
+          image_face.value = responseData['data']['image_face'];
         }
       }else{
         print('gagal');

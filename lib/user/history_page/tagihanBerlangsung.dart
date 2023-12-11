@@ -175,7 +175,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                             child: Container(
                               constraints: const BoxConstraints(maxWidth: double.infinity),
                               height: 166,
-                              width: 340,
+                              width: 328,
                               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                               decoration: BoxDecoration(
                                   color: PaylaterTheme.white,
