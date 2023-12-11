@@ -27,34 +27,29 @@ extension EmailValidator on String {
 class _DaftarPageState extends State<DaftarPage> {
   File? wajah;
   File? ktp;
+  File? image1;
+  File? image2;
   ImagePicker picker = ImagePicker();
   Dio dio = Dio();
-
 
   TextEditingController inputUsername = TextEditingController();
   TextEditingController inputTelp = TextEditingController();
   TextEditingController inputEmail = TextEditingController();
   TextEditingController inputJob = TextEditingController();
-  TextEditingController verifikasiWajah = TextEditingController();
-  TextEditingController verifikasiKTP = TextEditingController();
 
-  Future wajahImage() async {
-    try {
-      final image = await picker.pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      final imageTemporary = File(image.path);
-      setState(() => this.wajah = imageTemporary as File?);
-    } on PlatformException catch (e) {
-      print('gagal mengambil gambar dari galeri $e');
-    }
-  }
+  var imagePicker;
 
-  Future ktpImage() async {
+  Future pickImage() async {
     try {
-      final image = await picker.pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      final imageTemporary = File(image.path);
-      setState(() => this.ktp = imageTemporary as File?);
+      final List<XFile>? selectedImages = await
+      imagePicker.pickMultiImage();
+      if (image1 == null) return;
+      var imagetemporary1 = File(selectedImages![0].path);
+      var imagetemporary2 = File(selectedImages[1].path);
+      setState(() {
+        this.image1 = imagetemporary1;
+        this.image2 = imagetemporary2;
+      });
     } on PlatformException catch (e) {
       print('gagal mengambil gambar dari galeri $e');
     }
@@ -160,8 +155,6 @@ class _DaftarPageState extends State<DaftarPage> {
                           validator: (input) => input!.isValidEmail()
                               ? null
                               : "Username harus di isi",
-                          // selectionHeightStyle:
-                          //     BoxHeightStyle.includeLineSpacingMiddle,
 
                           controller: inputUsername,
                           maxLines: 1,
@@ -409,7 +402,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               IconButton(
                                 padding: const EdgeInsets.all(8),
                                 color: const Color(0xffd8d8e0),
-                                onPressed: () => wajahImage(),
+                                onPressed: () => pickImage(),
                                 icon: const Icon(
                                   Icons.camera_alt_rounded,
                                   color: Colors.black,
@@ -461,7 +454,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               IconButton(
                                 padding: const EdgeInsets.all(8),
                                 color: const Color(0xffF7F7FC),
-                                onPressed: () => ktpImage(),
+                                onPressed: () => pickImage(),
                                 icon: const Icon(
                                   Icons.camera_alt_rounded,
                                   color: Colors.black,
