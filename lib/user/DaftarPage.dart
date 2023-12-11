@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paylater/user/LoginPage.dart';
-import '../admin/component/popup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../theme.dart';
 
 class DaftarPage extends StatefulWidget {
@@ -25,116 +25,82 @@ extension EmailValidator on String {
 }
 
 class _DaftarPageState extends State<DaftarPage> {
+  File? wajah;
+  File? ktp;
+  ImagePicker picker = ImagePicker();
+  Dio dio = Dio();
+
+
   TextEditingController inputUsername = TextEditingController();
   TextEditingController inputTelp = TextEditingController();
   TextEditingController inputEmail = TextEditingController();
   TextEditingController inputJob = TextEditingController();
   TextEditingController verifikasiWajah = TextEditingController();
   TextEditingController verifikasiKTP = TextEditingController();
-  File? wajah;
-  File? ktp;
 
-  Future pickImage(String foto) async {
+  Future wajahImage() async {
     try {
-      if (Platform.isAndroid) {
-        return showModalBottomSheet(
-            context: context,
-            builder: (context) => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ListTile(
-                        leading: const Icon(Icons.camera_alt),
-                        title: const Text('Camera'),
-                        onTap: () async {
-                          Navigator.of(context).pop();
-                          final image = await ImagePicker()
-                              .pickImage(source: ImageSource.camera);
-                          if (image == null) return;
-                          final imageTemporary = File(image.path);
-                          if (foto == "wajah") {
-                            setState(() {
-                              wajah = imageTemporary;
-                            });
-                          }
-                          if (foto == "ktp") {
-                            setState(() {
-                              ktp = imageTemporary;
-                            });
-                          }
-                        }),
-                    ListTile(
-                        leading: Icon(Icons.image),
-                        title: Text('Gallery'),
-                        onTap: () async {
-                          Navigator.of(context).pop();
-                          final image = await ImagePicker()
-                              .pickImage(source: ImageSource.gallery);
-                          if (image == null) return;
-                          final imageTemporary = File(image.path);
-                          if (foto == "wajah") {
-                            setState(() {
-                              this.wajah = imageTemporary;
-                            });
-                          }
-                          if (foto == "ktp") {
-                            setState(() {
-                              this.ktp = imageTemporary;
-                            });
-                          }
-                        }),
-                  ],
-                ));
-      }
+      final image = await picker.pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() => this.wajah = imageTemporary as File?);
     } on PlatformException catch (e) {
-      print("failed to pick image: $e");
+      print('gagal mengambil gambar dari galeri $e');
     }
   }
 
-  void signUp(String username, String email, String telp, String pekerjaan, File? wajah, File? ktp) async {
+  Future ktpImage() async {
     try {
-      Response response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/auth/register'),
-          body: {
-            'user_name': username,
-            'email_address': email,
-            'phone_number': telp,
-            'job': pekerjaan,
-            'image_face' : wajah,
-            'image_ktp' : ktp,
-          });
-      if (response.statusCode == 200) {
-        var responseData = json.decode(response.body);
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (BuildContext context) => LoginPage()
-          ),
-        );
-        AlertDialog alert = AlertDialog(
-          title: Text(responseData['message']),
-          actions: [
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (context) => alert);
-      } else {
-        AlertDialog alert = AlertDialog(
-          title: const Text("Kolom harus di isi dengan benar"),
-          actions: [
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (context) => alert);
-      }
-    } catch (e) {
-      print(e.toString());
+      final image = await picker.pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() => this.ktp = imageTemporary as File?);
+    } on PlatformException catch (e) {
+      print('gagal mengambil gambar dari galeri $e');
     }
+  }
+
+  uploadSignUp(File? wajah, File? ktp, String email_address, String user_name, String phone_number, String job) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getInt('id')!;
+    var formData = FormData();
+    formData.fields.add(MapEntry("email_address", email_address));
+    formData.fields.add(MapEntry("user_name", user_name));
+    formData.fields.add(MapEntry("phone_number", phone_number));
+    formData.fields.add(MapEntry("job", job));
+    formData.files.add(MapEntry(
+      "image_face",
+      await MultipartFile.fromFile(wajah!.path, filename: "pic-name.png"),
+    ));
+    formData.files.add(MapEntry(
+      "image_ktp",
+      await MultipartFile.fromFile(ktp!.path, filename: "pic-name.png"),
+    ));
+    var response = await dio.post(
+        'https://paylater.harysusilo.my.id/api/instalment-store/$id',
+        data: formData,
+        options: Options(
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            }
+        )
+    );
+    print("response data : ${response.data}");
+    if (response.data['success'] == false) {
+      Navigator.pop(context);
+      AlertDialog alert = const AlertDialog(
+        icon: Icon(CupertinoIcons.checkmark_seal_fill, size: 20, color: PaylaterTheme.maincolor, ),
+        title: Text("Berhasil"),
+        content: Text("berhasil melakukan pembayaran"),
+      );
+
+      showDialog(context: context, builder: (context) => alert);
+    }
+    print("response ${response.data}");
   }
 
   String? dropdownValue = "Tenaga Pendidik";
@@ -443,7 +409,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               IconButton(
                                 padding: const EdgeInsets.all(8),
                                 color: const Color(0xffd8d8e0),
-                                onPressed: () => pickImage("wajah"),
+                                onPressed: () => wajahImage(),
                                 icon: const Icon(
                                   Icons.camera_alt_rounded,
                                   color: Colors.black,
@@ -495,7 +461,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               IconButton(
                                 padding: const EdgeInsets.all(8),
                                 color: const Color(0xffF7F7FC),
-                                onPressed: () => pickImage("ktp"),
+                                onPressed: () => ktpImage(),
                                 icon: const Icon(
                                   Icons.camera_alt_rounded,
                                   color: Colors.black,
@@ -522,13 +488,13 @@ class _DaftarPageState extends State<DaftarPage> {
                       style: const ButtonStyle(
                           backgroundColor:
                           MaterialStatePropertyAll(Color(0xff025464))),
-                      onPressed: () => {signUp(
-                        inputUsername.text.toString(),
-                        inputEmail.text.toString(),
-                        inputTelp.text.toString(),
-                        inputJob.text.toString(),
+                      onPressed: () => {uploadSignUp(
                         wajah,
-                        ktp
+                        ktp,
+                        inputEmail.text,
+                        inputUsername.text,
+                        inputTelp.text,
+                        inputJob.text,
                       )},
                       child: Container(
                         padding: const EdgeInsets.symmetric(
