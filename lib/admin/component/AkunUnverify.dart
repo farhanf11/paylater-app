@@ -122,7 +122,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
   Widget build(BuildContext context) {
     return Container(
       color: PaylaterTheme.spacer,
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
       child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,9 +162,6 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                 fontWeight: FontWeight.w600))),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
                 Flexible(
                   fit: FlexFit.tight,
                   child: Center(
@@ -179,7 +176,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               MaterialButton(
                                 onPressed: () {
@@ -193,7 +190,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                 },
                                 child: Expanded(
                                   child: Container(
-                                    width: 240,
+                                    width: 210,
                                     decoration: BoxDecoration(
                                         color: PaylaterTheme.white,
                                         borderRadius: BorderRadius.circular(10)),
@@ -211,6 +208,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(datas[index]['user_name'],
+                                                  overflow: TextOverflow.ellipsis,
                                                   style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.bold,

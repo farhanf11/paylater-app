@@ -96,7 +96,7 @@ class _AkunCustomerState extends State<AkunCustomer> {
                           },
                           child: Expanded(
                             child: Container(
-                              width: 320,
+                              width: 280,
                               decoration: BoxDecoration(
                                   color: PaylaterTheme.white,
                                   borderRadius: BorderRadius.circular(10)),
