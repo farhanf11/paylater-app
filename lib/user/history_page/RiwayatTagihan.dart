@@ -169,131 +169,129 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
                               ),
                             ),
                           );},
-                          child: Expanded(
-                            child: Container(
-                              constraints: BoxConstraints(maxWidth: double.infinity),
-                              height: 160,
-                              width: 328,
-                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                              decoration: BoxDecoration(
-                                  color: PaylaterTheme.white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Obx(() => CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            image_face.value
-                                        ),
-                                      ),),
-                                      const SizedBox(
-                                        width: 10,
+                          child: Container(
+                            constraints: BoxConstraints(maxWidth: double.infinity),
+                            height: 160,
+                            width: 328,
+                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            decoration: BoxDecoration(
+                                color: PaylaterTheme.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Obx(() => CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          image_face.value
                                       ),
-                                      Obx(() => Text(user_name.value,
-                                          style: const TextStyle(
+                                    ),),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Obx(() => Text(user_name.value,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w700
+                                        )
+                                    ),),
+                                  ],
+                                ),
+                                const SizedBox(height: 10,),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(datas[index]['image']),
+                                      width: 60,
+                                      height: 60,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    const SizedBox(width: 20,),
+                                    Flexible(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          ///Nama
+                                          Text(
+                                            datas[index]['title'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              color: PaylaterTheme.darkerText,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+
+                                          /// Tenor cicilan
+                                          Text(
+                                            '${'Tenor Cicilan :' +
+                                                datas[index]['tenor']} bulan',
+                                            style: const TextStyle(
                                               fontSize: 14,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700
-                                          )
-                                      ),),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Image(
-                                        image: NetworkImage(datas[index]['image']),
-                                        width: 60,
-                                        height: 60,
-                                        fit: BoxFit.fill,
-                                      ),
-                                      const SizedBox(width: 20,),
-                                      Flexible(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            ///Nama
-                                            Text(
-                                              datas[index]['title'],
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                color: PaylaterTheme.darkerText,
-                                                fontSize: 16,
-                                              ),
+                                              fontWeight: FontWeight.w600,
+                                              color: PaylaterTheme.darkerText,
                                             ),
+                                          ),
 
-                                            /// Tenor cicilan
-                                            Text(
-                                              '${'Tenor Cicilan :' +
-                                                  datas[index]['tenor']} bulan',
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: PaylaterTheme.darkerText,
-                                              ),
-                                            ),
-
-                                            ///price
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'Harga : Rp ',
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: PaylaterTheme.darkerText,
-                                                  ),
+                                          ///price
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Harga : Rp ',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: PaylaterTheme.darkerText,
                                                 ),
-                                                Text(
-                                                  datas[index]['price'].toString(),
+                                              ),
+                                              Text(
+                                                datas[index]['price'].toString(),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: PaylaterTheme.orange,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+                                          ///notes
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Catatan : ',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: PaylaterTheme.darkerText,
+                                                ),
+                                              ),
+                                              Flexible(
+                                                child: Text(
+                                                  datas[index]['note'],
                                                   overflow: TextOverflow.ellipsis,
                                                   style: const TextStyle(
                                                     fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: PaylaterTheme.orange,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-
-                                            ///notes
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'Catatan : ',
-                                                  style: TextStyle(
-                                                    fontSize: 12,
                                                     fontWeight: FontWeight.w500,
-                                                    color: PaylaterTheme.darkerText,
+                                                    color: Colors.grey,
                                                   ),
                                                 ),
-                                                Flexible(
-                                                  child: Text(
-                                                    datas[index]['note'],
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),

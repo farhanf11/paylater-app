@@ -188,41 +188,39 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                       )
                                   );
                                 },
-                                child: Expanded(
-                                  child: Container(
-                                    width: 210,
-                                    decoration: BoxDecoration(
-                                        color: PaylaterTheme.white,
-                                        borderRadius: BorderRadius.circular(10)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5.0, horizontal: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(datas[index]['user_name'],
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
-                                              Text(datas[index]['email_address'],
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    color: PaylaterTheme
-                                                        .deactivatedText,
-                                                  )),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                child: Container(
+                                  width: 210,
+                                  decoration: BoxDecoration(
+                                      color: PaylaterTheme.white,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5.0, horizontal: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(datas[index]['user_name'],
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                            Text(datas[index]['email_address'],
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: PaylaterTheme
+                                                      .deactivatedText,
+                                                )),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
