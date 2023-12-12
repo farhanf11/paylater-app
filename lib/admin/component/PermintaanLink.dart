@@ -166,93 +166,91 @@ class _PermintaanLinkState extends State<PermintaanLink> {
                               ),
                             ),
                           );},
-                          child: Expanded(
-                            child: Container(
-                              constraints: const BoxConstraints(maxWidth: double.infinity),
-                              height: 72,
-                              width: 320,
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                              decoration: BoxDecoration(
-                                  color: PaylaterTheme.white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '(${datas[index]['id']}) ',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: PaylaterTheme.orange,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600
+                          child: Container(
+                            constraints: const BoxConstraints(maxWidth: double.infinity),
+                            height: 72,
+                            width: 320,
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            decoration: BoxDecoration(
+                                color: PaylaterTheme.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '(${datas[index]['id']}) ',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          color: PaylaterTheme.orange,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600
+                                      ),
+                                    ),
+                                    Flexible(
+                                        child: Text(
+                                          datas[index]['url'],
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              color: PaylaterTheme.darkerText,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600
+                                          ),
                                         ),
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                            datas[index]['url'],
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                color: PaylaterTheme.darkerText,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600
+                                    ),
+                                    PopupMenuButton(
+                                        child: const Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(16.0),
+                                            child: Icon(
+                                              CupertinoIcons.ellipsis_vertical,
+                                              size: 16,
                                             ),
                                           ),
-                                      ),
-                                      PopupMenuButton(
-                                          child: const Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(16.0),
-                                              child: Icon(
-                                                CupertinoIcons.ellipsis_vertical,
-                                                size: 16,
-                                              ),
-                                            ),
+                                        ),
+                                        itemBuilder: (context) => [
+                                          PopupMenuItem(
+                                            value: 1,
+                                            child: TextButton(
+                                                onPressed: () async {
+                                                  await Clipboard.setData(
+                                                      ClipboardData(
+                                                          text:
+                                                          datas[index]['url']));
+                                                  AlertDialog alert = AlertDialog(
+                                                    title: const Text('Berhasil Menyalin Link : '),
+                                                    content: Text(
+                                                        datas[index]['url']),
+                                                    backgroundColor: Colors.white,
+                                                    icon: const Icon(
+                                                        CupertinoIcons
+                                                            .checkmark_seal_fill,
+                                                        size: 20),
+                                                    iconColor: PaylaterTheme.maincolor,
+                                                    actions: [
+                                                      TextButton(
+                                                        child: const Text('Ok'),
+                                                        onPressed: () =>
+                                                            Navigator.of(context).pop(),
+                                                      ),
+                                                    ],
+                                                  );
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) => alert);
+                                                },
+                                                child: const Text(
+                                                  'salin',
+                                                  style: TextStyle(color: Colors.black),
+                                                )),
                                           ),
-                                          itemBuilder: (context) => [
-                                            PopupMenuItem(
-                                              value: 1,
-                                              child: TextButton(
-                                                  onPressed: () async {
-                                                    await Clipboard.setData(
-                                                        ClipboardData(
-                                                            text:
-                                                            datas[index]['url']));
-                                                    AlertDialog alert = AlertDialog(
-                                                      title: const Text('Berhasil Menyalin Link : '),
-                                                      content: Text(
-                                                          datas[index]['url']),
-                                                      backgroundColor: Colors.white,
-                                                      icon: const Icon(
-                                                          CupertinoIcons
-                                                              .checkmark_seal_fill,
-                                                          size: 20),
-                                                      iconColor: PaylaterTheme.maincolor,
-                                                      actions: [
-                                                        TextButton(
-                                                          child: const Text('Ok'),
-                                                          onPressed: () =>
-                                                              Navigator.of(context).pop(),
-                                                        ),
-                                                      ],
-                                                    );
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) => alert);
-                                                  },
-                                                  child: const Text(
-                                                    'salin',
-                                                    style: TextStyle(color: Colors.black),
-                                                  )),
-                                            ),
-                                          ])
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                        ])
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
