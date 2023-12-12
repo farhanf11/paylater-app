@@ -171,93 +171,93 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
                     ):ListView.builder(
                       itemCount: datas.length,
+                      padding:  const EdgeInsets.symmetric(vertical: 5),
                       itemBuilder: (BuildContext context, int index) {
                         ///card user
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              MaterialButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => DetailAkun(
-                                          id: datas[index]['id'],
-                                        )
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            MaterialButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailAkun(
+                                        id: datas[index]['id'],
                                       )
-                                  );
-                                },
-                                child: Container(
-                                  width: 210,
-                                  decoration: BoxDecoration(
-                                      color: PaylaterTheme.white,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5.0, horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(datas[index]['user_name'],
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                )),
-                                            Text(datas[index]['email_address'],
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  color: PaylaterTheme
-                                                      .deactivatedText,
-                                                )),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                    )
+                                );
+                              },
+                              child: Container(
+                                width: 210,
+                                decoration: BoxDecoration(
+                                    color: PaylaterTheme.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5.0, horizontal: 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(datas[index]['user_name'],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              )
+                                          ),
+                                          Text(datas[index]['email_address'],
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: PaylaterTheme
+                                                    .deactivatedText,
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
+                            ),
 
-                              ///button
-                              Row(
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.check_box_rounded,
-                                      color: PaylaterTheme.nearlyDarkBlue,
-                                      size: 25,
-                                    ),
-                                    onPressed: () {
-                                      VerifyAkun(
-                                          datas[index]['id'].toString(),
-                                          "verified"
-                                      );
-                                    },
+                            ///button
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.check_box_rounded,
+                                    color: PaylaterTheme.nearlyDarkBlue,
+                                    size: 25,
                                   ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.disabled_by_default,
-                                      color: PaylaterTheme.decline,
-                                      size: 25,
-                                    ),
-                                    onPressed: () {VerifyAkun(
+                                  onPressed: () {
+                                    VerifyAkun(
                                         datas[index]['id'].toString(),
-                                        "rejected"
+                                        "verified"
                                     );
-                                    },
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.disabled_by_default,
+                                    color: PaylaterTheme.decline,
+                                    size: 25,
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                  onPressed: () {VerifyAkun(
+                                      datas[index]['id'].toString(),
+                                      "rejected"
+                                  );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
                         );
                       },
                     ),

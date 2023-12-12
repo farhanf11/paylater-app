@@ -110,8 +110,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           ? const CircularProgressIndicator(
         ///style
         color: Colors.grey,
-      )
-          :Container(
+      ):Container(
         padding: const EdgeInsets.all(6),
         color: Colors.white,
         child: ListView(
