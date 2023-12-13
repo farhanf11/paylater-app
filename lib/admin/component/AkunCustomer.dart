@@ -115,29 +115,31 @@ class _AkunCustomerState extends State<AkunCustomer> {
                                   const SizedBox(
                                     width: 16,
                                   ),
-                                  Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(datas[index]['user_name'],
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          )
-                                      ),
-                                      Text(
-                                          datas[index]['email_address'],
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: PaylaterTheme
-                                                .deactivatedText,
-                                          )
-                                      ),
-                                    ],
+                                  Flexible(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(datas[index]['user_name'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            )
+                                        ),
+                                        Text(
+                                            datas[index]['email_address'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: PaylaterTheme
+                                                  .deactivatedText,
+                                            )
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

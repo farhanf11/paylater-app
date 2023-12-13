@@ -210,117 +210,115 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                               ),
                             ),
                           );},
-                          child: Expanded(
-                            child: Container(
-                              constraints: const BoxConstraints(maxWidth: double.infinity),
-                              height: 160,
-                              width: 360,
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                              decoration: BoxDecoration(
-                                  color: PaylaterTheme.white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            datas[index]['user']['image_face']
-                                        ),
+                          child: Container(
+                            constraints: const BoxConstraints(maxWidth: double.infinity),
+                            height: 160,
+                            width: 360,
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            decoration: BoxDecoration(
+                                color: PaylaterTheme.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          datas[index]['user']['image_face']
                                       ),
+                                    ),
 
-                                      const SizedBox(width: 10,),
-                                      Text(
-                                          datas[index]['user']['user_name'],
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700
+                                    const SizedBox(width: 10,),
+                                    Text(
+                                        datas[index]['user']['user_name'],
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w700
 
-                                          )
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Image(
-                                        image: NetworkImage(datas[index]['image']),
-                                        width: 66,
-                                        height: 80,
-                                        fit: BoxFit.fill,
-                                      ),
-                                      const SizedBox(width: 20,),
-                                      Flexible(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            ///Nama
-                                            Text(
-                                              datas[index]['title'],
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                color: PaylaterTheme.darkerText,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600
-                                              ),
+                                        )
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10,),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(datas[index]['image']),
+                                      width: 66,
+                                      height: 80,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    const SizedBox(width: 20,),
+                                    Flexible(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          ///Nama
+                                          Text(
+                                            datas[index]['title'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              color: PaylaterTheme.darkerText,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600
                                             ),
+                                          ),
 
-                                            /// No order
-                                            Text(
-                                              '${datas[index]['no_order']}',
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: PaylaterTheme.darkerText,
-                                              ),
+                                          /// No order
+                                          Text(
+                                            '${datas[index]['no_order']}',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: PaylaterTheme.darkerText,
                                             ),
+                                          ),
 
-                                            ///price
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'Harga : Rp ',
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: PaylaterTheme.darkerText,
-                                                  ),
+                                          ///price
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Harga : Rp ',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: PaylaterTheme.darkerText,
                                                 ),
-                                                Text(
-                                                  datas[index]['price'].toString(),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: PaylaterTheme.orange,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-
-                                            /// Tenor cicilan
-                                            if (tenor.value == "3" && tenor.value == "6" && tenor.value == "12")
-                                            Text(
-                                              '${datas[index]['tenor']} Bulan',
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: PaylaterTheme.darkerText,
                                               ),
+                                              Text(
+                                                datas[index]['price'].toString(),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: PaylaterTheme.orange,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+                                          /// Tenor cicilan
+                                          if (tenor.value == "3" && tenor.value == "6" && tenor.value == "12")
+                                          Text(
+                                            '${datas[index]['tenor']} Bulan',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: PaylaterTheme.darkerText,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),

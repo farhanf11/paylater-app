@@ -81,7 +81,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         cicilans = responseData['data']['instalment'];
-        print(responseData['data']['instalment'][0]['status']);
+        print(responseData['data']['data']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -257,7 +257,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                           ),
 
                             ///Tenor
-                            if (tenor.value != null && tenor.value != 'tenor')
+                            if (tenor.value != null && tenor.value != '')
                             Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 12),
@@ -324,7 +324,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                           ),
 
                           ///total harga
-                          if (tenor.value != null && tenor.value != 'tenor')
+                          if (tenor.value != null && tenor.value != '')
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 12),
@@ -519,12 +519,12 @@ class _RincianTagihanState extends State<RincianTagihan> {
                       ),
 
                     /// alamat pengiriman
-                    if (tenor.value != null && tenor.value != 'tenor')
+                    if (tenor.value != null && tenor.value != '')
                     const SizedBox(
                           ///alamat
                           height: 24,
                         ),
-                    if (tenor.value != null && tenor.value != 'tenor')
+                    if (tenor.value != null && tenor.value != '')
                     Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -569,13 +569,13 @@ class _RincianTagihanState extends State<RincianTagihan> {
                         ),
                       ),
 
-                    if (tenor.value != null && tenor.value != 'tenor')
+                    if (tenor.value != null && tenor.value != '')
                     const SizedBox(
                         height: 24,
                       ),
 
                     ///Catatan
-                    if (tenor.value != null && tenor.value != 'tenor')
+                    if (tenor.value != null && tenor.value != '')
                     Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -682,56 +682,6 @@ class _RincianTagihanState extends State<RincianTagihan> {
                       height: 24,
                     ),
 
-                    ///tanggal sampai
-                    if (status.value != 'request')
-                    Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ///Head
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        style: BorderStyle.solid,
-                                        color: Color(0xffE3E9EB))),
-                              ),
-                              child: const Text(
-                                'Tanggal Sampai',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-
-                            ///arrival date
-                            Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 12),
-                                child: Obx(
-                                  () => Text(
-                                    arrival_date.value,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),
-                    if (status.value != 'request')
-                    const SizedBox(
-                        height: 24,
-                      ),
                 ]),
             ),
       ),

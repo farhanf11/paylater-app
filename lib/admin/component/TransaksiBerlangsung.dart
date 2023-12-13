@@ -145,10 +145,10 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                             ),
                           );},
                           child: Container(
-                            constraints: BoxConstraints(maxWidth: double.infinity),
+                            constraints: const BoxConstraints(maxWidth: double.infinity),
                             height: 160,
                             width: 328,
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                             decoration: BoxDecoration(
                                 color: PaylaterTheme.white,
                                 borderRadius: BorderRadius.circular(10)),
