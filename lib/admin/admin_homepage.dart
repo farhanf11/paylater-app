@@ -459,127 +459,120 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         ),
                         SizedBox(
                           height: 320,
-                          child: Flexible(
-                            fit: FlexFit.tight,
-                            child: ListView.builder(
-                              itemCount: 5,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      MaterialButton(
-                                        onPressed: () { Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (BuildContext context) => PostPengajuanProduk(
-                                              link_id: datas[index]['id'],
-                                              user_id: datas[index]['user_id'],
-                                            ),
+                          child: ListView.builder(
+                            itemCount: 5,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () { Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) => PostPengajuanProduk(
+                                            link_id: datas[index]['id'],
+                                            user_id: datas[index]['user_id'],
                                           ),
-                                        );},
-                                        child: Container(
-                                              constraints: const BoxConstraints(maxWidth: double.infinity),
-                                              height: 52,
-                                              width: 360,
-                                              padding: const EdgeInsets.symmetric(horizontal: 30),
-                                              decoration: BoxDecoration(
-                                                  color: PaylaterTheme.white,
-                                                  border: Border.all(color: const Color(0x4093B0AF), width: 2),
-                                                  borderRadius: BorderRadius.circular(10)),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Flexible(child: Text(
-                                                        datas[index]['url'],
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: const TextStyle(
-                                                            color: PaylaterTheme.darkerText,
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w600
-                                                        ),
-                                                      ),),
-                                                      PopupMenuButton(
-                                                          child: const Align(
-                                                            alignment: Alignment.centerRight,
-                                                            child: Padding(
-                                                              padding: EdgeInsets.all(16.0),
-                                                              child: Icon(
-                                                                CupertinoIcons.ellipsis_vertical,
-                                                                size: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          itemBuilder: (context) => [
-                                                            PopupMenuItem(
-                                                              value: 1,
-                                                              child: TextButton(
-                                                                  onPressed: () async {
-                                                                    await Clipboard.setData(
-                                                                        ClipboardData(
-                                                                            text:
-                                                                            datas[index]['url']));
-                                                                    AlertDialog alert = AlertDialog(
-                                                                      title: const Text('Berhasil Menyalin Link : '),
-                                                                      content: Text(
-                                                                          datas[index]['url']),
-                                                                      backgroundColor: Colors.white,
-                                                                      icon: const Icon(
-                                                                          CupertinoIcons
-                                                                              .checkmark_seal_fill,
-                                                                          size: 20),
-                                                                      iconColor: PaylaterTheme.maincolor,
-                                                                      actions: [
-                                                                        TextButton(
-                                                                          child: const Text('Ok'),
-                                                                          onPressed: () =>
-                                                                              Navigator.of(context).pop(),
-                                                                        ),
-                                                                      ],
-                                                                    );
-                                                                    showDialog(
-                                                                        context: context,
-                                                                        builder: (context) => alert);
-                                                                  },
-                                                                  child: const Text(
-                                                                    'salin',
-                                                                    style: TextStyle(color: Colors.black),
-                                                                  )),
-                                                            ),
-                                                            PopupMenuItem(
-                                                              value: 2,
-                                                              child: TextButton(
-                                                                  onPressed: () => Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                            PostPengajuanProduk(
-                                                                              link_id: datas[index]['id'],
-                                                                              user_id: datas[index]['user_id'],
-                                                                            )),
-                                                                  ),
-                                                                  child: const Text(
-                                                                    'Akad',
-                                                                    style: TextStyle(color: Colors.black),
-                                                                  )),
-                                                            ),
-                                                          ])
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
                                         ),
+                                      );},
+                                      child: Container(
+                                            constraints: const BoxConstraints(maxWidth: double.infinity),
+                                            height: 52,
+                                            width: 360,
+                                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                                            decoration: BoxDecoration(
+                                                color: PaylaterTheme.white,
+                                                border: Border.all(color: const Color(0x4093B0AF), width: 2),
+                                                borderRadius: BorderRadius.circular(10)),
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Flexible(child: Text(
+                                                  datas[index]['url'],
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      color: PaylaterTheme.darkerText,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w600
+                                                  ),
+                                                ),),
+                                                PopupMenuButton(
+                                                    child: const Align(
+                                                      alignment: Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(16.0),
+                                                        child: Icon(
+                                                          CupertinoIcons.ellipsis_vertical,
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    itemBuilder: (context) => [
+                                                      PopupMenuItem(
+                                                        value: 1,
+                                                        child: TextButton(
+                                                            onPressed: () async {
+                                                              await Clipboard.setData(
+                                                                  ClipboardData(
+                                                                      text:
+                                                                      datas[index]['url']));
+                                                              AlertDialog alert = AlertDialog(
+                                                                title: const Text('Berhasil Menyalin Link : '),
+                                                                content: Text(
+                                                                    datas[index]['url']),
+                                                                backgroundColor: Colors.white,
+                                                                icon: const Icon(
+                                                                    CupertinoIcons
+                                                                        .checkmark_seal_fill,
+                                                                    size: 20),
+                                                                iconColor: PaylaterTheme.maincolor,
+                                                                actions: [
+                                                                  TextButton(
+                                                                    child: const Text('Ok'),
+                                                                    onPressed: () =>
+                                                                        Navigator.of(context).pop(),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                              showDialog(
+                                                                  context: context,
+                                                                  builder: (context) => alert);
+                                                            },
+                                                            child: const Text(
+                                                              'salin',
+                                                              style: TextStyle(color: Colors.black),
+                                                            )),
+                                                      ),
+                                                      PopupMenuItem(
+                                                        value: 2,
+                                                        child: TextButton(
+                                                            onPressed: () => Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      PostPengajuanProduk(
+                                                                        link_id: datas[index]['id'],
+                                                                        user_id: datas[index]['user_id'],
+                                                                      )),
+                                                            ),
+                                                            child: const Text(
+                                                              'Akad',
+                                                              style: TextStyle(color: Colors.black),
+                                                            )),
+                                                      ),
+                                                    ])
+                                              ],
+                                            ),
                                       ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
