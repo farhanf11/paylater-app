@@ -216,6 +216,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              ///pengajuan link
               Container(
                 height: 110,
                 decoration: const BoxDecoration(
@@ -323,7 +324,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-              ///pengajuan link
+              ///daftar link
               MaterialButton(
                 onPressed: () {
                   Navigator.push(

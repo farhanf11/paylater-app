@@ -16,6 +16,7 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
+  bool success = false;
   String token = "";
   List datas = [];
   var permintaan = ''.obs;
@@ -84,6 +85,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
             total.value = responseData['data']['total'];
             url.value = responseData['data']['data']['url'];
             status.value = responseData['data']['data']['status'];
+            success = responseData['success'];
           });
         }
       }
@@ -436,8 +438,20 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Card(
                   elevation: 5,
-                  child: ///pengajuan link
-                  Container(
+                  child: success == true
+                      ? Column(
+                    children: [
+                      Image.asset(
+                        'assets/images/dataNotFound.jpg',
+                        height: 160,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Text('Data Pengajuan Link Tidak Ditemukan')
+                    ],
+                  )
+                      :Container(
                     height: 372,
                     color: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
