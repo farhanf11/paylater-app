@@ -226,72 +226,51 @@ class _HomePageState extends State<HomePage> {
                       blurRadius: 2,
                     ),
                   ],
-                  color: Color(0xFFFFFFFF),
+                  color: Color(0xFFF6F6F6),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 260,
-                              child: TextField(
-                                keyboardType: TextInputType.url,
-                                textAlignVertical: TextAlignVertical.center,
-                                controller: inputUrl,
-                                style: TextStyle(
-                                    color: Colors.blue[500], fontSize: 16),
-                                decoration: InputDecoration(
-                                    hoverColor: Colors.orangeAccent,
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20)),
-                                    prefixIcon: const Icon(Icons.link),
-                                    hintText: 'Paste link here',
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 15)),
-                              ),
-                            ),
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    PaylaterTheme.maincolor),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14.0),
-                                )),
-                              ),
-                              child: const Text('Submit'),
-                              onPressed: () =>
-                                  {PostLink(inputUrl.text.toString())},
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 36.0),
-                        child: Text(
-                          'tempel link url barang yang ingin anda ajukan pada kolom diatas*',
+                      SizedBox(
+                        width: 270,
+                        child: TextField(
+                          maxLines: 1,
+                          keyboardType: TextInputType.url,
+                          controller: inputUrl,
                           style: TextStyle(
-                            fontSize: 11,
-                          ),
+                              color: Colors.blue[500], fontSize: 16, fontWeight: FontWeight.w400),
+                          decoration: InputDecoration(
+                              hoverColor: Colors.orangeAccent,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              prefixIcon: const Icon(Icons.link),
+                              hintText: 'Paste link disini',
+                              hintStyle: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontSize: 15)),
                         ),
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          padding: const MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(vertical: 16)
+                          ),
+                          backgroundColor: MaterialStateProperty.all(
+                              PaylaterTheme.maincolor),
+                          shape: MaterialStateProperty.all<
+                              RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(32.0),
+                              )),
+                        ),
+                        child: const Icon(
+                          Icons.send_rounded,
+                          size: 20,
+                        ),
+                        onPressed: () =>
+                        {PostLink(inputUrl.text.toString())},
                       ),
                     ],
                   ),
@@ -303,7 +282,7 @@ class _HomePageState extends State<HomePage> {
               ),
 
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 14, horizontal: 32),
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 32),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -331,9 +310,9 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               );
                             },
-                            child: Text('Lihat Semua',
+                            child: const Text('Lihat Semua',
                                 style: TextStyle(fontSize: 12))),
-                        Icon(
+                        const Icon(
                           Icons.chevron_right,
                           color: PaylaterTheme.maincolor,
                           size: 20,
@@ -350,7 +329,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => LinkCustomer(),
+                      builder: (BuildContext context) => const LinkCustomer(),
                     ),
                   );
                 },
@@ -376,170 +355,163 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const SizedBox(
-                              height: 5,
-                            ),
                             SizedBox(
                               height: 320,
-                              child: Flexible(
-                                fit: FlexFit.tight,
-                                child: Center(
-                                  child: ListView.builder(
-                                    itemCount: 5,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            MaterialButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder:
-                                                        (BuildContext context) =>
-                                                            const LinkCustomer(),
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                constraints:
-                                                    const BoxConstraints(
-                                                        maxWidth:
-                                                            double.infinity),
-                                                height: 52,
-                                                width: 360,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 30),
-                                                decoration: BoxDecoration(
-                                                    color: PaylaterTheme.white,
-                                                    border: Border.all(
-                                                        color: const Color(
-                                                            0x4093B0AF),
-                                                        width: 2),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Flexible(
-                                                          child: Text(
-                                                            datas[index]['url'],
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: const TextStyle(
-                                                                color: PaylaterTheme
-                                                                    .darkerText,
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          ),
-                                                        ),
-                                                        Flexible(
-                                                            child: Text(
-                                                          datas[index]
-                                                              ['status'],
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                              child: Center(
+                                child: ListView.builder(
+                                  itemCount: 5,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          MaterialButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          const LinkCustomer(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              constraints:
+                                                  const BoxConstraints(maxWidth:double.infinity),
+                                              height: 52,
+                                              width: 360,
+                                              padding:
+                                                  const EdgeInsets.symmetric(horizontal: 30),
+                                              decoration: BoxDecoration(
+                                                  color: PaylaterTheme.white,
+                                                  border: Border.all(
+                                                      color: const Color(
+                                                          0x4093B0AF),
+                                                      width: 2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Flexible(
+                                                        child: Text(
+                                                          datas[index]['url'],
+                                                          overflow:
+                                                              TextOverflow
+                                                                  .ellipsis,
                                                           style: const TextStyle(
-                                                              color:
-                                                                  PaylaterTheme
-                                                                      .orange,
-                                                              fontSize: 12,
+                                                              color: PaylaterTheme
+                                                                  .darkerText,
+                                                              fontSize: 14,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w600),
-                                                        )),
-                                                        PopupMenuButton(
-                                                            child: const Align(
-                                                              alignment: Alignment
-                                                                  .centerRight,
-                                                              child: Padding(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            16.0),
-                                                                child: Icon(
-                                                                  CupertinoIcons
-                                                                      .ellipsis_vertical,
-                                                                  size: 16,
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            datas[index]['status'],
+                                                            overflow: TextOverflow
+                                                                .ellipsis,
+                                                            style: const TextStyle(
+                                                                color:
+                                                                PaylaterTheme
+                                                                    .orange,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                          ),
+                                                          PopupMenuButton(
+                                                              child: const Align(
+                                                                alignment: Alignment
+                                                                    .centerRight,
+                                                                child: Padding(
+                                                                  padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                      16.0),
+                                                                  child: Icon(
+                                                                    CupertinoIcons
+                                                                        .ellipsis_vertical,
+                                                                    size: 16,
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            itemBuilder:
-                                                                (context) => [
-                                                                      PopupMenuItem(
-                                                                        value:
-                                                                            1,
-                                                                        child: TextButton(
-                                                                            onPressed: () async {
-                                                                              await Clipboard.setData(ClipboardData(text: datas[index]['url']));
-                                                                              AlertDialog alert = AlertDialog(
-                                                                                title: const Text('Berhasil Menyalin Link : '),
-                                                                                content: Text(datas[index]['url']),
-                                                                                backgroundColor: Colors.white,
-                                                                                icon: const Icon(CupertinoIcons.checkmark_seal_fill, size: 20),
-                                                                                iconColor: PaylaterTheme.maincolor,
-                                                                                actions: [
-                                                                                  TextButton(
-                                                                                    child: const Text('Ok'),
-                                                                                    onPressed: () => Navigator.of(context).pop(),
-                                                                                  ),
-                                                                                ],
-                                                                              );
-                                                                              showDialog(context: context, builder: (context) => alert);
-                                                                            },
-                                                                            child: const Text(
-                                                                              'salin',
-                                                                              style: TextStyle(color: Colors.black),
+                                                              itemBuilder:
+                                                                  (context) => [
+                                                                PopupMenuItem(
+                                                                  value:
+                                                                  1,
+                                                                  child: TextButton(
+                                                                      onPressed: () async {
+                                                                        await Clipboard.setData(ClipboardData(text: datas[index]['url']));
+                                                                        AlertDialog alert = AlertDialog(
+                                                                          title: const Text('Berhasil Menyalin Link : '),
+                                                                          content: Text(datas[index]['url']),
+                                                                          backgroundColor: Colors.white,
+                                                                          icon: const Icon(CupertinoIcons.checkmark_seal_fill, size: 20),
+                                                                          iconColor: PaylaterTheme.maincolor,
+                                                                          actions: [
+                                                                            TextButton(
+                                                                              child: const Text('Ok'),
+                                                                              onPressed: () => Navigator.of(context).pop(),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                        showDialog(context: context, builder: (context) => alert);
+                                                                      },
+                                                                      child: const Text(
+                                                                        'salin',
+                                                                        style: TextStyle(color: Colors.black),
+                                                                      )),
+                                                                ),
+                                                                PopupMenuItem(
+                                                                  value:
+                                                                  2,
+                                                                  child: TextButton(
+                                                                      onPressed: () => Navigator.push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                            builder: (context) => RincianAkad(
+                                                                              link_id: datas[index]['id'],
+                                                                              user_id: datas[index]['user_id'],
                                                                             )),
                                                                       ),
-                                                                      PopupMenuItem(
-                                                                        value:
-                                                                            2,
-                                                                        child: TextButton(
-                                                                            onPressed: () => Navigator.push(
-                                                                                  context,
-                                                                                  MaterialPageRoute(
-                                                                                      builder: (context) => RincianAkad(
-                                                                                            link_id: datas[index]['id'],
-                                                                                            user_id: datas[index]['user_id'],
-                                                                                          )),
-                                                                                ),
-                                                                            child: const Text(
-                                                                              'Akad',
-                                                                              style: TextStyle(color: Colors.black),
-                                                                            )),
-                                                                      ),
-                                                                    ])
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
+                                                                      child: const Text(
+                                                                        'Akad',
+                                                                        style: TextStyle(color: Colors.black),
+                                                                      )),
+                                                                ),
+                                                              ])
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
