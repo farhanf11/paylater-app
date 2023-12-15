@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/DetailPembayaranCicilan.dart';
-import 'package:paylater/admin/component/TambahArrivalDate.dart';
 import 'package:paylater/admin/component/TambahResi.dart';
 import 'package:paylater/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,21 +24,21 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
   _RincianCicilanAdminState();
   String token = "";
   var id = 0.obs;
-  var no_order = 'no_order'.obs;
-  var airway_bill = 'airway_bill'.obs;
+  var no_order = "".obs;
+  var airway_bill = "".obs;
   var user_id = 0.obs;
   var price = 0.obs;
-  var image = 'image'.obs;
-  var url = 'url'.obs;
-  var title = 'title'.obs;
+  var status = "".obs;
+  var image = "".obs;
+  var url = "".obs;
+  var title = "".obs;
   var total_price = 0.obs;
-  var tenor = 'tenor'.obs;
-  var address = 'address'.obs;
-  var note = 'note'.obs;
-  var arrival_date = 'arrival_date'.obs;
-  var request_date = 'request_date'.obs;
-  var status = 'status'.obs;
-  var created_at = 'created_at'.obs;
+  var tenor = "".obs;
+  var address = "".obs;
+  var note = "".obs;
+  var arrival_date = "".obs;
+  var request_date = "".obs;
+  var created_at = "".obs;
 
   var id_installment = 0.obs;
   var order_id = 0.obs;
@@ -89,22 +88,22 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
           print('gagal');
         } else {
           setState(() {
-            phone_number.value = responseData['data']['user']['phone_number'];
-            user_name.value = responseData['data']['user']['user_name'];
             id.value = responseData['data']['id'];
             no_order.value = responseData['data']['no_order'];
             title.value = responseData['data']['title'];
             image.value = responseData['data']['image'];
             price.value = responseData['data']['price'];
-            user_id.value = responseData['data']['user_id'];
             status.value = responseData['data']['status'];
             url.value = responseData['data']['url'];
+            user_id.value = responseData['data']['user_id'];
+            phone_number.value = responseData['data']['user']['phone_number'];
+            user_name.value = responseData['data']['user']['user_name'];
             created_at.value = responseData['data']['created_at'];
             tenor.value = responseData['data']['tenor']??"";
             address.value = responseData['data']['address']??"";
-            airway_bill.value = responseData['data']['airway_bill']??"";
             total_price.value = responseData['data']['total_price']??"";
             note.value = responseData['data']['note']??"";
+            airway_bill.value = responseData['data']['airway_bill']??"";
             arrival_date.value = responseData['data']['arrival_date']??"";
             request_date.value = responseData['data']['request_date']??"";
           });
@@ -143,38 +142,22 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             ///style
             valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
           ):
-          ListView(physics: ClampingScrollPhysics(), children: [
+          ListView(
+              physics: ClampingScrollPhysics(),
+              children: [
+                  ///image
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
                       color: Colors.white,
                     ),
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 20),
-                    child: const Text(
-                      'Rincian Pembayaran',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Colors.white,
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                     child: Column(
                       children: [
                         Obx(() => Image(
                             width: 120,
                             image: NetworkImage(
-                              image.value,
+                              image.value.toString(),
                             ))),
                         const SizedBox(
                           height: 16,
@@ -197,109 +180,107 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     height: 24,
                   ),
 
-                  Flexible(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ///username
-                          Container(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      style: BorderStyle.solid,
-                                      color: Color(0xffEBEBEB))),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Username (id)',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Obx(
-                                      () => Text(
-                                        '${user_name.value} (${user_id.value})',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                )
-                              ],
-                            ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ///username
+                        Container(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    style: BorderStyle.solid,
+                                    color: Color(0xffEBEBEB))),
                           ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Username (id)',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Obx(
+                                    () => Text(
+                                      '${user_name.value} (${user_id.value})',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                              )
+                            ],
+                          ),
+                        ),
 
-                          ///telepon
-                          Container(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      style: BorderStyle.solid,
-                                      color: Color(0xffEBEBEB))),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'No Telepon',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  phone_number.value.toString(),
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
+                        ///telepon
+                        Container(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    style: BorderStyle.solid,
+                                    color: Color(0xffEBEBEB))),
                           ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'No Telepon',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                phone_number.value.toString(),
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ),
 
-                          ///Tagihan Tersisa
-                          Container(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Tanggal',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Obx(() => Text(
-                                  created_at.value.toString(),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400),
-                                ),)
-                              ],
-                            ),
+                        ///tanggal
+                        Container(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Tanggal',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Obx(() => Text(
+                                created_at.value.toString(),
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),
+                              ),)
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
 
@@ -355,7 +336,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                           ),
 
                           ///Tenor
-                          if (tenor.value!="tenor")
+                          if (tenor.value!=null && tenor.value!="")
                             Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 12),
@@ -375,13 +356,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600),
                                   ),
-                                  Text(
+                                  Obx(() => Text(
                                     '${tenor.value} Bulan',
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400),
-                                  ),
+                                  ),)
                                 ],
                               ),
                             ),
@@ -400,24 +381,24 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Total Tagihan',
+                                  'Harga Barang',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                Text(
-                                  price.toString(),
+                                Obx(() => Text(
+                                  price.value.toString(),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400),
-                                ),
+                                ),)
                               ],
                             ),
                           ),
 
-                          ///Tagihan Tersisa
+                          ///total tagihan
                           Container(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -425,19 +406,19 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Tagihan Tersisa',
+                                  'Total Harga',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                Text(
-                                  price.toString(),
+                                Obx(() => Text(
+                                  total_price.value.toString(),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400),
-                                ),
+                                ),)
                               ],
                             ),
                           ),
@@ -446,13 +427,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     ),
                   ),
 
-                  if (status.value != 'request')
+                if (status.value != null && status.value != 'request')
                     const SizedBox(
                       height: 24,
                     ),
 
                   ///Rincian Cicilan
-                  if (status.value != 'request')
+                if (status.value != null && status.value != 'request')
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       height: 200,
@@ -558,13 +539,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                       ),
                     ),
 
-                  if (status.value != 'request')
+                if (status.value != null && status.value != 'request')
                   ///alamat
                   const SizedBox(
                     height: 24,
                   ),
 
-                  if (status.value != 'request')
+                if (status.value != null && status.value != 'request')
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
@@ -611,15 +592,15 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     ),
                   ),
 
-                  if (status.value != 'request')
+                if (status.value != null && status.value != 'request')
                   const SizedBox(
                     height: 24,
                   ),
 
                   ///resi
-                  if (status.value != 'request')
+                if (status.value != null && status.value != '')
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
@@ -691,91 +672,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     ),
                   ),
 
-                  if (status.value != 'request')
-                  const SizedBox(
-                    height: 24,
-                  ),
-
-                  ///arrival date
-                  if (status.value != 'request')
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ///Head
-                        Container(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    style: BorderStyle.solid,
-                                    color: Color(0xffE3E9EB))),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Tanggal Sampai',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              ElevatedButton(
-                                  onPressed: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => TambahArrivalDate(
-                                                  order_id: id.toString(),
-                                                )),
-                                      ),
-                                  style: ButtonStyle(
-                                    shape:
-                                        MaterialStatePropertyAll(RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6),
-                                    )),
-                                    backgroundColor: const MaterialStatePropertyAll(
-                                        PaylaterTheme.maincolor),
-                                  ),
-                                  child: const Text(
-                                    "Tetapkan Tanggal",
-                                    style: TextStyle(color: Colors.white),
-                                  )),
-                            ],
-                          ),
-                        ),
-
-                        Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            child: Obx(
-                              () => Text(
-                                arrival_date.value,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            )),
-                      ],
-                    ),
-                  ),
-
-                  if (status.value != 'request')
+                if (status.value != null && status.value != 'request')
                   const SizedBox(
                     height: 24,
                   ),
 
                   ///notes
-                  if (status.value != 'request')
+                if (status.value != null && status.value != 'request')
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
