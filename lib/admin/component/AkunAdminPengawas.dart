@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:paylater/theme.dart';
 import 'package:paylater/user/LoginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -208,14 +209,6 @@ class _AkunAdminPengawasState extends State<AkunAdminPengawas> {
                         ),
                       ),),
 
-                      Obx(() => Text(
-                        phone_number.toString(),
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black87,
-                        ),
-                      ),),
-
                       SizedBox(height: 5,),
                       Obx(() => Text(
                         overflow: TextOverflow.ellipsis,
@@ -246,11 +239,35 @@ class _AkunAdminPengawasState extends State<AkunAdminPengawas> {
                   'Logout',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600),
                 ),
                 onPressed: () => {
                   PostLogout(),
+                },
+              ),
+
+              ///pengawas ke home
+              ElevatedButton(
+                style: const ButtonStyle(
+                  padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 4, horizontal: 50)),
+                  backgroundColor: MaterialStatePropertyAll(PaylaterTheme.grey),
+                ),
+                child: const Text(
+                  'Lihat halaman user',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                      const NavbarBot(),
+                    ),
+                  );
                 },
               ),
 

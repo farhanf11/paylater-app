@@ -98,10 +98,10 @@ class _LandingPageState extends State<LandingPage> {
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const DaftarPage()),
+                              builder: (context) => const LoginPage()),
                         ),
                         child: const Text(
-                          'Daftar',
+                          'Login',
                           style: TextStyle(
                               color: Color(0xff025464),
                               fontSize: 16,

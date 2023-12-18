@@ -23,12 +23,13 @@ class _HomePageState extends State<HomePage> {
   var status = "status".obs;
   bool isLoading = false;
   bool success = false;
-
+  var role = "".obs;
   @override
   void initState() {
     super.initState();
     getToken();
     LinkbyId();
+    ProfilebyId();
   }
 
   getToken() async {
@@ -112,6 +113,33 @@ class _HomePageState extends State<HomePage> {
           ],
         );
         showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void ProfilebyId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    try {
+      var response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          headers: {
+            'Authorization': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        print(responseData['data']['role']);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            role.value = responseData['data']['role'];
+          });
+        }
       }
     } catch (e) {
       print(e.toString());
@@ -259,7 +287,7 @@ class _HomePageState extends State<HomePage> {
                             EdgeInsets.symmetric(vertical: 16)
                           ),
                           backgroundColor: MaterialStateProperty.all(
-                              PaylaterTheme.maincolor),
+                              role.value == 'admin'?PaylaterTheme.light_grey:PaylaterTheme.maincolor),
                           shape: MaterialStateProperty.all<
                               RoundedRectangleBorder>(
                               RoundedRectangleBorder(
@@ -270,7 +298,7 @@ class _HomePageState extends State<HomePage> {
                           Icons.send_rounded,
                           size: 20,
                         ),
-                        onPressed: () =>
+                        onPressed: role.value == 'admin'?null:() =>
                         {PostLink(inputUrl.text.toString())},
                       ),
                     ],
@@ -302,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () {
+                            onPressed: role.value == 'admin'?null:() {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -326,7 +354,7 @@ class _HomePageState extends State<HomePage> {
 
               ///daftar link
               MaterialButton(
-                onPressed: () {
+                onPressed: role.value == 'admin'?null:() {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -334,7 +362,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                child: success == true
+                child: success == false
                     ? Column(
                         children: [
                           Image.asset(

@@ -39,7 +39,7 @@ class _AdminAkunState extends State<AdminAkun> {
                 text: 'Unverify',
               ),
               Tab(
-                text: 'Customer',
+                text: 'User',
               ),
               Tab(
                 text: "Admin",

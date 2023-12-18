@@ -60,7 +60,6 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
               'Authorization': token,
             }
         );
-        print(token);
       }
 
       if (response.statusCode == 200) {
