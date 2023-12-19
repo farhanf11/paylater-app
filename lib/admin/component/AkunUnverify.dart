@@ -23,13 +23,49 @@ class _AkunUnverifyState extends State<AkunUnverify> {
   bool isLoading = false;
   var _currentPage = 0.obs;
   var last_page = 1.obs;
+  var role = "".obs;
   List links = [];
 
   @override
   void initState() {
     super.initState();
     getAkun();
+    ProfilebyId();
   }
+
+  ///get data tokken id
+  void ProfilebyId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          headers: {
+            'Authorization': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            role.value = responseData['data']['role'];
+          });
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+  // role.value == 'pengawas'?null:
 
   Future<void> getAkun() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -147,9 +183,9 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             backgroundColor: PaylaterTheme.maincolor),
-                        onPressed: () {
+                        onPressed: role.value == 'pengawas'?null:() {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => CreateAkun()));
+                              builder: (context) => const CreateAkun()));
                         },
                         icon: const Icon(
                           Icons.add_circle,
@@ -239,7 +275,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                         color: PaylaterTheme.nearlyDarkBlue,
                                         size: 25,
                                       ),
-                                      onPressed: () {
+                                      onPressed: role.value == 'pengawas'?null:() {
                                         VerifyAkun(
                                             datas[index]['id'].toString(),
                                             "verified"
@@ -252,7 +288,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                                         color: PaylaterTheme.decline,
                                         size: 25,
                                       ),
-                                      onPressed: () {VerifyAkun(
+                                      onPressed: role.value == 'pengawas'?null:() {VerifyAkun(
                                           datas[index]['id'].toString(),
                                           "rejected"
                                       );

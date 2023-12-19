@@ -23,13 +23,14 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
   var dana_cicilan_masuk = 0.obs;
   var keuntungan = 0.obs;
   bool isLoading = false;
-
+  var role = "".obs;
 
   @override
   void initState() {
     super.initState();
     getDataKeuangan();
     getToken();
+    ProfilebyId();
   }
 
   getToken() async {
@@ -38,6 +39,40 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
       token = prefs.getString('token')!;
     });
   }
+
+  ///get data tokken id
+  void ProfilebyId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          headers: {
+            'Authorization': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            role.value = responseData['data']['role'];
+          });
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+  // role.value == 'pengawas'?null:
 
   void getDataKeuangan() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -190,7 +225,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             backgroundColor: PaylaterTheme.maincolor),
-                        onPressed: () {
+                        onPressed: role.value == 'pengawas'?null:() {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {

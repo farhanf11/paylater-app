@@ -27,7 +27,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
   var email_unverified = ''.obs;
   var url = "".obs;
   bool isLoading = false;
-  var status = "status".obs;
+  var status = "".obs;
+  var role = "".obs;
   var total = 0.obs;
 
 
@@ -35,8 +36,42 @@ class _AdminHomePageState extends State<AdminHomePage> {
     super.initState();
     getDashboardData();
     LinkbyId();
+    ProfilebyId();
   }
 
+  ///get data tokken id
+  void ProfilebyId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          headers: {
+            'Authorization': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            role.value = responseData['data']['role'];
+          });
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+  // role.value == 'pengawas'?null:
 
   void getDashboardData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -438,7 +473,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Card(
                   elevation: 5,
-                  child: success == true
+                  child: success == false
                       ? Column(
                     children: [
                       Image.asset(
@@ -450,8 +485,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ),
                       const Text('Data Pengajuan Link Tidak Ditemukan')
                     ],
-                  )
-                      :Container(
+                  ):Container(
                     height: 372,
                     color: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),

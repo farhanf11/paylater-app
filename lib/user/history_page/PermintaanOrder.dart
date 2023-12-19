@@ -104,7 +104,6 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
           headers: {
             'Authorization': token,
           });
-
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         if(responseData['success'] == false ){
@@ -116,9 +115,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
             phone_number.value = responseData['data']['phone_number'];
             image_face.value = responseData['data']['image_face'];
           });
-
         }
-
       }
     } catch (e) {
       print(e.toString());

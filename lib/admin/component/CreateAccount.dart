@@ -5,30 +5,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:paylater/user/LoginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../theme.dart';
+import '../../theme.dart';
 
-class DaftarPage extends StatefulWidget {
-  const DaftarPage({Key? key}) : super(key: key);
+class BuatAkun extends StatefulWidget {
+  const BuatAkun({Key? key}) : super(key: key);
 
   @override
-  State<DaftarPage> createState() => _DaftarPageState();
+  State<BuatAkun> createState() => _BuatAkunState();
 }
 
 extension EmailValidator on String {
   bool isValidEmail() {
     return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
 }
 
-class _DaftarPageState extends State<DaftarPage> {
+class _BuatAkunState extends State<BuatAkun> {
   File? wajah;
   File? ktp;
-  File? image1;
-  File? image2;
   ImagePicker picker = ImagePicker();
   Dio dio = Dio();
 
@@ -61,9 +58,8 @@ class _DaftarPageState extends State<DaftarPage> {
     }
   }
 
-  uploadSignUp(File? wajah, File? ktp, String email_address, String user_name, String phone_number, String job) async {
+  postAkun(File? wajah, File? ktp, String email_address, String user_name, String phone_number, String job) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var id = prefs.getInt('id')!;
     var formData = FormData();
     formData.fields.add(MapEntry("email_address", email_address));
     formData.fields.add(MapEntry("user_name", user_name));
@@ -96,12 +92,11 @@ class _DaftarPageState extends State<DaftarPage> {
       AlertDialog alert = const AlertDialog(
         icon: Icon(CupertinoIcons.checkmark_seal_fill, size: 20, color: PaylaterTheme.maincolor, ),
         title: Text("Berhasil"),
-        content: Text("berhasil melakukan pendaftaran"),
+        content: Text("berhasil membuat akun user"),
       );
 
       showDialog(context: context, builder: (context) => alert);
     }
-    print("response ${response.data}");
   }
 
   String? dropdownValue = "Tenaga Pendidik";
@@ -121,7 +116,7 @@ class _DaftarPageState extends State<DaftarPage> {
         backgroundColor: PaylaterTheme.white,
         title: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Text('Daftar Akun',
+          child: Text('Buat Akun User',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -170,7 +165,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
+                                  BorderRadius.all(Radius.circular(10))),
                               hintText: 'Masukan Username',
                               hintStyle: TextStyle(
                                   color: PaylaterTheme.deactivatedText),
@@ -214,7 +209,7 @@ class _DaftarPageState extends State<DaftarPage> {
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
+                                  BorderRadius.all(Radius.circular(10))),
                               hintText: 'Masukan Email',
                               hintStyle: TextStyle(
                                   color: PaylaterTheme.deactivatedText),
@@ -255,7 +250,7 @@ class _DaftarPageState extends State<DaftarPage> {
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                     labelStyle:
-                                        TextStyle(fontWeight: FontWeight.w600),
+                                    TextStyle(fontWeight: FontWeight.w600),
                                     labelText: '62',
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 5.0, horizontal: 15.0),
@@ -330,11 +325,11 @@ class _DaftarPageState extends State<DaftarPage> {
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
+                                BorderRadius.all(Radius.circular(10))),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
+                                BorderRadius.all(Radius.circular(10))),
                             filled: true,
                             fillColor: PaylaterTheme.white,
                           ),
@@ -399,11 +394,11 @@ class _DaftarPageState extends State<DaftarPage> {
                             children: [
                               wajah != null
                                   ? Image.file(
-                                      wajah!,
-                                      width: 30,
-                                      height: 30,
-                                      fit: BoxFit.cover,
-                                    )
+                                wajah!,
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.cover,
+                              )
                                   : const Text('no file'),
                               IconButton(
                                 padding: const EdgeInsets.all(8),
@@ -451,11 +446,11 @@ class _DaftarPageState extends State<DaftarPage> {
                             children: [
                               ktp != null
                                   ? Image.file(
-                                      ktp!,
-                                      width: 30,
-                                      height: 30,
-                                      fit: BoxFit.cover,
-                                    )
+                                ktp!,
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.cover,
+                              )
                                   : const Text('no file'),
                               IconButton(
                                 padding: const EdgeInsets.all(8),
@@ -484,7 +479,7 @@ class _DaftarPageState extends State<DaftarPage> {
                       style: const ButtonStyle(
                           backgroundColor:
                           MaterialStatePropertyAll(Color(0xff025464))),
-                      onPressed: () => {uploadSignUp(
+                      onPressed: () => {postAkun(
                         wajah,
                         ktp,
                         inputEmail.text,
@@ -501,26 +496,6 @@ class _DaftarPageState extends State<DaftarPage> {
                         child: const Text('Selanjutnya'),
                       ),
                     ),
-
-                    ///login
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('Sudah memiliki akun?'),
-                        TextButton(onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()),
-                        ),
-                            child: const Text('Login',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.blue,
-                              ),
-                            ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ],

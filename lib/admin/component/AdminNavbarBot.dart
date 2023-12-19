@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:paylater/admin/admin_homepage.dart';
 import 'package:paylater/admin/admin_keuangan.dart';
 import 'package:paylater/admin/admin_transaksi.dart';
@@ -20,6 +23,11 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
     AdminKeuangan(),
     AdminAkun(),
   ];
+
+  var role = "".obs;
+  String token = "";
+  bool isLoading = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +123,8 @@ class _AdminNavbarBotState extends State<AdminNavbarBot> {
               ),
             ],
           ),
+
+          ///akun
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

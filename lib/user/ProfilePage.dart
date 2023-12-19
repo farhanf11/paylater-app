@@ -269,18 +269,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       width: 240,
                       decoration: BoxDecoration(
-                        color: role.value == 'admin'?PaylaterTheme.light_grey:const Color(0xff025464),
+                        color: role.value == 'pengawas'?PaylaterTheme.light_grey:const Color(0xff025464),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: TextButton(
-                        onPressed: role.value == 'admin'?null:() => Navigator.of(context).push(
+                        onPressed: role.value == 'pengawas'?null:() => Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) => const LinkCustomer())
                         ),
                         child: Text(
                           'Cek Pengajuan Link',
                           style: TextStyle(
-                              color: role.value == 'admin'?PaylaterTheme.grey:Colors.white,
+                              color: role.value == 'pengawas'?PaylaterTheme.grey:Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w500),
                         ),
@@ -327,7 +327,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             onPressed: () => Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) => const BiodataPage())),
                           ),
-                          //end biodata
 
                           const SizedBox(height: 4,),
 
@@ -343,7 +342,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               icon2: Icons.arrow_right_outlined,
                             )),
                           ),
-                          //end Pesan Email
                           SizedBox(height: 4,),
 
                           ///bantuan
@@ -376,7 +374,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 10, horizontal: 60)),
                     backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
                   ),
-                  onPressed: role.value == 'admin'?() => Navigator.of(context).push(
+                  onPressed: role.value == 'pengawas'?() => Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: (context) => const AdminNavbarBot())
                   )
@@ -385,7 +383,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     PostLogout(),
                   },
                   child: Text(
-                    role.value == 'admin'?"Halaman Admin":'Logout',
+                    role.value == 'pengawas'
+                        ''?"Halaman Admin":'Logout',
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,

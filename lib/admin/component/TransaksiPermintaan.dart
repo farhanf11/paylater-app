@@ -22,6 +22,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
   String token = "";
   List datas = [];
   bool isLoading = false;
+  bool success = false;
   var user_name = "".obs;
   var email_address = "".obs;
   var phone_number = "".obs;
@@ -66,6 +67,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
+        success = responseData['success'];
         datas =  responseData['data']['data'];
         _currentPage.value = responseData['data']['current_page'];
         last_page.value = responseData['data']['last_page'];
@@ -177,7 +179,30 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return success == false?
+    Center(
+      child: isLoading
+          ? const CircularProgressIndicator(
+        ///style
+        color: Colors.grey,
+      ):Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/dataNotFound.jpg',
+            height: 300,
+          ),
+          const SizedBox(height: 5,),
+          const Text('Transaksi Tidak Ditemukan',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600
+            ),
+          )
+        ],
+      ),
+    ):Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(

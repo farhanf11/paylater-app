@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:paylater/admin/component/PostPengajuanProduk.dart';
@@ -28,6 +29,7 @@ class _PermintaanLinkState extends State<PermintaanLink> {
   var last_page = 1.obs;
   List links = [];
   bool isLoading = false;
+  bool success = false;
 
   @override
   void initState() {
@@ -60,6 +62,7 @@ class _PermintaanLinkState extends State<PermintaanLink> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
+        success = responseData['success'];
         datas =  responseData['data']['data'];
         _currentPage.value = responseData['data']['current_page'];
         last_page.value = responseData['data']['last_page'];
@@ -137,7 +140,30 @@ class _PermintaanLinkState extends State<PermintaanLink> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return success == false?
+    Center(
+      child: isLoading
+          ? const CircularProgressIndicator(
+        ///style
+        color: Colors.grey,
+      ):Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/dataNotFound.jpg',
+            height: 300,
+          ),
+          const SizedBox(height: 5,),
+          const Text('Transaksi Tidak Ditemukan',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600
+            ),
+          )
+        ],
+      ),
+    ):Container(
       color: PaylaterTheme.spacer,
       padding: const EdgeInsets.symmetric(vertical: 14.0),
       child: Column(

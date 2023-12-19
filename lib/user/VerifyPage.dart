@@ -19,7 +19,9 @@ class _VerifyPageState extends State<VerifyPage> {
   _VerifyPageState();
   String email = "";
 
+  @override
   void initState() {
+    super.initState();
     getData();
   }
 
@@ -66,7 +68,7 @@ class _VerifyPageState extends State<VerifyPage> {
         prefs.setString('email_address', responseData['data']['email_address']);
         prefs.setString('job', responseData['data']['job']);
 
-        if(responseData['data']['role'] == "admin" ) {
+        if(responseData['data']['role'] == "admin" || responseData['data']['role'] == "pengawas" ) {
           showDialog(context: context, builder: (context) => alert);
           Navigator.push(
               context,

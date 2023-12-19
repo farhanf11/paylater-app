@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   String token = "";
   var url = "".obs;
   List datas = [];
-  var status = "status".obs;
+  var status = "".obs;
   bool isLoading = false;
   bool success = false;
   var role = "".obs;
@@ -311,7 +311,7 @@ class _HomePageState extends State<HomePage> {
               ),
 
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 32),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
