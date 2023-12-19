@@ -287,7 +287,7 @@ class _HomePageState extends State<HomePage> {
                             EdgeInsets.symmetric(vertical: 16)
                           ),
                           backgroundColor: MaterialStateProperty.all(
-                              role.value == 'admin'?PaylaterTheme.light_grey:PaylaterTheme.maincolor),
+                              role.value == 'pengawas'?PaylaterTheme.light_grey:PaylaterTheme.maincolor),
                           shape: MaterialStateProperty.all<
                               RoundedRectangleBorder>(
                               RoundedRectangleBorder(
@@ -298,7 +298,7 @@ class _HomePageState extends State<HomePage> {
                           Icons.send_rounded,
                           size: 20,
                         ),
-                        onPressed: role.value == 'admin'?null:() =>
+                        onPressed: role.value == 'pengawas'?null:() =>
                         {PostLink(inputUrl.text.toString())},
                       ),
                     ],
@@ -330,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: role.value == 'admin'?null:() {
+                            onPressed: role.value == 'pengawas'?null:() {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -354,7 +354,7 @@ class _HomePageState extends State<HomePage> {
 
               ///daftar link
               MaterialButton(
-                onPressed: role.value == 'admin'?null:() {
+                onPressed: role.value == 'pengawas'?null:() {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
