@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:paylater/admin/component/CreateAccount.dart';
 import 'package:paylater/admin/detail_AkunCustomer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
@@ -185,7 +186,7 @@ class _AkunUnverifyState extends State<AkunUnverify> {
                             backgroundColor: PaylaterTheme.maincolor),
                         onPressed: role.value == 'pengawas'?null:() {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const CreateAkun()));
+                              builder: (context) => const BuatAkun()));
                         },
                         icon: const Icon(
                           Icons.add_circle,
