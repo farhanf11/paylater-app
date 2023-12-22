@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:paylater/admin/component/PostPengajuanProduk.dart';
@@ -27,7 +26,7 @@ class _PermintaanLinkState extends State<PermintaanLink> {
   var image_face = "".obs;
   var _currentPage = 0.obs;
   var last_page = 1.obs;
-  var role = 1.obs;
+  var role = "".obs;
   List links = [];
   bool isLoading = false;
   bool success = false;

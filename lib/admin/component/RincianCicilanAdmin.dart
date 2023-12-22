@@ -427,13 +427,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     ),
                   ),
 
-                if (status.value != null && status.value != 'request')
+                if (status.value != null && status.value == 'ongoing')
                     const SizedBox(
                       height: 24,
                     ),
 
                   ///Rincian Cicilan
-                if (status.value != null && status.value != 'request')
+                if (status.value != null && status.value == 'ongoing')
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       height: 200,
@@ -539,13 +539,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                       ),
                     ),
 
-                if (status.value != null && status.value != 'request')
+                if (status.value != null && status.value == 'ongoing')
                   ///alamat
                   const SizedBox(
                     height: 24,
                   ),
 
-                if (status.value != null && status.value != 'request')
+                if (status.value != null && status.value == 'ongoing')
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(

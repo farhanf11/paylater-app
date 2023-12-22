@@ -21,10 +21,11 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
   List datas = [];
   bool isLoading = false;
   bool success = false;
-  var user_name = "username".obs;
-  var email_address = "email".obs;
-  var phone_number = "phone".obs;
-  var image_face = "image".obs;
+  var user_name = "".obs;
+  var email_address = "".obs;
+  var phone_number = "".obs;
+  var image_face = "".obs;
+  var role = "".obs;
   var _currentPage = 0.obs;
   var last_page = 1.obs;
   List links = [];
@@ -101,6 +102,7 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
             email_address.value = responseData['data']['email_address'];
             phone_number.value = responseData['data']['phone_number'];
             image_face.value = responseData['data']['image_face'];
+            role.value = responseData['data']['role'];
           });
 
         }
@@ -160,7 +162,7 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MaterialButton(
-                          onPressed: () { Navigator.push(
+                          onPressed: role.value == 'pengawas'?null:() { Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) => RincianCicilanAdmin(

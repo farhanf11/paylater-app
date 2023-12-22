@@ -228,7 +228,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MaterialButton(
-                          onPressed: () { Navigator.push(
+                          onPressed: role.value == 'pengawas'?null:() { Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) => RincianCicilanAdmin(
