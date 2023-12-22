@@ -40,7 +40,7 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
     });
   }
 
-  ///get data tokken id
+  ///get role
   void ProfilebyId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token')!;

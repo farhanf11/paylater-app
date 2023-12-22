@@ -23,10 +23,11 @@ class _PermintaanLinkState extends State<PermintaanLink> {
   String token = "";
   List datas = [];
   var url = "".obs;
-  var user_name = "username".obs;
-  var image_face = "image".obs;
+  var user_name = "".obs;
+  var image_face = "".obs;
   var _currentPage = 0.obs;
   var last_page = 1.obs;
+  var role = 1.obs;
   List links = [];
   bool isLoading = false;
   bool success = false;
@@ -35,7 +36,49 @@ class _PermintaanLinkState extends State<PermintaanLink> {
   void initState() {
     super.initState();
     LinkbyId();
+    getToken();
+    ProfilebyId();
   }
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token')!;
+    });
+  }
+  ///get role
+  void ProfilebyId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token')!;
+    var id = prefs.getInt('id')!;
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var response = await get(
+          Uri.parse('https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
+          headers: {
+            'Authorization': token,
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          setState(() {
+            role.value = responseData['data']['role'];
+          });
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+  // role.value == 'pengawas'?null:
 
   Future<void> LinkbyId({url = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -187,7 +230,7 @@ class _PermintaanLinkState extends State<PermintaanLink> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MaterialButton(
-                          onPressed: () { Navigator.push(
+                          onPressed: role.value == 'pengawas'?null:() { Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) => PostPengajuanProduk(

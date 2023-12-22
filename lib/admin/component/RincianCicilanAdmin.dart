@@ -91,7 +91,6 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             id.value = responseData['data']['id'];
             no_order.value = responseData['data']['no_order'];
             title.value = responseData['data']['title'];
-            image.value = responseData['data']['image'];
             price.value = responseData['data']['price'];
             status.value = responseData['data']['status'];
             url.value = responseData['data']['url'];
@@ -100,6 +99,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             user_name.value = responseData['data']['user']['user_name'];
             created_at.value = responseData['data']['created_at'];
             tenor.value = responseData['data']['tenor']??"";
+            image.value = responseData['data']['image'];
             address.value = responseData['data']['address']??"";
             total_price.value = responseData['data']['total_price']??"";
             note.value = responseData['data']['note']??"";
@@ -598,7 +598,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                   ),
 
                   ///resi
-                if (status.value != null && status.value != '')
+                if (status.value != null && status.value == 'ongoing')
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
@@ -672,13 +672,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     ),
                   ),
 
-                if (status.value != null && status.value != 'request')
+                if (status.value != null && status.value == 'ongoing')
                   const SizedBox(
                     height: 24,
                   ),
 
                   ///notes
-                if (status.value != null && status.value != 'request')
+                if (status.value != null && status.value == 'ongoing')
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
@@ -700,7 +700,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                                       color: Color(0xffE3E9EB))),
                             ),
                             child: const Text(
-                              'Alamat Pengiriman',
+                              'Catatan',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,

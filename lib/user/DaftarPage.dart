@@ -61,13 +61,11 @@ class _DaftarPageState extends State<DaftarPage> {
     }
   }
 
-  uploadSignUp(File? wajah, File? ktp, String email_address, String user_name, String phone_number, String job) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var id = prefs.getInt('id')!;
+  uploadSignUp(File? wajah, File? ktp, String emailAddress, String userName, String phoneNumber, String job) async {
     var formData = FormData();
-    formData.fields.add(MapEntry("email_address", email_address));
-    formData.fields.add(MapEntry("user_name", user_name));
-    formData.fields.add(MapEntry("phone_number", phone_number));
+    formData.fields.add(MapEntry("email_address", emailAddress));
+    formData.fields.add(MapEntry("user_name", userName));
+    formData.fields.add(MapEntry("phone_number", phoneNumber));
     formData.fields.add(MapEntry("job", job));
     formData.files.add(MapEntry(
       "image_face",

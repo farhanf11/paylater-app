@@ -31,6 +31,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
   var last_page = 1.obs;
   List links = [];
   var tenor = "".obs;
+  var role = "".obs;
 
   @override
   void initState() {
@@ -169,6 +170,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
             email_address.value = responseData['data']['email_address'];
             phone_number.value = responseData['data']['phone_number'];
             image_face.value = responseData['data']['image_face'];
+            role.value = responseData['data']['role'];
           });
         }
       }
@@ -352,6 +354,12 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             MaterialButton(
+                              onPressed: role.value == 'pengawas'?null:() {
+                                VerifyOrder(
+                                    datas[index]['id'].toString(),
+                                    "approve"
+                                );
+                              },
                               child: Container(
                                 decoration: const BoxDecoration(
                                   color: PaylaterTheme.maincolor,
@@ -361,15 +369,15 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                 padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
                                 child: const Text('Setujui', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
                               ),
-                              onPressed: () {
-                                VerifyOrder(
-                                    datas[index]['id'].toString(),
-                                    "approve"
-                                );
-                              },
                             ),
 
                             MaterialButton(
+                              onPressed: role.value == 'pengawas'?null:() {
+                                VerifyOrder(
+                                    datas[index]['id'].toString(),
+                                    "reject"
+                                );
+                              },
                               child: Container(
                                 decoration: const BoxDecoration(
                                     color: Colors.grey,
@@ -379,12 +387,6 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                 padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
                                 child: const Text('Tolak', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),),
                               ),
-                              onPressed: () {
-                                VerifyOrder(
-                                    datas[index]['id'].toString(),
-                                    "reject"
-                                );
-                              },
                             ),
                           ],
                         ),
