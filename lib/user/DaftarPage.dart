@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paylater/user/LoginPage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../theme.dart';
 
 class DaftarPage extends StatefulWidget {
@@ -27,15 +26,13 @@ extension EmailValidator on String {
 class _DaftarPageState extends State<DaftarPage> {
   File? wajah;
   File? ktp;
-  File? image1;
-  File? image2;
   ImagePicker picker = ImagePicker();
   Dio dio = Dio();
+  String? dropdownValue = "dosen";
 
   TextEditingController inputUsername = TextEditingController();
   TextEditingController inputTelp = TextEditingController();
   TextEditingController inputEmail = TextEditingController();
-  TextEditingController inputJob = TextEditingController();
 
   var imagePicker;
 
@@ -61,20 +58,20 @@ class _DaftarPageState extends State<DaftarPage> {
     }
   }
 
-  uploadSignUp(File? wajah, File? ktp, String emailAddress, String userName, String phoneNumber, String job) async {
+  uploadSignUp(File? wajah, File? ktp, String email_address, String user_name, String phone_number, String job) async {
     var formData = FormData();
-    formData.fields.add(MapEntry("email_address", emailAddress));
-    formData.fields.add(MapEntry("user_name", userName));
-    formData.fields.add(MapEntry("phone_number", phoneNumber));
-    formData.fields.add(MapEntry("job", job));
+    formData.fields.add(MapEntry("email_address", email_address)); print(email_address);
+    formData.fields.add(MapEntry("user_name", user_name)); print(user_name);
+    formData.fields.add(MapEntry("phone_number", phone_number)); print(phone_number);
+    formData.fields.add(MapEntry("job", job)); print(job);
     formData.files.add(MapEntry(
       "image_face",
       await MultipartFile.fromFile(wajah!.path, filename: "pic-name.png"),
-    ));
+    )); print(wajah);
     formData.files.add(MapEntry(
       "image_ktp",
       await MultipartFile.fromFile(ktp!.path, filename: "pic-name.png"),
-    ));
+    )); print(ktp);
     var response = await dio.post(
         'https://paylater.harysusilo.my.id/api/auth/register',
         data: formData,
@@ -101,8 +98,6 @@ class _DaftarPageState extends State<DaftarPage> {
     }
     print("response ${response.data}");
   }
-
-  String? dropdownValue = "Tenaga Pendidik";
 
   get firstCamera => null;
 
@@ -338,7 +333,7 @@ class _DaftarPageState extends State<DaftarPage> {
                           ),
                           dropdownColor: PaylaterTheme.white,
                           hint: const Text(
-                            "Choose",
+                            "Job",
                             style: TextStyle(
                                 color: PaylaterTheme.deactivatedText,
                                 fontWeight: FontWeight.w600),
@@ -347,9 +342,9 @@ class _DaftarPageState extends State<DaftarPage> {
                           onChanged: (String? newValue) {
                             setState(() {
                               dropdownValue = newValue!;
-                            });
+                            }); print("dropdown : $dropdownValue");
                           },
-                          items: <String>['Dosen', 'Tenaga Pendidik']
+                          items: <String>['dosen', 'tenaga pendidik']
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -488,7 +483,7 @@ class _DaftarPageState extends State<DaftarPage> {
                         inputEmail.text,
                         inputUsername.text,
                         inputTelp.text,
-                        inputJob.text,
+                        dropdownValue!,
                       )},
                       child: Container(
                         padding: const EdgeInsets.symmetric(
