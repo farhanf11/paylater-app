@@ -5,14 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:paylater/user/LoginPage.dart';
 import '../../theme.dart';
 
 class BuatAkun extends StatefulWidget {
   const BuatAkun({Key? key}) : super(key: key);
 
   @override
-  State<BuatAkun> createState() => _BuatAkunState();
+  State<BuatAkun> createState() => _BuatAkuntState();
 }
 
 extension EmailValidator on String {
@@ -23,16 +23,16 @@ extension EmailValidator on String {
   }
 }
 
-class _BuatAkunState extends State<BuatAkun> {
+class _BuatAkuntState extends State<BuatAkun> {
   File? wajah;
   File? ktp;
   ImagePicker picker = ImagePicker();
   Dio dio = Dio();
+  String? dropdownValue = "dosen";
 
   TextEditingController inputUsername = TextEditingController();
   TextEditingController inputTelp = TextEditingController();
   TextEditingController inputEmail = TextEditingController();
-  TextEditingController inputJob = TextEditingController();
 
   var imagePicker;
 
@@ -58,21 +58,20 @@ class _BuatAkunState extends State<BuatAkun> {
     }
   }
 
-  postAkun(File? wajah, File? ktp, String email_address, String user_name, String phone_number, String job) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  uploadSignUp(File? wajah, File? ktp, String email_address, String user_name, String phone_number, String job) async {
     var formData = FormData();
-    formData.fields.add(MapEntry("email_address", email_address));
-    formData.fields.add(MapEntry("user_name", user_name));
-    formData.fields.add(MapEntry("phone_number", phone_number));
-    formData.fields.add(MapEntry("job", job));
+    formData.fields.add(MapEntry("email_address", email_address)); print(email_address);
+    formData.fields.add(MapEntry("user_name", user_name)); print(user_name);
+    formData.fields.add(MapEntry("phone_number", phone_number)); print(phone_number);
+    formData.fields.add(MapEntry("job", job)); print(job);
     formData.files.add(MapEntry(
       "image_face",
       await MultipartFile.fromFile(wajah!.path, filename: "pic-name.png"),
-    ));
+    )); print(wajah);
     formData.files.add(MapEntry(
       "image_ktp",
       await MultipartFile.fromFile(ktp!.path, filename: "pic-name.png"),
-    ));
+    )); print(ktp);
     var response = await dio.post(
         'https://paylater.harysusilo.my.id/api/auth/register',
         data: formData,
@@ -87,19 +86,18 @@ class _BuatAkunState extends State<BuatAkun> {
         )
     );
     print("response data : ${response.data}");
-    if (response.data['success'] == false) {
+    if (response.data['success'] == true) {
       Navigator.pop(context);
       AlertDialog alert = const AlertDialog(
         icon: Icon(CupertinoIcons.checkmark_seal_fill, size: 20, color: PaylaterTheme.maincolor, ),
         title: Text("Berhasil"),
-        content: Text("berhasil membuat akun user"),
+        content: Text("berhasil melakukan pendaftaran"),
       );
 
       showDialog(context: context, builder: (context) => alert);
     }
+    print("response ${response.data}");
   }
-
-  String? dropdownValue = "Tenaga Pendidik";
 
   get firstCamera => null;
 
@@ -116,7 +114,7 @@ class _BuatAkunState extends State<BuatAkun> {
         backgroundColor: PaylaterTheme.white,
         title: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Text('Buat Akun User',
+          child: Text('Daftar Akun',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -335,7 +333,7 @@ class _BuatAkunState extends State<BuatAkun> {
                           ),
                           dropdownColor: PaylaterTheme.white,
                           hint: const Text(
-                            "Choose",
+                            "Job",
                             style: TextStyle(
                                 color: PaylaterTheme.deactivatedText,
                                 fontWeight: FontWeight.w600),
@@ -344,9 +342,9 @@ class _BuatAkunState extends State<BuatAkun> {
                           onChanged: (String? newValue) {
                             setState(() {
                               dropdownValue = newValue!;
-                            });
+                            }); print("dropdown : $dropdownValue");
                           },
-                          items: <String>['Dosen', 'Tenaga Pendidik']
+                          items: <String>['dosen', 'tenaga pendidik']
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -479,13 +477,13 @@ class _BuatAkunState extends State<BuatAkun> {
                       style: const ButtonStyle(
                           backgroundColor:
                           MaterialStatePropertyAll(Color(0xff025464))),
-                      onPressed: () => {postAkun(
+                      onPressed: () => {uploadSignUp(
                         wajah,
                         ktp,
                         inputEmail.text,
                         inputUsername.text,
                         inputTelp.text,
-                        inputJob.text,
+                        dropdownValue!,
                       )},
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -496,6 +494,26 @@ class _BuatAkunState extends State<BuatAkun> {
                         child: const Text('Selanjutnya'),
                       ),
                     ),
+
+                    ///login
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Sudah memiliki akun?'),
+                        TextButton(onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                        ),
+                          child: const Text('Login',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ],

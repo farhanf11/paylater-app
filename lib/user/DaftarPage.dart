@@ -86,7 +86,7 @@ class _DaftarPageState extends State<DaftarPage> {
         )
     );
     print("response data : ${response.data}");
-    if (response.data['success'] == false) {
+    if (response.data['success'] == true) {
       Navigator.pop(context);
       AlertDialog alert = const AlertDialog(
         icon: Icon(CupertinoIcons.checkmark_seal_fill, size: 20, color: PaylaterTheme.maincolor, ),
