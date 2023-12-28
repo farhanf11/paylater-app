@@ -66,7 +66,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        print(responseData['data']['tenor']);
+        print('data cicilan: '+ responseData['data']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {

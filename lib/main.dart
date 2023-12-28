@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylater/admin/component/AdminNavbarBot.dart';
+import 'package:paylater/launcherPage.dart';
 import 'package:paylater/navbar/NavbarBot.dart';
 import 'package:paylater/user/LandingPage.dart';
 import 'package:paylater/user/LoginPage.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: LauncherPage(),
     );
   }
 }

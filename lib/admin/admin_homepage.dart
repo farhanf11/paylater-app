@@ -475,16 +475,16 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   elevation: 5,
                   child: success == true
                       ? Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/dataNotFound.jpg',
-                        height: 160,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const Text('Data Pengajuan Link Tidak Ditemukan')
-                    ],
+                      children: [
+                        Image.asset(
+                          'assets/images/dataNotFound.jpg',
+                          height: 160,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Text('Data Pengajuan Link Tidak Ditemukan')
+                      ],
                   ):Container(
                     height: 372,
                     color: Colors.white,
@@ -508,7 +508,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         SizedBox(
                           height: 320,
                           child: ListView.builder(
-                            itemCount: 5,
+                            itemCount: datas.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 5),
@@ -608,7 +608,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                                       )),
                                                             ),
                                                             child: const Text(
-                                                              'Akad',
+                                                              'Input',
                                                               style: TextStyle(color: Colors.black),
                                                             )),
                                                       ),
