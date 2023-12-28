@@ -10,8 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 
-import '../navbar/NavbarBot.dart';
-
 class DetailPembayaran extends StatefulWidget {
   const DetailPembayaran({Key? key,
     required this.order_id,

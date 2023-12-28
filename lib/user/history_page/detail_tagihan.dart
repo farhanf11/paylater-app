@@ -26,18 +26,14 @@ class _RincianTagihanState extends State<RincianTagihan> {
   var no_order = ''.obs;
   var airway_bill = ''.obs;
   var user_id = 0.obs;
-  var price = 0.obs;
   var image = ''.obs;
   var url = ''.obs;
   var title = ''.obs;
   var total_price = 0.obs;
-  var tenor = ''.obs;
-  var address = ''.obs;
-  var note = ''.obs;
-  var arrival_date = ''.obs;
-  var request_date = ''.obs;
-  var status = ''.obs;
-  var created_at = ''.obs;
+  var tenor = "".obs;
+  var address = "".obs;
+  var note = "".obs;
+  var status = "".obs;
 
   var id_installment = 0.obs;
   var order_id = 0.obs;
@@ -46,7 +42,6 @@ class _RincianTagihanState extends State<RincianTagihan> {
   var instalment_price = 0.obs;
   var status_installment = "".obs;
   var due_date = "".obs;
-  var full_name = "".obs;
   bool isLoading = false;
   List cicilans = [];
 
@@ -81,7 +76,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         cicilans = responseData['data']['instalment'];
-        print(responseData['data']['data']);
+        print("tenor"+responseData['data']['tenor']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -89,18 +84,12 @@ class _RincianTagihanState extends State<RincianTagihan> {
           no_order.value = responseData['data']['no_order'];
           title.value = responseData['data']['title'];
           image.value = responseData['data']['image'];
-          price.value = responseData['data']['price'];
           status.value = responseData['data']['status'];
-          full_name.value = responseData['data']['user']['full_name'];
-          url.value = responseData['data']['url'];
-          request_date.value = responseData['data']['request_date'] ?? "";
-          created_at.value = responseData['data']['created_at'];
           total_price.value = responseData['data']['total_price'];
           tenor.value = responseData['data']['tenor'] ?? "-";
           note.value = responseData['data']['note'] ?? "-";
           address.value = responseData['data']['address'] ?? "-";
           airway_bill.value = responseData['data']['airway_bill'] ?? "-";
-          arrival_date.value = responseData['data']['arrival_date'] ?? "-";
 
           id_installment.value =
               responseData['data']['instalment'][0]['id'];
@@ -111,8 +100,8 @@ class _RincianTagihanState extends State<RincianTagihan> {
               responseData['data']['instalment'][0]['instalment_number'];
           instalment_price.value =
               responseData['data']['instalment'][0]['instalment_price'];
-          status.value =
-              responseData['data']['instalment'][0]['status'];
+          status_installment.value =
+              responseData['data']['instalment'][0]['status_installment'];
           due_date.value = responseData['data']['instalment'][0]['due_date'];
         }
       } else {
@@ -246,7 +235,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                       fontWeight: FontWeight.w600),
                                 ),
                                 Text(
-                                  price.toString(),
+                                  total_price.toString(),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -257,7 +246,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                           ),
 
                             ///Tenor
-                            if (tenor.value != null && tenor.value != '')
+                            if (tenor.value != null )
                             Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 12),
