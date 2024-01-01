@@ -173,7 +173,7 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                           );},
                           child: Container(
                             constraints: const BoxConstraints(maxWidth: double.infinity),
-                            height: 160,
+                            height: 140,
                             width: 360,
                             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                             decoration: BoxDecoration(
@@ -181,26 +181,6 @@ class _TransaksiSelesaiState extends State<TransaksiSelesai> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          datas[index]['user']['image_face']
-                                      ),
-                                    ),
-
-                                    const SizedBox(width: 10,),
-                                    Text(
-                                        datas[index]['user']['user_name'],
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700
-
-                                        )
-                                    ),
-                                  ],
-                                ),
                                 const SizedBox(height: 10,),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,

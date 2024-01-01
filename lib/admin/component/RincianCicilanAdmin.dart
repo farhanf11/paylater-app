@@ -89,17 +89,16 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
         } else {
           setState(() {
             id.value = responseData['data']['id'];
+            user_id.value = responseData['data']['user_id'];
+            phone_number.value = responseData['data']['user']['phone_number'];
+            user_name.value = responseData['data']['user']['user_name'];
             no_order.value = responseData['data']['no_order'];
             title.value = responseData['data']['title'];
             price.value = responseData['data']['price'];
             status.value = responseData['data']['status'];
-            url.value = responseData['data']['url'];
-            user_id.value = responseData['data']['user_id'];
-            phone_number.value = responseData['data']['user']['phone_number'];
-            user_name.value = responseData['data']['user']['user_name'];
+            image.value = responseData['data']['image'];
             created_at.value = responseData['data']['created_at'];
             tenor.value = responseData['data']['tenor']??"";
-            image.value = responseData['data']['image'];
             address.value = responseData['data']['address']??"";
             total_price.value = responseData['data']['total_price']??"";
             note.value = responseData['data']['note']??"";
@@ -291,7 +290,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                   ///Rincian pesanan
                   Flexible(
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16),
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
@@ -367,7 +366,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                               ),
                             ),
 
-                          ///Total Tagihan
+                          ///harga
                           Container(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -398,7 +397,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                             ),
                           ),
 
-                          ///total tagihan
+                          ///total harga
                           Container(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
