@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/profile_page/biodata.dart';
 import 'package:paylater/theme.dart';
@@ -15,22 +16,24 @@ class BiodataPage extends StatefulWidget {
 
 class _BiodataPageState extends State<BiodataPage> {
   _BiodataPageState();
-  var full_name = "full_name";
-  var nik = "nik";
-  var mother_name = "mother_name";
-  var birth_date = "birth_date";
-  var gender = "gender";
-  var province = "province";
-  var city = "city";
-  var address = "address";
-  var job = "job";
-  var image_face = "image_face";
-  var image_ktp = "image_ktp";
+  var full_name = "".obs;
+  var nik = "".obs;
+  var mother_name = "".obs;
+  var birth_date = "".obs;
+  var gender = "".obs;
+  var province = "".obs;
+  var city = "".obs;
+  var address = "-".obs;
+  var job = "".obs;
+  var image_face = "";
+  var image_ktp = "";
 
   String token = "";
   var id = 0;
 
+  @override
   void initState() {
+    super.initState();
     BiodatabyId();
   }
 
@@ -39,7 +42,7 @@ class _BiodataPageState extends State<BiodataPage> {
     var token = prefs.getString('token')!;
     var id = prefs.getInt('id')!;
     try {
-      Response response = await get(
+      var response = await get(
           Uri.parse(
               'https://paylater.harysusilo.my.id/api/get-user-profile/$id'),
           headers: {
@@ -52,15 +55,15 @@ class _BiodataPageState extends State<BiodataPage> {
           print('gagal');
         } else {
           setState(() {
-            full_name = responseData['data']['full_name'];
-            nik = responseData['data']['nik'];
-            mother_name = responseData['data']['mother_name'];
-            birth_date = responseData['data']['birth_date'];
-            gender = responseData['data']['gender'];
-            city = responseData['data']['city'];
-            province = responseData['data']['province'];
-            job = responseData['data']['job'];
-            address = responseData['data']['address'];
+            full_name.value = responseData['data']['full_name'];
+            nik.value = responseData['data']['nik'];
+            mother_name.value = responseData['data']['mother_name'];
+            birth_date.value = responseData['data']['birth_date'];
+            gender.value = responseData['data']['gender'];
+            city.value = responseData['data']['city'];
+            province.value = responseData['data']['province'];
+            job.value = responseData['data']['job'];
+            address.value = responseData['data']['address']??"-";
             image_face = responseData['data']['image_face'];
             image_ktp = responseData['data']['image_ktp'];
           });
@@ -134,12 +137,12 @@ class _BiodataPageState extends State<BiodataPage> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        full_name.toString(),
+                      Obx(() => Text(
+                        full_name.value,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14),
-                      ),
+                      ),)
                     ],
                   ),
                   const SizedBox(
@@ -160,10 +163,10 @@ class _BiodataPageState extends State<BiodataPage> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        nik.toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                      Obx(() => Text(
+                        nik.value,
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      ),)
                     ],
                   ),
                   const SizedBox(
@@ -184,10 +187,10 @@ class _BiodataPageState extends State<BiodataPage> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        birth_date.toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                      Obx(() => Text(
+                        birth_date.value,
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      ),),
                     ],
                   ),
                   const SizedBox(
@@ -208,13 +211,13 @@ class _BiodataPageState extends State<BiodataPage> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        mother_name.toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                      Obx(() => Text(
+                        mother_name.value,
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      ),),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Column(
@@ -232,15 +235,16 @@ class _BiodataPageState extends State<BiodataPage> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        gender.toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                      Obx(() => Text(
+                        gender.value,
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      ),),
                     ],
                   ),
                   const SizedBox(
                     height: 10,
                   ),
+
                   const Text(
                     'Provinsi',
                     style: TextStyle(
@@ -252,13 +256,14 @@ class _BiodataPageState extends State<BiodataPage> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    province.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
+                  Obx(() => Text(
+                    province.value,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                  ),),
                   const SizedBox(
                     height: 10,
                   ),
+
                   const Text(
                     'Kota',
                     style: TextStyle(
@@ -270,94 +275,69 @@ class _BiodataPageState extends State<BiodataPage> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Text(
+                  Obx(() => Text(
                     city.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                  ),),
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  Column(
+                    children: [
+                      const Text(
+                        'Pekerjaan',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                          color: PaylaterTheme.deactivatedText,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Obx(() => Text(
+                        job.value,
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      ),)
+                    ],
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text(
-                    'Pekerjaan',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10,
-                      color: PaylaterTheme.deactivatedText,
-                    ),
+
+                  Column(
+                    children: [
+                      const Text(
+                        'Alamat',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                          color: PaylaterTheme.deactivatedText,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Obx(() => Text(
+                        address.value,
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      ),)
+                    ],
                   ),
                   const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    job.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    'Alamat',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10,
-                      color: PaylaterTheme.deactivatedText,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    address.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
-                  SizedBox(
                     height: 14,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    height: 120,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 4,
-                            color: Theme.of(context).scaffoldBackgroundColor),
-                        boxShadow: [
-                          BoxShadow(
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              color: Colors.black.withOpacity(0.1),
-                              offset: const Offset(0, 10))
-                        ],
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              image_face,
-                            ))),
+
+                  Image(
+                      image: NetworkImage(image_face.toString())
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 14,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    height: 120,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 4,
-                            color: Theme.of(context).scaffoldBackgroundColor),
-                        boxShadow: [
-                          BoxShadow(
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              color: Colors.black.withOpacity(0.1),
-                              offset: const Offset(0, 10))
-                        ],
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              image_ktp,
-                            ))),
-                  ),
+                  Image(
+                      image: NetworkImage(image_ktp)
+                  )
                 ],
               ),
             ),
@@ -374,7 +354,7 @@ class _BiodataPageState extends State<BiodataPage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: Text('Lengkapi Biodata'),
+              child: const Text('Lengkapi Biodata'),
             ),
           ),
         ],
