@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:paylater/admin/component/AdminDetailTagihan.dart';
 import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
@@ -165,7 +166,7 @@ class _TransaksiBerlangsungState extends State<TransaksiBerlangsung> {
                           onPressed: role.value == 'pengawas'?null:() { Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) => RincianCicilanAdmin(
+                              builder: (BuildContext context) => AdminDetailTagihan(
                                 order_id: datas[index]['id'],
                                 user_id: datas[index]['user_id'],
                               ),

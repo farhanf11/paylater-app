@@ -83,7 +83,10 @@ class _AdminDetailTagihanState extends State<AdminDetailTagihan> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         cicilans = responseData['data']['instalment'];
-        print('cicilan : '+responseData['data']['instalment'][0]['instalment_number']);
+        print('statuss : '+responseData['data']['status']);
+        print('no order : '+responseData['data']['no_order']);
+        print('title : '+responseData['data']['title']);
+        print('tenor : '+responseData['data']['tenor']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -424,13 +427,13 @@ class _AdminDetailTagihanState extends State<AdminDetailTagihan> {
                   ),
                 ),
 
-                if (status.value != null && status.value == 'ongoing')
+                if (status.value != 'request')
                   const SizedBox(
                     height: 24,
                   ),
 
                 ///Rincian Cicilan
-                if (status.value != null && status.value == 'ongoing')
+                if (status.value != 'request')
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     height: 200,
