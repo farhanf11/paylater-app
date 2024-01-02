@@ -52,6 +52,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
   bool isLoading = false;
   List cicilans = [];
 
+  @override
   void initState() {
     super.initState();
     getToken();
@@ -142,7 +143,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
           ):
           ListView(
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               children: [
                   ///image
                   Container(
@@ -426,13 +427,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     ),
                   ),
 
-                if (status.value != null && status.value == 'ongoing')
+                if (status.value != null && status.value != 'request')
                     const SizedBox(
                       height: 24,
                     ),
 
                   ///Rincian Cicilan
-                if (status.value != null && status.value == 'ongoing')
+                if (status.value != null && status.value != 'request')
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       height: 200,
@@ -538,13 +539,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                       ),
                     ),
 
-                if (status.value != null && status.value == 'ongoing')
+                if (status.value != null && status.value != 'request')
                   ///alamat
                   const SizedBox(
                     height: 24,
                   ),
 
-                if (status.value != null && status.value == 'ongoing')
+                if (status.value != null && status.value != 'request')
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
@@ -597,7 +598,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                   ),
 
                   ///resi
-                if (status.value != null && status.value == 'ongoing')
+                if (status.value != null && status.value != 'request')
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
@@ -642,7 +643,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                                         MaterialStatePropertyAll(RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6),
                                     )),
-                                    backgroundColor: MaterialStatePropertyAll(
+                                    backgroundColor: const MaterialStatePropertyAll(
                                         PaylaterTheme.maincolor),
                                   ),
                                   child: const Text(
@@ -677,9 +678,9 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                   ),
 
                   ///notes
-                if (status.value != null && status.value == 'ongoing')
+                if (status.value != null && status.value != 'request')
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16),
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
