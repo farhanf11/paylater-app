@@ -336,7 +336,7 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                           ),
 
                           ///Tenor
-                          if (tenor.value!=null && tenor.value!="")
+                          if (tenor.value != null && tenor.value != '')
                             Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 12),
@@ -427,13 +427,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     ),
                   ),
 
-                if (status.value != null && status.value != 'request')
+                if (status.value != 'request')
                     const SizedBox(
                       height: 24,
                     ),
 
                   ///Rincian Cicilan
-                if (status.value != null && status.value != 'request')
+                if (status.value != 'request')
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       height: 200,
@@ -539,13 +539,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                       ),
                     ),
 
-                if (status.value != null && status.value != 'request')
+                if (tenor.value != null && tenor.value != '')
                   ///alamat
                   const SizedBox(
                     height: 24,
                   ),
 
-                if (status.value != null && status.value != 'request')
+                if (tenor.value != null && tenor.value != '')
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
@@ -592,13 +592,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     ),
                   ),
 
-                if (status.value != null && status.value != 'request')
+                if (status.value != 'request')
                   const SizedBox(
                     height: 24,
                   ),
 
                   ///resi
-                if (status.value != null && status.value != 'request')
+                if (status.value != 'request')
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
@@ -672,13 +672,13 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
                     ),
                   ),
 
-                if (status.value != null && status.value == 'ongoing')
+                if (tenor.value != null && tenor.value != '')
                   const SizedBox(
                     height: 24,
                   ),
 
                   ///notes
-                if (status.value != null && status.value != 'request')
+                if (tenor.value != null && tenor.value != '')
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
