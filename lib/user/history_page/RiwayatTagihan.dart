@@ -133,7 +133,7 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
             height: 300,
           ),
           const SizedBox(height: 5,),
-          Text('Data Pengajuan Link Tidak Ditemukan')
+          const Text('Data Pengajuan Link Tidak Ditemukan')
         ],
       ),
     ):Container(
@@ -171,7 +171,7 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
                           );},
                           child: Container(
                             constraints: BoxConstraints(maxWidth: double.infinity),
-                            height: 160,
+                            height: 140,
                             width: 328,
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                             decoration: BoxDecoration(
@@ -179,25 +179,25 @@ class _RiwayatOrderState extends State<RiwayatOrder> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    Obx(() => CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          image_face.value
-                                      ),
-                                    ),),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Obx(() => Text(user_name.value,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700
-                                        )
-                                    ),),
-                                  ],
-                                ),
+                                // Row(
+                                //   children: [
+                                //     Obx(() => CircleAvatar(
+                                //       backgroundImage: NetworkImage(
+                                //           image_face.value
+                                //       ),
+                                //     ),),
+                                //     const SizedBox(
+                                //       width: 10,
+                                //     ),
+                                //     Obx(() => Text(user_name.value,
+                                //         style: const TextStyle(
+                                //             fontSize: 14,
+                                //             color: Colors.black,
+                                //             fontWeight: FontWeight.w700
+                                //         )
+                                //     ),),
+                                //   ],
+                                // ),
                                 const SizedBox(height: 10,),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,

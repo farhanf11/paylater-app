@@ -172,7 +172,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                           );},
                           child: Container(
                             constraints: const BoxConstraints(maxWidth: double.infinity),
-                            height: 166,
+                            height: 140,
                             width: 328,
                             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                             decoration: BoxDecoration(
@@ -180,26 +180,26 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    Obx(() => CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          image_face.value
-                                      ),
-                                    ),),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Obx(() => Text(user_name.value,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700
-                                        )
-                                    ),),
-                                  ],
-                                ),
+                                // Row(
+                                //   children: [
+                                //     Obx(() => CircleAvatar(
+                                //       backgroundImage: NetworkImage(
+                                //           image_face.value
+                                //       ),
+                                //     ),),
+                                //     const SizedBox(
+                                //       width: 10,
+                                //     ),
+                                //     Obx(() => Text(user_name.value,
+                                //         overflow: TextOverflow.ellipsis,
+                                //         style: const TextStyle(
+                                //             fontSize: 14,
+                                //             color: Colors.black,
+                                //             fontWeight: FontWeight.w700
+                                //         )
+                                //     ),),
+                                //   ],
+                                // ),
                                 const SizedBox(height: 10,),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,

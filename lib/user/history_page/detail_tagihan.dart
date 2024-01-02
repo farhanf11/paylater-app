@@ -24,14 +24,15 @@ class _RincianTagihanState extends State<RincianTagihan> {
   String token = "";
   var id = 0.obs;
   var no_order = ''.obs;
-  var airway_bill = ''.obs;
   var user_id = 0.obs;
   var image = ''.obs;
   var url = ''.obs;
   var title = ''.obs;
+  var price = 0.obs;
   var total_price = 0.obs;
   var tenor = "".obs;
   var address = "".obs;
+  var airway_bill = ''.obs;
   var note = "".obs;
   var status = "".obs;
 
@@ -83,13 +84,13 @@ class _RincianTagihanState extends State<RincianTagihan> {
           id.value = responseData['data']['id'];
           no_order.value = responseData['data']['no_order'];
           title.value = responseData['data']['title'];
+          price.value = responseData['data']['price'];
           image.value = responseData['data']['image'];
           status.value = responseData['data']['status'];
           total_price.value = responseData['data']['total_price'];
           tenor.value = responseData['data']['tenor'] ?? "-";
           note.value = responseData['data']['note'] ?? "-";
           address.value = responseData['data']['address'] ?? "-";
-          airway_bill.value = responseData['data']['airway_bill'] ?? "-";
 
           id_installment.value =
               responseData['data']['instalment'][0]['id'];
@@ -103,6 +104,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
           status_installment.value =
               responseData['data']['instalment'][0]['status_installment'];
           due_date.value = responseData['data']['instalment'][0]['due_date'];
+          airway_bill.value = responseData['data']['airway_bill'] ?? "-";
         }
       } else {
         print('gagal');
@@ -235,7 +237,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                       fontWeight: FontWeight.w600),
                                 ),
                                 Text(
-                                  total_price.toString(),
+                                  price.toString(),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,

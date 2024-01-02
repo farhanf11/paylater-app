@@ -124,7 +124,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
 
   @override
   Widget build(BuildContext context) {
-    return success == false?
+    return success != false?
     Center(
       child: isLoading
           ? const CircularProgressIndicator(
@@ -182,7 +182,7 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                           );},
                           child: Container(
                             constraints: const BoxConstraints(maxWidth: double.infinity),
-                            height: 156,
+                            height: 140,
                             width: 328,
                             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                             decoration: BoxDecoration(
@@ -190,31 +190,31 @@ class _PermintaanOrderState extends State<PermintaanOrder> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Obx(() => CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              image_face.value
-                                          ),
-                                        ),),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Obx(() => Text(user_name.value,
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.black87,
-                                                fontWeight: FontWeight.w700
-                                            )),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                // Row(
+                                //   crossAxisAlignment: CrossAxisAlignment.center,
+                                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     Row(
+                                //       children: [
+                                //         Obx(() => CircleAvatar(
+                                //           backgroundImage: NetworkImage(
+                                //               image_face.value
+                                //           ),
+                                //         ),),
+                                //         const SizedBox(
+                                //           width: 10,
+                                //         ),
+                                //         Obx(() => Text(user_name.value,
+                                //             style: const TextStyle(
+                                //                 fontSize: 14,
+                                //                 color: Colors.black87,
+                                //                 fontWeight: FontWeight.w700
+                                //             )),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ],
+                                // ),
                                 const SizedBox(height: 10,),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
