@@ -87,6 +87,7 @@ class _AdminDetailTagihanState extends State<AdminDetailTagihan> {
         print('no order : '+responseData['data']['no_order']);
         print('title : '+responseData['data']['title']);
         print('tenor : '+responseData['data']['tenor']);
+        print('image : '+responseData['data']['image']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -128,7 +129,7 @@ class _AdminDetailTagihanState extends State<AdminDetailTagihan> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff025464),
+          backgroundColor: const Color(0xff025464),
           leading: const BackButton(
             color: Colors.white,
           ),

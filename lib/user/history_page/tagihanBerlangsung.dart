@@ -165,7 +165,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                           onPressed: () { Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) => AdminDetailTagihan(
+                              builder: (BuildContext context) => RincianTagihan(
                                 order_id: datas[index]['id'],
                                 user_id: datas[index]['user_id'],
                               ),
