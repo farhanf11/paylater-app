@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:paylater/admin/component/AdminDetailTagihan.dart';
 import 'package:paylater/user/history_page/detail_tagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
@@ -164,7 +165,7 @@ class _TagihanBerlangsungState extends State<TagihanBerlangsung> {
                           onPressed: () { Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) => RincianTagihan(
+                              builder: (BuildContext context) => AdminDetailTagihan(
                                 order_id: datas[index]['id'],
                                 user_id: datas[index]['user_id'],
                               ),
