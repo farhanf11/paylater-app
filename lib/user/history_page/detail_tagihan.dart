@@ -493,16 +493,14 @@ class _RincianTagihanState extends State<RincianTagihan> {
                             Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 12),
-                              child: const Flexible(
-                                child: Text(
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  'Pesanan anda sedang menunggu persetujuan admin, silahkan cek berkala',
-                                  style: TextStyle(
-                                      color: PaylaterTheme.maincolor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                                ),
+                              child: const Text(
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                'Pesanan anda sedang menunggu persetujuan admin, silahkan cek berkala',
+                                style: TextStyle(
+                                    color: PaylaterTheme.maincolor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                           ],

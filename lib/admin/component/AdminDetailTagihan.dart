@@ -288,22 +288,56 @@ class _AdminDetailTagihanState extends State<AdminDetailTagihan> {
                 ),
 
                 ///Rincian pesanan
-                Flexible(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
 
-                        ///Nomor Pesanan
+                      ///Nomor Pesanan
+                      Container(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: const BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  style: BorderStyle.solid,
+                                  color: Color(0xffEBEBEB))),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'No Order',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Obx(
+                                  () => Text(
+                                no_order.value,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+
+                      ///Tenor
+                      if (tenor.value!=null && tenor.value!="")
                         Container(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
                           decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
@@ -314,80 +348,14 @@ class _AdminDetailTagihanState extends State<AdminDetailTagihan> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
-                                'No Order',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Obx(
-                                    () => Text(
-                                  no_order.value,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-
-                        ///Tenor
-                        if (tenor.value!=null && tenor.value!="")
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      style: BorderStyle.solid,
-                                      color: Color(0xffEBEBEB))),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Tenor',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Obx(() => Text(
-                                  '${tenor.value} Bulan',
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400),
-                                ),)
-                              ],
-                            ),
-                          ),
-
-                        ///harga
-                        Container(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    style: BorderStyle.solid,
-                                    color: Color(0xffEBEBEB))),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Harga Barang',
+                                'Tenor',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600),
                               ),
                               Obx(() => Text(
-                                price.value.toString(),
+                                '${tenor.value} Bulan',
                                 style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 14,
@@ -397,32 +365,62 @@ class _AdminDetailTagihanState extends State<AdminDetailTagihan> {
                           ),
                         ),
 
-                        ///total harga
-                        Container(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Total Harga',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Obx(() => Text(
-                                total_price.value.toString(),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),)
-                            ],
-                          ),
+                      ///harga
+                      Container(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: const BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  style: BorderStyle.solid,
+                                  color: Color(0xffEBEBEB))),
                         ),
-                      ],
-                    ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Harga Barang',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Obx(() => Text(
+                              price.value.toString(),
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                            ),)
+                          ],
+                        ),
+                      ),
+
+                      ///total harga
+                      Container(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Total Harga',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Obx(() => Text(
+                              total_price.value.toString(),
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                            ),)
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -679,7 +677,7 @@ class _AdminDetailTagihanState extends State<AdminDetailTagihan> {
                 ///notes
                 if (status.value != null && status.value == 'ongoing')
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
