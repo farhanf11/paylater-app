@@ -76,8 +76,6 @@ class _RincianTagihanState extends State<RincianTagihan> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        cicilans = responseData['data']['instalment'];
-        print("tenor"+responseData['data']['tenor']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -414,6 +412,8 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                                     DetailPembayaran(
                                                       order_id: cicilans[index]['order_id'],
                                                       instalment_id: cicilans[index]['id'],
+                                                      instalment_unique_id: cicilans[index]['instalment_unique_id'],
+                                                      instalment_price: cicilans[index]['instalment_price'],
                                                     )),
                                               ), 
                                               child: Container(

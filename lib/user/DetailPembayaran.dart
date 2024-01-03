@@ -13,10 +13,12 @@ import 'package:dio/dio.dart';
 class DetailPembayaran extends StatefulWidget {
   const DetailPembayaran({Key? key,
     required this.order_id,
-    required this.instalment_id}) : super(key: key);
+    required this.instalment_id, required this.instalment_unique_id, required this.instalment_price}) : super(key: key);
 
   final int order_id;
   final int instalment_id;
+  final String instalment_unique_id;
+  final int instalment_price;
 
   @override
   State<DetailPembayaran> createState() => _DetailPembayaranState();
@@ -170,22 +172,26 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                             style: BorderStyle.solid,
                             color: Color(0xffEBEBEB))),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'ID Pesanan',
+                      const Text(
+                        'ID Cicilan',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
                             fontWeight: FontWeight.w600),
                       ),
-                      Text(
-                        '12345678',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
+                      const SizedBox(width: 20,),
+                      Flexible(
+                        child: Text(
+                          widget.instalment_unique_id.toString(),
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
                     ],
                   ),
@@ -201,19 +207,19 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                             style: BorderStyle.solid,
                             color: Color(0xffEBEBEB))),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Total Tagihan',
+                      const Text(
+                        'Tagihan',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        '1.500.000',
-                        style: TextStyle(
+                        widget.instalment_price.toString(),
+                        style: const TextStyle(
                             color: Colors.black,
                             fontSize: 14,
                             fontWeight: FontWeight.w400),
@@ -313,7 +319,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
           ///submit
           ElevatedButton(
             style: const ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 60, vertical: 12)),
+              padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 50, vertical: 12)),
               backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
             ),
             child: const Text(
