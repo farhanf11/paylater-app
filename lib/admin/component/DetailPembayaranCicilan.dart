@@ -66,21 +66,25 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        print('data cicilan: '+ responseData['data']);
+        print('data cicilan: '+ responseData['data']['instalment_number']);
+        print('data cicilan: '+ responseData['data']['instalment_unique_id']);
+        print('price: '+ responseData['data']['instalment_price'].toString());
+        print('status: '+ responseData['data']['status']);
+        print('payment_img: '+ responseData['data']['payment_img']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
           setState(() {
             instalment_unique_id.value = responseData['data']['instalment_unique_id'];
-            payment_img.value = responseData['data']['payment_img'];
             instalment_number.value = responseData['data']['instalment_number'];
             id.value = responseData['data']['id'];
             order_id.value = responseData['data']['order_id'];
             tenor.value = responseData['data']['tenor'];
+            payment_img.value = responseData['data']['payment_img'];
             instalment_price.value = responseData['data']['instalment_price'];
             status.value = responseData['data']['status'];
             interest_per_month.value = responseData['data']['interest_per_month'];
-            payment_status.value = responseData['data']['payment_status'];
+            payment_status.value = responseData['data']['payment_status']??"belum bayar";
             payment_date.value = responseData['data']['payment_date'];
           });
         }
@@ -393,10 +397,8 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                           height: 360,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 20),
-                          child: Obx(() => Image(
-                            image: NetworkImage(
-                                payment_img.value
-                            ),
+                          child: Obx(() => Ink.image(
+                            image: NetworkImage("${payment_img.value.toString()}")
                           ),)
                         ),
                       ],
@@ -417,7 +419,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                               borderRadius: BorderRadius.all(Radius.circular(6))
                           ),
 
-                          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
                           child: const Text('Setujui', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),),
                         ),
                         onPressed: () {
@@ -436,7 +438,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                               borderRadius: BorderRadius.all(Radius.circular(6))
                           ),
 
-                          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
                           child: const Text('Tolak', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),),
                         ),
                         onPressed: () {
