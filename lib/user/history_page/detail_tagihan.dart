@@ -76,6 +76,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
+        cicilans = responseData['data']['instalment'];
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -89,19 +90,6 @@ class _RincianTagihanState extends State<RincianTagihan> {
           tenor.value = responseData['data']['tenor'] ?? "-";
           note.value = responseData['data']['note'] ?? "-";
           address.value = responseData['data']['address'] ?? "-";
-
-          id_installment.value =
-              responseData['data']['instalment'][0]['id'];
-          order_id.value = responseData['data']['instalment'][0]['order_id'];
-          instalment_unique_id =
-              responseData['data']['instalment'][0]['instalment_unique_id'];
-          instalment_number.value =
-              responseData['data']['instalment'][0]['instalment_number'];
-          instalment_price.value =
-              responseData['data']['instalment'][0]['instalment_price'];
-          status_installment.value =
-              responseData['data']['instalment'][0]['status_installment'];
-          due_date.value = responseData['data']['instalment'][0]['due_date'];
           airway_bill.value = responseData['data']['airway_bill'] ?? "-";
         }
       } else {
@@ -415,7 +403,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                                       instalment_unique_id: cicilans[index]['instalment_unique_id'],
                                                       instalment_price: cicilans[index]['instalment_price'],
                                                     )),
-                                              ), 
+                                              ),
                                               child: Container(
                                                 padding: const EdgeInsets.symmetric(
                                                     vertical: 3, horizontal: 8
@@ -609,7 +597,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                           ],
                         ),
                       ),
-                    if (tenor.value != null && tenor.value != 'tenor')
+                    if (tenor.value != null && tenor.value != '')
                     const SizedBox(
                       height: 24,
                     ),
