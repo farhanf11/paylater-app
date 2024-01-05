@@ -391,7 +391,8 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500),
                                           ),
-                                          if(cicilans[index]['status'] == "not_yet" && cicilans[index]['status'] == "reject" )
+                                          ///blm bayar
+                                          if(cicilans[index]['status'] == "not_yet")
                                           TextButton(
                                               onPressed: () => Navigator.push(
                                                 context,
@@ -416,6 +417,33 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                                   style: TextStyle(color: Colors.white),
                                                 ),
                                               )),
+
+                                          ///sudah bayar
+                                          if(cicilans[index]['status'] == "reject")
+                                            TextButton(
+                                                onPressed: () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DetailPembayaran(
+                                                            order_id: cicilans[index]['order_id'],
+                                                            instalment_id: cicilans[index]['id'],
+                                                            instalment_unique_id: cicilans[index]['instalment_unique_id'],
+                                                            instalment_price: cicilans[index]['instalment_price'],
+                                                          )),
+                                                ),
+                                                child: Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      vertical: 3, horizontal: 8
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(4),
+                                                      color: PaylaterTheme.maincolor),
+                                                  child: const Text(
+                                                    'bayar',
+                                                    style: TextStyle(color: Colors.white),
+                                                  ),
+                                                )),
 
                                           if(cicilans[index]['status'] == "pending")
                                             const Padding(
