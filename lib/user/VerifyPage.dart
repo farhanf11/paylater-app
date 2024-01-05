@@ -18,6 +18,7 @@ class VerifyPage extends StatefulWidget {
 class _VerifyPageState extends State<VerifyPage> {
   _VerifyPageState();
   String email = "";
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -38,7 +39,9 @@ class _VerifyPageState extends State<VerifyPage> {
   final TextEditingController inputOTP = TextEditingController();
 
   void login(String email) async {
-    print(email);
+    setState(() {
+      isLoading = true;
+    });
     try {
       Response response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/auth/login'),
@@ -49,7 +52,8 @@ class _VerifyPageState extends State<VerifyPage> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          icon: const Icon(Icons.check_circle_rounded, size: 20, color: PaylaterTheme.maincolor),
+          icon: const Icon(Icons.check_circle_rounded,
+              size: 20, color: PaylaterTheme.maincolor),
           content: Text(responseData['message']),
           actions: [
             TextButton(
@@ -60,7 +64,6 @@ class _VerifyPageState extends State<VerifyPage> {
         );
 
         ///set token login
-        ///
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', 'Bearer ' + responseData['token']);
         prefs.setInt('id', responseData['data']['id']);
@@ -68,13 +71,14 @@ class _VerifyPageState extends State<VerifyPage> {
         prefs.setString('email_address', responseData['data']['email_address']);
         prefs.setString('job', responseData['data']['job']);
 
-        if(responseData['data']['role'] == "admin" || responseData['data']['role'] == "pengawas" ) {
+        if (responseData['data']['role'] == "admin" ||
+            responseData['data']['role'] == "pengawas") {
           showDialog(context: context, builder: (context) => alert);
           Navigator.push(
               context,
               new MaterialPageRoute(
                   builder: (BuildContext context) => AdminNavbarBot()));
-        }else{
+        } else {
           showDialog(context: context, builder: (context) => alert);
           Navigator.push(
               context,
@@ -99,6 +103,9 @@ class _VerifyPageState extends State<VerifyPage> {
     } catch (e) {
       print(e.toString());
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -130,25 +137,32 @@ class _VerifyPageState extends State<VerifyPage> {
                     ),
                   ],
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        style: const ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Color(0xff025464))),
-                        onPressed: () => {login(inputOTP.text.toString())},
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 60),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Text('Selanjutnya'),
-                        ),
-                      ),
-                    ],
-                  ),
+                Column(
+                  children: [
+                    ElevatedButton.icon(
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Color(0xff025464)),
+                          padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                  horizontal: 48, vertical: 2))),
+                      onPressed: isLoading
+                          ? null
+                          : () => {login(inputOTP.text.toString())},
+                      label: const Text('Login'),
+                      icon: isLoading
+                          ? Container(
+                              width: 24,
+                              height: 24,
+                              padding: const EdgeInsets.all(2.0),
+                              child: const CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3,
+                              ),
+                            )
+                          : const Icon(Icons.login),
+                    ),
+                  ],
                 )
               ],
             ),
