@@ -377,9 +377,9 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            'Cicilan',
-                                            style: TextStyle(
+                                          Text(
+                                            'Cicilan- ${cicilans[index]['instalment_number']}',
+                                            style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400),
