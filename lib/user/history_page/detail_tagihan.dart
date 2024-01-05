@@ -391,7 +391,7 @@ class _RincianTagihanState extends State<RincianTagihan> {
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500),
                                           ),
-                                          if(cicilans[index]['status'] == "not_yet")
+                                          if(cicilans[index]['status'] == "not_yet" && cicilans[index]['status'] == "reject" )
                                           TextButton(
                                               onPressed: () => Navigator.push(
                                                 context,
