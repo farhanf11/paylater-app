@@ -50,21 +50,21 @@ class _RincianAkadState extends State<RincianAkad> {
       if (value == "3"){
         price.value = harga.value;
         var temp = 0.0;
-        temp = 0.02 * double.parse(price.value);
+        temp = 0.03 * double.parse(price.value);
         var result = temp + double.parse((price.value));
         price.value = result.toString();
       }
       if (value == "6"){
         price.value = harga.value;
         var temp = 0.0;
-        temp = 0.03 * double.parse(price.value);
+        temp = 0.06 * double.parse(price.value);
         var result = temp + double.parse((price.value));
         price.value = result.toString();
       }
       if (value == "12"){
         price.value = harga.value;
         var temp = 0.0;
-        temp = 0.06 * double.parse(price.value);
+        temp = 0.10 * double.parse(price.value);
         var result = temp + double.parse((price.value));
         price.value = result.toString();
       }

@@ -397,8 +397,8 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
                           height: 360,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 20),
-                          child: Obx(() => Ink.image(
-                            image: NetworkImage("${payment_img.value.toString()}")
+                          child: Obx(() => Image(
+                            image: NetworkImage(payment_img.value.toString())
                           ),)
                         ),
                       ],

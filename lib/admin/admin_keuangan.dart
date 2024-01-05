@@ -212,7 +212,9 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
-                                color: PaylaterTheme.white)),
+                                color: PaylaterTheme.white
+                            )
+                        ),
                       ],
                     ),
                   ),
@@ -240,9 +242,13 @@ class _AdminKeuanganState extends State<AdminKeuangan> {
                                             const SizedBox(height: 8,),
                                             TextField(
                                               controller: inputDana,
-                                              decoration: const InputDecoration(
+                                              decoration: InputDecoration(
                                                 labelText: 'Rp',
-                                                icon: Icon(Icons.monetization_on_outlined, color: Colors.yellow,),
+                                                icon: const Icon(Icons.monetization_on_outlined, color: Colors.yellow,),
+                                                suffixIcon: IconButton(
+                                                  onPressed: inputDana.clear,
+                                                  icon: const Icon(Icons.clear),
+                                                ),
                                               ),
                                             ),
                                           ],

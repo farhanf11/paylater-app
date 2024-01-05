@@ -130,68 +130,98 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
               ),
 
               ///Nama
-              const Text(
-                'Nama Produk',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Nama Produk',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  TextField(
+                    controller: titleController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Nama produk',
+                      suffixIcon: IconButton(
+                        onPressed: titleController.clear,
+                        icon: const Icon(Icons.clear, size: 16),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                controller: titleController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Nama produk',
-                ),
-              ),
+
               const SizedBox(
                 height: 24,
               ),
 
               ///Harga
-              const Text(
-                'Harga Produk',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Harga Produk',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  TextField(
+                    controller: priceController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Harga produk',
+                      suffixIcon: IconButton(
+                        onPressed: priceController.clear,
+                        icon: const Icon(Icons.clear, size: 16),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                controller: priceController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Harga produk',
-                ),
-              ),
-              //End NIK
 
               const SizedBox(
                 height: 24,
               ),
 
               ///Image
-              const Text(
-                'Link Gambar Produk',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                controller: imageController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Link gambar produk',
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Link Gambar Produk',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  TextField(
+                    controller: imageController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Link gambar produk',
+                      suffixIcon: IconButton(
+                        onPressed: imageController.clear,
+                        icon: const Icon(Icons.clear, size: 16),
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
               const SizedBox(
@@ -199,66 +229,98 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
               ),
 
               ///Provinsi
-              const Text(
-                'Pesan',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                controller: noteController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Pesan kepada customer',
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Pesan',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  TextField(
+                    controller: noteController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Pesan kepada customer',
+                      suffixIcon: IconButton(
+                        onPressed: noteController.clear,
+                        icon: const Icon(Icons.clear, size: 16),
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
-
-              const SizedBox(
-                height: 24,
-              ),
-              const Text(
-                'Url Produk',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                controller: urlController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Url produk dari marketplace',
-                ),
-              ),
 
               const SizedBox(
                 height: 24,
               ),
-              const Text(
-                'Link ID',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Url Produk',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  TextField(
+                    controller: urlController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Url produk dari marketplace',
+                      suffixIcon: IconButton(
+                        onPressed: urlController.clear,
+                        icon: const Icon(Icons.clear, size: 16),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+
               const SizedBox(
-                height: 5,
+                height: 24,
               ),
-              TextField(
-                controller: linkIdController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: '',
-                ),
-              ),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Link ID',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  TextField(
+                    controller: linkIdController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'id',
+                      suffixIcon: IconButton(
+                        onPressed: linkIdController.clear,
+                        icon: const Icon(Icons.clear, size: 16),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
           const SizedBox(height: 60),

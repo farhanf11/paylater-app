@@ -40,6 +40,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   final TextEditingController inputUrl = TextEditingController();
+  final TextEditingController inputVarian = TextEditingController();
+  final TextEditingController inputAlamat = TextEditingController();
 
   void PostLink(String url) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -258,51 +260,139 @@ class _HomePageState extends State<HomePage> {
                   color: Color(0xFFF6F6F6),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        width: 270,
-                        child: TextField(
-                          maxLines: 1,
-                          keyboardType: TextInputType.url,
-                          controller: inputUrl,
-                          style: TextStyle(
-                              color: Colors.blue[500], fontSize: 16, fontWeight: FontWeight.w400),
-                          decoration: InputDecoration(
-                              hoverColor: Colors.orangeAccent,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              prefixIcon: const Icon(Icons.link),
-                              hintText: 'Paste link disini',
-                              hintStyle: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontSize: 15)),
+                  padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+                  child:
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          padding: const MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(vertical: 16)
-                          ),
-                          backgroundColor: MaterialStateProperty.all(
-                              role.value == 'pengawas'?PaylaterTheme.light_grey:PaylaterTheme.maincolor),
-                          shape: MaterialStateProperty.all<
-                              RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(32.0),
-                              )),
-                        ),
-                        child: const Icon(
-                          Icons.send_rounded,
-                          size: 20,
-                        ),
-                        onPressed: role.value == 'pengawas'?null:() =>
-                        {PostLink(inputUrl.text.toString())},
-                      ),
-                    ],
+                        backgroundColor: PaylaterTheme.maincolor),
+                    onPressed: role.value == 'pengawas'?null:() {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              scrollable: true,
+                              title: const Text('Input Data Pengajuan'),
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Form(
+                                    child: Column(
+                                      children: [
+                                        TextField(
+                                          controller: inputUrl,
+                                          decoration: InputDecoration(
+                                            labelText: 'Input Link',
+                                            suffixIcon: IconButton(
+                                              onPressed: inputUrl.clear,
+                                              icon: const Icon(Icons.clear),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8,),
+                                        TextField(
+                                          controller: inputVarian,
+                                          decoration: InputDecoration(
+                                            labelText: 'Input Varian',
+                                            suffixIcon: IconButton(
+                                              onPressed: inputVarian.clear,
+                                              icon: const Icon(Icons.clear),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8,),
+                                        TextField(
+                                          controller: inputAlamat,
+                                          decoration: InputDecoration(
+                                            labelText: 'Input Alamat',
+                                            suffixIcon: IconButton(
+                                              onPressed: inputAlamat.clear,
+                                              icon: const Icon(Icons.clear),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                  style: const ButtonStyle(
+                                      backgroundColor:
+                                      MaterialStatePropertyAll(Color(0xff025464))),
+                                  onPressed: () => {PostLink(
+                                    inputUrl.text.toString(),
+                                  )},
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 30),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: const Text('Submit'),
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                    icon: const Icon(
+                      Icons.add_link_sharp,
+                      size: 24,
+                      color: Color.fromARGB(255, 215, 194, 0),
+                    ),
+                    label: const Text("Ajukan URL Produk",
+                        style: TextStyle(
+                            color: PaylaterTheme.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600)
+                    ),
                   ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //   children: [
+                  //     SizedBox(
+                  //       width: 270,
+                  //       child: TextField(
+                  //         maxLines: 1,
+                  //         keyboardType: TextInputType.url,
+                  //         controller: inputUrl,
+                  //         style: TextStyle(
+                  //             color: Colors.blue[500], fontSize: 16, fontWeight: FontWeight.w400),
+                  //         decoration: InputDecoration(
+                  //             hoverColor: Colors.orangeAccent,
+                  //             border: OutlineInputBorder(
+                  //                 borderRadius: BorderRadius.circular(20)),
+                  //             prefixIcon: const Icon(Icons.link),
+                  //             hintText: 'Paste link disini',
+                  //             hintStyle: TextStyle(
+                  //                 color: Colors.grey.shade600,
+                  //                 fontSize: 15)),
+                  //       ),
+                  //     ),
+                  //     ElevatedButton(
+                  //       style: ButtonStyle(
+                  //         padding: const MaterialStatePropertyAll(
+                  //           EdgeInsets.symmetric(vertical: 16)
+                  //         ),
+                  //         backgroundColor: MaterialStateProperty.all(
+                  //             role.value == 'pengawas'?PaylaterTheme.light_grey:PaylaterTheme.maincolor),
+                  //         shape: MaterialStateProperty.all<
+                  //             RoundedRectangleBorder>(
+                  //             RoundedRectangleBorder(
+                  //               borderRadius: BorderRadius.circular(32.0),
+                  //             )),
+                  //       ),
+                  //       onPressed: role.value == 'pengawas'?null:() =>
+                  //       {PostLink(inputUrl.text.toString())},
+                  //       child: const Icon(
+                  //         Icons.send_rounded,
+                  //         size: 20,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ),
               ),
 
