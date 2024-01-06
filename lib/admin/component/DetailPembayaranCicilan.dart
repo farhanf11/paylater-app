@@ -10,15 +10,16 @@ import '../../theme.dart';
 import '../../user/TransferBank.dart';
 
 class DetailPembayaranCicilan extends StatefulWidget {
-  DetailPembayaranCicilan({Key? key,
-    required this.order_id,
-    required this.instalment_id}) : super(key: key);
+  DetailPembayaranCicilan(
+      {Key? key, required this.order_id, required this.instalment_id})
+      : super(key: key);
 
   final int order_id;
   final int instalment_id;
 
   @override
-  State<DetailPembayaranCicilan> createState() => _DetailPembayaranCicilanState();
+  State<DetailPembayaranCicilan> createState() =>
+      _DetailPembayaranCicilanState();
 }
 
 class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
@@ -66,16 +67,17 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        print('data cicilan: '+ responseData['data']['instalment_number']);
-        print('data cicilan: '+ responseData['data']['instalment_unique_id']);
-        print('price: '+ responseData['data']['instalment_price'].toString());
-        print('status: '+ responseData['data']['status']);
-        print('payment_img: '+ responseData['data']['payment_img']);
+        print('data cicilan: ' + responseData['data']['instalment_number']);
+        print('data cicilan: ' + responseData['data']['instalment_unique_id']);
+        print('price: ' + responseData['data']['instalment_price'].toString());
+        print('status: ' + responseData['data']['status']);
+        print('payment_img: ' + responseData['data']['payment_img']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
           setState(() {
-            instalment_unique_id.value = responseData['data']['instalment_unique_id'];
+            instalment_unique_id.value =
+                responseData['data']['instalment_unique_id'];
             instalment_number.value = responseData['data']['instalment_number'];
             id.value = responseData['data']['id'];
             order_id.value = responseData['data']['order_id'];
@@ -83,8 +85,10 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
             payment_img.value = responseData['data']['payment_img'];
             instalment_price.value = responseData['data']['instalment_price'];
             status.value = responseData['data']['status'];
-            interest_per_month.value = responseData['data']['interest_per_month'];
-            payment_status.value = responseData['data']['payment_status']??"belum bayar";
+            interest_per_month.value =
+                responseData['data']['interest_per_month'];
+            payment_status.value =
+                responseData['data']['payment_status'] ?? "belum bayar";
             payment_date.value = responseData['data']['payment_date'];
           });
         }
@@ -105,7 +109,8 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
     });
     try {
       var response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/approval-instalment'),
+          Uri.parse(
+              'https://paylater.harysusilo.my.id/api/admin/approval-instalment'),
           headers: {
             'Authorization': token,
           },
@@ -117,9 +122,9 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
-        if(responseData['success'] == false ){
+        if (responseData['success'] == false) {
           print('gagal');
-        }else{
+        } else {
           Navigator.pop(context);
           AlertDialog alert = AlertDialog(
             title: const Text("Berhasil"),
@@ -132,11 +137,10 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
             ],
           );
 
-          showDialog(context: context as BuildContext, builder: (context) => alert);
+          showDialog(
+              context: context as BuildContext, builder: (context) => alert);
         }
-
-      }
-      else {
+      } else {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
           title: Text(responseData['message']),
@@ -148,7 +152,8 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
             ),
           ],
         );
-        showDialog(context: context as BuildContext, builder: (context) => alert);
+        showDialog(
+            context: context as BuildContext, builder: (context) => alert);
       }
     } catch (e) {
       print(e.toString());
@@ -171,10 +176,7 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
           ),
           title: const Text(
             "Detail Pembayaran",
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           centerTitle: true,
         ),
@@ -184,276 +186,301 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
           child: Center(
             child: isLoading
                 ? const CircularProgressIndicator(
-              ///style
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-            ):ListView(physics: const ClampingScrollPhysics(), children: [
-              Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: PaylaterTheme.white,
-                    ),
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 12),
-                    child: const Text(
-                      'Rincian',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: PaylaterTheme.maincolor),
-                    ),
-                  ),
-
-                  ///Rincian pesanan
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    ///style
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+                  )
+                : ListView(physics: const ClampingScrollPhysics(), children: [
+                    Column(
                       children: [
-                        ///ID Pesanan
-                        Container(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    style: BorderStyle.solid,
-                                    color: Color(0xffEBEBEB))),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'ID',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Obx(() => Text(
-                                instalment_unique_id.value,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),)
-                            ],
-                          ),
+                        const SizedBox(
+                          height: 20,
                         ),
-
-                        ///Tenor
                         Container(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    style: BorderStyle.solid,
-                                    color: Color(0xffEBEBEB))),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: PaylaterTheme.white,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Tenor Cicilan',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Text(
-                                tenor.value.toString(),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        ///Tagihan Bulanan
-                        Container(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Tagihan',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Obx(() => Text(
-                                interest_per_month.value.toString(),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),)
-                            ],
-                          ),
-                        ),
-
-                        ///Tagihan Bulanan
-                        Container(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Status Pembayaran',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Obx(() => Text(
-                                payment_status.value.toString(),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),)
-                            ],
-                          ),
-                        ),
-                        ///Status Cicilan
-                        Container(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Status Cicilan',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Obx(() => Text(
-                                status.value.toString(),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),)
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  ///bukti bayar
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        //Head
-                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    style: BorderStyle.solid,
-                                    color: Color(0xffE3E9EB))),
-                          ),
+                              horizontal: 90, vertical: 12),
                           child: const Text(
-                            'Bukti Pembayaran',
+                            'Rincian',
                             style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: PaylaterTheme.maincolor),
                           ),
                         ),
 
-                        ///bukti
+                        ///Rincian pesanan
+                        const SizedBox(
+                          height: 24,
+                        ),
                         Container(
-                          height: 360,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 20),
-                          child: Obx(() => Image(
-                            image: NetworkImage(payment_img.value.toString())
-                          ),)
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              ///ID Pesanan
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          style: BorderStyle.solid,
+                                          color: Color(0xffEBEBEB))),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'ID',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Obx(
+                                      () => Text(
+                                        instalment_unique_id.value,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+
+                              ///Tenor
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          style: BorderStyle.solid,
+                                          color: Color(0xffEBEBEB))),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Tenor Cicilan',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Text(
+                                      tenor.value.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              ///Tagihan Bulanan
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Tagihan',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Obx(
+                                      () => Text(
+                                        interest_per_month.value.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+
+                              ///Tagihan Bulanan
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Status Pembayaran',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Obx(
+                                      () => Text(
+                                        payment_status.value.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+
+                              ///Status Cicilan
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Status Cicilan',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Obx(
+                                      () => Text(
+                                        status.value.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        ///bukti bayar
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              //Head
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          style: BorderStyle.solid,
+                                          color: Color(0xffE3E9EB))),
+                                ),
+                                child: const Text(
+                                  'Bukti Pembayaran',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+
+                              ///bukti
+                              Container(
+                                  height: 360,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 20),
+                                  child: Obx(
+                                    () => Image(
+                                        image: NetworkImage(
+                                            payment_img.value.toString())),
+                                  )),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(
+                          height: 14,
+                        ),
+
+                        ///button
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                              label: const Text('Login'),
+                              icon: isLoading
+                                  ? Container(
+                                      width: 24,
+                                      height: 24,
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: const CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 3,
+                                      ),
+                                    )
+                                  : const Icon(Icons.login),
+                              onPressed: isLoading
+                                  ? null :() {
+                                VerifyInstalment(id.value.toString(),
+                                    order_id.value.toString(), "approve");
+                              },
+                            ),
+                            MaterialButton(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(6))),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 48, vertical: 8),
+                                child: const Text(
+                                  'Tolak',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
+                                ),
+                              ),
+                              onPressed: () {
+                                VerifyInstalment(id.value.toString(),
+                                    order_id.value.toString(), "reject");
+                              },
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ),
-
-                  const SizedBox(height: 14,),
-
-                  ///button
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      MaterialButton(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: PaylaterTheme.maincolor,
-                              borderRadius: BorderRadius.all(Radius.circular(6))
-                          ),
-
-                          padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
-                          child: const Text('Setujui', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),),
-                        ),
-                        onPressed: () {
-                          VerifyInstalment(
-                              id.value.toString(),
-                              order_id.value.toString(),
-                              "approve"
-                          );
-                        },
-                      ),
-
-                      MaterialButton(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.all(Radius.circular(6))
-                          ),
-
-                          padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
-                          child: const Text('Tolak', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),),
-                        ),
-                        onPressed: () {
-                          VerifyInstalment(
-                              id.value.toString(),
-                              order_id.value.toString(),
-                              "reject"
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ]),
+                  ]),
           ),
         ),
       ),

@@ -11,9 +11,13 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 class DetailPembayaran extends StatefulWidget {
-  const DetailPembayaran({Key? key,
-    required this.order_id,
-    required this.instalment_id, required this.instalment_unique_id, required this.instalment_price}) : super(key: key);
+  const DetailPembayaran(
+      {Key? key,
+      required this.order_id,
+      required this.instalment_id,
+      required this.instalment_unique_id,
+      required this.instalment_price})
+      : super(key: key);
 
   final int order_id;
   final int instalment_id;
@@ -31,6 +35,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
   String token = "";
   var order_id = 0;
   var instalment_id = 0;
+  bool isLoading = false;
 
   Future pickImage() async {
     try {
@@ -42,6 +47,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
       print('gagal mengambil gambar dari galeri $e');
     }
   }
+
   final _headerStyle = const TextStyle(
       color: Color(0xffffffff), fontSize: 15, fontWeight: FontWeight.bold);
   final _headerSubStyle = const TextStyle(
@@ -51,6 +57,9 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
   final _bca = '''500012345 An. Ilkompay''';
 
   uploadImage(File? image) async {
+    setState(() {
+      isLoading = true;
+    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       token = prefs.getString('token')!;
@@ -59,8 +68,6 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
     });
     var id = prefs.getInt('id')!;
     var formData = FormData();
-    formData.fields.add(MapEntry("order_id", "${widget.order_id}"));
-    formData.fields.add(MapEntry("instalment_id", "${widget.instalment_id}"));
     formData.files.add(MapEntry(
       "payment_img",
       await MultipartFile.fromFile(image!.path, filename: "pic-name.png"),
@@ -76,19 +83,23 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
             followRedirects: false,
             validateStatus: (status) {
               return status! < 500;
-            }
-        )
-    );
+            }));
     print("response data : ${response.data}");
     if (response.data['success'] == false) {
       Navigator.pop(context);
       AlertDialog alert = const AlertDialog(
-        icon: Icon(CupertinoIcons.checkmark_seal_fill, size: 20, color: PaylaterTheme.maincolor, ),
+        icon: Icon(
+          CupertinoIcons.checkmark_seal_fill,
+          size: 20,
+          color: PaylaterTheme.maincolor,
+        ),
         title: Text("Berhasil"),
         content: Text("berhasil melakukan pembayaran"),
       );
 
       showDialog(context: context, builder: (context) => alert);
+    } else{
+      print('gagal');
     }
     print("response ${response.data}");
   }
@@ -115,13 +126,13 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
             scaleWhenAnimating: true,
             openAndCloseAnimation: true,
             headerPadding:
-            const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+                const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
             sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
             sectionClosingHapticFeedback: SectionHapticFeedback.light,
             children: [
               AccordionSection(
                 headerPadding:
-                const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 isOpen: true,
                 header: Text('Transfer Bank', style: _headerStyle),
                 contentBorderColor: const Color(0xff568D98),
@@ -131,7 +142,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                   maxOpenSections: 1,
                   headerBackgroundColorOpened: Colors.black54,
                   headerPadding:
-                  const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+                      const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
                   children: [
                     ///BCA
                     AccordionSection(
@@ -164,8 +175,8 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
               children: [
                 ///ID Pesanan
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
@@ -182,7 +193,9 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                             fontSize: 14,
                             fontWeight: FontWeight.w600),
                       ),
-                      const SizedBox(width: 20,),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       Flexible(
                         child: Text(
                           widget.instalment_unique_id.toString(),
@@ -199,8 +212,8 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
 
                 ///Tagihan Cicilan
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
@@ -247,8 +260,8 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
@@ -268,7 +281,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                       ElevatedButton(
                         style: const ButtonStyle(
                             backgroundColor:
-                            MaterialStatePropertyAll(Color(0xff025464))),
+                                MaterialStatePropertyAll(Color(0xff025464))),
                         onPressed: () => pickImage(),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -277,7 +290,9 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: const Icon(
-                            Icons.drive_folder_upload_outlined, size: 20, color: PaylaterTheme.white,
+                            Icons.drive_folder_upload_outlined,
+                            size: 20,
+                            color: PaylaterTheme.white,
                           ),
                         ),
                       ),
@@ -287,8 +302,8 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
 
                 ///image
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
@@ -297,36 +312,48 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                   ),
                   child: image != null
                       ? Image.file(
-                    image!,
-                    height: 300,
-                    width: 120,
-                    fit: BoxFit.cover,
-                  )
+                          image!,
+                          height: 300,
+                          width: 120,
+                          fit: BoxFit.cover,
+                        )
                       : const Text(
-                    'Belum Ada Bukti',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
-                  ),
+                          'Belum Ada Bukti',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                        ),
                 ),
               ],
             ),
           ),
 
-          const SizedBox(height: 40,),
+          const SizedBox(
+            height: 40,
+          ),
 
           ///submit
-          ElevatedButton(
+          ElevatedButton.icon(
             style: const ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 50, vertical: 12)),
+              padding: MaterialStatePropertyAll(
+                  EdgeInsets.symmetric(horizontal: 50, vertical: 12)),
               backgroundColor: MaterialStatePropertyAll(Color(0xff025464)),
             ),
-            child: const Text(
-              'Submit',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () => {
+            label: const Text('Submit'),
+            icon: isLoading
+                ? Container(
+                    width: 24,
+                    height: 24,
+                    padding: const EdgeInsets.all(2.0),
+                    child: const CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 3,
+                    ),
+                  )
+                : const Icon(Icons.login),
+            onPressed: isLoading
+                ? null : () => {
               uploadImage(image),
             },
           ),
