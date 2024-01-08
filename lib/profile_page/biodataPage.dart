@@ -25,8 +25,8 @@ class _BiodataPageState extends State<BiodataPage> {
   var city = "".obs;
   var address = "-".obs;
   var job = "".obs;
-  var image_face = "";
-  var image_ktp = "";
+  var image_face = "".obs;
+  var image_ktp = "".obs;
 
   String token = "";
   var id = 0;
@@ -64,8 +64,8 @@ class _BiodataPageState extends State<BiodataPage> {
             province.value = responseData['data']['province'];
             job.value = responseData['data']['job'];
             address.value = responseData['data']['address']??"-";
-            image_face = responseData['data']['image_face'];
-            image_ktp = responseData['data']['image_ktp'];
+            image_face.value = responseData['data']['image_face'];
+            image_ktp.value = responseData['data']['image_ktp'];
           });
         }
       }
@@ -245,45 +245,62 @@ class _BiodataPageState extends State<BiodataPage> {
                     height: 10,
                   ),
 
-                  const Text(
-                    'Provinsi',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10,
-                      color: PaylaterTheme.deactivatedText,
-                    ),
+                  ///provinsi
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Provinsi',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                          color: PaylaterTheme.deactivatedText,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Obx(() => Text(
+                        province.value,
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      ),),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Obx(() => Text(
-                    province.value,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                  ),),
                   const SizedBox(
                     height: 10,
                   ),
 
-                  const Text(
-                    'Kota',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10,
-                      color: PaylaterTheme.deactivatedText,
-                    ),
+                  ///kota
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Kota',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                          color: PaylaterTheme.deactivatedText,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Obx(() => Text(
+                        city.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      ),),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Obx(() => Text(
-                    city.toString(),
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                  ),),
+
                   const SizedBox(
                     height: 10,
                   ),
 
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
                         'Pekerjaan',
@@ -307,6 +324,8 @@ class _BiodataPageState extends State<BiodataPage> {
                   ),
 
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
                         'Alamat',
@@ -329,15 +348,15 @@ class _BiodataPageState extends State<BiodataPage> {
                     height: 14,
                   ),
 
-                  Image(
-                      image: NetworkImage(image_face.toString())
-                  ),
+                  Obx(() => Image(
+                      image: NetworkImage(image_face.value)
+                  ),),
                   const SizedBox(
                     height: 14,
                   ),
-                  Image(
-                      image: NetworkImage(image_ktp)
-                  )
+                  Obx(() => Image(
+                      image: NetworkImage(image_ktp.value)
+                  ))
                 ],
               ),
             ),

@@ -433,22 +433,22 @@ class _DetailPembayaranCicilanState extends State<DetailPembayaranCicilan> {
 
                         ///button
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ElevatedButton.icon(
-                              label: const Text('Login'),
+                              style:const ButtonStyle(
+                                padding: MaterialStatePropertyAll(
+                                  EdgeInsets.fromLTRB(36,2,40,2)
+                                )
+                              ),
+                              label: const Text('Setuju'),
                               icon: isLoading
-                                  ? Container(
-                                      width: 24,
-                                      height: 24,
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: const CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 3,
-                                      ),
-                                    )
-                                  : const Icon(Icons.login),
+                                  ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 3,
+                                  )
+                                  : const Text(''),
                               onPressed: isLoading
                                   ? null :() {
                                 VerifyInstalment(id.value.toString(),

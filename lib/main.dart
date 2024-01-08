@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paylater/launcherPage.dart';
 import 'package:paylater/navbar/NavbarBot.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: NavbarBot(),
+      home: LauncherPage(),
     );
   }
 }

@@ -140,9 +140,9 @@ class _DaftarPageState extends State<DaftarPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Username',
+                          'Username (tanpa spasi)',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
@@ -150,11 +150,6 @@ class _DaftarPageState extends State<DaftarPage> {
                           height: 5,
                         ),
                         TextFormField(
-                          autocorrect: true,
-                          validator: (input) => input!.isValidEmail()
-                              ? null
-                              : "Username harus di isi",
-
                           controller: inputUsername,
                           maxLines: 1,
                           decoration: const InputDecoration(
@@ -164,7 +159,7 @@ class _DaftarPageState extends State<DaftarPage> {
                                   borderSide: BorderSide.none,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
-                              hintText: 'Masukan Username',
+                              hintText: 'Masukan nama tanpa spasi',
                               hintStyle: TextStyle(
                                   color: PaylaterTheme.deactivatedText),
                               filled: true,
@@ -189,7 +184,7 @@ class _DaftarPageState extends State<DaftarPage> {
                         const Text(
                           'Email',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
@@ -232,7 +227,7 @@ class _DaftarPageState extends State<DaftarPage> {
                         const Text(
                           'Nomor Telepon',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
@@ -284,7 +279,7 @@ class _DaftarPageState extends State<DaftarPage> {
                         const Text(
                           'Status Pekerjaan',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
@@ -344,7 +339,7 @@ class _DaftarPageState extends State<DaftarPage> {
                         const Text(
                           'Verifikasi Wajah',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
@@ -396,7 +391,7 @@ class _DaftarPageState extends State<DaftarPage> {
                         const Text(
                           'Verifikasi KTP',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: PaylaterTheme.grey),
                         ),
