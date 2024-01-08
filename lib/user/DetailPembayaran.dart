@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:accordion/accordion.dart';
-import 'package:accordion/controllers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,8 +31,6 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
   File? image;
   Dio dio = Dio();
   String token = "";
-  var order_id = 0;
-  var instalment_id = 0;
   bool isLoading = false;
 
   Future pickImage() async {
@@ -48,14 +44,6 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
     }
   }
 
-  final _headerStyle = const TextStyle(
-      color: Color(0xffffffff), fontSize: 15, fontWeight: FontWeight.bold);
-  final _headerSubStyle = const TextStyle(
-      color: Color(0xff025464), fontSize: 14, fontWeight: FontWeight.bold);
-  final _contentStyle = const TextStyle(
-      color: Colors.black, fontSize: 14, fontWeight: FontWeight.normal);
-  final _bca = '''500012345 An. Ilkompay''';
-
   uploadImage(File? image) async {
     setState(() {
       isLoading = true;
@@ -68,6 +56,8 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
     });
     var id = prefs.getInt('id')!;
     var formData = FormData();
+    formData.fields.add(MapEntry("order_id", widget.order_id.toString())); print(widget.order_id);
+    formData.fields.add(MapEntry("instalment_id", widget.instalment_id.toString())); print(widget.instalment_id);
     formData.files.add(MapEntry(
       "payment_img",
       await MultipartFile.fromFile(image!.path, filename: "pic-name.png"),
@@ -85,7 +75,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
               return status! < 500;
             }));
     print("response data : ${response.data}");
-    if (response.data['success'] == false) {
+    if (response.data['success'] == true) {
       Navigator.pop(context);
       AlertDialog alert = const AlertDialog(
         icon: Icon(
@@ -120,47 +110,72 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
           const SizedBox(
             height: 12,
           ),
-          Accordion(
-            maxOpenSections: 2,
-            headerBackgroundColorOpened: Colors.black54,
-            scaleWhenAnimating: true,
-            openAndCloseAnimation: true,
-            headerPadding:
-                const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
-            sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
-            sectionClosingHapticFeedback: SectionHapticFeedback.light,
-            children: [
-              AccordionSection(
-                headerPadding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                isOpen: true,
-                header: Text('Transfer Bank', style: _headerStyle),
-                contentBorderColor: const Color(0xff568D98),
-                headerBackgroundColor: const Color(0xff568D98),
-                headerBackgroundColorOpened: const Color(0xff2E8A99),
-                content: Accordion(
-                  maxOpenSections: 1,
-                  headerBackgroundColorOpened: Colors.black54,
-                  headerPadding:
-                      const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
-                  children: [
-                    ///BCA
-                    AccordionSection(
-                      isOpen: true,
-                      headerBackgroundColor: const Color(0xffCCDDE0),
-                      headerBackgroundColorOpened: const Color(0xffCCDDE0),
-                      contentBorderColor: const Color(0xff2E8A99),
-                      rightIcon: const Icon(Icons.keyboard_arrow_down,
-                          color: Color(0xff2E8A99)),
-                      header: Text('BCA', style: _headerSubStyle),
-                      content: Text(_bca, style: _contentStyle),
-                      contentHorizontalPadding: 20,
-                    ),
-                  ],
+
+          ///Pembayaran
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ///Ket
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffEBEBEB))),
+                  ),
+                  child: const Text(
+                    'Transfer Bank (An Ilkompay)',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
-              ),
-            ],
+
+                ///Bank
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            style: BorderStyle.solid,
+                            color: Color(0xffEBEBEB))),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'BCA',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        '5500123455',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
+
+          const SizedBox(height: 14,),
 
           ///detail
           Container(
