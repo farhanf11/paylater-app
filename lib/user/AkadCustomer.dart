@@ -33,22 +33,16 @@ class _RincianAkadState extends State<RincianAkad> {
   var order_id = 0.obs;
   var link_id = 0.obs;
   var harga = "".obs;
+  var status = "".obs;
   var ongkir = 0.obs;
 
   String url = "";
   String token = "";
-  String _address = '';
   String _tenor = '';
   var catatan = '';
   var address = ''.obs;
   List order = [];
   bool isLoading = false;
-
-  void _handleAddress(String? value) {
-    setState(() {
-      _address = value!;
-    });
-  }
 
   void _handleTenor(String? value) {
     setState(() {
@@ -116,9 +110,11 @@ class _RincianAkadState extends State<RincianAkad> {
           print('gagal');
         } else {
           title.value = responseData['data']['order']['title'];
+          ongkir.value = responseData['data']['order']['ongkir'];
           price.value = responseData['data']['order']['price'].toString();
           harga.value = responseData['data']['order']['price'].toString();
           image.value = responseData['data']['order']['image'];
+          status.value = responseData['data']['order']['status'];
           order_id.value = responseData['data']['order']['id'];
           link_id.value = responseData['data']['order']['link_id'];
           link_id.value = responseData['data']['order']['ongkir'];
@@ -140,7 +136,7 @@ class _RincianAkadState extends State<RincianAkad> {
   final TextEditingController catatanController = TextEditingController();
 
   ///post permintaan akad
-  void AddOrder(String tenor, String address, String note) async {
+  void AddOrder(String tenor) async {
     setState(() {
       isLoading = true;
     });
@@ -151,11 +147,9 @@ class _RincianAkadState extends State<RincianAkad> {
             'Authorization': token,
           },
           body: {
-            'address': address,
             'tenor': tenor,
-            'note': note,
             'order_id': order_id.value.toString(),
-            'link_id': link_id.value.toString(),
+            'link_id': widget.link_id.toString(),
           });
 
       if (response.statusCode == 200) {
@@ -245,29 +239,148 @@ class _RincianAkadState extends State<RincianAkad> {
                           const SizedBox(
                             height: 8,
                           ),
-                          Obx(
-                            () => Text(
-                              'Rp ${harga.value.split(".")[0]}',
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.grey),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Obx(
-                            () => Text(
-                              'Rp ${price.value.split(".")[0]}',
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.orange),
-                            ),
-                          )
                         ],
                       ),
+                    ),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ///Nomor Pesanan
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      style: BorderStyle.solid,
+                                      color: Color(0xffEBEBEB))),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Hagra Barang',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Obx(
+                                      () => Text(
+                                    harga.value,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+
+                          ///Harga barang
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Ongkir dan Layanan',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Obx(() => Text(
+                                  ongkir.value.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                ),)
+                              ],
+                            ),
+                          ),
+
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        style: BorderStyle.solid,
+                                        color: Color(0xffEBEBEB))),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Status',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Obx(
+                                        () => Text(
+                                      status.value,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+
+                          ///Status
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      style: BorderStyle.solid,
+                                      color: Color(0xffEBEBEB))),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Total harga',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Obx(
+                                      () => Text(
+                                    price.value,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 14,
                     ),
 
                     ///tenor
@@ -275,7 +388,7 @@ class _RincianAkadState extends State<RincianAkad> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Tenor',
+                          'Pilih Tenor',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -308,71 +421,9 @@ class _RincianAkadState extends State<RincianAkad> {
                       ],
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 30,
                     ),
 
-                    ///address
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Alamat',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        ListTile(
-                          leading: Radio<String>(
-                            value: 'unj',
-                            groupValue: _address,
-                            onChanged: _handleAddress,
-                          ),
-                          title: const Text('UNJ'),
-                        ),
-                        ListTile(
-                          leading: Radio<String>(
-                            value: 'mandiri',
-                            groupValue: _address,
-                            onChanged: _handleAddress,
-                          ),
-                          title:
-                              Text(address.toString() + '(alamat sendiri)'),
-                        ),
-                      ],
-                    ),
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Catatan',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextField(
-                          controller: catatanController,
-                          decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xff025464))),
-                            border: OutlineInputBorder(),
-                            hintText: 'Catatan untuk pesanan anda',
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    if (widget.status == 'accept' &&
-                        widget.status != 'request')
-                      const SizedBox(
-                        height: 30,
-                      ),
 
                     ///submit
                     Column(
@@ -385,16 +436,15 @@ class _RincianAkadState extends State<RincianAkad> {
                                 EdgeInsets.symmetric(
                                     vertical: 8, horizontal: 14)),
                             backgroundColor: widget.status == 'request'
-                                ? MaterialStatePropertyAll(Colors.grey)
-                                : MaterialStatePropertyAll(Color(0xff025464)),
+                                ? const MaterialStatePropertyAll(Colors.grey)
+                                : const MaterialStatePropertyAll(Color(0xff025464)),
                           ),
                           onPressed: widget.status == 'request'
                               ? null
                               : () => {
                                     AddOrder(
                                         _tenor.toString(),
-                                        _address.toString(),
-                                        catatanController.text.toString())
+                                    )
                                   },
                           label: const Text('Konfirmasi'),
                           icon: isLoading

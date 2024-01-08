@@ -64,6 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
+        print(responseData['data']['image_face']);
         if(responseData['success'] == false ){
           print('gagal');
         }else{
@@ -194,174 +195,170 @@ class _ProfilePageState extends State<ProfilePage> {
                 ///isi
                 Column(
                   children: [
-                    Column(
-                      children: [
-                        Obx(() => Container(
-                          width: 72,
-                          height: 72,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 4, color: Theme.of(context).scaffoldBackgroundColor),
-                              boxShadow: [
-                                BoxShadow(
-                                    spreadRadius: 2,
-                                    blurRadius: 10,
-                                    color: Colors.black.withOpacity(0.1),
-                                    offset: const Offset(0, 10))
-                              ],
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    image_face.value,
-                                  ))),
-                        ),),
-                        const SizedBox(height: 15,),
-
-                        ///username
-                        Obx(() => Text(
-                          user_name.value,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),),
-
-                        ///email
-                        Obx(() => Text(
-                          email_address.value,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: PaylaterTheme.nearlyDarkBlue,
-                            fontWeight: FontWeight.w500
-                          ),
-                        ),),
-
-                        Obx(() => Text(
-                          phone_number.toString(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black87,
-                          ),
-                        ),),
-
-                        const SizedBox(height: 5,),
-                        Obx(() => Text(
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          address.value,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black87,
-                          ),
-                        ),),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-
-                    ///button cek link
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      width: 240,
+                    Obx(() => Container(
+                      width: 72,
+                      height: 72,
                       decoration: BoxDecoration(
-                        color: role.value == 'pengawas'?PaylaterTheme.light_grey:const Color(0xff025464),
-                        borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                              width: 4, color: Theme.of(context).scaffoldBackgroundColor),
+                          boxShadow: [
+                            BoxShadow(
+                                spreadRadius: 2,
+                                blurRadius: 10,
+                                color: Colors.black.withOpacity(0.1),
+                                offset: const Offset(0, 10))
+                          ],
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                image_face.value,
+                              ))),
+                    ),),
+                    const SizedBox(height: 15,),
+
+                    ///username
+                    Obx(() => Text(
+                      user_name.value,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
-                      child: TextButton(
-                        onPressed: role.value == 'pengawas'?null:() => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const LinkCustomer())
-                        ),
-                        child: Text(
-                          'Cek Pengajuan Link',
-                          style: TextStyle(
-                              color: role.value == 'pengawas'?PaylaterTheme.grey:Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500),
-                        ),
+                    ),),
+
+                    ///email
+                    Obx(() => Text(
+                      email_address.value,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: PaylaterTheme.nearlyDarkBlue,
+                        fontWeight: FontWeight.w500
                       ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
+                    ),),
 
-                    /// data profile
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-
-                          ///alamat
-                          MaterialButton(
-                            color: Colors.white,
-                            onPressed: () => Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) => const UbahAlamat())),
-                            child: ButtonProfile(DataButton(
-                              id: 2,
-                              icon1: Icons.add_home,
-                              text1: 'Edit Alamat Pengiriman',
-                              text2: 'Edit alamat pengiriman kamu',
-                              icon2: Icons.arrow_right_outlined,
-                            )),
-                          ),
-
-                          const SizedBox(
-                            height: 4,
-                          ),
-
-                          ///biodata
-                          MaterialButton(
-                            color: Colors.white,
-                            child: ButtonProfile(DataButton(
-                              id: 3,
-                              icon1: Icons.playlist_add_circle_sharp,
-                              text1: 'Biodata',
-                              text2: 'Lengkapi biodata diri kamu',
-                              icon2: Icons.arrow_right_outlined,
-                            )),
-                            onPressed: () => Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) => const BiodataPage())),
-                          ),
-
-                          const SizedBox(height: 4,),
-
-                          ///email
-                          MaterialButton(
-                            color: Colors.white,
-                            onPressed: _sendingMails,
-                            child: ButtonProfile(DataButton(
-                              id: 4,
-                              icon1: Icons.attach_email,
-                              text1: 'Kirim Email',
-                              text2: 'Kirim email untuk info selebihnya',
-                              icon2: Icons.arrow_right_outlined,
-                            )),
-                          ),
-                          SizedBox(height: 4,),
-
-                          ///bantuan
-                          MaterialButton(
-                              color: Colors.white,
-                              child: ButtonProfile(DataButton(
-                                id: 5,
-                                icon1: Icons.help,
-                                text1: 'Pusat Bantuan',
-                                text2: 'Pusat bantuan penggunaan aplikasi',
-                                icon2: Icons.arrow_right_outlined,
-                              )),
-                              onPressed: () => Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) => const HelpCenter())),
-                          ),
-
-                        ],
+                    Obx(() => Text(
+                      phone_number.toString(),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
                       ),
-                    )
+                    ),),
+
+                    const SizedBox(height: 5,),
+                    Obx(() => Text(
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      address.value,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
+                    ),),
                   ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+
+                ///button cek link
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  width: 240,
+                  decoration: BoxDecoration(
+                    color: role.value == 'pengawas'?PaylaterTheme.light_grey:const Color(0xff025464),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: TextButton(
+                    onPressed: role.value == 'pengawas'?null:() => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const LinkCustomer())
+                    ),
+                    child: Text(
+                      'Cek Pengajuan Link',
+                      style: TextStyle(
+                          color: role.value == 'pengawas'?PaylaterTheme.grey:Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+
+                /// data profile
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+
+                      ///alamat
+                      MaterialButton(
+                        color: Colors.white,
+                        onPressed: () => Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => const UbahAlamat())),
+                        child: ButtonProfile(DataButton(
+                          id: 2,
+                          icon1: Icons.add_home,
+                          text1: 'Edit Alamat Pengiriman',
+                          text2: 'Edit alamat pengiriman kamu',
+                          icon2: Icons.arrow_right_outlined,
+                        )),
+                      ),
+
+                      const SizedBox(
+                        height: 4,
+                      ),
+
+                      ///biodata
+                      MaterialButton(
+                        color: Colors.white,
+                        child: ButtonProfile(DataButton(
+                          id: 3,
+                          icon1: Icons.playlist_add_circle_sharp,
+                          text1: 'Biodata',
+                          text2: 'Lengkapi biodata diri kamu',
+                          icon2: Icons.arrow_right_outlined,
+                        )),
+                        onPressed: () => Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => const BiodataPage())),
+                      ),
+
+                      const SizedBox(height: 4,),
+
+                      ///email
+                      MaterialButton(
+                        color: Colors.white,
+                        onPressed: _sendingMails,
+                        child: ButtonProfile(DataButton(
+                          id: 4,
+                          icon1: Icons.attach_email,
+                          text1: 'Kirim Email',
+                          text2: 'Kirim email untuk info selebihnya',
+                          icon2: Icons.arrow_right_outlined,
+                        )),
+                      ),
+                      SizedBox(height: 4,),
+
+                      ///bantuan
+                      MaterialButton(
+                          color: Colors.white,
+                          child: ButtonProfile(DataButton(
+                            id: 5,
+                            icon1: Icons.help,
+                            text1: 'Pusat Bantuan',
+                            text2: 'Pusat bantuan penggunaan aplikasi',
+                            icon2: Icons.arrow_right_outlined,
+                          )),
+                          onPressed: () => Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) => const HelpCenter())),
+                      ),
+
+                    ],
+                  ),
                 ),
 
                 const SizedBox(

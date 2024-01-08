@@ -39,12 +39,12 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController imageController = TextEditingController();
-  final TextEditingController noteController = TextEditingController();
+  final TextEditingController ongkirController = TextEditingController();
   final TextEditingController urlController = TextEditingController();
   final TextEditingController linkIdController = TextEditingController();
 
   void CreateOrder(String title, String price, String image,
-      String note, String url, String link_id) async {
+      String ongkir, String url, String link_id) async {
     try {
       var response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/admin/order-create/${widget.user_id}'),
@@ -55,7 +55,7 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
             'title': title,
             'price': price,
             'image': image,
-            'note': note,
+            'ongkir': ongkir,
             'url': url,
             'link_id': link_id,
           });
@@ -228,13 +228,13 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                 height: 24,
               ),
 
-              ///Provinsi
+              ///ongkir
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Pesan',
+                    'Biaya Ongkir dan Proteksi',
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -244,12 +244,12 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                     height: 5,
                   ),
                   TextField(
-                    controller: noteController,
+                    controller: ongkirController,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      hintText: 'Pesan kepada customer',
+                      hintText: 'Biaya ongkir dan layanan',
                       suffixIcon: IconButton(
-                        onPressed: noteController.clear,
+                        onPressed: ongkirController.clear,
                         icon: const Icon(Icons.clear, size: 16),
                       ),
                     ),
@@ -344,9 +344,9 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                       titleController.text.toString(),
                       priceController.text.toString(),
                       imageController.text.toString(),
-                      noteController.text.toString(),
+                      ongkirController.text.toString(),
                       urlController.text.toString(),
-                      linkIdController.text.toString())
+                      linkIdController.text.toString()),
                 },
               ),
               const SizedBox(
