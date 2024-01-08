@@ -33,6 +33,7 @@ class _RincianAkadState extends State<RincianAkad> {
   var order_id = 0.obs;
   var link_id = 0.obs;
   var harga = "".obs;
+  var ongkir = 0.obs;
 
   String url = "";
   String token = "";
@@ -82,7 +83,6 @@ class _RincianAkadState extends State<RincianAkad> {
     super.initState();
     GetOrderData();
     getToken();
-    print('status' + widget.status);
   }
 
   getToken() async {
@@ -121,6 +121,7 @@ class _RincianAkadState extends State<RincianAkad> {
           image.value = responseData['data']['order']['image'];
           order_id.value = responseData['data']['order']['id'];
           link_id.value = responseData['data']['order']['link_id'];
+          link_id.value = responseData['data']['order']['ongkir'];
           address.value = responseData['data']['user']['address'];
         }
       } else {

@@ -67,7 +67,7 @@ class _DaftarPageState extends State<DaftarPage> {
     formData.files.add(MapEntry(
       "image_face",
       await MultipartFile.fromFile(wajah!.path, filename: "pic-name.png"),
-    )); print(wajah);
+    ));
     formData.files.add(MapEntry(
       "image_ktp",
       await MultipartFile.fromFile(ktp!.path, filename: "pic-name.png"),
@@ -241,33 +241,6 @@ class _DaftarPageState extends State<DaftarPage> {
                         ),
                         Row(
                           children: [
-                            const Flexible(
-                              flex: 2,
-                              child: TextField(
-                                enabled: false,
-                                maxLines: 1,
-                                decoration: InputDecoration(
-                                    labelStyle:
-                                        TextStyle(fontWeight: FontWeight.w600),
-                                    labelText: '62',
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 5.0, horizontal: 15.0),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    filled: true,
-                                    fillColor: PaylaterTheme.white),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
                             Flexible(
                               flex: 8,
                               fit: FlexFit.tight,

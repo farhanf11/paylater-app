@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
@@ -7,6 +8,7 @@ import 'package:paylater/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:paylater/user/LinkCustomer.dart';
+import 'package:paylater/user/PengajuanLink.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../navbar/SearchBar.dart';
 import 'components/home_page/banner_view.dart';
@@ -24,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   bool success = false;
   var role = "".obs;
+
   @override
   void initState() {
     super.initState();
@@ -40,10 +43,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   final TextEditingController inputUrl = TextEditingController();
-  final TextEditingController inputVarian = TextEditingController();
   final TextEditingController inputAlamat = TextEditingController();
+  final TextEditingController inputVarian = TextEditingController();
 
-  void PostLink(String url) async {
+  void PostLink(String url, String address, String note) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var id = prefs.getInt('id')!;
     try {
@@ -54,6 +57,8 @@ class _HomePageState extends State<HomePage> {
           },
           body: {
             'url': url,
+            'address': address,
+            'note': note,
           });
 
       if (response.statusCode == 200) {
@@ -88,25 +93,12 @@ class _HomePageState extends State<HomePage> {
 
           showDialog(context: context, builder: (context) => alert);
         }
-      } else {}
-      if (response.statusCode == 422) {
+      }
+      else {
         var responseData = json.decode(response.body);
         AlertDialog alert = AlertDialog(
-          title: const Text("Kolom harus di isi dengan link produk yang benar"),
-          actions: [
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-        print(responseData['data']);
-        showDialog(context: context, builder: (context) => alert);
-      }
-      if (response.statusCode == 404) {
-        AlertDialog alert = AlertDialog(
-          title: const Text("Email tidak terdaftar"),
-          content: const Text("Email yang anda masukan salah"),
+          title: Text('${responseData['message']}'),
+          content: Text('${responseData['data']['address']}'),
           actions: [
             TextButton(
               child: const Text('Ok'),
@@ -246,6 +238,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+
               ///pengajuan link
               Container(
                 height: 110,
@@ -269,73 +262,13 @@ class _HomePageState extends State<HomePage> {
                         ),
                         backgroundColor: PaylaterTheme.maincolor),
                     onPressed: role.value == 'pengawas'?null:() {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              scrollable: true,
-                              title: const Text('Input Data Pengajuan'),
-                              content: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Form(
-                                    child: Column(
-                                      children: [
-                                        TextField(
-                                          controller: inputUrl,
-                                          decoration: InputDecoration(
-                                            labelText: 'Input Link',
-                                            suffixIcon: IconButton(
-                                              onPressed: inputUrl.clear,
-                                              icon: const Icon(Icons.clear),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8,),
-                                        TextField(
-                                          controller: inputVarian,
-                                          decoration: InputDecoration(
-                                            labelText: 'Input Varian',
-                                            suffixIcon: IconButton(
-                                              onPressed: inputVarian.clear,
-                                              icon: const Icon(Icons.clear),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8,),
-                                        TextField(
-                                          controller: inputAlamat,
-                                          decoration: InputDecoration(
-                                            labelText: 'Input Alamat',
-                                            suffixIcon: IconButton(
-                                              onPressed: inputAlamat.clear,
-                                              icon: const Icon(Icons.clear),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                ),
-                              ),
-                              actions: [
-                                ElevatedButton(
-                                  style: const ButtonStyle(
-                                      backgroundColor:
-                                      MaterialStatePropertyAll(Color(0xff025464))),
-                                  onPressed: () => {PostLink(
-                                    inputUrl.text.toString(),
-                                  )},
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 30),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: const Text('Submit'),
-                                  ),
-                                ),
-                              ],
-                            );
-                          });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                          const PengajuanLinkProduk(),
+                        ),
+                      );
                     },
                     icon: const Icon(
                       Icons.add_link_sharp,
