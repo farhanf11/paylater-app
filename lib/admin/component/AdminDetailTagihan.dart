@@ -86,7 +86,6 @@ class _AdminDetailTagihanState extends State<AdminDetailTagihan> {
         print('statuss : '+responseData['data']['status']);
         print('no order : '+responseData['data']['no_order']);
         print('title : '+responseData['data']['title']);
-        print('tenor : '+responseData['data']['tenor']);
         print('image : '+responseData['data']['image']);
         if (responseData['success'] == false) {
           print('gagal');

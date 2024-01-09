@@ -91,6 +91,8 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: const EdgeInsets.all(10),
@@ -98,10 +100,21 @@ class _LoginPageState extends State<LoginPage> {
                         controller: inputEmail,
                         decoration: const InputDecoration(
                           border: UnderlineInputBorder(),
-                          labelText: 'Masukkan Email Anda',
+                          labelText: 'Masukkan Email',
+                          labelStyle: TextStyle(fontSize: 14)
                         ),
                       ),
                     ),
+                    const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text('pastikan email anda sudah terverifikasi, cek pemberitahuan pesan email secara berkala',
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.black45
+                        ),
+                      ),
+                    )
                   ],
                 ),
                 Column(

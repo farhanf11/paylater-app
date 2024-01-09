@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/AdminDetailTagihan.dart';
-import 'package:paylater/admin/component/RincianCicilanAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme.dart';
 import 'package:number_paginator/number_paginator.dart';
@@ -32,6 +31,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
   var last_page = 1.obs;
   List links = [];
   var tenor = "".obs;
+  var request_date = "".obs;
   var role = "".obs;
 
   @override
@@ -78,9 +78,9 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
           print('gagal');
         }else{
           user_name.value = responseData['data']['data']['user']['user_name'];
-          email_address.value = responseData['data']['email_address'];
-          phone_number.value = responseData['data']['phone_number'];
-          image_face.value = responseData['data']['image_face'];
+          image_face.value = responseData['data']['data']['user']['image_face'];
+          tenor.value = responseData['data']['data']['tenor']??'-';
+          request_date.value = responseData['data']['request_date']??'';
         }
       }else{
         print('gagal');
@@ -149,7 +149,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
     }
   }
 
-  ///get profile user
+  ///get role
   void ProfilebyId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token')!;
@@ -229,7 +229,7 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MaterialButton(
-                          onPressed: role.value == 'pengawas'?null:() { Navigator.push(
+                          onPressed: () { Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) => AdminDetailTagihan(
@@ -312,7 +312,6 @@ class _TransaksiPermintaanState extends State<TransaksiPermintaan> {
                                           ),
 
                                           /// Tenor cicilan
-                                          if (tenor.value == "3" && tenor.value == "6" && tenor.value == "12")
                                           Text(
                                             '${datas[index]['tenor']} Bulan',
                                             style: const TextStyle(

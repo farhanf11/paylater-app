@@ -167,7 +167,7 @@ class _DaftarPageState extends State<DaftarPage> {
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                            fontSize: 12,
                           ),
                         ),
                       ],
@@ -211,7 +211,7 @@ class _DaftarPageState extends State<DaftarPage> {
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                            fontSize: 12,
                           ),
                         ),
                       ],
@@ -259,7 +259,7 @@ class _DaftarPageState extends State<DaftarPage> {
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 16,
+                                    fontSize: 12,
                                   ),
                                 ),
                               ),
@@ -319,8 +319,8 @@ class _DaftarPageState extends State<DaftarPage> {
                               child: Text(
                                 value,
                                 style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
                                     color: PaylaterTheme.grey),
                               ),
                             );
@@ -337,7 +337,7 @@ class _DaftarPageState extends State<DaftarPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Verifikasi Wajah',
+                          'Foto Wajah',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
@@ -365,7 +365,7 @@ class _DaftarPageState extends State<DaftarPage> {
                                       height: 30,
                                       fit: BoxFit.cover,
                                     )
-                                  : const Text('no file'),
+                                  : const Text('file png/jpg (2mb)'),
                               IconButton(
                                 padding: const EdgeInsets.all(8),
                                 color: const Color(0xffd8d8e0),
@@ -389,7 +389,7 @@ class _DaftarPageState extends State<DaftarPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Verifikasi KTP',
+                          'Foto KTP',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
@@ -417,7 +417,7 @@ class _DaftarPageState extends State<DaftarPage> {
                                       height: 30,
                                       fit: BoxFit.cover,
                                     )
-                                  : const Text('no file'),
+                                  : const Text('file png/jpg (2mb)'),
                               IconButton(
                                 padding: const EdgeInsets.all(8),
                                 color: const Color(0xffF7F7FC),

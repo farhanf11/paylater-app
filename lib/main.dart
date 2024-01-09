@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paylater/admin/component/AdminNavbarBot.dart';
 import 'package:paylater/launcherPage.dart';
 import 'package:paylater/navbar/NavbarBot.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LauncherPage(),
+      home: AdminNavbarBot(),
     );
   }
 }

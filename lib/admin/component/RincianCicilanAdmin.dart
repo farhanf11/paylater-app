@@ -84,7 +84,6 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         cicilans = responseData['data']['instalment'];
-        print('cicilan : '+responseData['data']['instalment'][0]['instalment_number']);
         if (responseData['success'] == false) {
           print('gagal');
         } else {
@@ -99,8 +98,8 @@ class _RincianCicilanAdminState extends State<RincianCicilanAdmin> {
             status.value = responseData['data']['status'];
             image.value = responseData['data']['image'];
             created_at.value = responseData['data']['created_at'];
-            tenor.value = responseData['data']['tenor']??"";
             address.value = responseData['data']['address']??"";
+            tenor.value = responseData['data']['tenor']??"";
             total_price.value = responseData['data']['total_price']??"";
             note.value = responseData['data']['note']??"";
             airway_bill.value = responseData['data']['airway_bill']??"";
