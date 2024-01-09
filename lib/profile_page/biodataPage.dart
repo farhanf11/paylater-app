@@ -27,6 +27,7 @@ class _BiodataPageState extends State<BiodataPage> {
   var job = "".obs;
   var image_face = "".obs;
   var image_ktp = "".obs;
+  bool isLoading = false;
 
   String token = "";
   var id = 0;
@@ -41,6 +42,9 @@ class _BiodataPageState extends State<BiodataPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token')!;
     var id = prefs.getInt('id')!;
+    setState(() {
+      isLoading = true;
+    });
     try {
       var response = await get(
           Uri.parse(
@@ -72,6 +76,9 @@ class _BiodataPageState extends State<BiodataPage> {
     } catch (e) {
       print(e.toString());
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -93,290 +100,296 @@ class _BiodataPageState extends State<BiodataPage> {
               size: 20,
             )),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        physics: const ClampingScrollPhysics(),
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                color: PaylaterTheme.spacer,
-                borderRadius: BorderRadius.circular(8)),
-            child: Container(
-              padding: const EdgeInsets.all(20),
+      body: Center(
+        child: isLoading
+            ? const CircularProgressIndicator(
+          ///style
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+        ) :ListView(
+          padding: const EdgeInsets.all(20),
+          physics: const ClampingScrollPhysics(),
+          children: [
+            Container(
               decoration: BoxDecoration(
-                  color: PaylaterTheme.white,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Biodata Diri',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Nama Lengkap',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: PaylaterTheme.deactivatedText,
+                  color: PaylaterTheme.spacer,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: PaylaterTheme.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Biodata Diri',
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(() => Text(
-                        full_name.value,
-                        style: const TextStyle(
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Nama Lengkap',
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 14),
-                      ),)
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'NIK',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: PaylaterTheme.deactivatedText,
+                            fontSize: 10,
+                            color: PaylaterTheme.deactivatedText,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(() => Text(
-                        nik.value,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                      ),)
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Tanggal Lahir',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: PaylaterTheme.deactivatedText,
+                        const SizedBox(
+                          height: 5,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(() => Text(
-                        birth_date.value,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                      ),),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Nama Ibu Kandung',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: PaylaterTheme.deactivatedText,
+                        Obx(() => Text(
+                          full_name.value,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),)
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'NIK',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: PaylaterTheme.deactivatedText,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(() => Text(
-                        mother_name.value,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                      ),),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Gender : ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: PaylaterTheme.deactivatedText,
+                        const SizedBox(
+                          height: 5,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(() => Text(
-                        gender.value,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      ),),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                        Obx(() => Text(
+                          nik.value,
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        ),)
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Tanggal Lahir',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: PaylaterTheme.deactivatedText,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Obx(() => Text(
+                          birth_date.value,
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        ),),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Nama Ibu Kandung',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: PaylaterTheme.deactivatedText,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Obx(() => Text(
+                          mother_name.value,
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        ),),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Gender : ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: PaylaterTheme.deactivatedText,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Obx(() => Text(
+                          gender.value,
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        ),),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
 
-                  ///provinsi
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Provinsi',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: PaylaterTheme.deactivatedText,
+                    ///provinsi
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Provinsi',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: PaylaterTheme.deactivatedText,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(() => Text(
-                        province.value,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                      ),),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  ///kota
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Kota',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: PaylaterTheme.deactivatedText,
+                        const SizedBox(
+                          height: 5,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(() => Text(
-                        city.toString(),
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                      ),),
-                    ],
-                  ),
+                        Obx(() => Text(
+                          province.value,
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        ),),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
 
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Pekerjaan',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: PaylaterTheme.deactivatedText,
+                    ///kota
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Kota',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: PaylaterTheme.deactivatedText,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(() => Text(
-                        job.value,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      ),)
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Alamat',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: PaylaterTheme.deactivatedText,
+                        const SizedBox(
+                          height: 5,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(() => Text(
-                        address.value,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      ),)
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 14,
-                  ),
+                        Obx(() => Text(
+                          city.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        ),),
+                      ],
+                    ),
 
-                  Obx(() => Image(
-                      image: NetworkImage(image_face.value)
-                  ),),
-                  const SizedBox(
-                    height: 14,
-                  ),
-                  Obx(() => Image(
-                      image: NetworkImage(image_ktp.value)
-                  ))
-                ],
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Pekerjaan',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: PaylaterTheme.deactivatedText,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Obx(() => Text(
+                          job.value,
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        ),)
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Alamat',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            color: PaylaterTheme.deactivatedText,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Obx(() => Text(
+                          address.value,
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        ),)
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 14,
+                    ),
+
+                    Obx(() => Image(
+                        image: NetworkImage(image_face.value)
+                    ),),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    Obx(() => Image(
+                        image: NetworkImage(image_ktp.value)
+                    ))
+                  ],
+                ),
               ),
             ),
-          ),
-          ElevatedButton(
-            style: const ButtonStyle(
-                backgroundColor:
-                MaterialStatePropertyAll(Color(0xff025464))),
-            onPressed: () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const Biodata())),
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 60),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
+            ElevatedButton(
+              style: const ButtonStyle(
+                  backgroundColor:
+                  MaterialStatePropertyAll(Color(0xff025464))),
+              onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => const Biodata())),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10, horizontal: 60),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: const Text('Lengkapi Biodata'),
               ),
-              child: const Text('Lengkapi Biodata'),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

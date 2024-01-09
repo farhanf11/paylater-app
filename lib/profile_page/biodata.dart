@@ -48,10 +48,10 @@ class _BiodataState extends State<Biodata> {
   final TextEditingController kotaControler = TextEditingController();
 
   ///date
-  void dispose() {
-    dateController.dispose();
-    super.dispose();
-  }
+  // void dispose() {
+  //   dateController.dispose();
+  //   super.dispose();
+  // }
 
   void AddBiodata(String full_name, String nik, String mother_name,
       String birth_date, String gender, String city, String province) async {
@@ -197,22 +197,11 @@ class _BiodataState extends State<Biodata> {
                 height: 5,
               ),
               TextField(
-                readOnly: true,
                 controller: dateController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Tanggal Lahir',
+                  hintText: 'Ex : 11 Januari 1990',
                 ),
-                onTap: () async {
-                  var date = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1950),
-                      lastDate: DateTime(2050));
-                  if (date != null) {
-                    dateController.text = DateFormat('dd/mm/yyyy').format(date);
-                  }
-                },
               ),
               const SizedBox(
                 height: 10,
@@ -288,7 +277,7 @@ class _BiodataState extends State<Biodata> {
                 controller: provinsiController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Provinsi',
+                  hintText: 'Ex: DKI Jakarta',
                 ),
               ),
               const SizedBox(
@@ -310,7 +299,7 @@ class _BiodataState extends State<Biodata> {
                 controller: kotaControler,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Kota',
+                  hintText: 'Ex: Jakarta Barat',
                 ),
               ),
               const SizedBox(
