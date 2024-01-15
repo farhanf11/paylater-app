@@ -517,18 +517,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     MaterialButton(
-                                      onPressed: () { Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (BuildContext context) => PostPengajuanProduk(
-                                            link_id: datas[index]['id'],
-                                            user_id: datas[index]['user_id'],
-                                            url: datas[index]['url'],
-                                            address: datas[index]['address'],
-                                            note: datas[index]['note'],
-                                          ),
-                                        ),
-                                      );},
+                                      onPressed: () {},
                                       child: Container(
                                             constraints: const BoxConstraints(maxWidth: double.infinity),
                                             height: 52,
