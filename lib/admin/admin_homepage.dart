@@ -587,26 +587,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                               style: TextStyle(color: Colors.black),
                                                             )),
                                                       ),
-                                                      PopupMenuItem(
-                                                        value: 2,
-                                                        child: TextButton(
-                                                            onPressed: () => Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) =>
-                                                                      PostPengajuanProduk(
-                                                                        link_id: datas[index]['id'],
-                                                                        user_id: datas[index]['user_id'],
-                                                                        url: datas[index]['url'],
-                                                                        address: datas[index]['address'],
-                                                                        note: datas[index]['note'],
-                                                                      )),
-                                                            ),
-                                                            child: const Text(
-                                                              'Input',
-                                                              style: TextStyle(color: Colors.black),
-                                                            )),
-                                                      ),
                                                     ])
                                               ],
                                             ),
