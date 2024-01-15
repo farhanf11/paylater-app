@@ -224,6 +224,7 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600),
                           ),
+                          const SizedBox(width: 20,),
                           Flexible(
                               child: Text(
                                 widget.url.toString(),
@@ -304,13 +305,14 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600),
                           ),
-                          Text(
+                          Flexible(child: Text(
                             widget.note,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400),
-                          ),
+                          ),)
                         ],
                       ),
                     ),
