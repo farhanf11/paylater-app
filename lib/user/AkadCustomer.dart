@@ -87,7 +87,7 @@ class _RincianAkadState extends State<RincianAkad> {
     });
   }
 
-  ///get rincian produk
+  ///get rincian link
   void GetOrderData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -117,7 +117,6 @@ class _RincianAkadState extends State<RincianAkad> {
           status.value = responseData['data']['order']['status'];
           order_id.value = responseData['data']['order']['id'];
           link_id.value = responseData['data']['order']['link_id'];
-          link_id.value = responseData['data']['order']['ongkir'];
           address.value = responseData['data']['user']['address'];
         }
       } else {
@@ -131,9 +130,7 @@ class _RincianAkadState extends State<RincianAkad> {
     });
   }
 
-  final TextEditingController addressController = TextEditingController();
   final TextEditingController tenorController = TextEditingController();
-  final TextEditingController catatanController = TextEditingController();
 
   ///post permintaan akad
   void AddOrder(String tenor) async {

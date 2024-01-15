@@ -235,6 +235,9 @@ class _PermintaanLinkState extends State<PermintaanLink> {
                               builder: (BuildContext context) => PostPengajuanProduk(
                                 link_id: datas[index]['id'],
                                 user_id: datas[index]['user_id'],
+                                url: datas[index]['url'],
+                                address: datas[index]['address'],
+                                note: datas[index]['note'],
                               ),
                             ),
                           );},

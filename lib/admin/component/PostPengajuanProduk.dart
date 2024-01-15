@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:paylater/admin/component/AdminNavbarBot.dart';
@@ -9,10 +11,14 @@ import '../../theme.dart';
 
 
 class PostPengajuanProduk extends StatefulWidget {
-  const PostPengajuanProduk({Key? key, required this.link_id, required this.user_id}) : super(key: key);
+  const PostPengajuanProduk({Key? key, required this.link_id, required this.user_id, required this.url, required this.address, required this.note}) : super(key: key);
 
   final int link_id;
   final int user_id;
+  final String url;
+  final String address;
+  final String note;
+
 
   @override
   State<PostPengajuanProduk> createState() => _PostPengajuanProdukState();
@@ -22,6 +28,10 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
   String token = "";
   var user_id = 0;
   var link_id = 0;
+  var url = "";
+  var note = "";
+  var address = "";
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -40,11 +50,9 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController imageController = TextEditingController();
   final TextEditingController ongkirController = TextEditingController();
-  final TextEditingController urlController = TextEditingController();
-  final TextEditingController linkIdController = TextEditingController();
 
   void CreateOrder(String title, String price, String image,
-      String ongkir, String url, String link_id) async {
+      String ongkir) async {
     try {
       var response = await post(
           Uri.parse('https://paylater.harysusilo.my.id/api/admin/order-create/${widget.user_id}'),
@@ -56,8 +64,8 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
             'price': price,
             'image': image,
             'ongkir': ongkir,
-            'url': url,
-            'link_id': link_id,
+            'url': widget.url,
+            'link_id': widget.link_id.toString(),
           });
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
@@ -81,8 +89,9 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
           showDialog(context: context, builder: (context) => alert);
         }
       }
-      if (response.statusCode == 422) {
+      if (response.statusCode != 200) {
         var responseData = json.decode(response.body);
+        print(responseData);
         AlertDialog alert = AlertDialog(
           title: Text(responseData['message']),
           actions: [
@@ -127,6 +136,161 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
             children: [
               const SizedBox(
                 height: 10,
+              ),
+
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ///username
+                    Container(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                style: BorderStyle.solid,
+                                color: Color(0xffEBEBEB))),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'url',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Flexible(
+                              child: Text(
+                                widget.url.toString(),
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                          ),
+                          PopupMenuButton(
+                              child: const Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Icon(
+                                    CupertinoIcons.ellipsis_vertical,
+                                    size: 16,
+                                  ),
+                                ),
+                              ),
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  value: 1,
+                                  child: TextButton(
+                                      onPressed: () async {
+                                        await Clipboard.setData(
+                                            ClipboardData(
+                                                text:
+                                                widget.url));
+                                        AlertDialog alert = AlertDialog(
+                                          title: const Text('Berhasil Menyalin Link'),
+                                          backgroundColor: Colors.white,
+                                          icon: const Icon(
+                                              CupertinoIcons
+                                                  .checkmark_seal_fill,
+                                              size: 20),
+                                          iconColor: PaylaterTheme.maincolor,
+                                          actions: [
+                                            TextButton(
+                                              child: const Text('Ok'),
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
+                                            ),
+                                          ],
+                                        );
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => alert);
+                                      },
+                                      child: const Text(
+                                        'salin',
+                                        style: TextStyle(color: Colors.black),
+                                      )),
+                                ),
+                              ])
+                        ],
+                      ),
+                    ),
+
+                    ///varian
+                    Container(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                style: BorderStyle.solid,
+                                color: Color(0xffEBEBEB))),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Varian',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            widget.note,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    ///alamat
+                    Container(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Alamat',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(width: 32,),
+                          Flexible(child: Text(
+                            widget.address,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          ))
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(
+                height: 24,
               ),
 
               ///Nama
@@ -256,71 +420,6 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                   ),
                 ],
               ),
-
-
-              const SizedBox(
-                height: 24,
-              ),
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Url Produk',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextField(
-                    controller: urlController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Url produk dari marketplace',
-                      suffixIcon: IconButton(
-                        onPressed: urlController.clear,
-                        icon: const Icon(Icons.clear, size: 16),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(
-                height: 24,
-              ),
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Link ID',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextField(
-                    controller: linkIdController,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintText: 'id',
-                      suffixIcon: IconButton(
-                        onPressed: linkIdController.clear,
-                        icon: const Icon(Icons.clear, size: 16),
-                      ),
-                    ),
-                  ),
-                ],
-              )
             ],
           ),
           const SizedBox(height: 60),
@@ -345,9 +444,7 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                       priceController.text.toString(),
                       imageController.text.toString(),
                       ongkirController.text.toString(),
-                      urlController.text.toString(),
-                      linkIdController.text.toString()),
-                },
+                  )},
               ),
               const SizedBox(
                 height: 10,

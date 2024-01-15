@@ -190,7 +190,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Obx(() => Text(
                                       permintaan.value,
                                       style: const TextStyle(
@@ -523,6 +523,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                           builder: (BuildContext context) => PostPengajuanProduk(
                                             link_id: datas[index]['id'],
                                             user_id: datas[index]['user_id'],
+                                            url: datas[index]['url'],
+                                            address: datas[index]['address'],
+                                            note: datas[index]['note'],
                                           ),
                                         ),
                                       );},
@@ -605,6 +608,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                                       PostPengajuanProduk(
                                                                         link_id: datas[index]['id'],
                                                                         user_id: datas[index]['user_id'],
+                                                                        url: datas[index]['url'],
+                                                                        address: datas[index]['address'],
+                                                                        note: datas[index]['note'],
                                                                       )),
                                                             ),
                                                             child: const Text(
