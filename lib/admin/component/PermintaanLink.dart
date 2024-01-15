@@ -22,8 +22,7 @@ class _PermintaanLinkState extends State<PermintaanLink> {
   String token = "";
   List datas = [];
   var url = "".obs;
-  var user_name = "".obs;
-  var image_face = "".obs;
+  var link_id = 0.obs;
   var _currentPage = 0.obs;
   var last_page = 1.obs;
   var role = "".obs;
@@ -45,6 +44,7 @@ class _PermintaanLinkState extends State<PermintaanLink> {
       token = prefs.getString('token')!;
     });
   }
+
   ///get role
   void ProfilebyId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -109,6 +109,7 @@ class _PermintaanLinkState extends State<PermintaanLink> {
         _currentPage.value = responseData['data']['current_page'];
         last_page.value = responseData['data']['last_page'];
         links = responseData['data']['links'];
+        link_id.value = responseData['data']['data']['link_id'];
         if(responseData['success'] == false ){
           print('gagal');
         }else{
@@ -123,61 +124,6 @@ class _PermintaanLinkState extends State<PermintaanLink> {
     setState(() {
       isLoading = false;
     });
-  }
-
-  void RejectLink(var link_id, String is_approve) async {
-    try {
-      var response = await post(
-          Uri.parse('https://paylater.harysusilo.my.id/api/admin/reject-link/{link_id}'),
-          headers: {
-            'Authorization': token,
-          },
-          body: {
-            'order_id': link_id,
-            'is_approve': is_approve,
-          });
-
-      if (response.statusCode == 200) {
-        var responseData = json.decode(response.body);
-        if(responseData['success'] == false ){
-          print('gagal');
-        }else{
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => AdminNavbarBot()));
-          AlertDialog alert = AlertDialog(
-            title: const Text("Berhasil"),
-            content: Text(responseData['message']),
-            actions: [
-              TextButton(
-                child: const Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          );
-
-          showDialog(context: context, builder: (context) => alert);
-        }
-
-      }
-      else {
-        var responseData = json.decode(response.body);
-        AlertDialog alert = AlertDialog(
-          title: Text(responseData['message']),
-          content: const Text('Tidak sesuai'),
-          actions: [
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (context) => alert);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
   }
 
   @override
@@ -295,8 +241,6 @@ class _PermintaanLinkState extends State<PermintaanLink> {
                                                       datas[index]['url']));
                                               AlertDialog alert = AlertDialog(
                                                 title: const Text('Berhasil Menyalin Link : '),
-                                                content: Text(
-                                                    datas[index]['url']),
                                                 backgroundColor: Colors.white,
                                                 icon: const Icon(
                                                     CupertinoIcons

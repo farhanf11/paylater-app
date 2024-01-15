@@ -108,6 +108,62 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
     }
   }
 
+  void RejectLink() async {
+    try {
+      var response = await post(
+          Uri.parse('https://paylater.harysusilo.my.id/api/admin/reject-link/${widget.link_id}'),
+          headers: {
+            'Authorization': token,
+          },
+          body: {
+          });
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        print(link_id);
+        print(responseData);
+        if(responseData['success'] == false ){
+          print('gagal');
+        }else{
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => AdminNavbarBot()));
+          AlertDialog alert = AlertDialog(
+            title: const Text("Berhasil"),
+            content: Text(responseData['message']),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+
+          showDialog(context: context, builder: (context) => alert);
+        }
+
+      }
+      else {
+        var responseData = json.decode(response.body);
+        print(link_id);
+        AlertDialog alert = AlertDialog(
+          title: Text(responseData['message']),
+          content: const Text('Tidak sesuai'),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alert);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -457,11 +513,11 @@ class _PostPengajuanProdukState extends State<PostPengajuanProduk> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  RejectLink();
                 },
                 child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: const Text("Batal")),
+                    child: const Text("Tolak")),
               ),
             ],
           ),
